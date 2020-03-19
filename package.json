@@ -1,0 +1,16 @@
+{
+  "name": "ooui",
+  "version": "0.1.0",
+  "dependencies": {},
+  "main": "./src/ooui/index.js", 
+  "scripts": {
+    "test": "jest"
+  },
+  "eslintConfig": {},
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0"
+  }
+}
