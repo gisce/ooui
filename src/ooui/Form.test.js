@@ -1,4 +1,5 @@
 import Form from './Form';
+import Widget from './Widget';
 
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
@@ -185,13 +186,19 @@ function printRow(row, tab) {
     })
 }
 
-
 describe('A Form', () => {
     it('should parse xml', () => {
         const form = new Form(FIELDS);
         form.parse(XML_VIEW_FORM);
         form.container.rows.forEach(row => {
             printRow(row, 0);
-        })
+        });
+    });
+});
+
+describe('A Widget', () => {
+    it('should have colspan 1 by default', () => {
+        const widget = new Widget("Button");
+        expect(widget.colspan).toBe(1);
     });
 });
