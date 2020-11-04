@@ -1,29 +1,39 @@
 import Widget from "./Widget";
 
 class Field extends Widget {
-    /**
-     * Field identifier
-     */
-    _id;
-    
-    get id() {
-        return this._id;
-    }
-    set id(value) {
-        this._id = value;
-    }
+  /**
+   * Field identifier
+   * 
+   * Corresponds to the field's name attribute from xml
+   */
+  _id;
+  get id() {
+    return this._id;
+  }
+  set id(value) {
+    this._id = value;
+  }
 
-    /**
-     * Activated
-     */
-    _activated;
-    
-    get activated() {
-        return this._activated;
+  /**
+   * Activated (default is true)
+   */
+  _activated = true;
+  get activated() {
+    return this._activated;
+  }
+  set activated(value) {
+    this._activated = value;
+  }
+
+  constructor(type, props) {
+    super(type);
+
+    if (props) {
+      if (props.name) {
+        this._id = props.name;
+      }
     }
-    set activated(value) {
-        this._activated = value;
-    }
+  }
 }
 
 export default Field;

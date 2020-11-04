@@ -1,5 +1,5 @@
-import Form from './Form';
-import Widget from './Widget';
+import Form from '../Form';
+import Widget from '../Widget';
 
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
@@ -60,7 +60,7 @@ const XML_VIEW_FORM = `<?xml version="1.0"?>
                     </page>
                 </notebook>
 </form>
-`
+`;
 
 const FIELDS = {'aclarador': {'size': 256,
 'string': 'Aclarador',

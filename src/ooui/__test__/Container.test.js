@@ -1,4 +1,4 @@
-import Container from "./Container";
+import Container from "../Container";
 
 class Widget {
   constructor(id, colspan = 1) {

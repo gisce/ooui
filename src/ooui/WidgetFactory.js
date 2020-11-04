@@ -1,7 +1,10 @@
 import Notebook from "./Notebook";
 import Page from "./Page";
 import Group from "./Group";
-import Field from "./Field";
+import Button from "./Button";
+import Label from "./Label";
+import Char from "./Char";
+import Text from "./Text";
 import Widget from "./Widget";
 
 class WidgetFactory {
@@ -22,8 +25,14 @@ class WidgetFactory {
       case 'group':
         this._widgetClass = Group;
         break;
-      case 'field': // TODO: Field shouldn't be abstract?
-        this._widgetClass = Field;
+      case 'label':
+        this._widgetClass = Label;
+        break;
+      case 'char':
+        this._widgetClass = Char;
+        break;
+      case 'text':
+        this._widgetClass = Text;
         break;
       case 'button':
         this._widgetClass = Button;
@@ -36,16 +45,17 @@ class WidgetFactory {
 
   createWidget(type, props) {
     this.setWidgetClass(type);
-    // TODO: Widget Class constructors should use only the props needed, not all ...props.
+    // TODO: Widget Class constructors should use only the props needed, not all props.
     switch (type) {
       // Specific cases (only selected props should be used)
       case 'notebook':
-        return new this._widgetClass(...props);
       case 'page':
-        return new this._widgetClass(...props);
+      case 'group':
+        return new this._widgetClass(props);
+
       // Generic case
       default:
-        return new this._widgetClass(...props);
+        return new this._widgetClass(props);
     }
   }
 }

@@ -3,23 +3,13 @@ import Container from "./Container";
 import Widget from "./Widget";
 import ContainerWidget from "./ContainerWidget";
 
-const DEFAULT_COLSPAN = {
-  notebook: 3,
-};
-
 class Form {
-  static defaultColspan = {
-    notebook: 3,
-  };
-
   _fields;
-
   get fields() {
     return this._fields;
   }
   
   _container;
-
   get container() {
     return this._container;
   }
@@ -37,22 +27,33 @@ class Form {
 
   parseNode(node, container) {
     const widgetFactory = new WidgetFactory();
-    node.childNodes.forEach((child) => {
+    Array.prototype.forEach.call(node.childNodes, (child) => {
       if (child.nodeType === child.ELEMENT_NODE) {
-        const tag = child.nodeName;
-        const w = widgetFactory.createWidget(tag);
-        if (w instanceof ContainerWidget) {
-          const colspan = child.getAttribute("colspan") || 1;
-          const columns = child.getAttribute("col") || 4;
-          const w = new ContainerWidget(tag, columns);
-          w["colspan"] = colspan || DEFAULT_COLSPAN[tag];
-          console.log(typeof child.attributes);
-          Array.prototype.forEach.call(child.attributes, (attr) => {
-            w[attr.name] = attr.value;
-          });
-          this.parseNode(child, w.container);
-          container.addWidget(w);
+        let tag = child.nodeName;
+
+        const tagAttributes = {};
+        Array.prototype.forEach.call(child.attributes, (attr) => {
+          tagAttributes[attr.name] = attr.value;
+        });
+
+        if (tag === "field") {
+          const name = child.getAttribute("name");
+          tag = child.getAttribute("widget") || this._fields[name].type;
         }
+        
+        const widget = widgetFactory.createWidget(tag, tagAttributes);
+        
+        if (widget instanceof ContainerWidget) {
+          //const colspan = child.getAttribute("colspan") || 1;
+          //const columns = child.getAttribute("col") || 4;
+          //const w = new ContainerWidget(tag, columns);
+          //w.colspan = colspan || DEFAULT_COLSPAN[tag];
+          //console.log(typeof child.attributes);
+          
+          this.parseNode(child, widget.container);
+        }
+
+        /*
         if (tag === "field") {
           const name = child.getAttribute("name");
           const widget =
@@ -63,8 +64,9 @@ class Form {
           Array.prototype.forEach.call(child.attributes, (attr) => {
             w[attr.name] = attr.value;
           });
-          container.addWidget(w);
-        }
+        }*/
+
+        container.addWidget(widget);
       }
     });
   }
