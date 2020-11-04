@@ -1,11 +1,11 @@
-import { Field } from "./Form";
+import Field from "./Field";
 
 class Button extends Field {
+
   /**
    * Label
    */
   _label;
-  
   get label() {
     return this._label;
   }
@@ -17,7 +17,6 @@ class Button extends Field {
    * Type (primary or default)
    */
   _type;
-
   get type() {
     return this._type;
   }
@@ -29,12 +28,21 @@ class Button extends Field {
    * Button caption
    */
   _caption;
-
   get caption() {
     return this._caption;
   }
   set caption(value) {
     this._caption = value;
+  }
+
+  constructor(props) {
+    super("button", props);
+
+    if (props) {
+      if (props.string) {
+        this._caption = props.string;
+      }
+    }
   }
 
 }

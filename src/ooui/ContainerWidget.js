@@ -2,9 +2,28 @@ import Widget from "./Widget";
 import Container from "./Container";
 
 class ContainerWidget extends Widget {
-  constructor(type, columns) {
+
+  static _defaultColspan = 6;
+
+  /**
+   * Container
+   */
+  _container;
+  get container() {
+    return this._container;
+  }
+  set container(value) {
+    this._container = value;
+  }
+
+  constructor(type, props) {
     super(type);
-    this.container = new Container(columns);
+    this._container = new Container(props.col);
+    if (props.colspan > 0) {
+      this._container.colspan = props.colspan;
+    } else {
+      this._container.colspan = ContainerWidget._defaultColspan;
+    }
   }
 }
 
