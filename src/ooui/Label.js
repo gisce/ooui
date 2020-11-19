@@ -13,7 +13,7 @@ class Label extends Field {
   }
 
   constructor() {
-    super("label");
+    super();
   }
 }
 

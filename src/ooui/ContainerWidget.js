@@ -16,8 +16,8 @@ class ContainerWidget extends Widget {
     this._container = value;
   }
 
-  constructor(type, props) {
-    super(type);
+  constructor(props) {
+    super(props);
     this._container = new Container(props.col);
     if (props.colspan > 0) {
       this._container.colspan = props.colspan;

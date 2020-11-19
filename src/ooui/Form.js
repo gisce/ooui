@@ -44,27 +44,8 @@ class Form {
         const widget = widgetFactory.createWidget(tag, tagAttributes);
         
         if (widget instanceof ContainerWidget) {
-          //const colspan = child.getAttribute("colspan") || 1;
-          //const columns = child.getAttribute("col") || 4;
-          //const w = new ContainerWidget(tag, columns);
-          //w.colspan = colspan || DEFAULT_COLSPAN[tag];
-          //console.log(typeof child.attributes);
-          
           this.parseNode(child, widget.container);
         }
-
-        /*
-        if (tag === "field") {
-          const name = child.getAttribute("name");
-          const widget =
-            child.getAttribute("widget") || this._fields[name]["type"];
-          const colspan = child.getAttribute("colspan") || 2;
-          const w = new Widget(widget);
-          w["colspan"] = colspan;
-          Array.prototype.forEach.call(child.attributes, (attr) => {
-            w[attr.name] = attr.value;
-          });
-        }*/
 
         container.addWidget(widget);
       }
