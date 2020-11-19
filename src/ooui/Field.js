@@ -25,12 +25,19 @@ class Field extends Widget {
     this._activated = value;
   }
 
-  constructor(type, props) {
-    super(type);
+  constructor(props) {
+    super(props);
+
+    // Activated by default
+    this._activated = true;
 
     if (props) {
       if (props.name) {
         this._id = props.name;
+      }
+
+      if (props.activated) {
+        this._activated = props.activated;
       }
     }
   }

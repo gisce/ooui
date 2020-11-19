@@ -2,7 +2,7 @@ import ContainerWidget from "./ContainerWidget";
 
 class Page extends ContainerWidget {
     constructor(props) {
-        super("page", props);
+        super(props);
     }
 }
 

@@ -5,7 +5,7 @@ class Notebook extends ContainerWidget {
   static defaultColspan = 3;
 
   constructor(props) {
-    super("notebook", props);
+    super(props);
   }
 }
 

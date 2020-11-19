@@ -9,11 +9,14 @@ class Widget {
   }
 
   /**
-   * Widget type
+   * Read Only flag (default is false)
    */
-  _type;
-  get type() {
-    return this._type;
+  _readOnly;
+  get readOnly() {
+    return this._readOnly;
+  }
+  set readOnly(value) {
+    this._readOnly = value;
   }
 
   /**
@@ -27,9 +30,17 @@ class Widget {
     this._colspan = value;
   }
 
-  constructor(type) {
-    this._type = type;
+  constructor(props) {
     this._colspan = Widget._defaultColspan;
+    this._readOnly = false;
+
+    if (props) {
+      if (props.readonly) {
+        if (props.readonly === 1) {
+          this._readOnly = true;
+        }
+      }
+    }
   }
 }
 

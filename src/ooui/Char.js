@@ -25,13 +25,33 @@ class Char extends Field {
   set size(value) {
     this._size = value;
   }
+  
+  /**
+   * Label
+   */
+  _label;
+  get label() {
+    return this._label;
+  }
+  set label(value) {
+    this._label = value;
+  }
 
   constructor(props) {
-    super("char", props);
+    super(props);
     
     if (props) {
       if (props.size) {
         this._size = props.size;
+      }
+
+      if (props.string) {
+        this._label = props.string;
+        this._colspan = 2;
+      }
+
+      if (props.colspan) {
+        this._colspan = props.colspan;
       }
     }
   }

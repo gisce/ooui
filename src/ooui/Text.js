@@ -16,7 +16,7 @@ class Text extends Field {
   }
 
   constructor(props) {
-    super("text", props);
+    super(props);
   }
 }
 

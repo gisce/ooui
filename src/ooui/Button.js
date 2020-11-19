@@ -36,7 +36,7 @@ class Button extends Field {
   }
 
   constructor(props) {
-    super("button", props);
+    super(props);
 
     if (props) {
       if (props.string) {
