@@ -35,6 +35,9 @@ class Widget {
     this._readOnly = false;
 
     if (props) {
+      if (props.colspan) {
+        this._colspan = props.colspan;
+      }
       if (props.readonly) {
         if (props.readonly === 1) {
           this._readOnly = true;
