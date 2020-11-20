@@ -1,5 +1,7 @@
 class Container {
-
+  /**
+   * Number of columns the container has.
+   */
   _columns;
   get columns() {
     return this._columns;
@@ -8,6 +10,9 @@ class Container {
     this._columns = value;
   }
 
+  /**
+   * Number of columns the container occupies.
+   */
   _colspan;
   get colspan() {
     return this._colspan;
@@ -16,6 +21,9 @@ class Container {
     this._colspan = value;
   }
 
+  /**
+   * Number of rows the container has.
+   */
   _rows;
   get rows() {
     return this._rows;
@@ -46,6 +54,12 @@ class Container {
   }
 
   addWidget(widget) {
+    if (widget.colspan > this._columns) {
+      // Widget colspan is greater than container columns, so we change widget
+      // colspan to fit container columns.
+      widget.colspan = this._columns;
+    }
+
     if (widget.colspan <= this.freePosition()) {
       this._rows[this._index].push(widget);
     } else {
