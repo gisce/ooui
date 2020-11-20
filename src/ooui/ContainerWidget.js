@@ -16,13 +16,22 @@ class ContainerWidget extends Widget {
     this._container = value;
   }
 
+  get colspan() {
+    return this._container.colspan;
+  }
+  set colspan(value) {
+    this._container.colspan = value;
+  }
   constructor(props) {
     super(props);
-    this._container = new Container(props.col);
-    if (props.colspan > 0) {
-      this._container.colspan = props.colspan;
-    } else {
-      this._container.colspan = ContainerWidget._defaultColspan;
+
+    this._container = new Container(props && props.col);
+    this._container.colspan = ContainerWidget._defaultColspan;
+
+    if (props) {
+      if (props.colspan) {
+        this._container.colspan = props.colspan;
+      }
     }
   }
 }
