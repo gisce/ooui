@@ -1,6 +1,5 @@
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
-import Widget from "./Widget";
 import ContainerWidget from "./ContainerWidget";
 
 class Form {
@@ -14,7 +13,7 @@ class Form {
     return this._container;
   }
 
-  constructor(fields, columns = 6) {
+  constructor(fields, columns = 8) {
     this._fields = fields;
     this._container = new Container(columns);
   }
