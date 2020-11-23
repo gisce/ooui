@@ -1,6 +1,6 @@
 class Container {
   /**
-   * Number of columns the container has.
+   * Number of columns the container is divided
    */
   _columns;
   get columns() {
@@ -11,7 +11,7 @@ class Container {
   }
 
   /**
-   * Number of columns the container occupies.
+   * Number of columns to use
    */
   _colspan;
   get colspan() {
@@ -22,7 +22,7 @@ class Container {
   }
 
   /**
-   * Number of rows the container has.
+   * Number of rows
    */
   _rows;
   get rows() {
