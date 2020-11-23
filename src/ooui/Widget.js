@@ -27,7 +27,7 @@ class Widget {
     return this._colspan;
   }
   set colspan(value) {
-    this._colspan = value;
+    this._colspan = +value;
   }
 
   constructor(props) {
@@ -36,7 +36,7 @@ class Widget {
 
     if (props) {
       if (props.colspan) {
-        this._colspan = props.colspan;
+        this._colspan = +props.colspan;
       }
       if (props.readonly) {
         if (props.readonly === 1) {

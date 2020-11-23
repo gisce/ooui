@@ -20,4 +20,18 @@ describe('A Widget', () => {
         expect(widget.readOnly).toBe(false);
     });
 
+    it('colspan should be of type Number', () => {
+        const widget = new Widget();
+
+        expect(typeof widget.colspan).toBe("number");
+    });
+
+    it('set colspan as string should store as a number', () => {
+        const widget = new Widget();
+
+        widget.colspan = "3";
+        
+        expect(typeof widget.colspan).toBe("number");
+        expect(widget.colspan).toBe(3);
+    });
 });
