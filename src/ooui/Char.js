@@ -47,11 +47,9 @@ class Char extends Field {
 
       if (props.string) {
         this._label = props.string;
-        this._colspan = 2;
-      }
-
-      if (props.colspan) {
-        this._colspan = props.colspan;
+        if (!props.colspan) {
+          this.colspan = 2;
+        }
       }
     }
   }
