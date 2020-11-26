@@ -68,6 +68,35 @@ class Container {
       this.addWidget(widget);
     }
   }
+
+  /**
+   * Traverses children to find a matching container or widget with the exact same id.
+   * @param {string} id id (name) of the field or container to find
+   */
+  findById(id) {
+    let r;
+    if (this._rows && this._rows.length) {
+      this._rows.forEach((row) => {
+        if (r) {
+          // Item has been found.
+          return;
+        }
+
+        if (row && row.length) {
+          row.forEach((item) => {
+            if (r) {
+              // Item has been found.
+              return;
+            }
+            if (item) {
+                r = item.findById(id);
+            }
+          });
+        }
+      });
+    }
+    return r;
+  }
 }
 
 export default Container;

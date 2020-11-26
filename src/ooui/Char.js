@@ -4,6 +4,7 @@ import Field from "./Field";
  * One-line input with a length limit.
  */
 class Char extends Field {
+
   /**
    * Field place holder
    */

@@ -41,6 +41,18 @@ class Field extends Widget {
       }
     }
   }
+
+  /**
+   * Returns this instance in case this id matches param id.
+   * @param {string} id id (name) to find
+   */
+  findById(id) {
+    let r;
+    if (this._id === id) {
+      r = this;
+    }
+    return r;
+  }
 }
 
 export default Field;

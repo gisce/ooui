@@ -55,6 +55,14 @@ class ContainerWidget extends Widget {
       }
     }
   }
+
+  /**
+   * Calls container's findById method to find the widgets matching with param id
+   * @param {string} id id to find
+   */
+  findById(id) {
+    return this.container.findById(id);
+  }
 }
 
 export default ContainerWidget;

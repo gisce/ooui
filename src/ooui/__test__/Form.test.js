@@ -1,6 +1,8 @@
 import Form from "../Form";
 import Widget from "../Widget";
 import Notebook from "../Notebook";
+import Page from "../Page";
+import Char from "../Char";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -246,7 +248,71 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(xmlViewForm);
 
-    expect(form.container.rows[0][0]).toBeInstanceOf(Notebook);
+    const notebook = form.container.rows[0][0];
+    expect(notebook).toBeInstanceOf(Notebook);
+    const page = notebook.container.rows[0][0];
+    expect(page).toBeInstanceOf(Page);
+    const field = page.container.rows[0][0];
+    expect(field).toBeInstanceOf(Char);
+    // Should match the container's col
+    expect(field.colspan).toBe(8);
+  });
+
+  it('should be able to find a widget by id', () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <notebook>
+            <page string="Page1" col="8">
+                <field colspan="8" name="char1" />
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    expect(form.findById("char1")).toBeInstanceOf(Char);
+  });
+
+  it('should return undefined when a widget is not found by id', () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <notebook>
+            <page string="Page1" col="8">
+                <field colspan="8" name="char1" />
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    expect(form.findById("non_existent_widget")).toBeUndefined();
+  });
+
+  it('should be able to find the first widget with matching id', () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <notebook>
+            <page string="Page1" col="8">
+                <field colspan="1" name="char1" />
+                <field colspan="2" name="char1" />
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("char1");
+    expect(field).toBeInstanceOf(Char);
+    expect(field.colspan).toBe(1);
   });
 });
 
