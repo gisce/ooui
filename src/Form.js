@@ -13,6 +13,20 @@ class Form {
     return this._container;
   }
 
+  _widgets = {
+    *[Symbol.iterator]() {
+      if (this._container && this._container.length) {
+        this._container.forEach((item) => {
+          
+          // yield item
+        });
+      }
+    }
+  };
+  get widgets() {
+    return this._widgets;
+  }
+
   constructor(fields, columns = 8) {
     this._fields = fields;
     this._container = new Container(columns);

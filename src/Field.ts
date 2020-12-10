@@ -6,26 +6,26 @@ class Field extends Widget {
    * 
    * Corresponds to the field's name attribute from xml
    */
-  _id;
-  get id() {
+  _id: string = "";
+  get id(): string {
     return this._id;
   }
-  set id(value) {
+  set id(value: string) {
     this._id = value;
   }
 
   /**
    * Activated (default is true)
    */
-  _activated = true;
-  get activated() {
+  _activated: boolean = true;
+  get activated(): boolean {
     return this._activated;
   }
-  set activated(value) {
+  set activated(value: boolean) {
     this._activated = value;
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     // Activated by default
@@ -46,8 +46,8 @@ class Field extends Widget {
    * Returns this instance in case this id matches param id.
    * @param {string} id id (name) to find
    */
-  findById(id) {
-    let r;
+  findById(id: string): Field {
+    let r: Field;
     if (this._id === id) {
       r = this;
     }

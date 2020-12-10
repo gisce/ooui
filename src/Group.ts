@@ -1,7 +1,7 @@
 import ContainerWidget from "./ContainerWidget";
 
 class Group extends ContainerWidget {
-    constructor(props) {
+    constructor(props: any) {
       super(props);
     }
 }

@@ -2,7 +2,8 @@
   "name": "ooui",
   "version": "0.1.0",
   "dependencies": {},
-  "main": "./src/ooui/index.js",
+  "main": "dist/ooui/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch"
