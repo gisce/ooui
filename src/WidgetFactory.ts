@@ -12,9 +12,9 @@ class WidgetFactory {
   /**
    * Widget class
    */
-  _widgetClass;
+  _widgetClass: any;
 
-  setWidgetClass(type) {
+  setWidgetClass(type: string): void {
     switch (type) {
       case 'notebook':
         this._widgetClass = Notebook;
@@ -43,7 +43,7 @@ class WidgetFactory {
     }
   };
 
-  createWidget(type, props) {
+  createWidget(type: string, props: any) {
     this.setWidgetClass(type);
     // TODO: Widget Class constructors should use only the props needed, not all props.
     switch (type) {

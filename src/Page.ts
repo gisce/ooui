@@ -1,9 +1,9 @@
 import ContainerWidget from "./ContainerWidget";
 
 class Page extends ContainerWidget {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props: any) {
+    super(props);
+  }
 }
 
 export default Page;

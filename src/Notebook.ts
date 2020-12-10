@@ -2,15 +2,15 @@ import ContainerWidget from "./ContainerWidget";
 
 class Notebook extends ContainerWidget {
 
-  static _defaultColspan = 3;
-  static get defaultColspan() {
+  static _defaultColspan: number = 3;
+  static get defaultColspan(): number {
     return Notebook._defaultColspan;
   }
-  static set defaultColspan(value) {
+  static set defaultColspan(value: number) {
     Notebook._defaultColspan = value;
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.colspan = Notebook._defaultColspan;
 

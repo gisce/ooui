@@ -4,16 +4,16 @@ class Label extends Field {
   /**
    * Label text
    */
-  _text;
-  get text() {
+  _text: string = "";
+  get text(): string {
     return this._text;
   }
-  set text(value) {
+  set text(value: string) {
     this._text = value;
   }
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
   }
 }
 

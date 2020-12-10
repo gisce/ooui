@@ -5,18 +5,18 @@ class Button extends Field {
   /**
    * Label
    */
-  _label;
-  get label() {
+  _label: string = "";
+  get label(): string {
     return this._label;
   }
-  set label(value) {
+  set label(value: string) {
     this._label = value;
   }
 
   /**
    * Type (primary or default)
    */
-  _type;
+  _type: "primary" | "default" = "default";
   get type() {
     return this._type;
   }
@@ -27,15 +27,15 @@ class Button extends Field {
   /**
    * Button caption
    */
-  _caption;
-  get caption() {
+  _caption: string = "";
+  get caption(): string {
     return this._caption;
   }
-  set caption(value) {
+  set caption(value: string) {
     this._caption = value;
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     if (props) {

@@ -3,44 +3,44 @@ import Container from "./Container";
 
 class ContainerWidget extends Widget {
 
-  static _defaultColspan = 6;
-  static get defaultColspan() {
+  static _defaultColspan: number = 6;
+  static get defaultColspan(): number {
     return ContainerWidget._defaultColspan;
   }
-  static set defaultColspan(value) {
+  static set defaultColspan(value: number) {
     ContainerWidget._defaultColspan = value;
   }
 
   /**
    * Container
    */
-  _container;
-  get container() {
+  _container: Container;
+  get container(): Container {
     return this._container;
   }
-  set container(value) {
+  set container(value: Container) {
     this._container = value;
   }
 
-  get colspan() {
+  get colspan(): number {
     return this._container.colspan;
   }
-  set colspan(value) {
+  set colspan(value: number) {
     this._container.colspan = +value;
   }
 
   /**
    * Container label
    */
-  _label;
-  get label() {
+  _label: string = "";
+  get label(): string {
     return this._label;
   }
-  set label(value) {
+  set label(value: string) {
     this._label = value;
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this._container = new Container(props && props.col);
@@ -60,7 +60,7 @@ class ContainerWidget extends Widget {
    * Calls container's findById method to find the widgets matching with param id
    * @param {string} id id to find
    */
-  findById(id) {
+  findById(id: string): Widget {
     return this.container.findById(id);
   }
 }

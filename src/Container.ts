@@ -1,39 +1,41 @@
+import Widget from "./Widget";
+
 class Container {
   /**
    * Number of columns the container is divided
    */
-  _columns;
-  get columns() {
+  _columns: number;
+  get columns(): number {
     return this._columns;
   }
-  set columns(value) {
+  set columns(value: number) {
     this._columns = value;
   }
 
   /**
    * Number of columns to use
    */
-  _colspan;
-  get colspan() {
+  _colspan: number;
+  get colspan(): number {
     return this._colspan;
   }
-  set colspan(value) {
+  set colspan(value: number) {
     this._colspan = value;
   }
 
   /**
    * Number of rows
    */
-  _rows;
-  get rows() {
+  _rows: Widget[][];
+  get rows(): Widget[][] {
     return this._rows;
   }
-  set rows(value) {
+  set rows(value: Widget[][]) {
     this._rows = value;
   }
 
-  _index;
-  get index() {
+  _index: number;
+  get index(): number {
     return this._index;
   }
 
@@ -46,14 +48,14 @@ class Container {
   /**
    * Returns the next free position
    */
-  freePosition() {
+  freePosition(): number {
     const span = this._rows[this._index].reduce((prev, current) => {
       return prev + current.colspan;
     }, 0);
     return this._columns - span;
   }
 
-  addWidget(widget) {
+  addWidget(widget: Widget) {
     if (widget.colspan > this._columns) {
       // Widget colspan is greater than container columns, so we change widget
       // colspan to fit container columns.
@@ -73,8 +75,8 @@ class Container {
    * Traverses children to find a matching container or widget with the exact same id.
    * @param {string} id id (name) of the field or container to find
    */
-  findById(id) {
-    let r;
+  findById(id: string): Widget {
+    let r: Widget;
     if (this._rows && this._rows.length) {
       this._rows.forEach((row) => {
         if (r) {

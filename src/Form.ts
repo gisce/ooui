@@ -1,18 +1,24 @@
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
+import Widget from "./Widget";
 
 class Form {
-  _fields;
+
+  /**
+   * Object containing fields specification of the form.
+   */
+  _fields: Object;
   get fields() {
     return this._fields;
   }
   
-  _container;
-  get container() {
+  _container: Container;
+  get container(): Container {
     return this._container;
   }
 
+  /*
   _widgets = {
     *[Symbol.iterator]() {
       if (this._container && this._container.length) {
@@ -26,19 +32,20 @@ class Form {
   get widgets() {
     return this._widgets;
   }
+  */
 
-  constructor(fields, columns = 8) {
+  constructor(fields: Object, columns: number = 8) {
     this._fields = fields;
     this._container = new Container(columns);
   }
 
-  parse(xml) {
+  parse(xml: string) {
     const parser = new DOMParser();
     const view = parser.parseFromString(xml, "text/xml");
     this.parseNode(view.documentElement, this._container);
   }
 
-  parseNode(node, container) {
+  parseNode(node, container: Container) {
     const widgetFactory = new WidgetFactory();
     Array.prototype.forEach.call(node.childNodes, (child) => {
       if (child.nodeType === child.ELEMENT_NODE) {
@@ -69,7 +76,7 @@ class Form {
    * Calls container's findById method to find the widgets matching with param id
    * @param {string} id id to find
    */
-  findById(id) {
+  findById(id: string): Widget {
     return this.container.findById(id);
   }
 }

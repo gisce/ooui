@@ -33,21 +33,21 @@ class Widget {
     this._colspan = value;
   }
 
-  constructor({ colspan, readonly }: { colspan: number, readonly: number }) {
+  constructor(props: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
 
-    //if (props) {
-      if (/*props.*/colspan) {
-        this._colspan = +/*props.*/colspan;
+    if (props) {
+      if (props.colspan) {
+        this._colspan = +props.colspan;
       }
-      if (/*props.*/readonly) {
-        if (/*props.*/readonly === 1) {
+      if (props.readonly) {
+        if (props.readonly === 1) {
           this._readOnly = true;
         }
       }
     }
-  //}
+  }
 }
 
 export default Widget;

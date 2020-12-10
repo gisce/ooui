@@ -8,37 +8,37 @@ class Char extends Field {
   /**
    * Field place holder
    */
-  _placeholder;
-  get placeholder() {
+  _placeholder: string = "";
+  get placeholder(): string {
     return this._placeholder;
   }
-  set placeholder(value) {
+  set placeholder(value: string) {
     this._placeholder = value;
   }
 
   /**
    * Field size
    */
-  _size;
-  get size() {
+  _size: number = 150;
+  get size(): number {
     return this._size;
   }
-  set size(value) {
+  set size(value: number) {
     this._size = value;
   }
   
   /**
    * Label
    */
-  _label;
-  get label() {
+  _label: string = "";
+  get label(): string {
     return this._label;
   }
-  set label(value) {
+  set label(value: string) {
     this._label = value;
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     
     if (props) {
