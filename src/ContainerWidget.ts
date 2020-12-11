@@ -51,7 +51,7 @@ class ContainerWidget extends Widget {
         this._container.colspan = +props.colspan;
       }
       if (props.string) {
-        this._container.label = props.string;
+        this._label = props.string;
       }
     }
   }
