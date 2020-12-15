@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "outDir": "./dist",
     "allowJs": true,
     "skipLibCheck": true,
