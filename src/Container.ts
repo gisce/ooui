@@ -39,8 +39,9 @@ class Container {
     return this._index;
   }
 
-  constructor(columns = 4) {
+  constructor(columns: number = 4, colspan: number = 6) {
     this._columns = columns;
+    this._colspan = colspan;
     this._rows = [[]];
     this._index = 0;
   }
@@ -75,8 +76,8 @@ class Container {
    * Traverses children to find a matching container or widget with the exact same id.
    * @param {string} id id (name) of the field or container to find
    */
-  findById(id: string): Widget {
-    let r: Widget;
+  findById(id: string): Widget | null {
+    let r: Widget | null = null;
     if (this._rows && this._rows.length) {
       this._rows.forEach((row) => {
         if (r) {

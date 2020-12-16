@@ -205,6 +205,7 @@ const FIELDS = {
   },
 };
 
+/*
 function printRow(row, tab) {
   console.log("-".repeat(80));
   row.forEach((el) => {
@@ -221,6 +222,7 @@ function printRow(row, tab) {
     }
   });
 }
+*/
 
 describe("A Form", () => {
   it("should parse xml", () => {
@@ -248,9 +250,9 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(xmlViewForm);
 
-    const notebook = form.container.rows[0][0];
+    const notebook = form.container.rows[0][0] as Notebook;
     expect(notebook).toBeInstanceOf(Notebook);
-    const page = notebook.container.rows[0][0];
+    const page = notebook.container.rows[0][0] as Page;
     expect(page).toBeInstanceOf(Page);
     const field = page.container.rows[0][0];
     expect(field).toBeInstanceOf(Char);
@@ -311,14 +313,10 @@ describe("A Form", () => {
     form.parse(xmlViewForm);
 
     const field = form.findById("char1");
-    expect(field).toBeInstanceOf(Char);
-    expect(field.colspan).toBe(1);
-  });
-});
-
-describe("A Widget", () => {
-  it("should have colspan 1 by default", () => {
-    const widget = new Widget("Button");
-    expect(widget.colspan).toBe(1);
+    expect(field).not.toBeNull();
+    if (field) {
+      expect(field).toBeInstanceOf(Char);
+      expect(field.colspan).toBe(1);
+    }
   });
 });

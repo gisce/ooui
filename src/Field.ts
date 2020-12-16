@@ -46,8 +46,8 @@ class Field extends Widget {
    * Returns this instance in case this id matches param id.
    * @param {string} id id (name) to find
    */
-  findById(id: string): Field | undefined {
-    let r: Field | undefined = undefined;
+  findById(id: string): Field | null {
+    let r: Field | null = null;
     if (this._id === id) {
       r = this;
     }

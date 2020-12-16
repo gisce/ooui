@@ -1,4 +1,4 @@
-class Widget {
+abstract class Widget {
 
   /**
    * Default colspan
@@ -33,7 +33,7 @@ class Widget {
     this._colspan = value;
   }
 
-  constructor(props: any) {
+  constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
 
@@ -48,6 +48,8 @@ class Widget {
       }
     }
   }
+
+  abstract findById(id: string): Widget | null;
 }
 
 export default Widget;

@@ -40,11 +40,10 @@ class ContainerWidget extends Widget {
     this._label = value;
   }
 
-  constructor(props: any) {
+  constructor(props?: any) {
     super(props);
 
-    this._container = new Container(props && props.col);
-    this._container.colspan = ContainerWidget._defaultColspan;
+    this._container = new Container(props && props.col, ContainerWidget._defaultColspan);
 
     if (props) {
       if (props.colspan) {
@@ -60,7 +59,7 @@ class ContainerWidget extends Widget {
    * Calls container's findById method to find the widgets matching with param id
    * @param {string} id id to find
    */
-  findById(id: string): Widget {
+  findById(id: string): Widget | null {
     return this.container.findById(id);
   }
 }

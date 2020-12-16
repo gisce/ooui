@@ -8,7 +8,7 @@ class Form {
   /**
    * Object containing fields specification of the form.
    */
-  _fields: Object;
+  _fields: any;
   get fields() {
     return this._fields;
   }
@@ -41,24 +41,29 @@ class Form {
 
   parse(xml: string) {
     const parser = new DOMParser();
-    const view = parser.parseFromString(xml, "text/xml");
+    const view: Document = parser.parseFromString(xml, "text/xml");
     this.parseNode(view.documentElement, this._container);
   }
 
-  parseNode(node, container: Container) {
+  parseNode(node: Element, container: Container) {
     const widgetFactory = new WidgetFactory();
-    Array.prototype.forEach.call(node.childNodes, (child) => {
+    Array.prototype.forEach.call(node.childNodes, (child: Element) => {
       if (child.nodeType === child.ELEMENT_NODE) {
-        let tag = child.nodeName;
+        let tag = child.nodeName; 
 
-        const tagAttributes = {};
-        Array.prototype.forEach.call(child.attributes, (attr) => {
+        const tagAttributes: any = {};
+        Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
           tagAttributes[attr.name] = attr.value;
         });
 
         if (tag === "field") {
           const name = child.getAttribute("name");
-          tag = child.getAttribute("widget") || this._fields[name].type;
+          const attrWidget = child.getAttribute("widget");
+          if (attrWidget) {
+            tag = attrWidget;
+          } else if (name) {
+            this._fields[name].type;
+          }
         }
         
         const widget = widgetFactory.createWidget(tag, tagAttributes);
@@ -76,7 +81,7 @@ class Form {
    * Calls container's findById method to find the widgets matching with param id
    * @param {string} id id to find
    */
-  findById(id: string): Widget {
+  findById(id: string): Widget | null {
     return this.container.findById(id);
   }
 }
