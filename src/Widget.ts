@@ -30,7 +30,7 @@ abstract class Widget {
     return this._colspan;
   }
   set colspan(value: number) {
-    this._colspan = value;
+    this._colspan = +value;
   }
 
   constructor(props?: any) {
