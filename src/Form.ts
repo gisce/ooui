@@ -62,7 +62,7 @@ class Form {
           if (attrWidget) {
             tag = attrWidget;
           } else if (name) {
-            this._fields[name].type;
+            tag = this._fields[name].type;
           }
         }
         
