@@ -293,7 +293,7 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(xmlViewForm);
 
-    expect(form.findById("non_existent_widget")).toBeUndefined();
+    expect(form.findById("non_existent_widget")).toBeNull();
   });
 
   it('should be able to find the first widget with matching id', () => {
