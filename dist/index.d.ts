@@ -5,4 +5,5 @@ import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Field from "./Field";
 import Widget from "./Widget";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree };
+import Boolean from "./Boolean";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean };
