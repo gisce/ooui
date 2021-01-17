@@ -1,9 +1,13 @@
 import Tree from "../Tree";
+import Char from "../Char";
 
 const XML_VIEW_TREE = `<tree string="Partners">
-<field name="name"/>
-<field name="ref"/>
-<field name="city" select="2"/>
+  <field name="name"/>
+  <field name="title"/>
+  <field name="ref"/>
+  <field name="city" select="2"/>
+  <field name="country" select="2"/>
+  <field name="lang"/>
 </tree>
 `;
 
@@ -70,6 +74,8 @@ describe("A Tree", () => {
     tree.parse(XML_VIEW_TREE);
 
     expect(tree.fields).toBeDefined();
-    expect(tree.container.rows.length).toBeGreaterThan(0);
+    expect(tree.columns.length).toBe(6);
+    const nameWidget = tree.findById("name") as Char;
+    expect(nameWidget.label).toBe("Name");
   });
 });

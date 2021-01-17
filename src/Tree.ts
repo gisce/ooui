@@ -4,7 +4,6 @@ import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 
 class Tree {
-
   /**
    * Object containing fields specification of the form.
    */
@@ -12,30 +11,29 @@ class Tree {
   get fields() {
     return this._fields;
   }
-  
-  _container: Container;
-  get container(): Container {
-    return this._container;
+
+  _columns: Array<any> = [];
+  get columns(): Array<any> {
+    return this._columns;
   }
 
-  constructor(fields: Object, columns: number = 8) {
+  constructor(fields: Object) {
     this._fields = fields;
-    this._container = new Container(columns);
   }
 
   parse(xml: string) {
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
-    this.parseNode(view.documentElement, this._container);
+    this.parseNode(view.documentElement);
   }
 
-  parseNode(node: Element, container: Container) {
+  parseNode(node: Element) {
     const widgetFactory = new WidgetFactory();
     Array.prototype.forEach.call(node.childNodes, (child: Element) => {
       if (child.nodeType === child.ELEMENT_NODE) {
-        let tag = child.nodeName; 
+        let tag = child.nodeName;
 
-        const tagAttributes: any = {};
+        let tagAttributes: any = {};
         Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
           tagAttributes[attr.name] = attr.value;
         });
@@ -48,25 +46,25 @@ class Tree {
           } else if (name) {
             tag = this._fields[name].type;
           }
-        }
-        
-        const widget = widgetFactory.createWidget(tag, tagAttributes);
-        
-        if (widget instanceof ContainerWidget) {
-          this.parseNode(child, widget.container);
+
+          tagAttributes = { ...tagAttributes, ...this._fields[name!] };
         }
 
-        container.addWidget(widget);
+        const widget = widgetFactory.createWidget(tag, tagAttributes);
+
+        this._columns.push(widget);
       }
     });
   }
 
   /**
-   * Calls container's findById method to find the widgets matching with param id
+   * Find the widgets matching with param id
    * @param {string} id id to find
    */
   findById(id: string): Widget | null {
-    return this.container.findById(id);
+    return this._columns.find((item) => {
+      return item.findById(id);
+    });
   }
 }
 
