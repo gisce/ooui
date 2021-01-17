@@ -7,6 +7,7 @@ import Char from "./Char";
 import Text from "./Text";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
+import Boolean from "./Boolean";
 import Widget from "./Widget";
 
 class WidgetFactory {
@@ -41,10 +42,13 @@ class WidgetFactory {
       case "selection":
         this._widgetClass = Selection;
         break;
-        case "many2one":
-          this._widgetClass = Many2one;
-          break;
-  
+      case "many2one":
+        this._widgetClass = Many2one;
+        break;
+      case "boolean":
+        this._widgetClass = Boolean;
+        break;
+
       default:
         this._widgetClass = Widget;
         break;

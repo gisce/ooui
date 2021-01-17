@@ -1,6 +1,4 @@
 import WidgetFactory from "./WidgetFactory";
-import Container from "./Container";
-import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 
 class Tree {
