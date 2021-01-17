@@ -61,7 +61,9 @@ class Tree {
    */
   findById(id: string): Widget | null {
     return this._columns.find((item) => {
-      return item.findById(id);
+      if (!(item instanceof Widget)) {
+        return item.findById(id);
+      }
     });
   }
 }

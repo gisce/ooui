@@ -10,6 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import WidgetFactory from "./WidgetFactory";
+import Widget from "./Widget";
 var Tree = /** @class */ (function () {
     function Tree(fields) {
         this._columns = [];
@@ -66,7 +67,9 @@ var Tree = /** @class */ (function () {
      */
     Tree.prototype.findById = function (id) {
         return this._columns.find(function (item) {
-            return item.findById(id);
+            if (!(item instanceof Widget)) {
+                return item.findById(id);
+            }
         });
     };
     return Tree;
