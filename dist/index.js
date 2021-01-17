@@ -1,3 +1,4 @@
 import Form from "./Form";
-export { Form };
+import Tree from "./Tree";
+export { Form, Tree };
 //# sourceMappingURL=index.js.map

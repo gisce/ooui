@@ -1,11 +1,19 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import WidgetFactory from "./WidgetFactory";
-import Container from "./Container";
-import ContainerWidget from "./ContainerWidget";
 var Tree = /** @class */ (function () {
-    function Tree(fields, columns) {
-        if (columns === void 0) { columns = 8; }
+    function Tree(fields) {
+        this._columns = [];
         this._fields = fields;
-        this._container = new Container(columns);
     }
     Object.defineProperty(Tree.prototype, "fields", {
         get: function () {
@@ -14,9 +22,9 @@ var Tree = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Tree.prototype, "container", {
+    Object.defineProperty(Tree.prototype, "columns", {
         get: function () {
-            return this._container;
+            return this._columns;
         },
         enumerable: false,
         configurable: true
@@ -24,9 +32,9 @@ var Tree = /** @class */ (function () {
     Tree.prototype.parse = function (xml) {
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
-        this.parseNode(view.documentElement, this._container);
+        this.parseNode(view.documentElement);
     };
-    Tree.prototype.parseNode = function (node, container) {
+    Tree.prototype.parseNode = function (node) {
         var _this = this;
         var widgetFactory = new WidgetFactory();
         Array.prototype.forEach.call(node.childNodes, function (child) {
@@ -45,21 +53,21 @@ var Tree = /** @class */ (function () {
                     else if (name_1) {
                         tag = _this._fields[name_1].type;
                     }
+                    tagAttributes_1 = __assign(__assign({}, tagAttributes_1), _this._fields[name_1]);
                 }
                 var widget = widgetFactory.createWidget(tag, tagAttributes_1);
-                if (widget instanceof ContainerWidget) {
-                    _this.parseNode(child, widget.container);
-                }
-                container.addWidget(widget);
+                _this._columns.push(widget);
             }
         });
     };
     /**
-     * Calls container's findById method to find the widgets matching with param id
+     * Find the widgets matching with param id
      * @param {string} id id to find
      */
     Tree.prototype.findById = function (id) {
-        return this.container.findById(id);
+        return this._columns.find(function (item) {
+            return item.findById(id);
+        });
     };
     return Tree;
 }());

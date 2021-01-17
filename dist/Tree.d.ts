@@ -1,4 +1,3 @@
-import Container from "./Container";
 import Widget from "./Widget";
 declare class Tree {
     /**
@@ -6,13 +5,13 @@ declare class Tree {
      */
     _fields: any;
     get fields(): any;
-    _container: Container;
-    get container(): Container;
-    constructor(fields: Object, columns?: number);
+    _columns: Array<any>;
+    get columns(): Array<any>;
+    constructor(fields: Object);
     parse(xml: string): void;
-    parseNode(node: Element, container: Container): void;
+    parseNode(node: Element): void;
     /**
-     * Calls container's findById method to find the widgets matching with param id
+     * Find the widgets matching with param id
      * @param {string} id id to find
      */
     findById(id: string): Widget | null;

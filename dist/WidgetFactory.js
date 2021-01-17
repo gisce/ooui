@@ -5,47 +5,54 @@ import Button from "./Button";
 import Label from "./Label";
 import Char from "./Char";
 import Text from "./Text";
+import Selection from "./Selection";
+import Many2one from "./Many2one";
 import Widget from "./Widget";
 var WidgetFactory = /** @class */ (function () {
     function WidgetFactory() {
     }
     WidgetFactory.prototype.setWidgetClass = function (type) {
         switch (type) {
-            case 'notebook':
+            case "notebook":
                 this._widgetClass = Notebook;
                 break;
-            case 'page':
+            case "page":
                 this._widgetClass = Page;
                 break;
-            case 'group':
+            case "group":
                 this._widgetClass = Group;
                 break;
-            case 'label':
+            case "label":
                 this._widgetClass = Label;
                 break;
-            case 'char':
+            case "char":
                 this._widgetClass = Char;
                 break;
-            case 'text':
+            case "text":
                 this._widgetClass = Text;
                 break;
-            case 'button':
+            case "button":
                 this._widgetClass = Button;
+                break;
+            case "selection":
+                this._widgetClass = Selection;
+                break;
+            case "many2one":
+                this._widgetClass = Many2one;
                 break;
             default:
                 this._widgetClass = Widget;
                 break;
         }
     };
-    ;
     WidgetFactory.prototype.createWidget = function (type, props) {
         this.setWidgetClass(type);
         // TODO: Widget Class constructors should use only the props needed, not all props.
         switch (type) {
             // Specific cases (only selected props should be used)
-            case 'notebook':
-            case 'page':
-            case 'group':
+            case "notebook":
+            case "page":
+            case "group":
                 return new this._widgetClass(props);
             // Generic case
             default:
