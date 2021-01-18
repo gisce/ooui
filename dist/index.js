@@ -6,5 +6,12 @@ import Many2one from "./Many2one";
 import Field from "./Field";
 import Widget from "./Widget";
 import Boolean from "./Boolean";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean };
+import Integer from "./Integer";
+import Float from "./Float";
+import FloatTime from "./FloatTime";
+import Date from "./Date";
+import DateTime from "./DateTime";
+import Many2many from "./Many2many";
+import One2many from "./One2many";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, };
 //# sourceMappingURL=index.js.map

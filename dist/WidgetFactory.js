@@ -8,7 +8,14 @@ import Text from "./Text";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Boolean from "./Boolean";
+import Integer from "./Integer";
 import Widget from "./Widget";
+import Float from "./Float";
+import FloatTime from "./FloatTime";
+import Date from "./Date";
+import DateTime from "./DateTime";
+import Many2many from "./Many2many";
+import One2many from "./One2many";
 var WidgetFactory = /** @class */ (function () {
     function WidgetFactory() {
     }
@@ -43,6 +50,27 @@ var WidgetFactory = /** @class */ (function () {
                 break;
             case "boolean":
                 this._widgetClass = Boolean;
+                break;
+            case "integer":
+                this._widgetClass = Integer;
+                break;
+            case "float":
+                this._widgetClass = Float;
+                break;
+            case "float_time":
+                this._widgetClass = FloatTime;
+                break;
+            case "date":
+                this._widgetClass = Date;
+                break;
+            case "datetime":
+                this._widgetClass = DateTime;
+                break;
+            case "many2many":
+                this._widgetClass = Many2many;
+                break;
+            case "one2many":
+                this._widgetClass = One2many;
                 break;
             default:
                 this._widgetClass = Widget;
