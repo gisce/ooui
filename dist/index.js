@@ -1,6 +1,7 @@
 import Form from "./Form";
 import Tree from "./Tree";
 import Char from "./Char";
+import Container from "./Container";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Field from "./Field";
@@ -14,5 +15,5 @@ import DateTime from "./DateTime";
 import Many2many from "./Many2many";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, };
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, };
 //# sourceMappingURL=index.js.map
