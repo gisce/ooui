@@ -13,6 +13,7 @@ import Date from "./Date";
 import DateTime from "./DateTime";
 import Many2many from "./Many2many";
 import One2many from "./One2many";
+import SearchFilter from "./SearchFilter";
 
 export {
   Char,
@@ -30,4 +31,5 @@ export {
   Date,
   DateTime,
   Many2many,
+  SearchFilter,
 };
