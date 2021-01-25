@@ -15,4 +15,5 @@ import DateTime from "./DateTime";
 import Many2many from "./Many2many";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, };
+import Text from "./Text";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, Text, };
