@@ -23,9 +23,16 @@ var Text = /** @class */ (function (_super) {
          * Field place holder
          */
         _this._placeholder = '';
+        /**
+         * Label
+         */
+        _this._label = "";
         if (props) {
             if (props.placeholder) {
                 _this._placeholder = props.placeholder;
+            }
+            if (props.string) {
+                _this._label = props.string;
             }
         }
         return _this;
@@ -36,6 +43,16 @@ var Text = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._placeholder = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Text.prototype, "label", {
+        get: function () {
+            return this._label;
+        },
+        set: function (value) {
+            this._label = value;
         },
         enumerable: false,
         configurable: true
