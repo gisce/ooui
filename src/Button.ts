@@ -1,18 +1,6 @@
 import Field from "./Field";
 
 class Button extends Field {
-
-  /**
-   * Label
-   */
-  _label: string = "";
-  get label(): string {
-    return this._label;
-  }
-  set label(value: string) {
-    this._label = value;
-  }
-
   /**
    * Type (primary or default)
    */
@@ -44,7 +32,6 @@ class Button extends Field {
       }
     }
   }
-
 }
 
 export default Button;

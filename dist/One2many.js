@@ -24,10 +24,6 @@ var One2many = /** @class */ (function (_super) {
          */
         _this._size = 150;
         /**
-         * Label
-         */
-        _this._label = "";
-        /**
          * Relation
          */
         _this._relation = "";
@@ -36,7 +32,6 @@ var One2many = /** @class */ (function (_super) {
                 _this._size = props.size;
             }
             if (props.string) {
-                _this._label = props.string;
                 if (!props.colspan) {
                     _this.colspan = 2;
                 }
@@ -53,16 +48,6 @@ var One2many = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._size = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(One2many.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
         },
         enumerable: false,
         configurable: true

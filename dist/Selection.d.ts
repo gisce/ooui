@@ -10,12 +10,6 @@ declare class Selection extends Field {
     get size(): number;
     set size(value: number);
     /**
-     * Label
-     */
-    _label: string;
-    get label(): string;
-    set label(value: string);
-    /**
      * Values and keys
      */
     _selectionValues: Map<string, string>;

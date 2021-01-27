@@ -9,6 +9,12 @@ declare class Field extends Widget {
     get id(): string;
     set id(value: string);
     /**
+     * Label
+     */
+    _label: string;
+    get label(): string;
+    set label(value: string);
+    /**
      * Activated (default is true)
      */
     _activated: boolean;

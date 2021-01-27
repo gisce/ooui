@@ -23,6 +23,10 @@ var Field = /** @class */ (function (_super) {
          */
         _this._id = "";
         /**
+         * Label
+         */
+        _this._label = "";
+        /**
          * Activated (default is true)
          */
         _this._activated = true;
@@ -35,6 +39,9 @@ var Field = /** @class */ (function (_super) {
             if (props.activated) {
                 _this._activated = props.activated;
             }
+            if (props.string) {
+                _this._label = props.string;
+            }
         }
         return _this;
     }
@@ -44,6 +51,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "label", {
+        get: function () {
+            return this._label;
+        },
+        set: function (value) {
+            this._label = value;
         },
         enumerable: false,
         configurable: true

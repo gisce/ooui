@@ -19,28 +19,13 @@ var Date = /** @class */ (function (_super) {
     __extends(Date, _super);
     function Date(props) {
         var _this = _super.call(this, props) || this;
-        /**
-         * Label
-         */
-        _this._label = "";
         if (props.string) {
-            _this._label = props.string;
             if (!props.colspan) {
                 _this.colspan = 2;
             }
         }
         return _this;
     }
-    Object.defineProperty(Date.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     return Date;
 }(Field));
 export default Date;

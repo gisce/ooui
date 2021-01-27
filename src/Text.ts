@@ -16,17 +16,6 @@ class Text extends Field {
     this._placeholder = value;
   }
 
-  /**
-   * Label
-   */
-  _label: string = "";
-  get label(): string {
-    return this._label;
-  }
-  set label(value: string) {
-    this._label = value;
-  }
-
   constructor(props: any) {
     super(props);
 
@@ -34,9 +23,6 @@ class Text extends Field {
       if (props.placeholder) {
         this._placeholder = props.placeholder;
       }
-      if (props.string) {
-        this._label = props.string;
-      }  
     }
   }
 }

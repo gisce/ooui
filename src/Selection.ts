@@ -16,17 +16,6 @@ class Selection extends Field {
   }
 
   /**
-   * Label
-   */
-  _label: string = "";
-  get label(): string {
-    return this._label;
-  }
-  set label(value: string) {
-    this._label = value;
-  }
-
-  /**
    * Values and keys
    */
   _selectionValues: Map<string, string> = new Map([]);
@@ -46,7 +35,6 @@ class Selection extends Field {
       }
 
       if (props.string) {
-        this._label = props.string;
         if (!props.colspan) {
           this.colspan = 2;
         }

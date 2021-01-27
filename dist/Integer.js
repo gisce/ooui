@@ -19,28 +19,13 @@ var Integer = /** @class */ (function (_super) {
     __extends(Integer, _super);
     function Integer(props) {
         var _this = _super.call(this, props) || this;
-        /**
-         * Label
-         */
-        _this._label = "";
         if (props.string) {
-            _this._label = props.string;
             if (!props.colspan) {
                 _this.colspan = 2;
             }
         }
         return _this;
     }
-    Object.defineProperty(Integer.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     return Integer;
 }(Field));
 export default Integer;

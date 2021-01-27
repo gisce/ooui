@@ -1,12 +1,6 @@
 import Field from "./Field";
 declare class Button extends Field {
     /**
-     * Label
-     */
-    _label: string;
-    get label(): string;
-    set label(value: string);
-    /**
      * Type (primary or default)
      */
     _type: "primary" | "default";

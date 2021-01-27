@@ -19,28 +19,13 @@ var Float = /** @class */ (function (_super) {
     __extends(Float, _super);
     function Float(props) {
         var _this = _super.call(this, props) || this;
-        /**
-         * Label
-         */
-        _this._label = "";
         if (props.string) {
-            _this._label = props.string;
             if (!props.colspan) {
                 _this.colspan = 2;
             }
         }
         return _this;
     }
-    Object.defineProperty(Float.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     return Float;
 }(Field));
 export default Float;

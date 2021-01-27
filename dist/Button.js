@@ -17,10 +17,6 @@ var Button = /** @class */ (function (_super) {
     function Button(props) {
         var _this = _super.call(this, props) || this;
         /**
-         * Label
-         */
-        _this._label = "";
-        /**
          * Type (primary or default)
          */
         _this._type = "default";
@@ -35,16 +31,6 @@ var Button = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Object.defineProperty(Button.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Button.prototype, "type", {
         get: function () {
             return this._type;

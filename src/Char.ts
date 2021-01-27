@@ -26,17 +26,6 @@ class Char extends Field {
   set size(value: number) {
     this._size = value;
   }
-  
-  /**
-   * Label
-   */
-  _label: string = "";
-  get label(): string {
-    return this._label;
-  }
-  set label(value: string) {
-    this._label = value;
-  }
 
   constructor(props: any) {
     super(props);
@@ -47,7 +36,6 @@ class Char extends Field {
       }
 
       if (props.string) {
-        this._label = props.string;
         if (!props.colspan) {
           this.colspan = 2;
         }

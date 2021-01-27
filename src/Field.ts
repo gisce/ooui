@@ -15,6 +15,17 @@ class Field extends Widget {
   }
 
   /**
+   * Label
+   */
+  _label: string = "";
+  get label(): string {
+    return this._label;
+  }
+  set label(value: string) {
+    this._label = value;
+  }
+
+  /**
    * Activated (default is true)
    */
   _activated: boolean = true;
@@ -39,6 +50,11 @@ class Field extends Widget {
       if (props.activated) {
         this._activated = props.activated;
       }
+
+      if (props.string) {
+        this._label = props.string;
+      }
+
     }
   }
 

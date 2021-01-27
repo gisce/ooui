@@ -19,28 +19,13 @@ var Boolean = /** @class */ (function (_super) {
     __extends(Boolean, _super);
     function Boolean(props) {
         var _this = _super.call(this, props) || this;
-        /**
-         * Label
-         */
-        _this._label = "";
         if (props.string) {
-            _this._label = props.string;
             if (!props.colspan) {
                 _this.colspan = 2;
             }
         }
         return _this;
     }
-    Object.defineProperty(Boolean.prototype, "label", {
-        get: function () {
-            return this._label;
-        },
-        set: function (value) {
-            this._label = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     return Boolean;
 }(Field));
 export default Boolean;

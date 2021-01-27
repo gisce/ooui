@@ -15,12 +15,6 @@ declare class Char extends Field {
     _size: number;
     get size(): number;
     set size(value: number);
-    /**
-     * Label
-     */
-    _label: string;
-    get label(): string;
-    set label(value: string);
     constructor(props: any);
 }
 export default Char;
