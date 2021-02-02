@@ -10,6 +10,7 @@ import Boolean from "./Boolean";
 import Integer from "./Integer";
 import Float from "./Float";
 import FloatTime from "./FloatTime";
+import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
 import Many2many from "./Many2many";

@@ -12,6 +12,7 @@ import Integer from "./Integer";
 import Widget from "./Widget";
 import Float from "./Float";
 import FloatTime from "./FloatTime";
+import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
 import Many2many from "./Many2many";
@@ -65,6 +66,9 @@ var WidgetFactory = /** @class */ (function () {
                 break;
             case "datetime":
                 this._widgetClass = DateTime;
+                break;
+            case "progressbar":
+                this._widgetClass = ProgressBar;
                 break;
             case "many2many":
                 this._widgetClass = Many2many;
