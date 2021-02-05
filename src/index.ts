@@ -17,6 +17,8 @@ import Many2many from "./Many2many";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
 import Text from "./Text";
+import Notebook from "./Notebook";
+import Group from "./Group";
 
 export {
   Char,
@@ -37,4 +39,7 @@ export {
   SearchFilter,
   Container,
   Text,
+  ProgressBar,
+  Notebook,
+  Group,
 };
