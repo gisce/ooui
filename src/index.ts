@@ -2,6 +2,7 @@ import Form from "./Form";
 import Tree from "./Tree";
 import Char from "./Char";
 import Container from "./Container";
+import ContainerWidget from "./ContainerWidget";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Field from "./Field";
@@ -38,6 +39,7 @@ export {
   Many2many,
   SearchFilter,
   Container,
+  ContainerWidget,
   Text,
   ProgressBar,
   Notebook,
