@@ -51,7 +51,7 @@ class Form {
       if (child.nodeType === child.ELEMENT_NODE) {
         let tag = child.nodeName; 
 
-        const tagAttributes: any = {};
+        let tagAttributes: any = {};
         Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
           tagAttributes[attr.name] = attr.value;
         });
@@ -64,6 +64,8 @@ class Form {
           } else if (name) {
             tag = this._fields[name].type;
           }
+
+          tagAttributes = { ...tagAttributes, ...this._fields[name!] };
         }
         
         const widget = widgetFactory.createWidget(tag, tagAttributes);

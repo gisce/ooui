@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
@@ -60,6 +71,7 @@ var Form = /** @class */ (function () {
                     else if (name_1) {
                         tag = _this._fields[name_1].type;
                     }
+                    tagAttributes_1 = __assign(__assign({}, tagAttributes_1), _this._fields[name_1]);
                 }
                 var widget = widgetFactory.createWidget(tag, tagAttributes_1);
                 if (widget instanceof ContainerWidget) {
