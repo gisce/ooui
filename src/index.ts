@@ -20,6 +20,7 @@ import SearchFilter from "./SearchFilter";
 import Text from "./Text";
 import Notebook from "./Notebook";
 import Group from "./Group";
+import Page from "./Page";
 
 export {
   Char,
@@ -44,4 +45,5 @@ export {
   ProgressBar,
   Notebook,
   Group,
+  Page,
 };
