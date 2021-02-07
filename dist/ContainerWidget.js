@@ -18,11 +18,20 @@ var ContainerWidget = /** @class */ (function (_super) {
     function ContainerWidget(props) {
         var _this = _super.call(this, props) || this;
         /**
+         * Field identifier
+         *
+         * Corresponds to the field's name attribute from xml
+         */
+        _this._id = "";
+        /**
          * Container label
          */
         _this._label = "";
         _this._container = new Container(props && props.col, ContainerWidget._defaultColspan);
         if (props) {
+            if (props.name) {
+                _this._id = props.name;
+            }
             if (props.colspan) {
                 _this._container.colspan = +props.colspan;
             }
@@ -32,6 +41,16 @@ var ContainerWidget = /** @class */ (function (_super) {
         }
         return _this;
     }
+    Object.defineProperty(ContainerWidget.prototype, "id", {
+        get: function () {
+            return this._id;
+        },
+        set: function (value) {
+            this._id = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ContainerWidget, "defaultColspan", {
         get: function () {
             return ContainerWidget._defaultColspan;
@@ -77,6 +96,9 @@ var ContainerWidget = /** @class */ (function (_super) {
      * @param {string} id id to find
      */
     ContainerWidget.prototype.findById = function (id) {
+        if (id === this.id) {
+            return this;
+        }
         return this.container.findById(id);
     };
     ContainerWidget._defaultColspan = 6;

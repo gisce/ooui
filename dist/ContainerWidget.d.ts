@@ -1,6 +1,14 @@
 import Widget from "./Widget";
 import Container from "./Container";
 declare class ContainerWidget extends Widget {
+    /**
+     * Field identifier
+     *
+     * Corresponds to the field's name attribute from xml
+     */
+    _id: string;
+    get id(): string;
+    set id(value: string);
     static _defaultColspan: number;
     static get defaultColspan(): number;
     static set defaultColspan(value: number);

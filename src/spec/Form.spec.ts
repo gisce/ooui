@@ -1,5 +1,5 @@
 import Form from "../Form";
-import Widget from "../Widget";
+import Group from "../Group";
 import Notebook from "../Notebook";
 import Page from "../Page";
 import Char from "../Char";
@@ -319,4 +319,25 @@ describe("A Form", () => {
       expect(field.colspan).toBe(1);
     }
   });
+
+  it('should be able to find a group widget with matching id', () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <group name="group">
+            <field colspan="1" name="char1" />
+            <field colspan="2" name="char1" />
+        </group>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("group");
+    expect(field).not.toBeNull();
+    if (field) {
+      expect(field).toBeInstanceOf(Group);
+    }
+  })
 });
