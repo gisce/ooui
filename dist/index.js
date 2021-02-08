@@ -18,8 +18,9 @@ import Many2many from "./Many2many";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
 import Text from "./Text";
+import Label from "./Label";
 import Notebook from "./Notebook";
 import Group from "./Group";
 import Page from "./Page";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, };
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, };
 //# sourceMappingURL=index.js.map

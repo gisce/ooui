@@ -18,6 +18,7 @@ import Many2many from "./Many2many";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
 import Text from "./Text";
+import Label from "./Label";
 import Notebook from "./Notebook";
 import Group from "./Group";
 import Page from "./Page";
@@ -46,4 +47,5 @@ export {
   Notebook,
   Group,
   Page,
+  Label,
 };
