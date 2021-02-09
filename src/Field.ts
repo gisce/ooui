@@ -3,7 +3,7 @@ import Widget from "./Widget";
 class Field extends Widget {
   /**
    * Field identifier
-   * 
+   *
    * Corresponds to the field's name attribute from xml
    */
   _id: string = "";
@@ -23,6 +23,17 @@ class Field extends Widget {
   }
   set label(value: string) {
     this._label = value;
+  }
+
+  /**
+   * Tooltip
+   */
+  _tooltip?: string;
+  get tooltip(): string | undefined {
+    return this._tooltip;
+  }
+  set tooltip(value: string | undefined) {
+    this._tooltip = value;
   }
 
   /**
@@ -55,6 +66,9 @@ class Field extends Widget {
         this._label = props.string;
       }
 
+      if (props.help) {
+        this._tooltip = props.help;
+      }
     }
   }
 

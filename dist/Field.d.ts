@@ -15,6 +15,12 @@ declare class Field extends Widget {
     get label(): string;
     set label(value: string);
     /**
+     * Tooltip
+     */
+    _tooltip?: string;
+    get tooltip(): string | undefined;
+    set tooltip(value: string | undefined);
+    /**
      * Activated (default is true)
      */
     _activated: boolean;

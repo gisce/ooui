@@ -42,6 +42,9 @@ var Field = /** @class */ (function (_super) {
             if (props.string) {
                 _this._label = props.string;
             }
+            if (props.help) {
+                _this._tooltip = props.help;
+            }
         }
         return _this;
     }
@@ -61,6 +64,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._label = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "tooltip", {
+        get: function () {
+            return this._tooltip;
+        },
+        set: function (value) {
+            this._tooltip = value;
         },
         enumerable: false,
         configurable: true
