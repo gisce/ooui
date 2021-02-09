@@ -2,6 +2,7 @@ import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
+import NewLine from "./NewLine";
 
 class Form {
 
@@ -74,6 +75,9 @@ class Form {
           this.parseNode(child, widget.container);
         }
 
+        if (widget instanceof NewLine) {
+          return;
+        }
         container.addWidget(widget);
       }
     });

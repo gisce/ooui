@@ -1,3 +1,4 @@
+import NewLine from "./NewLine";
 import Widget from "./Widget";
 
 class Container {
@@ -57,6 +58,12 @@ class Container {
   }
 
   addWidget(widget: Widget) {
+    if (widget instanceof NewLine) {
+      this._rows.push([]);
+      this._index++;
+      return;
+    }
+
     if (widget.colspan > this._columns) {
       // Widget colspan is greater than container columns, so we change widget
       // colspan to fit container columns.

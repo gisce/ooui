@@ -12,6 +12,7 @@ var __assign = (this && this.__assign) || function () {
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
+import NewLine from "./NewLine";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -76,6 +77,9 @@ var Form = /** @class */ (function () {
                 var widget = widgetFactory.createWidget(tag, tagAttributes_1);
                 if (widget instanceof ContainerWidget) {
                     _this.parseNode(child, widget.container);
+                }
+                if (widget instanceof NewLine) {
+                    return;
                 }
                 container.addWidget(widget);
             }

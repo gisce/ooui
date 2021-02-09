@@ -1,3 +1,4 @@
+import NewLine from "./NewLine";
 var Container = /** @class */ (function () {
     function Container(columns, colspan) {
         if (columns === void 0) { columns = 4; }
@@ -54,6 +55,11 @@ var Container = /** @class */ (function () {
         return this._columns - span;
     };
     Container.prototype.addWidget = function (widget) {
+        if (widget instanceof NewLine) {
+            this._rows.push([]);
+            this._index++;
+            return;
+        }
         if (widget.colspan > this._columns) {
             // Widget colspan is greater than container columns, so we change widget
             // colspan to fit container columns.

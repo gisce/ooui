@@ -404,4 +404,17 @@ describe("A Form", () => {
     const field = form.findById("password") as Char;
     expect(field.isPassword).toBeFalsy();
   });
+
+  it("should properly parse a newline and reflect proper rows for it", () => {
+    const arch =
+      '<group><field name="field"/><newline /><field name="field" readonly="0"/></group>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    expect(form.container.rows.length).toBe(2);
+  });
 });
