@@ -27,6 +27,10 @@ var Char = /** @class */ (function (_super) {
          * Field size
          */
         _this._size = 150;
+        /**
+       * Invisible
+       */
+        _this._invisible = false;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
@@ -35,6 +39,9 @@ var Char = /** @class */ (function (_super) {
                 if (!props.colspan) {
                     _this.colspan = 2;
                 }
+            }
+            if (props.invisible) {
+                _this.invisible = props.invisible;
             }
         }
         return _this;
@@ -55,6 +62,16 @@ var Char = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._size = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Char.prototype, "invisible", {
+        get: function () {
+            return this._invisible;
+        },
+        set: function (value) {
+            this._invisible = value;
         },
         enumerable: false,
         configurable: true

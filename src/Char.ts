@@ -27,6 +27,17 @@ class Char extends Field {
     this._size = value;
   }
 
+  /**
+   * Invisible
+   */
+  _invisible: boolean = false;
+  get invisible(): boolean {
+    return this._invisible;
+  }
+  set invisible(value: boolean) {
+    this._invisible = value;
+  }
+
   constructor(props: any) {
     super(props);
     
@@ -39,6 +50,10 @@ class Char extends Field {
         if (!props.colspan) {
           this.colspan = 2;
         }
+      }
+
+      if (props.invisible) {
+        this.invisible = props.invisible;
       }
     }
   }

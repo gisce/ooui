@@ -260,7 +260,7 @@ describe("A Form", () => {
     expect(field.colspan).toBe(8);
   });
 
-  it('should be able to find a widget by id', () => {
+  it("should be able to find a widget by id", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
     };
@@ -278,7 +278,7 @@ describe("A Form", () => {
     expect(form.findById("char1")).toBeInstanceOf(Char);
   });
 
-  it('should return undefined when a widget is not found by id', () => {
+  it("should return undefined when a widget is not found by id", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
     };
@@ -296,7 +296,7 @@ describe("A Form", () => {
     expect(form.findById("non_existent_widget")).toBeNull();
   });
 
-  it('should be able to find the first widget with matching id', () => {
+  it("should be able to find the first widget with matching id", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
     };
@@ -320,7 +320,7 @@ describe("A Form", () => {
     }
   });
 
-  it('should be able to find a group widget with matching id', () => {
+  it("should be able to find a group widget with matching id", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
     };
@@ -339,5 +339,28 @@ describe("A Form", () => {
     if (field) {
       expect(field).toBeInstanceOf(Group);
     }
-  })
+  });
+
+  it("should be able to parse a field with tooltip", () => {
+    const fields = {
+      char1: {
+        size: 128,
+        string: "Name",
+        type: "char",
+        help: "tooltip string",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <group name="group">
+            <field colspan="1" name="char1" />
+        </group>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("char1") as Char;
+    expect(field).not.toBeNull();
+    expect(field.tooltip).toBe("tooltip string");
+  });
 });
