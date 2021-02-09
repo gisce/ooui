@@ -4,7 +4,6 @@ import Field from "./Field";
  * One-line input with a length limit.
  */
 class Char extends Field {
-
   /**
    * Field place holder
    */
@@ -27,20 +26,17 @@ class Char extends Field {
     this._size = value;
   }
 
-  /**
-   * Invisible
-   */
-  _invisible: boolean = false;
-  get invisible(): boolean {
-    return this._invisible;
+  _isPassword: boolean = false;
+  get isPassword(): boolean {
+    return this._isPassword;
   }
-  set invisible(value: boolean) {
-    this._invisible = value;
+  set isPassword(value: boolean) {
+    this._isPassword = value;
   }
 
   constructor(props: any) {
     super(props);
-    
+
     if (props) {
       if (props.size) {
         this._size = props.size;
@@ -52,8 +48,8 @@ class Char extends Field {
         }
       }
 
-      if (props.invisible) {
-        this.invisible = props.invisible;
+      if (props.password) {
+        this.isPassword = props.password === "True" ? true : false;
       }
     }
   }

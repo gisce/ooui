@@ -27,10 +27,7 @@ var Char = /** @class */ (function (_super) {
          * Field size
          */
         _this._size = 150;
-        /**
-       * Invisible
-       */
-        _this._invisible = false;
+        _this._isPassword = false;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
@@ -40,8 +37,8 @@ var Char = /** @class */ (function (_super) {
                     _this.colspan = 2;
                 }
             }
-            if (props.invisible) {
-                _this.invisible = props.invisible;
+            if (props.password) {
+                _this.isPassword = props.password === "True" ? true : false;
             }
         }
         return _this;
@@ -66,12 +63,12 @@ var Char = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Char.prototype, "invisible", {
+    Object.defineProperty(Char.prototype, "isPassword", {
         get: function () {
-            return this._invisible;
+            return this._isPassword;
         },
         set: function (value) {
-            this._invisible = value;
+            this._isPassword = value;
         },
         enumerable: false,
         configurable: true

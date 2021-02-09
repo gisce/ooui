@@ -15,12 +15,9 @@ declare class Char extends Field {
     _size: number;
     get size(): number;
     set size(value: number);
-    /**
-   * Invisible
-   */
-    _invisible: boolean;
-    get invisible(): boolean;
-    set invisible(value: boolean);
+    _isPassword: boolean;
+    get isPassword(): boolean;
+    set isPassword(value: boolean);
     constructor(props: any);
 }
 export default Char;

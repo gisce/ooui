@@ -76,4 +76,5 @@ describe("A Char", () => {
 
     expect(widget.tooltip).toBe("This is a help field");
   });
+
 });

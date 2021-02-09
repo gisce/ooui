@@ -363,4 +363,45 @@ describe("A Form", () => {
     expect(field).not.toBeNull();
     expect(field.tooltip).toBe("tooltip string");
   });
+
+  it("should properly parse a password field", () => {
+    const arch =
+      '<group><field name="password" password="True" readonly="0"/></group>';
+    const fields = {
+      password: {
+        help:
+          "Keep empty if you don't want the user to be able to connect on the system.",
+        invisible: true,
+        size: 64,
+        string: "Password",
+        type: "char",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+
+    const field = form.findById("password") as Char;
+    expect(field.isPassword).toBeTruthy();
+  });
+
+  it("should properly parse a normal char field without password flag", () => {
+    const arch = '<group><field name="password" readonly="0"/></group>';
+    const fields = {
+      password: {
+        help:
+          "Keep empty if you don't want the user to be able to connect on the system.",
+        invisible: true,
+        size: 64,
+        string: "Password",
+        type: "char",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+
+    const field = form.findById("password") as Char;
+    expect(field.isPassword).toBeFalsy();
+  });
 });
