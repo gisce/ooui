@@ -23,6 +23,7 @@ import Notebook from "./Notebook";
 import Group from "./Group";
 import Page from "./Page";
 import Separator from "./Separator";
+import Button from "./Button";
 
 export {
   Char,
@@ -50,4 +51,5 @@ export {
   Page,
   Label,
   Separator,
+  Button,
 };

@@ -23,4 +23,5 @@ import Notebook from "./Notebook";
 import Group from "./Group";
 import Page from "./Page";
 import Separator from "./Separator";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, };
+import Button from "./Button";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, };
