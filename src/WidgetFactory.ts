@@ -18,6 +18,7 @@ import DateTime from "./DateTime";
 import Many2many from "./Many2many";
 import One2many from "./One2many";
 import NewLine from "./NewLine";
+import Separator from "./Separator";
 
 class WidgetFactory {
   /**
@@ -83,6 +84,9 @@ class WidgetFactory {
         break;
       case "newline":
         this._widgetClass = NewLine;
+        break;
+      case "separator":
+        this._widgetClass = Separator;
         break;
       default:
         this._widgetClass = Widget;
