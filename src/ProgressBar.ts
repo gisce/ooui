@@ -1,19 +1,8 @@
-import Field from "./Field";
+import Float from "./Float";
 
 /**
- * FloatTime input
+ * ProgressBar input
  */
-class FloatTime extends Field {
+class ProgressBar extends Float {}
 
-  constructor(props: any) {
-    super(props);
-
-    if (props.string) {
-      if (!props.colspan) {
-        this.colspan = 2;
-      }
-    }
-  }
-}
-
-export default FloatTime;
+export default ProgressBar;

@@ -11,22 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import Field from "./Field";
+import Float from "./Float";
 /**
  * FloatTime input
  */
 var FloatTime = /** @class */ (function (_super) {
     __extends(FloatTime, _super);
-    function FloatTime(props) {
-        var _this = _super.call(this, props) || this;
-        if (props.string) {
-            if (!props.colspan) {
-                _this.colspan = 2;
-            }
-        }
-        return _this;
+    function FloatTime() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return FloatTime;
-}(Field));
+}(Float));
 export default FloatTime;
 //# sourceMappingURL=FloatTime.js.map

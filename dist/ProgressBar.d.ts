@@ -1,8 +1,7 @@
-import Field from "./Field";
+import Float from "./Float";
 /**
- * FloatTime input
+ * ProgressBar input
  */
-declare class FloatTime extends Field {
-    constructor(props: any);
+declare class ProgressBar extends Float {
 }
-export default FloatTime;
+export default ProgressBar;

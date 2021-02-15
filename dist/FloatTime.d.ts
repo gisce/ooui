@@ -1,8 +1,7 @@
-import Field from "./Field";
+import Float from "./Float";
 /**
  * FloatTime input
  */
-declare class FloatTime extends Field {
-    constructor(props: any);
+declare class FloatTime extends Float {
 }
 export default FloatTime;

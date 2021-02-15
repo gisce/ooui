@@ -1,19 +1,8 @@
-import Field from "./Field";
+import Float from "./Float";
 
 /**
  * FloatTime input
  */
-class FloatTime extends Field {
-
-  constructor(props: any) {
-    super(props);
-
-    if (props.string) {
-      if (!props.colspan) {
-        this.colspan = 2;
-      }
-    }
-  }
-}
+class FloatTime extends Float {}
 
 export default FloatTime;
