@@ -42,7 +42,7 @@ abstract class Widget {
         this._colspan = +props.colspan;
       }
       if (props.readonly) {
-        if (props.readonly === 1) {
+        if (props.readonly === 1 || props.readonly === true) {
           this._readOnly = true;
         }
       }
