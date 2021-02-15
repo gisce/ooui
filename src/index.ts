@@ -22,6 +22,7 @@ import Label from "./Label";
 import Notebook from "./Notebook";
 import Group from "./Group";
 import Page from "./Page";
+import Separator from "./Separator";
 
 export {
   Char,
@@ -48,4 +49,5 @@ export {
   Group,
   Page,
   Label,
+  Separator,
 };
