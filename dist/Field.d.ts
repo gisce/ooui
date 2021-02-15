@@ -15,6 +15,15 @@ declare class Field extends Widget {
     get label(): string;
     set label(value: string);
     /**
+     * No label
+     *
+     * This field hasn't got to show the label
+     *
+     */
+    _nolabel: boolean;
+    get nolabel(): boolean;
+    set nolabel(value: boolean);
+    /**
      * Tooltip
      */
     _tooltip?: string;

@@ -26,6 +26,20 @@ class Field extends Widget {
   }
 
   /**
+   * No label
+   *
+   * This field hasn't got to show the label
+   *
+   */
+  _nolabel: boolean = false;
+  get nolabel(): boolean {
+    return this._nolabel;
+  }
+  set nolabel(value: boolean) {
+    this._nolabel = value;
+  }
+
+  /**
    * Tooltip
    */
   _tooltip?: string;
@@ -68,6 +82,10 @@ class Field extends Widget {
 
       if (props.help) {
         this._tooltip = props.help;
+      }
+
+      if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
+        this._nolabel = true;
       }
     }
   }

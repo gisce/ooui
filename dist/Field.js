@@ -27,6 +27,13 @@ var Field = /** @class */ (function (_super) {
          */
         _this._label = "";
         /**
+         * No label
+         *
+         * This field hasn't got to show the label
+         *
+         */
+        _this._nolabel = false;
+        /**
          * Activated (default is true)
          */
         _this._activated = true;
@@ -44,6 +51,9 @@ var Field = /** @class */ (function (_super) {
             }
             if (props.help) {
                 _this._tooltip = props.help;
+            }
+            if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
+                _this._nolabel = true;
             }
         }
         return _this;
@@ -64,6 +74,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._label = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "nolabel", {
+        get: function () {
+            return this._nolabel;
+        },
+        set: function (value) {
+            this._nolabel = value;
         },
         enumerable: false,
         configurable: true
