@@ -4,6 +4,11 @@
   "dependencies": {},
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
