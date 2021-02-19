@@ -20,6 +20,10 @@ var Label = /** @class */ (function (_super) {
          * Label text
          */
         _this._text = "";
+        /**
+         * Align text
+         */
+        _this._align = "left";
         return _this;
     }
     Object.defineProperty(Label.prototype, "text", {
@@ -28,6 +32,16 @@ var Label = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._text = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "align", {
+        get: function () {
+            return this._align;
+        },
+        set: function (value) {
+            this._align = value;
         },
         enumerable: false,
         configurable: true

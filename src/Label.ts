@@ -12,6 +12,17 @@ class Label extends Field {
     this._text = value;
   }
 
+  /**
+   * Align text
+   */
+  _align: string = "left";
+  get align(): string {
+    return this._align;
+  }
+  set align(value: string) {
+    this._align = value;
+  }
+
   constructor(props: any) {
     super(props);
   }
