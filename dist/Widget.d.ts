@@ -17,6 +17,7 @@ declare abstract class Widget {
     _colspan: number;
     get colspan(): number;
     set colspan(value: number);
+    clone<T>(instance: T): T;
     constructor(props?: any);
     abstract findById(id: string): Widget | null;
 }

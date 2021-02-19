@@ -33,6 +33,12 @@ abstract class Widget {
     this._colspan = +value;
   }
 
+  clone<T>(instance: T): T {
+    const copy = new ((instance as any).constructor as { new (): T })();
+    Object.assign(copy, instance);
+    return copy;
+  }
+  
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
