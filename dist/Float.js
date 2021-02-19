@@ -31,12 +31,12 @@ var Float = /** @class */ (function (_super) {
          * Number of decimal digits that will be part of the float
          */
         _this._decimalDigits = 2;
-        if (props.string) {
-            if (!props.colspan) {
+        if (props === null || props === void 0 ? void 0 : props.string) {
+            if (!(props === null || props === void 0 ? void 0 : props.colspan)) {
                 _this.colspan = 2;
             }
         }
-        if (props.digits) {
+        if (props === null || props === void 0 ? void 0 : props.digits) {
             var _a = props.digits, integers = _a[0], decimals = _a[1];
             _this._integerDigits = integers;
             _this._decimalDigits = decimals;

@@ -31,16 +31,16 @@ class Float extends Field {
     this._decimalDigits = value;
   }
 
-  constructor(props: any) {
+  constructor(props?: any) {
     super(props);
 
-    if (props.string) {
-      if (!props.colspan) {
+    if (props?.string) {
+      if (!props?.colspan) {
         this.colspan = 2;
       }
     }
 
-    if (props.digits) {
+    if (props?.digits) {
       const [integers, decimals] = props.digits;
       this._integerDigits = integers;
       this._decimalDigits = decimals;

@@ -43,11 +43,6 @@ var Widget = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Widget.prototype.clone = function (instance) {
-        var copy = new instance.constructor();
-        Object.assign(copy, instance);
-        return copy;
-    };
     /**
      * Default colspan
      */

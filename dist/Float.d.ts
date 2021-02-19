@@ -19,6 +19,6 @@ declare class Float extends Field {
     _decimalDigits: number;
     get decimalDigits(): number;
     set decimalDigits(value: number);
-    constructor(props: any);
+    constructor(props?: any);
 }
 export default Float;

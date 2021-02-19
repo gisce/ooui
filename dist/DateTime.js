@@ -19,7 +19,7 @@ var DateTime = /** @class */ (function (_super) {
     __extends(DateTime, _super);
     function DateTime(props) {
         var _this = _super.call(this, props) || this;
-        if (props.string) {
+        if (props === null || props === void 0 ? void 0 : props.string) {
             if (!props.colspan) {
                 _this.colspan = 2;
             }

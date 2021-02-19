@@ -5,10 +5,10 @@ import Field from "./Field";
  */
 class Integer extends Field {
 
-  constructor(props: any) {
+  constructor(props?: any) {
     super(props);
 
-    if (props.string) {
+    if (props?.string) {
       if (!props.colspan) {
         this.colspan = 2;
       }
