@@ -74,10 +74,6 @@ class Form {
         if (widget instanceof ContainerWidget) {
           this.parseNode(child, widget.container);
         }
-
-        if (widget instanceof NewLine) {
-          return;
-        }
         container.addWidget(widget);
       }
     });
