@@ -407,7 +407,7 @@ describe("A Form", () => {
 
   it("should properly parse a newline and reflect proper rows for it", () => {
     const arch =
-      '<group><field name="field"/><newline /><field name="field" readonly="0"/></group>';
+      '<form><field name="field"/><newline /><field name="field" readonly="0"/></form>';
     const fields = {
       field: {
         type: "char",

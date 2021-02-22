@@ -1,5 +1,6 @@
 import Char from "../Char";
 import Button from "../Button";
+import NewLine from "../NewLine";
 import WidgetFactory from "../WidgetFactory";
 
 
@@ -20,5 +21,12 @@ describe('A WidgetFactory', () => {
         };
         const widget = widgetFactory.createWidget("button", props);
         expect(widget).toBeInstanceOf(Button);
+    });
+
+    it('should be able to build a Newline widget', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("newline", props);
+        expect(widget).toBeInstanceOf(NewLine);
     });
 });
