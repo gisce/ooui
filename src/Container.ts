@@ -63,11 +63,6 @@ class Container {
       this._index++;
       return;
     }
-    
-    if (widget.invisible) {
-      this._rows[this._index].push(widget);
-      return;
-    }
 
     if (widget.colspan > this._columns) {
       // Widget colspan is greater than container columns, so we change widget
