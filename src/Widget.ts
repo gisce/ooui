@@ -32,6 +32,17 @@ abstract class Widget {
   set colspan(value: number) {
     this._colspan = +value;
   }
+  
+  /**
+   * Invisible fields (default is false)
+   */
+  _invisible: boolean;
+  get invisible(): boolean {
+    return this._invisible;
+  }
+  set invisible(value: boolean) {
+    this._invisible = value;
+  }
 
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
@@ -44,6 +55,11 @@ abstract class Widget {
       if (props.readonly) {
         if (props.readonly === 1 || props.readonly === true) {
           this._readOnly = true;
+        }
+      }
+      if (props.invisible) {
+        if (props.invisible === 1 || props.invisible === true) {
+          this._invisible = true;
         }
       }
     }
