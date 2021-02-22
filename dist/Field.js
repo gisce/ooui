@@ -34,6 +34,12 @@ var Field = /** @class */ (function (_super) {
          */
         _this._nolabel = false;
         /**
+         *
+         * Required field
+         *
+         */
+        _this._required = false;
+        /**
          * Activated (default is true)
          */
         _this._activated = true;
@@ -54,6 +60,10 @@ var Field = /** @class */ (function (_super) {
             }
             if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
                 _this._nolabel = true;
+            }
+            if (props.required &&
+                (props.required === "1" || props.required === true)) {
+                _this._required = true;
             }
         }
         return _this;
@@ -84,6 +94,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._nolabel = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "required", {
+        get: function () {
+            return this._required;
+        },
+        set: function (value) {
+            this._required = value;
         },
         enumerable: false,
         configurable: true

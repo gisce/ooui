@@ -40,6 +40,19 @@ class Field extends Widget {
   }
 
   /**
+   *
+   * Required field
+   *
+   */
+  _required: boolean = false;
+  get required(): boolean {
+    return this._required;
+  }
+  set required(value: boolean) {
+    this._required = value;
+  }
+
+  /**
    * Tooltip
    */
   _tooltip?: string;
@@ -86,6 +99,13 @@ class Field extends Widget {
 
       if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
         this._nolabel = true;
+      }
+
+      if (
+        props.required &&
+        (props.required === "1" || props.required === true)
+      ) {
+        this._required = true;
       }
     }
   }

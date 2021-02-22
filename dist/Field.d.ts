@@ -24,6 +24,14 @@ declare class Field extends Widget {
     get nolabel(): boolean;
     set nolabel(value: boolean);
     /**
+     *
+     * Required field
+     *
+     */
+    _required: boolean;
+    get required(): boolean;
+    set required(value: boolean);
+    /**
      * Tooltip
      */
     _tooltip?: string;
