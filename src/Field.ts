@@ -97,7 +97,11 @@ class Field extends Widget {
         this._tooltip = props.help;
       }
 
-      if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
+      if (
+        props.nolabel &&
+        (props.nolabel === "1" ||
+          (typeof props.nolabel === "boolean" && props.nolabel === true))
+      ) {
         this._nolabel = true;
       }
 
