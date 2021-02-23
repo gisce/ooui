@@ -1,5 +1,4 @@
 abstract class Widget {
-
   /**
    * Default colspan
    */
@@ -32,7 +31,7 @@ abstract class Widget {
   set colspan(value: number) {
     this._colspan = +value;
   }
-  
+
   /**
    * Invisible fields (default is false)
    */
@@ -59,7 +58,11 @@ abstract class Widget {
         }
       }
       if (props.invisible) {
-        if (props.invisible === 1 || props.invisible === true) {
+        if (
+          props.invisible === 1 ||
+          props.invisible === "1" ||
+          props.invisible === true
+        ) {
           this._invisible = true;
         }
       }
