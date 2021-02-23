@@ -17,6 +17,12 @@ declare abstract class Widget {
     _colspan: number;
     get colspan(): number;
     set colspan(value: number);
+    /**
+     * Invisible fields (default is false)
+     */
+    _invisible: boolean;
+    get invisible(): boolean;
+    set invisible(value: boolean);
     constructor(props?: any);
     abstract findById(id: string): Widget | null;
 }
