@@ -40,10 +40,8 @@ describe("A container", () => {
     const w1 = new WidgetImpl({ colspan: 2 });
     const w2 = new WidgetImpl({ colspan: 2, invisible: true });
     cont.addWidget(w1);
-    const actualFreeSpan = cont.freePosition();
     cont.addWidget(w2);
     expect(cont.freePosition()).toEqual(2);
     expect(cont.rows[0].length).toEqual(2);
-
   });
 });
