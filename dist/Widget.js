@@ -13,7 +13,9 @@ var Widget = /** @class */ (function () {
                 }
             }
             if (props.invisible) {
-                if (props.invisible === 1 || props.invisible === true) {
+                if (props.invisible === 1 ||
+                    props.invisible === "1" ||
+                    props.invisible === true) {
                     this._invisible = true;
                 }
             }
