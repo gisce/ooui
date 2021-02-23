@@ -417,4 +417,34 @@ describe("A Form", () => {
     form.parse(arch);
     expect(form.container.rows.length).toBe(2);
   });
+
+  it("should properly parse a field with invisible parameter", () => {
+    const arch =
+      '<form><field name="field" invisible="1"/></form>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    const widget = form.findById("field");
+    expect(widget).toBeTruthy();
+    expect(widget!.invisible).toBeTruthy();
+  });
+
+  it("should properly parse invisible parameter to false by default", () => {
+    const arch =
+      '<form><field name="field"/></form>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    const widget = form.findById("field");
+    expect(widget).toBeTruthy();
+    expect(widget!.invisible).toBeFalsy();
+  });
 });

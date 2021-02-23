@@ -34,4 +34,14 @@ describe("A container", () => {
     expect(cont.index).toEqual(3);
     expect(cont.rows[3][0]).toEqual(w5);
   });
+
+  it("should don't count colspans of invisible widgets", () => {
+    const cont = new Container(4);
+    const w1 = new WidgetImpl({ colspan: 2 });
+    const w2 = new WidgetImpl({ colspan: 2, invisible: true });
+    cont.addWidget(w1);
+    cont.addWidget(w2);
+    expect(cont.freePosition()).toEqual(2);
+    expect(cont.rows[0].length).toEqual(2);
+  });
 });

@@ -51,7 +51,7 @@ class Container {
    * Returns the next free position
    */
   freePosition(): number {
-    const span = this._rows[this._index].reduce((prev, current) => {
+    const span = this._rows[this._index].filter(el => {return !el.invisible}).reduce((prev, current) => {
       return prev + current.colspan;
     }, 0);
     return this._columns - span;
