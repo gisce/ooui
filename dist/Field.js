@@ -58,7 +58,9 @@ var Field = /** @class */ (function (_super) {
             if (props.help) {
                 _this._tooltip = props.help;
             }
-            if (props.nolabel && (props.nolabel === "1" || props.nolabel === true)) {
+            if (props.nolabel &&
+                (props.nolabel === "1" ||
+                    (typeof props.nolabel === "boolean" && props.nolabel === true))) {
                 _this._nolabel = true;
             }
             if (props.required &&

@@ -24,7 +24,10 @@ class Button extends Field {
   }
 
   constructor(props: any) {
-    super(props);
+    super({
+      ...props,
+      nolabel: props?.nolabel !== undefined ? props.nolabel : true,
+    });
 
     if (props) {
       if (props.string) {
