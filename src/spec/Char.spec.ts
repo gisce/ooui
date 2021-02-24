@@ -12,7 +12,7 @@ describe("A Char", () => {
     expect(widget.id).toBe("char1");
   });
 
-  it("should have colspan 1 by default (with no label)", () => {
+  it("should have colspan 1 by default", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       name: "char1",
@@ -22,7 +22,7 @@ describe("A Char", () => {
     expect(widget.colspan).toBe(1);
   });
 
-  it("with label should have colspan 2", () => {
+  it("with label should have colspan 1 even with label", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       name: "char1",
@@ -30,7 +30,7 @@ describe("A Char", () => {
     };
     const widget = widgetFactory.createWidget("char", props);
 
-    expect(widget.colspan).toBe(2);
+    expect(widget.colspan).toBe(1);
   });
 
   it("should properly set label", () => {

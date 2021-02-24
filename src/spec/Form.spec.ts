@@ -3,6 +3,7 @@ import Group from "../Group";
 import Notebook from "../Notebook";
 import Page from "../Page";
 import Char from "../Char";
+import Label from "../Label";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -254,10 +255,13 @@ describe("A Form", () => {
     expect(notebook).toBeInstanceOf(Notebook);
     const page = notebook.container.rows[0][0] as Page;
     expect(page).toBeInstanceOf(Page);
-    const field = page.container.rows[0][0];
-    expect(field).toBeInstanceOf(Char);
+    const labelField = page.container.rows[0][0];
+    expect(labelField).toBeInstanceOf(Label);
+    const charField = page.container.rows[0][1];
+    expect(charField).toBeInstanceOf(Char);
+
     // Should match the container's col
-    expect(field.colspan).toBe(8);
+    expect(charField.colspan + labelField.colspan).toBe(8);
   });
 
   it("should be able to find a widget by id", () => {
