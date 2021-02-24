@@ -60,6 +60,8 @@ class Container {
   }
 
   addWidget(widget: Widget) {
+    const widgetsToAdd: Widget[] = [];
+
     if (widget instanceof NewLine) {
       this._rows.push([]);
       this._index++;
@@ -82,17 +84,25 @@ class Container {
         name: widget.id + "_label",
         string: widget.label,
       });
-
-      this.addWidget(label);
+      widgetsToAdd.push(label);
+      widgetsToAdd.push(widget);
+    } else {
+      widgetsToAdd.push(widget);
     }
 
-    if (widget.colspan <= this.freePosition()) {
-      this._rows[this._index].push(widget);
-    } else {
+    const widgetsColspan = widgetsToAdd.reduce(
+      (accumulator: number, currentWidget: Widget) => {
+        return accumulator + currentWidget.colspan;
+      },
+      0
+    );
+
+    if (widgetsColspan > this.freePosition()) {
       this._rows.push([]);
       this._index++;
-      this.addWidget(widget);
     }
+
+    this._rows[this._index] = this._rows[this._index].concat(widgetsToAdd);
   }
 
   /**

@@ -51,12 +51,17 @@ var Container = /** @class */ (function () {
      * Returns the next free position
      */
     Container.prototype.freePosition = function () {
-        var span = this._rows[this._index].filter(function (el) { return !el.invisible; }).reduce(function (prev, current) {
+        var span = this._rows[this._index]
+            .filter(function (el) {
+            return !el.invisible;
+        })
+            .reduce(function (prev, current) {
             return prev + current.colspan;
         }, 0);
         return this._columns - span;
     };
     Container.prototype.addWidget = function (widget) {
+        var widgetsToAdd = [];
         if (widget instanceof NewLine) {
             this._rows.push([]);
             this._index++;
@@ -76,16 +81,20 @@ var Container = /** @class */ (function () {
                 name: widget.id + "_label",
                 string: widget.label,
             });
-            this.addWidget(label);
-        }
-        if (widget.colspan <= this.freePosition()) {
-            this._rows[this._index].push(widget);
+            widgetsToAdd.push(label);
+            widgetsToAdd.push(widget);
         }
         else {
+            widgetsToAdd.push(widget);
+        }
+        var widgetsColspan = widgetsToAdd.reduce(function (accumulator, currentWidget) {
+            return accumulator + currentWidget.colspan;
+        }, 0);
+        if (widgetsColspan > this.freePosition()) {
             this._rows.push([]);
             this._index++;
-            this.addWidget(widget);
         }
+        this._rows[this._index] = this._rows[this._index].concat(widgetsToAdd);
     };
     /**
      * Traverses children to find a matching container or widget with the exact same id.
