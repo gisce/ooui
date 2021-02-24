@@ -23,8 +23,23 @@ class Label extends Field {
     this._align = value;
   }
 
-  constructor(props: any) {
-    super({...props, nolabel: true });
+  /**
+   * Id of the field that this label goes with. Null if it's an independent label
+   */
+  _fieldForLabel: string | null = null;
+  get fieldForLabel(): string | null {
+    return this._fieldForLabel;
+  }
+  set fieldForLabel(value: string | null) {
+    this._fieldForLabel = value;
+  }
+
+  constructor(props?: any) {
+    super({ ...props, nolabel: true });
+
+    if (props?.fieldForLabel) {
+      this._fieldForLabel = props.fieldForLabel;
+    }
   }
 }
 

@@ -78,6 +78,7 @@ var Container = /** @class */ (function () {
                 string: widget.label,
                 invisible: widget.invisible,
                 help: widget.tooltip,
+                fieldForLabel: widget.id,
             });
             widgetsToAdd.push(label);
             widgetsToAdd.push(widget);

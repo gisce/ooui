@@ -35,6 +35,13 @@ var Label = /** @class */ (function (_super) {
          * Align text
          */
         _this._align = "left";
+        /**
+         * Id of the field that this label goes with. Null if it's an independent label
+         */
+        _this._fieldForLabel = null;
+        if (props === null || props === void 0 ? void 0 : props.fieldForLabel) {
+            _this._fieldForLabel = props.fieldForLabel;
+        }
         return _this;
     }
     Object.defineProperty(Label.prototype, "text", {
@@ -53,6 +60,16 @@ var Label = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._align = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "fieldForLabel", {
+        get: function () {
+            return this._fieldForLabel;
+        },
+        set: function (value) {
+            this._fieldForLabel = value;
         },
         enumerable: false,
         configurable: true

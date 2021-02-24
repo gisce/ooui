@@ -12,6 +12,12 @@ declare class Label extends Field {
     _align: string;
     get align(): string;
     set align(value: string);
-    constructor(props: any);
+    /**
+     * Id of the field that this label goes with. Null if it's an independent label
+     */
+    _fieldForLabel: string | null;
+    get fieldForLabel(): string | null;
+    set fieldForLabel(value: string | null);
+    constructor(props?: any);
 }
 export default Label;

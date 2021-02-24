@@ -22,4 +22,25 @@ describe("A Label", () => {
 
     expect(widget.label).toBe("label caption");
   });
+
+  it("should have fieldForLabel null by default", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      name: "label",
+      string: "label caption",
+    };
+    const widget = widgetFactory.createWidget("label", props);
+    expect(widget.fieldForLabel).toBeNull();
+  });
+
+  it("should properly parse fieldForLabel prop", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      name: "field_label",
+      string: "label caption",
+      fieldForLabel: "field",
+    };
+    const widget = widgetFactory.createWidget("label", props);
+    expect(widget.fieldForLabel).toBe("field");
+  });
 });
