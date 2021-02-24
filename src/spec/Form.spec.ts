@@ -423,8 +423,7 @@ describe("A Form", () => {
   });
 
   it("should properly parse a field with invisible parameter", () => {
-    const arch =
-      '<form><field name="field" invisible="1"/></form>';
+    const arch = '<form><field name="field" invisible="1"/></form>';
     const fields = {
       field: {
         type: "char",
@@ -438,8 +437,7 @@ describe("A Form", () => {
   });
 
   it("should properly parse invisible parameter to false by default", () => {
-    const arch =
-      '<form><field name="field"/></form>';
+    const arch = '<form><field name="field"/></form>';
     const fields = {
       field: {
         type: "char",
