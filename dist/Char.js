@@ -32,11 +32,6 @@ var Char = /** @class */ (function (_super) {
             if (props.size) {
                 _this._size = props.size;
             }
-            if (props.string) {
-                if (!props.colspan) {
-                    _this.colspan = 2;
-                }
-            }
             if (props.password) {
                 _this.isPassword = props.password === "True" ? true : false;
             }

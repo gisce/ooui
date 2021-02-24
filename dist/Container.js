@@ -1,4 +1,6 @@
+import Field from "./Field";
 import NewLine from "./NewLine";
+import Label from "./Label";
 var Container = /** @class */ (function () {
     function Container(columns, colspan) {
         if (columns === void 0) { columns = 4; }
@@ -64,6 +66,17 @@ var Container = /** @class */ (function () {
             // Widget colspan is greater than container columns, so we change widget
             // colspan to fit container columns.
             widget.colspan = this._columns;
+        }
+        // For fields without nolabel we add a preceding label widget
+        if (widget instanceof Field && !widget.nolabel) {
+            if (widget.colspan > 1) {
+                widget.colspan -= 1; // We substract one colspan for the corresponding label
+            }
+            var label = new Label({
+                name: widget.id + "_label",
+                string: widget.label,
+            });
+            this.addWidget(label);
         }
         if (widget.colspan <= this.freePosition()) {
             this._rows[this._index].push(widget);

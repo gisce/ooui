@@ -18,13 +18,7 @@ import Field from "./Field";
 var Boolean = /** @class */ (function (_super) {
     __extends(Boolean, _super);
     function Boolean(props) {
-        var _this = _super.call(this, props) || this;
-        if (props === null || props === void 0 ? void 0 : props.string) {
-            if (!props.colspan) {
-                _this.colspan = 2;
-            }
-        }
-        return _this;
+        return _super.call(this, props) || this;
     }
     return Boolean;
 }(Field));

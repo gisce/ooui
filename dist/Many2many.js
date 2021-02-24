@@ -31,11 +31,6 @@ var Many2many = /** @class */ (function (_super) {
             if (props.size) {
                 _this._size = props.size;
             }
-            if (props.string) {
-                if (!props.colspan) {
-                    _this.colspan = 2;
-                }
-            }
             if (props.relation) {
                 _this._relation = props.relation;
             }
