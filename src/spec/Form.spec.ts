@@ -449,4 +449,22 @@ describe("A Form", () => {
     expect(widget).toBeTruthy();
     expect(widget!.invisible).toBeFalsy();
   });
+
+  it("should add a widget that doesn't fit in a new line with label", () => {
+    const arch =
+      '<form><field name="field" colspan="6" /><field name="newlinefield" colspan="4" /></form>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+      newlinefield: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    expect(form.container.rows.length).toBe(2);
+    expect(form.container.rows[0].length).toBe(2);
+    expect(form.container.rows[1].length).toBe(2);
+  });
 });
