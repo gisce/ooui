@@ -42,12 +42,6 @@ class Char extends Field {
         this._size = props.size;
       }
 
-      if (props.string) {
-        if (!props.colspan) {
-          this.colspan = 2;
-        }
-      }
-
       if (props.password) {
         this.isPassword = props.password === "True" ? true : false;
       }

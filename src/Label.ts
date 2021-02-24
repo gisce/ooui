@@ -24,7 +24,7 @@ class Label extends Field {
   }
 
   constructor(props: any) {
-    super(props);
+    super({...props, nolabel: true });
   }
 }
 

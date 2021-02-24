@@ -34,12 +34,6 @@ class Selection extends Field {
         this._size = props.size;
       }
 
-      if (props.string) {
-        if (!props.colspan) {
-          this.colspan = 2;
-        }
-      }
-
       if (props.selection) {
         this._selectionValues = new Map(props.selection);
       }

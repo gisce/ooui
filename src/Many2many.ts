@@ -34,12 +34,6 @@ class Many2many extends Field {
         this._size = props.size;
       }
 
-      if (props.string) {
-        if (!props.colspan) {
-          this.colspan = 2;
-        }
-      }
-
       if (props.relation) {
         this._relation = props.relation;
       }
