@@ -44,8 +44,8 @@ class SearchFilter {
       widgetFactory
     );
     simpleSearchWidgets.forEach((widget) => {
-      this.simpleSearchContainer.addWidget(widget);
-      this.advancedSearchContainer.addWidget(widget);
+      this.simpleSearchContainer.addWidget(widget, { addLabel: false });
+      this.advancedSearchContainer.addWidget(widget, { addLabel: false });
     });
 
     const advancedSearchWidgets = this.parseFields(
@@ -53,7 +53,7 @@ class SearchFilter {
       widgetFactory
     );
     advancedSearchWidgets.forEach((widget) => {
-      this.advancedSearchContainer.addWidget(widget);
+      this.advancedSearchContainer.addWidget(widget, { addLabel: false });
     });
   }
 
@@ -62,6 +62,7 @@ class SearchFilter {
       const fieldAttributes = {
         ...this.fields[searchField],
         name: searchField,
+        colspan: 2,
       };
       const { type } = fieldAttributes;
       return widgetFactory.createWidget(type, fieldAttributes);

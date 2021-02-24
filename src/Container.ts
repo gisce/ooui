@@ -3,6 +3,10 @@ import NewLine from "./NewLine";
 import Widget from "./Widget";
 import Label from "./Label";
 
+type AddWidgetOptions = {
+  addLabel: boolean;
+};
+
 class Container {
   /**
    * Number of columns the container is divided
@@ -59,8 +63,9 @@ class Container {
     return this._columns - span;
   }
 
-  addWidget(widget: Widget) {
+  addWidget(widget: Widget, options?: AddWidgetOptions) {
     const widgetsToAdd: Widget[] = [];
+    const addLabel = options ? options.addLabel : true;
 
     if (widget instanceof NewLine) {
       this._rows.push([]);
@@ -75,7 +80,7 @@ class Container {
     }
 
     // For fields without nolabel we add a preceding label widget
-    if (widget instanceof Field && !widget.nolabel) {
+    if (addLabel && widget instanceof Field && !widget.nolabel) {
       if (widget.colspan > 1) {
         widget.colspan -= 1; // We substract one colspan for the corresponding label
       }

@@ -52,18 +52,18 @@ var SearchFilter = /** @class */ (function () {
         var widgetFactory = new WidgetFactory();
         var simpleSearchWidgets = this.parseFields(this.searchFields.primary, widgetFactory);
         simpleSearchWidgets.forEach(function (widget) {
-            _this.simpleSearchContainer.addWidget(widget);
-            _this.advancedSearchContainer.addWidget(widget);
+            _this.simpleSearchContainer.addWidget(widget, { addLabel: false });
+            _this.advancedSearchContainer.addWidget(widget, { addLabel: false });
         });
         var advancedSearchWidgets = this.parseFields(this.searchFields.secondary, widgetFactory);
         advancedSearchWidgets.forEach(function (widget) {
-            _this.advancedSearchContainer.addWidget(widget);
+            _this.advancedSearchContainer.addWidget(widget, { addLabel: false });
         });
     };
     SearchFilter.prototype.parseFields = function (searchFields, widgetFactory) {
         var _this = this;
         return searchFields.map(function (searchField) {
-            var fieldAttributes = __assign(__assign({}, _this.fields[searchField]), { name: searchField });
+            var fieldAttributes = __assign(__assign({}, _this.fields[searchField]), { name: searchField, colspan: 2 });
             var type = fieldAttributes.type;
             return widgetFactory.createWidget(type, fieldAttributes);
         });

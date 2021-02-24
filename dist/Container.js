@@ -56,8 +56,9 @@ var Container = /** @class */ (function () {
         }, 0);
         return this._columns - span;
     };
-    Container.prototype.addWidget = function (widget) {
+    Container.prototype.addWidget = function (widget, options) {
         var widgetsToAdd = [];
+        var addLabel = options ? options.addLabel : true;
         if (widget instanceof NewLine) {
             this._rows.push([]);
             this._index++;
@@ -69,7 +70,7 @@ var Container = /** @class */ (function () {
             widget.colspan = this._columns;
         }
         // For fields without nolabel we add a preceding label widget
-        if (widget instanceof Field && !widget.nolabel) {
+        if (addLabel && widget instanceof Field && !widget.nolabel) {
             if (widget.colspan > 1) {
                 widget.colspan -= 1; // We substract one colspan for the corresponding label
             }

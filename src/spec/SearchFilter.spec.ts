@@ -929,7 +929,18 @@ describe("A SearchFilter", () => {
 
     expect(searchFilter.fields).toBeDefined();
     expect(searchFilter.simpleSearchContainer.rows.length).toBe(3);
+    expect(searchFilter.simpleSearchContainer.rows[0].length).toBe(4);
+    expect(searchFilter.simpleSearchContainer.rows[1].length).toBe(4);
+    expect(searchFilter.simpleSearchContainer.rows[2].length).toBe(2);
+
     expect(searchFilter.advancedSearchContainer.rows.length).toBe(6);
+    expect(searchFilter.advancedSearchContainer.rows[0].length).toBe(4);
+    expect(searchFilter.advancedSearchContainer.rows[1].length).toBe(4);
+    expect(searchFilter.advancedSearchContainer.rows[2].length).toBe(4);
+    expect(searchFilter.advancedSearchContainer.rows[3].length).toBe(4);
+    expect(searchFilter.advancedSearchContainer.rows[4].length).toBe(4);
+    expect(searchFilter.advancedSearchContainer.rows[5].length).toBe(1);
+
     const nameWidget = searchFilter.findById("name");
     expect(nameWidget).toBeDefined();
     expect(nameWidget!.constructor.name).toBe("Char");

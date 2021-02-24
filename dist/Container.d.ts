@@ -1,4 +1,7 @@
 import Widget from "./Widget";
+declare type AddWidgetOptions = {
+    addLabel: boolean;
+};
 declare class Container {
     /**
      * Number of columns the container is divided
@@ -25,7 +28,7 @@ declare class Container {
      * Returns the next free position
      */
     freePosition(): number;
-    addWidget(widget: Widget): void;
+    addWidget(widget: Widget, options?: AddWidgetOptions): void;
     /**
      * Traverses children to find a matching container or widget with the exact same id.
      * @param {string} id id (name) of the field or container to find
