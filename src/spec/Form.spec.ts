@@ -4,6 +4,7 @@ import Notebook from "../Notebook";
 import Page from "../Page";
 import Char from "../Char";
 import Label from "../Label";
+import Field from "../Field";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -466,5 +467,21 @@ describe("A Form", () => {
     expect(form.container.rows.length).toBe(2);
     expect(form.container.rows[0].length).toBe(2);
     expect(form.container.rows[1].length).toBe(2);
+  });
+
+  it("should add a label with tooltip for a field with tooltip", () => {
+    const arch = '<form><field name="field" help="Tooltip" /></form>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    expect(form.container.rows[0].length).toBe(2);
+    const row = form.container.rows[0];
+    const label = row[0] as Label;
+    const char = row[1] as Char;
+    expect(label.tooltip).toBe(char.tooltip);
   });
 });

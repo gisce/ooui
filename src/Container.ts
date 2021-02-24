@@ -84,7 +84,7 @@ class Container {
         name: widget.id + "_label",
         string: widget.label,
         invisible: widget.invisible,
-        tooltip: widget.tooltip,
+        help: widget.tooltip,
       });
       widgetsToAdd.push(label);
       widgetsToAdd.push(widget);

@@ -51,11 +51,7 @@ var Container = /** @class */ (function () {
      * Returns the next free position
      */
     Container.prototype.freePosition = function () {
-        var span = this._rows[this._index]
-            .filter(function (el) {
-            return !el.invisible;
-        })
-            .reduce(function (prev, current) {
+        var span = this._rows[this._index].filter(function (el) { return !el.invisible; }).reduce(function (prev, current) {
             return prev + current.colspan;
         }, 0);
         return this._columns - span;
@@ -81,7 +77,7 @@ var Container = /** @class */ (function () {
                 name: widget.id + "_label",
                 string: widget.label,
                 invisible: widget.invisible,
-                tooltip: widget.tooltip,
+                help: widget.tooltip,
             });
             widgetsToAdd.push(label);
             widgetsToAdd.push(widget);
