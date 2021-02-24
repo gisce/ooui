@@ -83,6 +83,8 @@ class Container {
       const label = new Label({
         name: widget.id + "_label",
         string: widget.label,
+        invisible: widget.invisible,
+        tooltip: widget.tooltip,
       });
       widgetsToAdd.push(label);
       widgetsToAdd.push(widget);
