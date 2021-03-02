@@ -1,5 +1,6 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
+import { parseNodes } from "./helpers/nodeParser";
 
 class Tree {
   /**
@@ -27,31 +28,13 @@ class Tree {
 
   parseNode(node: Element) {
     const widgetFactory = new WidgetFactory();
-    Array.prototype.forEach.call(node.childNodes, (child: Element) => {
-      if (child.nodeType === child.ELEMENT_NODE) {
-        let tag = child.nodeName;
 
-        let tagAttributes: any = {};
-        Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
-          tagAttributes[attr.name] = attr.value;
-        });
+    const nodesParsed = parseNodes(node.childNodes, this._fields);
 
-        if (tag === "field") {
-          const name = child.getAttribute("name");
-          const attrWidget = child.getAttribute("widget");
-          if (attrWidget) {
-            tag = attrWidget;
-          } else if (name) {
-            tag = this._fields[name].type;
-          }
-
-          tagAttributes = { ...tagAttributes, ...this._fields[name!] };
-        }
-
-        const widget = widgetFactory.createWidget(tag, tagAttributes);
-
-        this._columns.push(widget);
-      }
+    nodesParsed.forEach((nodeParsed) => {
+      const { tag, tagAttributes } = nodeParsed;
+      const widget = widgetFactory.createWidget(tag, tagAttributes);
+      this._columns.push(widget);
     });
   }
 

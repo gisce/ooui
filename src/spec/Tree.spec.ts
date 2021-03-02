@@ -78,4 +78,12 @@ describe("A Tree", () => {
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.label).toBe("Name");
   });
+  it("Must throw an error if a field isn't present in field definitions", () => {
+    const parseInvalidTree = () => {
+     const tree = new Tree({});
+      tree.parse(`<tree string="Partners"><field name="name"/></tree>`);
+    };
+
+    expect(parseInvalidTree).toThrow("Field name doesn't exist in fields defintion");
+  });
 });

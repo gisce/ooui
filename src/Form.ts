@@ -2,7 +2,7 @@ import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
-
+import { parseNodes } from "./helpers/nodeParser";
 class Form {
 
   /**
@@ -47,34 +47,17 @@ class Form {
 
   parseNode(node: Element, container: Container) {
     const widgetFactory = new WidgetFactory();
-    Array.prototype.forEach.call(node.childNodes, (child: Element) => {
-      if (child.nodeType === child.ELEMENT_NODE) {
-        let tag = child.nodeName; 
 
-        let tagAttributes: any = {};
-        Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
-          tagAttributes[attr.name] = attr.value;
-        });
+    const nodesParsed = parseNodes(node.childNodes, this._fields);
 
-        if (tag === "field") {
-          const name = child.getAttribute("name");
-          const attrWidget = child.getAttribute("widget");
-          if (attrWidget) {
-            tag = attrWidget;
-          } else if (name) {
-            tag = this._fields[name].type;
-          }
+    nodesParsed.forEach(nodeParsed => {
+      const { tag, tagAttributes, child } = nodeParsed;
+      const widget = widgetFactory.createWidget(tag, tagAttributes);
 
-          tagAttributes = { ...tagAttributes, ...this._fields[name!] };
-        }
-        
-        const widget = widgetFactory.createWidget(tag, tagAttributes);
-        
-        if (widget instanceof ContainerWidget) {
-          this.parseNode(child, widget.container);
-        }
-        container.addWidget(widget);
+      if (widget instanceof ContainerWidget) {
+        this.parseNode(child, widget.container);
       }
+      container.addWidget(widget);
     });
   }
 

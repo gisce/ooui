@@ -484,4 +484,15 @@ describe("A Form", () => {
     const char = row[1] as Char;
     expect(label.tooltip).toBe(char.tooltip);
   });
+
+  it("Must throw an error if a field isn't present in field definitions", () => {
+    const parseInvalidForm = () => {
+      const arch = '<form><field name="example" help="Tooltip" /></form>';
+      const fields = {};
+      const form = new Form(fields);
+      form.parse(arch);
+    };
+
+    expect(parseInvalidForm).toThrow("Field example doesn't exist in fields defintion");
+  });
 });
