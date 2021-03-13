@@ -39,4 +39,20 @@ describe("A Domain Parser", () => {
     expect(parsedDomain[0][1]).toBe("=");
     expect(parsedDomain[0][2]).toBe("False");
   });
+  it("should properly parse a float numeric domain", () => {
+    const parsedDomain = domainParser("[('test', '=', 50.3)]");
+    expect(Array.isArray(parsedDomain)).toBeTruthy();
+    expect(parsedDomain.length).toBe(1);
+    expect(parsedDomain[0][0]).toBe("test");
+    expect(parsedDomain[0][1]).toBe("=");
+    expect(parsedDomain[0][2]).toBe("50.3");
+  });
+  it("should properly parse a integer numeric domain", () => {
+    const parsedDomain = domainParser("[('test', '=', 15000)]");
+    expect(Array.isArray(parsedDomain)).toBeTruthy();
+    expect(parsedDomain.length).toBe(1);
+    expect(parsedDomain[0][0]).toBe("test");
+    expect(parsedDomain[0][1]).toBe("=");
+    expect(parsedDomain[0][2]).toBe("15000");
+  });
 });
