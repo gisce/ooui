@@ -30,6 +30,14 @@ var parseNodes = function (nodes, fields) {
                     }
                     tag = fields[name_1].type;
                 }
+                // We do this in order to ignore the blank domain attribute in fields and to prioritize the attributes value 
+                if (((Array.isArray(fields[name_1].domain) &&
+                    fields[name_1].domain.length === 0) ||
+                    fields[name_1].domain === false) &&
+                    tagAttributes_1["domain"] &&
+                    tagAttributes_1["domain"].length > 0) {
+                    delete fields[name_1].domain;
+                }
                 tagAttributes_1 = __assign(__assign({}, tagAttributes_1), fields[name_1]);
             }
             parsedNodes.push({ tag: tag, tagAttributes: tagAttributes_1, child: child });

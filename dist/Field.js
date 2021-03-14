@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import Widget from "./Widget";
+import { parseDomain } from "./helpers/domainParser";
 var Field = /** @class */ (function (_super) {
     __extends(Field, _super);
     function Field(props) {
@@ -57,6 +58,9 @@ var Field = /** @class */ (function (_super) {
             }
             if (props.help) {
                 _this._tooltip = props.help;
+            }
+            if (props.domain) {
+                _this._domain = parseDomain(props.domain);
             }
             if (props.nolabel &&
                 (props.nolabel === "1" ||
@@ -116,6 +120,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._tooltip = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "domain", {
+        get: function () {
+            return this._domain;
+        },
+        set: function (value) {
+            this._domain = value;
         },
         enumerable: false,
         configurable: true
