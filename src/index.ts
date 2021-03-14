@@ -24,6 +24,7 @@ import Group from "./Group";
 import Page from "./Page";
 import Separator from "./Separator";
 import Button from "./Button";
+import * as DomainParser from "./helpers/domainParser";
 
 export {
   Char,
@@ -52,4 +53,5 @@ export {
   Label,
   Separator,
   Button,
+  DomainParser,
 };
