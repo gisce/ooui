@@ -30,6 +30,17 @@ const parseNodes = (
           tag = fields[name].type;
         }
 
+        // We do this in order to ignore the blank domain attribute in fields and to prioritize the attributes value 
+        if (
+          ((Array.isArray(fields[name!].domain) &&
+            fields[name!].domain.length === 0) ||
+            fields[name!].domain === false) &&
+          tagAttributes["domain"] &&
+          tagAttributes["domain"].length > 0
+        ) {
+          delete fields[name!].domain;
+        }
+
         tagAttributes = { ...tagAttributes, ...fields[name!] };
       }
 

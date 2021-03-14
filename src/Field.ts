@@ -1,4 +1,5 @@
 import Widget from "./Widget";
+import { parseDomain } from "./helpers/domainParser";
 
 class Field extends Widget {
   /**
@@ -64,6 +65,17 @@ class Field extends Widget {
   }
 
   /**
+   * Domain
+   */
+  _domain?: Array<any[]>;
+  get domain(): Array<any[]> | undefined {
+    return this._domain;
+  }
+  set domain(value: Array<any[]> | undefined) {
+    this._domain = value;
+  }
+
+  /**
    * Activated (default is true)
    */
   _activated: boolean = true;
@@ -95,6 +107,10 @@ class Field extends Widget {
 
       if (props.help) {
         this._tooltip = props.help;
+      }
+
+      if (props.domain) {
+        this._domain = parseDomain(props.domain);
       }
 
       if (
