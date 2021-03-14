@@ -42,4 +42,24 @@ const parseDomain = (domainValue: any) => {
   return parsedDomain;
 };
 
-export default parseDomain;
+const getParamsForDomain = ({
+  values,
+  domain,
+}: {
+  values: any;
+  domain: Array<any[]>;
+}) => {
+  const valuesToSearchIn = { ...values, active_id: values.id };
+
+  return domain.map((entry: any[]) => {
+    const [field, operator, value] = entry;
+    let resolvedValue = value;
+    if (typeof value === "string" && value.indexOf("{") !== -1) {
+      const key = value.replace("{", "").replace("}", "");
+      if (valuesToSearchIn[key]) resolvedValue = valuesToSearchIn[key];
+    }
+    return [field, operator, resolvedValue];
+  });
+};
+
+export { parseDomain, getParamsForDomain };
