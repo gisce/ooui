@@ -27,12 +27,26 @@ var One2many = /** @class */ (function (_super) {
          * Relation
          */
         _this._relation = "";
+        /**
+         * Views
+         */
+        _this._views = null;
+        /**
+         * Mode
+         */
+        _this._mode = [];
         if (props) {
             if (props.size) {
                 _this._size = props.size;
             }
             if (props.relation) {
                 _this._relation = props.relation;
+            }
+            if (props.mode) {
+                _this._mode = props.mode.split(",");
+            }
+            if (props.views) {
+                _this._views = props.views;
             }
         }
         return _this;
@@ -53,6 +67,26 @@ var One2many = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._relation = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(One2many.prototype, "views", {
+        get: function () {
+            return this._views;
+        },
+        set: function (value) {
+            this._views = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(One2many.prototype, "mode", {
+        get: function () {
+            return this._mode;
+        },
+        set: function (value) {
+            this._mode = value;
         },
         enumerable: false,
         configurable: true

@@ -26,6 +26,28 @@ class One2many extends Field {
     this._relation = value;
   }
 
+  /**
+   * Views
+   */
+  _views: any = null;
+  get views(): any {
+    return this._views;
+  }
+  set views(value: any) {
+    this._views = value;
+  }
+
+  /**
+   * Mode
+   */
+  _mode: Array<string> = [];
+  get mode(): Array<string> {
+    return this._mode;
+  }
+  set mode(value: Array<string>) {
+    this._mode = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -36,6 +58,14 @@ class One2many extends Field {
 
       if (props.relation) {
         this._relation = props.relation;
+      }
+
+      if (props.mode) {
+        this._mode = props.mode.split(",");
+      }
+
+      if (props.views) {
+        this._views = props.views;
       }
     }
   }
