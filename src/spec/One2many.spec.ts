@@ -34,7 +34,7 @@ describe("A One2many", () => {
     expect(widget.relation).toBe("res.country");
   });
 
-  it("should properly set mode field", () => {
+  it("should properly set mode field for tree and form", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       name: "one2many1",
@@ -48,6 +48,22 @@ describe("A One2many", () => {
     expect(Array.isArray(widget.mode)).toBeTruthy();
     expect(widget.mode.length).toBe(2);
     expect(widget.mode.indexOf('form')).not.toBe(-1);
+    expect(widget.mode.indexOf('tree')).not.toBe(-1);
+  });
+
+  it("should properly set mode field for tree", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      name: "one2many1",
+      relation: "res.country",
+      mode: "tree",
+    };
+
+    const widget = widgetFactory.createWidget("one2many", props);
+
+    expect(widget.mode).toBeTruthy();
+    expect(Array.isArray(widget.mode)).toBeTruthy();
+    expect(widget.mode.length).toBe(1);
     expect(widget.mode.indexOf('tree')).not.toBe(-1);
   });
 
