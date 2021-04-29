@@ -3,6 +3,7 @@ import { parseNodes } from "./helpers/nodeParser";
 var Tree = /** @class */ (function () {
     function Tree(fields) {
         this._columns = [];
+        this._string = null;
         this._fields = fields;
     }
     Object.defineProperty(Tree.prototype, "fields", {
@@ -19,10 +20,18 @@ var Tree = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Tree.prototype, "string", {
+        get: function () {
+            return this._string;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Tree.prototype.parse = function (xml) {
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this.parseNode(view.documentElement);
+        this._string = view.documentElement.getAttribute("string");
     };
     Tree.prototype.parseNode = function (node) {
         var _this = this;

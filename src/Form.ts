@@ -18,6 +18,11 @@ class Form {
     return this._container;
   }
 
+  _string: string | null = null;
+  get string(): string | null {
+    return this._string;
+  }
+
   /*
   _widgets = {
     *[Symbol.iterator]() {
@@ -43,6 +48,7 @@ class Form {
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
     this.parseNode(view.documentElement, this._container);
+    this._string = view.documentElement.getAttribute("string");
   }
 
   parseNode(node: Element, container: Container) {

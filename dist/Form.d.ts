@@ -8,6 +8,8 @@ declare class Form {
     get fields(): any;
     _container: Container;
     get container(): Container;
+    _string: string | null;
+    get string(): string | null;
     constructor(fields: Object, columns?: number);
     parse(xml: string): void;
     parseNode(node: Element, container: Container): void;

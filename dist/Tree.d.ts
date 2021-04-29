@@ -7,6 +7,8 @@ declare class Tree {
     get fields(): any;
     _columns: Array<any>;
     get columns(): Array<any>;
+    _string: string | null;
+    get string(): string | null;
     constructor(fields: Object);
     parse(xml: string): void;
     parseNode(node: Element): void;

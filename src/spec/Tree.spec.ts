@@ -80,10 +80,44 @@ describe("A Tree", () => {
   });
   it("Must throw an error if a field isn't present in field definitions", () => {
     const parseInvalidTree = () => {
-     const tree = new Tree({});
+      const tree = new Tree({});
       tree.parse(`<tree string="Partners"><field name="name"/></tree>`);
     };
 
-    expect(parseInvalidTree).toThrow("Field name doesn't exist in fields defintion");
+    expect(parseInvalidTree).toThrow(
+      "Field name doesn't exist in fields defintion"
+    );
+  });
+
+  it("Should parse tree string title properly", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(`<tree string="Partners"><field name="name"/></tree>`);
+    const treeTitle = tree.string;
+    expect(treeTitle).toBe("Partners");
+  });
+
+  it("Should parse tree string title as null if we don't pass it", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(`<tree><field name="name"/></tree>`);
+    const treeTitle = tree.string;
+    expect(treeTitle).toBeNull();
   });
 });

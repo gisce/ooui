@@ -533,4 +533,37 @@ describe("A Form", () => {
     expect(field.domain!.length).toBe(1);
     expect(field.domain![0].length).toBe(3);
   });
+
+  it("Should parse form string title properly", () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <notebook>
+            <page string="Page1" col="8">
+                <field colspan="8" name="char1" />
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const formTitle = form.string;
+    expect(formTitle).toBe("Form1");
+  });
+
+  it("Should parse form string title as null if we don't pass it", () => {
+    const arch =
+      '<form><field name="field"/><newline /><field name="field" readonly="0"/></form>';
+    const fields = {
+      field: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    const formTitle = form.string;
+    expect(formTitle).toBeNull();
+  });
 });

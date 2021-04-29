@@ -16,6 +16,11 @@ class Tree {
     return this._columns;
   }
 
+  _string: string | null = null;
+  get string(): string | null {
+    return this._string;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }
@@ -24,6 +29,7 @@ class Tree {
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
     this.parseNode(view.documentElement);
+    this._string = view.documentElement.getAttribute("string");
   }
 
   parseNode(node: Element) {

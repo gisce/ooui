@@ -20,6 +20,7 @@ var Form = /** @class */ (function () {
     */
     function Form(fields, columns) {
         if (columns === void 0) { columns = 8; }
+        this._string = null;
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -37,10 +38,18 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Form.prototype, "string", {
+        get: function () {
+            return this._string;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Form.prototype.parse = function (xml) {
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this.parseNode(view.documentElement, this._container);
+        this._string = view.documentElement.getAttribute("string");
     };
     Form.prototype.parseNode = function (node, container) {
         var _this = this;
