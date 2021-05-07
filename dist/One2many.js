@@ -35,6 +35,7 @@ var One2many = /** @class */ (function (_super) {
          * Mode
          */
         _this._mode = [];
+        _this.colspan = One2many._defaultColspan;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
@@ -47,6 +48,9 @@ var One2many = /** @class */ (function (_super) {
             }
             if (props.views) {
                 _this._views = props.views;
+            }
+            if (props.colspan) {
+                _this.colspan = props.colspan;
             }
         }
         return _this;
@@ -91,6 +95,17 @@ var One2many = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(One2many, "defaultColspan", {
+        get: function () {
+            return One2many._defaultColspan;
+        },
+        set: function (value) {
+            One2many._defaultColspan = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    One2many._defaultColspan = 4;
     return One2many;
 }(Field));
 export default One2many;
