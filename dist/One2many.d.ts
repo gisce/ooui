@@ -27,9 +27,10 @@ declare class One2many extends Field {
     _mode: Array<string>;
     get mode(): Array<string>;
     set mode(value: Array<string>);
-    static _defaultColspan: number;
-    static get defaultColspan(): number;
-    static set defaultColspan(value: number);
+    /**
+     * Must expand widget
+     */
+    _mustExpand: boolean;
     constructor(props: any);
 }
 export default One2many;

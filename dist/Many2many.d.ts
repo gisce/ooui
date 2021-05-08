@@ -15,6 +15,10 @@ declare class Many2many extends Field {
     _relation: string;
     get relation(): string;
     set relation(value: string);
+    /**
+     * Must expand widget
+     */
+    _mustExpand: boolean;
     constructor(props: any);
 }
 export default Many2many;

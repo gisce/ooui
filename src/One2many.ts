@@ -48,17 +48,13 @@ class One2many extends Field {
     this._mode = value;
   }
 
-  static _defaultColspan: number = 4;
-  static get defaultColspan(): number {
-    return One2many._defaultColspan;
-  }
-  static set defaultColspan(value: number) {
-    One2many._defaultColspan = value;
-  }
+  /**
+   * Must expand widget
+   */
+   _mustExpand: boolean = true;
 
   constructor(props: any) {
     super(props);
-    this.colspan = One2many._defaultColspan;
 
     if (props) {
       if (props.size) {

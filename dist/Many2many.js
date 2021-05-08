@@ -27,6 +27,10 @@ var Many2many = /** @class */ (function (_super) {
          * Relation
          */
         _this._relation = "";
+        /**
+         * Must expand widget
+         */
+        _this._mustExpand = true;
         if (props) {
             if (props.size) {
                 _this._size = props.size;

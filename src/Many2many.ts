@@ -26,6 +26,11 @@ class Many2many extends Field {
     this._relation = value;
   }
 
+  /**
+   * Must expand widget
+   */
+  _mustExpand: boolean = true;
+
   constructor(props: any) {
     super(props);
 
