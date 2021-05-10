@@ -76,6 +76,7 @@ var WidgetFactory = /** @class */ (function () {
                 this._widgetClass = Many2many;
                 break;
             case "one2many":
+            case "one2many_list":
                 this._widgetClass = One2many;
                 break;
             case "newline":
