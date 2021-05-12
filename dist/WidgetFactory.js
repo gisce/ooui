@@ -85,6 +85,10 @@ var WidgetFactory = /** @class */ (function () {
             case "separator":
                 this._widgetClass = Separator;
                 break;
+            case "url":
+                this._widgetClass = Char;
+            case "email":
+                this._widgetClass = Char;
             default:
                 this._widgetClass = Widget;
                 break;
