@@ -585,4 +585,23 @@ describe("A Form", () => {
     const field2 = form.findById("field2")!;
     expect(field2.readOnly).toBeTruthy();
   });
+
+  it("Should parse a readonly form with its children set to readonly too", () => {
+    const arch =
+      '<form><group><field name="field1"/><newline /><field name="field2" readonly="0"/></group></form>';
+    const fields = {
+      field1: {
+        type: "char",
+      },
+      field2: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, true);
+    const field1 = form.findById("field1")!;
+    expect(field1.readOnly).toBeTruthy();
+    const field2 = form.findById("field2")!;
+    expect(field2.readOnly).toBeTruthy();
+  });
 });

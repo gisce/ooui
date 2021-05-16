@@ -21,6 +21,10 @@ var Form = /** @class */ (function () {
     function Form(fields, columns) {
         if (columns === void 0) { columns = 8; }
         this._string = null;
+        /**
+         * Determines if form is read only (default is false)
+         */
+        this._readOnly = false;
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -45,11 +49,23 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Form.prototype.parse = function (xml) {
+    Object.defineProperty(Form.prototype, "readOnly", {
+        get: function () {
+            return this._readOnly;
+        },
+        set: function (value) {
+            this._readOnly = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Form.prototype.parse = function (xml, readOnly) {
+        if (readOnly === void 0) { readOnly = false; }
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
-        this.parseNode(view.documentElement, this._container);
         this._string = view.documentElement.getAttribute("string");
+        this._readOnly = readOnly;
+        this.parseNode(view.documentElement, this._container);
     };
     Form.prototype.parseNode = function (node, container) {
         var _this = this;
@@ -61,6 +77,8 @@ var Form = /** @class */ (function () {
             if (widget instanceof ContainerWidget) {
                 _this.parseNode(child, widget.container);
             }
+            // If the form is set to readonly, reflect it to its children
+            widget.readOnly = widget.readOnly || _this.readOnly;
             container.addWidget(widget);
         });
     };
