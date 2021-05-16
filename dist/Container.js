@@ -2,13 +2,15 @@ import Field from "./Field";
 import NewLine from "./NewLine";
 import Label from "./Label";
 var Container = /** @class */ (function () {
-    function Container(columns, colspan) {
+    function Container(columns, colspan, readOnly) {
         if (columns === void 0) { columns = 4; }
         if (colspan === void 0) { colspan = 6; }
+        if (readOnly === void 0) { readOnly = false; }
         this._columns = columns;
         this._colspan = colspan;
         this._rows = [[]];
         this._index = 0;
+        this._readOnly = readOnly;
     }
     Object.defineProperty(Container.prototype, "columns", {
         get: function () {
@@ -47,11 +49,25 @@ var Container = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Container.prototype, "readOnly", {
+        get: function () {
+            return this._readOnly;
+        },
+        set: function (value) {
+            this._readOnly = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      * Returns the next free position
      */
     Container.prototype.freePosition = function () {
-        var span = this._rows[this._index].filter(function (el) { return !el.invisible; }).reduce(function (prev, current) {
+        var span = this._rows[this._index]
+            .filter(function (el) {
+            return !el.invisible;
+        })
+            .reduce(function (prev, current) {
             return prev + current.colspan;
         }, 0);
         return this._columns - span;
@@ -69,6 +85,8 @@ var Container = /** @class */ (function () {
             // colspan to fit container columns.
             widget.colspan = this._columns;
         }
+        // If the container is set to readonly, reflect it to its children
+        widget.readOnly = widget.readOnly || this.readOnly;
         // For fields without nolabel we add a preceding label widget
         if (addLabel && widget instanceof Field && !widget.nolabel) {
             if (widget.colspan > 1) {

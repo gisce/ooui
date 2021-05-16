@@ -23,7 +23,13 @@ declare class Container {
     set rows(value: Widget[][]);
     _index: number;
     get index(): number;
-    constructor(columns?: number, colspan?: number);
+    /**
+     * Determines if widget is read only (default is false)
+     */
+    _readOnly: boolean;
+    get readOnly(): boolean;
+    set readOnly(value: boolean);
+    constructor(columns?: number, colspan?: number, readOnly?: boolean);
     /**
      * Returns the next free position
      */

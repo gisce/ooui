@@ -27,7 +27,7 @@ var ContainerWidget = /** @class */ (function (_super) {
          * Container label
          */
         _this._label = "";
-        _this._container = new Container(props && props.col, ContainerWidget._defaultColspan);
+        _this._container = new Container(props && props.col, ContainerWidget._defaultColspan, _this.readOnly);
         if (props) {
             if (props.name) {
                 _this._id = props.name;

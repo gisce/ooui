@@ -566,4 +566,23 @@ describe("A Form", () => {
     const formTitle = form.string;
     expect(formTitle).toBeNull();
   });
+
+  it("Should parse a readonly group with its children set to readonly too", () => {
+    const arch =
+      '<form><group readonly="1"><field name="field1"/><newline /><field name="field2" readonly="0"/></group></form>';
+    const fields = {
+      field1: {
+        type: "char",
+      },
+      field2: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    const field1 = form.findById("field1")!;
+    expect(field1.readOnly).toBeTruthy();
+    const field2 = form.findById("field2")!;
+    expect(field2.readOnly).toBeTruthy();
+  });
 });

@@ -2,10 +2,9 @@ import Widget from "./Widget";
 import Container from "./Container";
 
 class ContainerWidget extends Widget {
-
   /**
    * Field identifier
-   * 
+   *
    * Corresponds to the field's name attribute from xml
    */
   _id: string = "";
@@ -56,7 +55,11 @@ class ContainerWidget extends Widget {
   constructor(props?: any) {
     super(props);
 
-    this._container = new Container(props && props.col, ContainerWidget._defaultColspan);
+    this._container = new Container(
+      props && props.col,
+      ContainerWidget._defaultColspan,
+      this.readOnly
+    );
 
     if (props) {
       if (props.name) {
@@ -80,7 +83,7 @@ class ContainerWidget extends Widget {
     if (id === this.id) {
       return this;
     }
-    
+
     return this.container.findById(id);
   }
 }

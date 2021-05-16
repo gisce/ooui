@@ -46,20 +46,40 @@ class Container {
     return this._index;
   }
 
-  constructor(columns: number = 4, colspan: number = 6) {
+  /**
+   * Determines if widget is read only (default is false)
+   */
+  _readOnly: boolean;
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(value: boolean) {
+    this._readOnly = value;
+  }
+
+  constructor(
+    columns: number = 4,
+    colspan: number = 6,
+    readOnly: boolean = false
+  ) {
     this._columns = columns;
     this._colspan = colspan;
     this._rows = [[]];
     this._index = 0;
+    this._readOnly = readOnly;
   }
 
   /**
    * Returns the next free position
    */
   freePosition(): number {
-    const span = this._rows[this._index].filter(el => {return !el.invisible}).reduce((prev, current) => {
-      return prev + current.colspan;
-    }, 0);
+    const span = this._rows[this._index]
+      .filter((el) => {
+        return !el.invisible;
+      })
+      .reduce((prev, current) => {
+        return prev + current.colspan;
+      }, 0);
     return this._columns - span;
   }
 
@@ -78,6 +98,9 @@ class Container {
       // colspan to fit container columns.
       widget.colspan = this._columns;
     }
+
+    // If the container is set to readonly, reflect it to its children
+    widget.readOnly = widget.readOnly || this.readOnly;
 
     // For fields without nolabel we add a preceding label widget
     if (addLabel && widget instanceof Field && !widget.nolabel) {
@@ -133,7 +156,7 @@ class Container {
               return;
             }
             if (item) {
-                r = item.findById(id);
+              r = item.findById(id);
             }
           });
         }
