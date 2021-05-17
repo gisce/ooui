@@ -49,7 +49,7 @@ class Form {
   }
   */
 
-  constructor(fields: Object, columns: number = 8) {
+  constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
     this._container = new Container(columns);
   }

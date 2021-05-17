@@ -19,7 +19,7 @@ var Form = /** @class */ (function () {
     }
     */
     function Form(fields, columns) {
-        if (columns === void 0) { columns = 8; }
+        if (columns === void 0) { columns = 4; }
         this._string = null;
         /**
          * Determines if form is read only (default is false)
