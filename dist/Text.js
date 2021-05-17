@@ -22,10 +22,17 @@ var Text = /** @class */ (function (_super) {
         /**
          * Field place holder
          */
-        _this._placeholder = '';
+        _this._placeholder = "";
+        /**
+         * Must expand widget
+         */
+        _this._mustExpand = false;
         if (props) {
             if (props.placeholder) {
                 _this._placeholder = props.placeholder;
+            }
+            if (!props.colspan) {
+                _this._mustExpand = true;
             }
         }
         return _this;
@@ -36,6 +43,16 @@ var Text = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._placeholder = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Text.prototype, "mustExpand", {
+        get: function () {
+            return this._mustExpand;
+        },
+        set: function (value) {
+            this._mustExpand = value;
         },
         enumerable: false,
         configurable: true

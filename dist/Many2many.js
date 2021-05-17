@@ -30,13 +30,16 @@ var Many2many = /** @class */ (function (_super) {
         /**
          * Must expand widget
          */
-        _this._mustExpand = true;
+        _this._mustExpand = false;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
             }
             if (props.relation) {
                 _this._relation = props.relation;
+            }
+            if (!props.colspan) {
+                _this._mustExpand = true;
             }
         }
         return _this;
@@ -57,6 +60,16 @@ var Many2many = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._relation = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Many2many.prototype, "mustExpand", {
+        get: function () {
+            return this._mustExpand;
+        },
+        set: function (value) {
+            this._mustExpand = value;
         },
         enumerable: false,
         configurable: true

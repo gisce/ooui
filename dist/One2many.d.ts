@@ -31,6 +31,8 @@ declare class One2many extends Field {
      * Must expand widget
      */
     _mustExpand: boolean;
+    get mustExpand(): boolean;
+    set mustExpand(value: boolean);
     constructor(props: any);
 }
 export default One2many;

@@ -51,7 +51,13 @@ class One2many extends Field {
   /**
    * Must expand widget
    */
-   _mustExpand: boolean = true;
+  _mustExpand: boolean = false;
+  get mustExpand(): boolean {
+    return this._mustExpand;
+  }
+  set mustExpand(value: boolean) {
+    this._mustExpand = value;
+  }
 
   constructor(props: any) {
     super(props);
@@ -75,6 +81,8 @@ class One2many extends Field {
 
       if (props.colspan) {
         this.colspan = props.colspan;
+      } else {
+        this._mustExpand = true;
       }
     }
   }

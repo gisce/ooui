@@ -21,6 +21,12 @@ declare class ContainerWidget extends Widget {
     get colspan(): number;
     set colspan(value: number);
     /**
+     * Must expand widget
+     */
+    _mustExpand: boolean;
+    get mustExpand(): boolean;
+    set mustExpand(value: boolean);
+    /**
      * Container label
      */
     _label: string;

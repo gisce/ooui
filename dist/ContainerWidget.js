@@ -24,6 +24,10 @@ var ContainerWidget = /** @class */ (function (_super) {
          */
         _this._id = "";
         /**
+         * Must expand widget
+         */
+        _this._mustExpand = false;
+        /**
          * Container label
          */
         _this._label = "";
@@ -34,6 +38,9 @@ var ContainerWidget = /** @class */ (function (_super) {
             }
             if (props.colspan) {
                 _this._container.colspan = +props.colspan;
+            }
+            else {
+                _this._mustExpand = true;
             }
             if (props.string) {
                 _this._label = props.string;
@@ -77,6 +84,16 @@ var ContainerWidget = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._container.colspan = +value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ContainerWidget.prototype, "mustExpand", {
+        get: function () {
+            return this._mustExpand;
+        },
+        set: function (value) {
+            this._mustExpand = value;
         },
         enumerable: false,
         configurable: true

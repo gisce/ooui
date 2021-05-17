@@ -1,7 +1,6 @@
 import ContainerWidget from "./ContainerWidget";
 
 class Notebook extends ContainerWidget {
-
   static _defaultColspan: number = 3;
   static get defaultColspan(): number {
     return Notebook._defaultColspan;

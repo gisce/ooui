@@ -38,7 +38,7 @@ var One2many = /** @class */ (function (_super) {
         /**
          * Must expand widget
          */
-        _this._mustExpand = true;
+        _this._mustExpand = false;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
@@ -54,6 +54,9 @@ var One2many = /** @class */ (function (_super) {
             }
             if (props.colspan) {
                 _this.colspan = props.colspan;
+            }
+            else {
+                _this._mustExpand = true;
             }
         }
         return _this;
@@ -94,6 +97,16 @@ var One2many = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._mode = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(One2many.prototype, "mustExpand", {
+        get: function () {
+            return this._mustExpand;
+        },
+        set: function (value) {
+            this._mustExpand = value;
         },
         enumerable: false,
         configurable: true

@@ -42,6 +42,17 @@ class ContainerWidget extends Widget {
   }
 
   /**
+   * Must expand widget
+   */
+  _mustExpand: boolean = false;
+  get mustExpand(): boolean {
+    return this._mustExpand;
+  }
+  set mustExpand(value: boolean) {
+    this._mustExpand = value;
+  }
+
+  /**
    * Container label
    */
   _label: string = "";
@@ -68,7 +79,10 @@ class ContainerWidget extends Widget {
 
       if (props.colspan) {
         this._container.colspan = +props.colspan;
+      } else {
+        this._mustExpand = true;
       }
+
       if (props.string) {
         this._label = props.string;
       }
