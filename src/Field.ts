@@ -123,7 +123,7 @@ class Field extends Widget {
 
       if (
         props.required &&
-        (props.required === "1" || props.required === true)
+        (props.required === "1" || props.required === true || props.required === "True")
       ) {
         this._required = true;
       }

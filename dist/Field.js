@@ -68,7 +68,7 @@ var Field = /** @class */ (function (_super) {
                 _this._nolabel = true;
             }
             if (props.required &&
-                (props.required === "1" || props.required === true)) {
+                (props.required === "1" || props.required === true || props.required === "True")) {
                 _this._required = true;
             }
         }
