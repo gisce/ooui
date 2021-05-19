@@ -4,12 +4,12 @@ class Button extends Field {
   /**
    * Type (primary or default)
    */
-  _type: "primary" | "default" = "default";
-  get type() {
-    return this._type;
+  _buttonType: "primary" | "default" = "default";
+  get buttonType() {
+    return this._buttonType;
   }
-  set type(value) {
-    this._type = value;
+  set buttonType(value) {
+    this._buttonType = value;
   }
 
   /**

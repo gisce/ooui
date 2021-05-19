@@ -30,7 +30,7 @@ var Button = /** @class */ (function (_super) {
         /**
          * Type (primary or default)
          */
-        _this._type = "default";
+        _this._buttonType = "default";
         /**
          * Button caption
          */
@@ -42,12 +42,12 @@ var Button = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Object.defineProperty(Button.prototype, "type", {
+    Object.defineProperty(Button.prototype, "buttonType", {
         get: function () {
-            return this._type;
+            return this._buttonType;
         },
         set: function (value) {
-            this._type = value;
+            this._buttonType = value;
         },
         enumerable: false,
         configurable: true

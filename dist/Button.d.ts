@@ -3,9 +3,9 @@ declare class Button extends Field {
     /**
      * Type (primary or default)
      */
-    _type: "primary" | "default";
-    get type(): "primary" | "default";
-    set type(value: "primary" | "default");
+    _buttonType: "primary" | "default";
+    get buttonType(): "primary" | "default";
+    set buttonType(value: "primary" | "default");
     /**
      * Button caption
      */
