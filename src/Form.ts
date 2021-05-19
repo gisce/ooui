@@ -23,6 +23,14 @@ class Form {
   }
 
   /**
+   * Widget type
+   */
+  _type: string = "form";
+  get type(): string {
+    return this._type;
+  }
+
+  /**
    * Determines if form is read only (default is false)
    */
   _readOnly: boolean = false;

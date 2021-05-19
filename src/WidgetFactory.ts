@@ -109,11 +109,11 @@ class WidgetFactory {
       case "notebook":
       case "page":
       case "group":
-        return new this._widgetClass(props);
+        return new this._widgetClass({...props, type});
 
       // Generic case
       default:
-        return new this._widgetClass(props);
+        return new this._widgetClass({...props, type});
     }
   }
 }

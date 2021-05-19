@@ -43,6 +43,17 @@ abstract class Widget {
     this._invisible = value;
   }
 
+  /**
+   * Widget type
+   */
+  _type: string = "";
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
@@ -53,7 +64,11 @@ abstract class Widget {
         this._colspan = +props.colspan;
       }
       if (props.readonly) {
-        if (props.readonly === "1" || props.readonly === 1 || props.readonly === true) {
+        if (
+          props.readonly === "1" ||
+          props.readonly === 1 ||
+          props.readonly === true
+        ) {
           this._readOnly = true;
         }
       }
@@ -65,6 +80,9 @@ abstract class Widget {
         ) {
           this._invisible = true;
         }
+      }
+      if (props.type) {
+        this._type = props.type;
       }
     }
   }

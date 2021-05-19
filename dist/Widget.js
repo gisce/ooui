@@ -1,5 +1,9 @@
 var Widget = /** @class */ (function () {
     function Widget(props) {
+        /**
+         * Widget type
+         */
+        this._type = "";
         this._colspan = Widget._defaultColspan;
         this._readOnly = false;
         this._invisible = false;
@@ -8,7 +12,9 @@ var Widget = /** @class */ (function () {
                 this._colspan = +props.colspan;
             }
             if (props.readonly) {
-                if (props.readonly === "1" || props.readonly === 1 || props.readonly === true) {
+                if (props.readonly === "1" ||
+                    props.readonly === 1 ||
+                    props.readonly === true) {
                     this._readOnly = true;
                 }
             }
@@ -18,6 +24,9 @@ var Widget = /** @class */ (function () {
                     props.invisible === true) {
                     this._invisible = true;
                 }
+            }
+            if (props.type) {
+                this._type = props.type;
             }
         }
     }
@@ -57,6 +66,16 @@ var Widget = /** @class */ (function () {
         },
         set: function (value) {
             this._invisible = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Widget.prototype, "type", {
+        get: function () {
+            return this._type;
+        },
+        set: function (value) {
+            this._type = value;
         },
         enumerable: false,
         configurable: true

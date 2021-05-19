@@ -99,6 +99,7 @@ var Container = /** @class */ (function () {
                 help: widget.tooltip,
                 fieldForLabel: widget.id,
             });
+            label.type = "label";
             widgetsToAdd.push(label);
             widgetsToAdd.push(widget);
         }

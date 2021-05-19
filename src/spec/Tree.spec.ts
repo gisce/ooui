@@ -120,4 +120,19 @@ describe("A Tree", () => {
     const treeTitle = tree.string;
     expect(treeTitle).toBeNull();
   });
+
+  it("Should be able to retrieve type from Tree instance", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(`<tree><field name="name"/></tree>`);
+    expect(tree.type).toBe("tree");
+  });
 });

@@ -29,4 +29,12 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("newline", props);
         expect(widget).toBeInstanceOf(NewLine);
     });
+
+    it('should be able to retrieve widget type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("newline", props);
+        expect(widget).toBeInstanceOf(NewLine);
+        expect(widget.type).toBe("newline");
+    });
 });

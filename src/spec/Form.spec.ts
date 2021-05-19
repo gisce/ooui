@@ -604,4 +604,20 @@ describe("A Form", () => {
     const field2 = form.findById("field2")!;
     expect(field2.readOnly).toBeTruthy();
   });
+
+  it("Should be able to retrieve type from From instance", () => {
+    const arch =
+      '<form><group><field name="field1"/><newline /><field name="field2" readonly="0"/></group></form>';
+    const fields = {
+      field1: {
+        type: "char",
+      },
+      field2: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch);
+    expect(form.type).toBe("form");
+  });
 });

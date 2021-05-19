@@ -22,6 +22,10 @@ var Form = /** @class */ (function () {
         if (columns === void 0) { columns = 4; }
         this._string = null;
         /**
+         * Widget type
+         */
+        this._type = "form";
+        /**
          * Determines if form is read only (default is false)
          */
         this._readOnly = false;
@@ -45,6 +49,13 @@ var Form = /** @class */ (function () {
     Object.defineProperty(Form.prototype, "string", {
         get: function () {
             return this._string;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Form.prototype, "type", {
+        get: function () {
+            return this._type;
         },
         enumerable: false,
         configurable: true

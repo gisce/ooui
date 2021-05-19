@@ -23,6 +23,12 @@ declare abstract class Widget {
     _invisible: boolean;
     get invisible(): boolean;
     set invisible(value: boolean);
+    /**
+     * Widget type
+     */
+    _type: string;
+    get type(): string;
+    set type(value: string);
     constructor(props?: any);
     abstract findById(id: string): Widget | null;
 }

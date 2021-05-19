@@ -4,6 +4,10 @@ var Tree = /** @class */ (function () {
     function Tree(fields) {
         this._columns = [];
         this._string = null;
+        /**
+         * Widget type
+         */
+        this._type = "tree";
         this._fields = fields;
     }
     Object.defineProperty(Tree.prototype, "fields", {
@@ -23,6 +27,13 @@ var Tree = /** @class */ (function () {
     Object.defineProperty(Tree.prototype, "string", {
         get: function () {
             return this._string;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Tree.prototype, "type", {
+        get: function () {
+            return this._type;
         },
         enumerable: false,
         configurable: true

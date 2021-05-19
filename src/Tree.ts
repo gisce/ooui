@@ -21,6 +21,14 @@ class Tree {
     return this._string;
   }
 
+  /**
+   * Widget type
+   */
+  _type: string = "tree";
+  get type(): string {
+    return this._type;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }

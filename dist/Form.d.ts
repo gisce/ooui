@@ -11,6 +11,11 @@ declare class Form {
     _string: string | null;
     get string(): string | null;
     /**
+     * Widget type
+     */
+    _type: string;
+    get type(): string;
+    /**
      * Determines if form is read only (default is false)
      */
     _readOnly: boolean;

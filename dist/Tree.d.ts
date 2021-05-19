@@ -9,6 +9,11 @@ declare class Tree {
     get columns(): Array<any>;
     _string: string | null;
     get string(): string | null;
+    /**
+     * Widget type
+     */
+    _type: string;
+    get type(): string;
     constructor(fields: Object);
     parse(xml: string): void;
     parseNode(node: Element): void;
