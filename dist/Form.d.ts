@@ -1,5 +1,9 @@
 import Container from "./Container";
 import Widget from "./Widget";
+export declare type FormParseOptions = {
+    readOnly?: boolean;
+    values?: any;
+};
 declare class Form {
     /**
      * Object containing fields specification of the form.
@@ -22,8 +26,12 @@ declare class Form {
     get readOnly(): boolean;
     set readOnly(value: boolean);
     constructor(fields: Object, columns?: number);
-    parse(xml: string, readOnly?: boolean): void;
-    parseNode(node: Element, container: Container): void;
+    parse(xml: string, options?: FormParseOptions): void;
+    parseNode({ node, container, values, }: {
+        node: Element;
+        container: Container;
+        values: any;
+    }): void;
     /**
      * Calls container's findById method to find the widgets matching with param id
      * @param {string} id id to find

@@ -3,6 +3,13 @@ import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 import { parseNodes } from "./helpers/nodeParser";
+import { evaluateAttributes } from "./helpers/attributeParser";
+
+export type FormParseOptions = {
+  readOnly?: boolean;
+  values?: any;
+};
+
 class Form {
   /**
    * Object containing fields specification of the form.
@@ -62,25 +69,44 @@ class Form {
     this._container = new Container(columns);
   }
 
-  parse(xml: string, readOnly: boolean = false) {
+  parse(xml: string, options?: FormParseOptions) {
+    const { values = {}, readOnly = false } = options || {};
+
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
     this._string = view.documentElement.getAttribute("string");
     this._readOnly = readOnly;
-    this.parseNode(view.documentElement, this._container);
+    this.parseNode({
+      node: view.documentElement,
+      container: this._container,
+      values,
+    });
   }
 
-  parseNode(node: Element, container: Container) {
+  parseNode({
+    node,
+    container,
+    values,
+  }: {
+    node: Element;
+    container: Container;
+    values: any;
+  }) {
     const widgetFactory = new WidgetFactory();
 
     const nodesParsed = parseNodes(node.childNodes, this._fields);
 
     nodesParsed.forEach((nodeParsed) => {
       const { tag, tagAttributes, child } = nodeParsed;
-      const widget = widgetFactory.createWidget(tag, tagAttributes);
+      const evaluatedTagAttributes = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields: this._fields
+      });
+      const widget = widgetFactory.createWidget(tag, evaluatedTagAttributes);
 
       if (widget instanceof ContainerWidget) {
-        this.parseNode(child, widget.container);
+        this.parseNode({ node: child, container: widget.container, values });
       }
 
       // If the form is set to readonly, reflect it to its children

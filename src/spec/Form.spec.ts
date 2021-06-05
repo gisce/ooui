@@ -598,7 +598,7 @@ describe("A Form", () => {
       },
     };
     const form = new Form(fields);
-    form.parse(arch, true);
+    form.parse(arch, { readOnly: true });
     const field1 = form.findById("field1")!;
     expect(field1.readOnly).toBeTruthy();
     const field2 = form.findById("field2")!;
@@ -619,5 +619,26 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(arch);
     expect(form.type).toBe("form");
+  });
+
+  it("Should be able to parse attributes", () => {
+    const arch =
+      "<form><group><field name=\"field1\" attrs=\"{'invisible':[('per_enviar', '=', 'postal')]}\"/><newline /><field name=\"field2\" readonly=\"0\"/></group></form>";
+    const fields = {
+      field1: {
+        type: "char",
+      },
+      field2: {
+        type: "char",
+      },
+      per_enviar: {
+        type: "char",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values: { per_enviar: "postal" } });
+    expect(form.type).toBe("form");
+    const field1 = form.findById("field1")!;
+    expect(field1.invisible).toBeTruthy();
   });
 });

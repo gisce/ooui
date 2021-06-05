@@ -2,6 +2,7 @@ import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import { parseNodes } from "./helpers/nodeParser";
+import { evaluateAttributes } from "./helpers/attributeParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -70,23 +71,33 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Form.prototype.parse = function (xml, readOnly) {
-        if (readOnly === void 0) { readOnly = false; }
+    Form.prototype.parse = function (xml, options) {
+        var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c;
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this._string = view.documentElement.getAttribute("string");
         this._readOnly = readOnly;
-        this.parseNode(view.documentElement, this._container);
+        this.parseNode({
+            node: view.documentElement,
+            container: this._container,
+            values: values,
+        });
     };
-    Form.prototype.parseNode = function (node, container) {
+    Form.prototype.parseNode = function (_a) {
         var _this = this;
+        var node = _a.node, container = _a.container, values = _a.values;
         var widgetFactory = new WidgetFactory();
         var nodesParsed = parseNodes(node.childNodes, this._fields);
         nodesParsed.forEach(function (nodeParsed) {
             var tag = nodeParsed.tag, tagAttributes = nodeParsed.tagAttributes, child = nodeParsed.child;
-            var widget = widgetFactory.createWidget(tag, tagAttributes);
+            var evaluatedTagAttributes = evaluateAttributes({
+                tagAttributes: tagAttributes,
+                values: values,
+                fields: _this._fields
+            });
+            var widget = widgetFactory.createWidget(tag, evaluatedTagAttributes);
             if (widget instanceof ContainerWidget) {
-                _this.parseNode(child, widget.container);
+                _this.parseNode({ node: child, container: widget.container, values: values });
             }
             // If the form is set to readonly, reflect it to its children
             widget.readOnly = widget.readOnly || _this.readOnly;
