@@ -641,4 +641,79 @@ describe("A Form", () => {
     const field1 = form.findById("field1")!;
     expect(field1.invisible).toBeTruthy();
   });
+
+  it("Should be able to parse states - unmet condition with previous value", () => {
+    const arch = '<form><group><field name="data_final" /></group></form>';
+    const values = { state: "random_state" };
+    const fields = {
+      data_final: {
+        readonly: true,
+        states: {
+          draft: [["readonly", false]],
+        },
+        string: "Data final",
+        type: "date",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values });
+    expect(form.type).toBe("form");
+    const field1 = form.findById("data_final")!;
+    expect(field1.readOnly).toBeTruthy();
+  });
+
+  it("Should be able to parse states - matched condition", () => {
+    const arch = '<form><group><field name="data_final" /></group></form>';
+    const values = { state: "draft" };
+    const fields = {
+      data_final: {
+        readonly: true,
+        states: {
+          draft: [["readonly", false]],
+        },
+        string: "Data final",
+        type: "date",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values });
+    expect(form.type).toBe("form");
+    const field1 = form.findById("data_final")!;
+    expect(field1.readOnly).toBeFalsy();
+  });
+
+  it("Should be able to parse a button states - unmatched condition => invisible button", () => {
+    const arch =
+      '<form><group><button name="button" states="draft,pending,complete" /></group></form>';
+    const values = { state: "draft" };
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values });
+    expect(form.type).toBe("form");
+    const field1 = form.findById("button")!;
+    expect(field1.invisible).toBeFalsy();
+  });
+
+  it("Should be able to parse a button states - matched condition => visible button", () => {
+    const arch =
+      '<form><group><button name="button" states="draft,pending,complete" /></group></form>';
+    const values = { state: "other_state" };
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values });
+    expect(form.type).toBe("form");
+    const field1 = form.findById("button")!;
+    expect(field1.invisible).toBeTruthy();
+  });
+
 });

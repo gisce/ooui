@@ -4,6 +4,7 @@ import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 import { parseNodes } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
+import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -101,9 +102,28 @@ class Form {
       const evaluatedTagAttributes = evaluateAttributes({
         tagAttributes,
         values,
-        fields: this._fields
+        fields: this._fields,
       });
-      const widget = widgetFactory.createWidget(tag, evaluatedTagAttributes);
+
+      let evaluatedStateAttributes;
+
+      if (tag === "button" && tagAttributes.states) {
+        evaluatedStateAttributes = evaluateButtonStates({
+          states: tagAttributes.states,
+          values,
+        });
+      } else {
+        evaluatedStateAttributes = evaluateStates({
+          fieldName: tagAttributes.name,
+          values,
+          fields: this._fields,
+        });
+      }
+
+      const widget = widgetFactory.createWidget(tag, {
+        ...evaluatedTagAttributes,
+        ...evaluatedStateAttributes,
+      });
 
       if (widget instanceof ContainerWidget) {
         this.parseNode({ node: child, container: widget.container, values });

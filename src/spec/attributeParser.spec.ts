@@ -107,7 +107,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.readonly).toBeFalsy();
     });
-    it.only("should properly parse a boolean attribute with '=' operator with True", () => {
+    it("should properly parse a boolean attribute with '=' operator with True", () => {
       const tagAttributes = {
         attrs: "{'readonly':[('force_potencia_adscrita','=',True)]}",
       };
