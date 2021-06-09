@@ -716,4 +716,26 @@ describe("A Form", () => {
     expect(field1.invisible).toBeTruthy();
   });
 
+  it.only("should be able to parse a field with inline label string attribute", () => {
+    const fields = {
+      char1: {
+        size: 128,
+        string: "Name",
+        type: "char",
+        help: "tooltip string",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <group name="group">
+            <field colspan="1" name="char1" string="Label override" />
+        </group>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("char1") as Char;
+    expect(field.label).toBe("Label override");
+  });
+
 });

@@ -41,7 +41,7 @@ const parseNodes = (
           delete fields[name!].domain;
         }
 
-        tagAttributes = { ...tagAttributes, ...fields[name!] };
+        tagAttributes = { ...fields[name!], ...tagAttributes };
       }
 
       parsedNodes.push({ tag, tagAttributes, child });
