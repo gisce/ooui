@@ -5,6 +5,7 @@ import Page from "../Page";
 import Char from "../Char";
 import Label from "../Label";
 import Field from "../Field";
+import Reference from "../Reference";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -716,7 +717,7 @@ describe("A Form", () => {
     expect(field1.invisible).toBeTruthy();
   });
 
-  it.only("should be able to parse a field with inline label string attribute", () => {
+  it("should be able to parse a field with inline label string attribute", () => {
     const fields = {
       char1: {
         size: 128,
@@ -738,4 +739,37 @@ describe("A Form", () => {
     expect(field.label).toBe("Label override");
   });
 
+  it("should be able to parse a Reference widget", () => {
+    const fields = {
+      ref: {
+        selection: [
+          ["product.product", "Product"],
+          ["purchase.order", "Purchase Order"],
+          ["account.invoice", "Invoice"],
+          ["stock.production.lot", "Production Lot"],
+          ["giscedata.polissa", "Pòlissa"],
+          ["giscegas.polissa", "Contrato"],
+          ["giscedata.signatura.process", "Firma"],
+          ["giscedata.crm.lead", "Oferta/Oportunidad"],
+          ["crm.case", "Case"],
+          ["giscedata.switching", "Caso ATR"],
+        ],
+        size: 128,
+        string: "Reference",
+        type: "reference",
+        views: {},
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+        <group name="group">
+            <field colspan="1" name="ref" />
+        </group>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("ref") as Reference;
+    expect(field.selectionValues.size).toBe(10);
+  });
 });

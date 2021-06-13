@@ -25,6 +25,7 @@ import Page from "./Page";
 import Separator from "./Separator";
 import Button from "./Button";
 import * as DomainParser from "./helpers/domainParser";
+import Reference from "./Reference";
 
 export {
   Char,
@@ -54,4 +55,5 @@ export {
   Separator,
   Button,
   DomainParser,
+  Reference,
 };

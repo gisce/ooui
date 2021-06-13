@@ -19,6 +19,7 @@ import Many2many from "./Many2many";
 import One2many from "./One2many";
 import NewLine from "./NewLine";
 import Separator from "./Separator";
+import Reference from "./Reference";
 
 class WidgetFactory {
   /**
@@ -95,6 +96,9 @@ class WidgetFactory {
       case "email":
         this._widgetClass = Char;
         break;
+      case "reference":
+        this._widgetClass = Reference;
+        break;
       default:
         this._widgetClass = Widget;
         break;
@@ -109,11 +113,11 @@ class WidgetFactory {
       case "notebook":
       case "page":
       case "group":
-        return new this._widgetClass({...props, type});
+        return new this._widgetClass({ ...props, type });
 
       // Generic case
       default:
-        return new this._widgetClass({...props, type});
+        return new this._widgetClass({ ...props, type });
     }
   }
 }
