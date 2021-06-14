@@ -58,7 +58,7 @@ var parseAttributes = function (_a) {
         var evaluatedEntries = entries.map(function (entry) {
             return evaluateCondition({ entry: entry, values: values, fields: fields });
         });
-        newAttributes[attrField] = evaluatedEntries.some(function (i) { return i === true; });
+        newAttributes[attrField] = evaluatedEntries.every(function (i) { return i === true; });
     }
     return newAttributes;
 };

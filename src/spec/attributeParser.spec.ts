@@ -19,6 +19,12 @@ const fields = {
   type: {
     type: "char",
   },
+  id: {
+    type: "integer",
+  },
+  link: {
+    type: "char",
+  },
 };
 
 describe("An Attribute Parser", () => {
@@ -120,6 +126,21 @@ describe("An Attribute Parser", () => {
         fields,
       });
       expect(evaluatedAttrs.readonly).toBeTruthy();
+    });
+    it("should properly parse a boolean attribute with several conditions", () => {
+      const tagAttributes = {
+        attrs: "{'invisible': [('id', '!=', False), ('link', '!=', False)]}",
+      };
+      const values = {
+        id: 1,
+        link: false,
+      };
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeFalsy();
     });
   });
 });

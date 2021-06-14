@@ -68,7 +68,7 @@ const parseAttributes = ({
     const evaluatedEntries: boolean[] = entries.map((entry: any) => {
       return evaluateCondition({ entry, values, fields });
     });
-    newAttributes[attrField] = evaluatedEntries.some(
+    newAttributes[attrField] = evaluatedEntries.every(
       (i: boolean) => i === true
     );
   }
