@@ -26,6 +26,7 @@ import Separator from "./Separator";
 import Button from "./Button";
 import * as DomainParser from "./helpers/domainParser";
 import Reference from "./Reference";
+import Binary from "./Binary";
 
 export {
   Char,
@@ -56,4 +57,5 @@ export {
   Button,
   DomainParser,
   Reference,
+  Binary,
 };

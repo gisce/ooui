@@ -20,6 +20,7 @@ import One2many from "./One2many";
 import NewLine from "./NewLine";
 import Separator from "./Separator";
 import Reference from "./Reference";
+import Binary from "./Binary";
 
 class WidgetFactory {
   /**
@@ -98,6 +99,9 @@ class WidgetFactory {
         break;
       case "reference":
         this._widgetClass = Reference;
+        break;
+      case "binary":
+        this._widgetClass = Binary;
         break;
       default:
         this._widgetClass = Widget;

@@ -26,4 +26,5 @@ import Separator from "./Separator";
 import Button from "./Button";
 import * as DomainParser from "./helpers/domainParser";
 import Reference from "./Reference";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, };
+import Binary from "./Binary";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, Binary, };

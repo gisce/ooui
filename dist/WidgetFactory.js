@@ -31,6 +31,7 @@ import One2many from "./One2many";
 import NewLine from "./NewLine";
 import Separator from "./Separator";
 import Reference from "./Reference";
+import Binary from "./Binary";
 var WidgetFactory = /** @class */ (function () {
     function WidgetFactory() {
     }
@@ -105,6 +106,9 @@ var WidgetFactory = /** @class */ (function () {
                 break;
             case "reference":
                 this._widgetClass = Reference;
+                break;
+            case "binary":
+                this._widgetClass = Binary;
                 break;
             default:
                 this._widgetClass = Widget;
