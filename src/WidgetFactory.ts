@@ -21,6 +21,7 @@ import NewLine from "./NewLine";
 import Separator from "./Separator";
 import Reference from "./Reference";
 import Binary from "./Binary";
+import Image from "./Image";
 
 class WidgetFactory {
   /**
@@ -102,6 +103,8 @@ class WidgetFactory {
         break;
       case "binary":
         this._widgetClass = Binary;
+      case "image":
+        this._widgetClass = Image;
         break;
       default:
         this._widgetClass = Widget;
