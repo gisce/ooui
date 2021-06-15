@@ -27,6 +27,7 @@ import Button from "./Button";
 import * as DomainParser from "./helpers/domainParser";
 import Reference from "./Reference";
 import Binary from "./Binary";
+import Image from "./Image";
 
 export {
   Char,
@@ -58,4 +59,5 @@ export {
   DomainParser,
   Reference,
   Binary,
+  Image
 };
