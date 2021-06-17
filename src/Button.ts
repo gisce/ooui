@@ -2,9 +2,9 @@ import Field from "./Field";
 
 class Button extends Field {
   /**
-   * Type (primary or default)
+   * Type
    */
-  _buttonType: "primary" | "default" = "default";
+  _buttonType: "workflow" | "action" | "object" | "cancel" = "workflow";
   get buttonType() {
     return this._buttonType;
   }
@@ -23,6 +23,17 @@ class Button extends Field {
     this._caption = value;
   }
 
+  /**
+   * Confirm string for modal in button types workflow
+   */
+  _confirmMessage: string = "";
+  get confirmMessage(): string {
+    return this._confirmMessage;
+  }
+  set confirm(value: string) {
+    this._confirmMessage = value;
+  }
+
   constructor(props: any) {
     super({
       ...props,
@@ -32,6 +43,18 @@ class Button extends Field {
     if (props) {
       if (props.string) {
         this._caption = props.string;
+      }
+
+      if (props.type) {
+        this._buttonType = props.type;
+      }
+
+      if (props.confirm) {
+        this._confirmMessage = props.confirm;
+      }
+
+      if (props.special && props.special === "cancel") {
+        this._buttonType = "cancel";
       }
     }
   }

@@ -28,16 +28,29 @@ var Button = /** @class */ (function (_super) {
     function Button(props) {
         var _this = _super.call(this, __assign(__assign({}, props), { nolabel: (props === null || props === void 0 ? void 0 : props.nolabel) !== undefined ? props.nolabel : true })) || this;
         /**
-         * Type (primary or default)
+         * Type
          */
-        _this._buttonType = "default";
+        _this._buttonType = "workflow";
         /**
          * Button caption
          */
         _this._caption = "";
+        /**
+         * Confirm string for modal in button types workflow
+         */
+        _this._confirmMessage = "";
         if (props) {
             if (props.string) {
                 _this._caption = props.string;
+            }
+            if (props.type) {
+                _this._buttonType = props.type;
+            }
+            if (props.confirm) {
+                _this._confirmMessage = props.confirm;
+            }
+            if (props.special && props.special === "cancel") {
+                _this._buttonType = "cancel";
             }
         }
         return _this;
@@ -58,6 +71,20 @@ var Button = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._caption = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Button.prototype, "confirmMessage", {
+        get: function () {
+            return this._confirmMessage;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Button.prototype, "confirm", {
+        set: function (value) {
+            this._confirmMessage = value;
         },
         enumerable: false,
         configurable: true
