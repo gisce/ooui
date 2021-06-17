@@ -127,6 +127,8 @@ var WidgetFactory = /** @class */ (function () {
             case "page":
             case "group":
                 return new this._widgetClass(__assign(__assign({}, props), { type: type }));
+            case "button":
+                return new this._widgetClass(__assign(__assign({}, props), { type: type, buttonType: props.type }));
             // Generic case
             default:
                 return new this._widgetClass(__assign(__assign({}, props), { type: type }));

@@ -43,8 +43,8 @@ var Button = /** @class */ (function (_super) {
             if (props.string) {
                 _this._caption = props.string;
             }
-            if (props.type) {
-                _this._buttonType = props.type;
+            if (props.buttonType) {
+                _this._buttonType = props.buttonType;
             }
             if (props.confirm) {
                 _this._confirmMessage = props.confirm;

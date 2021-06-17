@@ -121,7 +121,12 @@ class WidgetFactory {
       case "page":
       case "group":
         return new this._widgetClass({ ...props, type });
-
+      case "button":
+        return new this._widgetClass({
+          ...props,
+          type,
+          buttonType: props.type,
+        });
       // Generic case
       default:
         return new this._widgetClass({ ...props, type });

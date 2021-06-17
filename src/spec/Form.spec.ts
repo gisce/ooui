@@ -6,6 +6,7 @@ import Char from "../Char";
 import Label from "../Label";
 import Field from "../Field";
 import Reference from "../Reference";
+import Button from "../Button";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -772,4 +773,58 @@ describe("A Form", () => {
     const field = form.findById("ref") as Reference;
     expect(field.selectionValues.size).toBe(10);
   });
+
+  it("should be able to parse a Button with the specific action attributes", () => {
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <button name="button" string="Generar periodes" type="object" confirm="Text modal" />
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("button") as Button;
+    expect(field.confirmMessage).toBe("Text modal");
+    expect(field.buttonType).toBe("object");
+  });
+
+  it("should be able to parse a Button by default to type workflow", () => {
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <button name="button" string="Generar periodes" confirm="Text modal" />
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("button") as Button;
+    expect(field.confirmMessage).toBe("Text modal");
+    expect(field.buttonType).toBe("workflow");
+  });
+
+  it("should be able to parse a Button with special cancel case", () => {
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <button name="button" string="Generar periodes" special="cancel" />
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+
+    const field = form.findById("button") as Button;
+    expect(field.buttonType).toBe("cancel");
+  });
+
 });

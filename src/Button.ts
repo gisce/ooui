@@ -56,8 +56,8 @@ class Button extends Field {
         this._caption = props.string;
       }
 
-      if (props.type) {
-        this._buttonType = props.type;
+      if (props.buttonType) {
+        this._buttonType = props.buttonType;
       }
 
       if (props.confirm) {
