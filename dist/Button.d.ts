@@ -13,6 +13,12 @@ declare class Button extends Field {
     get caption(): string;
     set caption(value: string);
     /**
+     * Button icon
+     */
+    _icon: string | undefined;
+    get icon(): string | undefined;
+    set icon(value: string | undefined);
+    /**
      * Confirm string for modal in button types workflow
      */
     _confirmMessage: string;

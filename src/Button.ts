@@ -24,6 +24,17 @@ class Button extends Field {
   }
 
   /**
+   * Button icon
+   */
+  _icon: string | undefined;
+  get icon(): string | undefined {
+    return this._icon;
+  }
+  set icon(value: string | undefined) {
+    this._icon = value;
+  }
+
+  /**
    * Confirm string for modal in button types workflow
    */
   _confirmMessage: string = "";
@@ -55,6 +66,10 @@ class Button extends Field {
 
       if (props.special && props.special === "cancel") {
         this._buttonType = "cancel";
+      }
+
+      if (props.icon) {
+        this._icon = props.icon;
       }
     }
   }

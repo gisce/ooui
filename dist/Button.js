@@ -52,6 +52,9 @@ var Button = /** @class */ (function (_super) {
             if (props.special && props.special === "cancel") {
                 _this._buttonType = "cancel";
             }
+            if (props.icon) {
+                _this._icon = props.icon;
+            }
         }
         return _this;
     }
@@ -71,6 +74,16 @@ var Button = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._caption = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Button.prototype, "icon", {
+        get: function () {
+            return this._icon;
+        },
+        set: function (value) {
+            this._icon = value;
         },
         enumerable: false,
         configurable: true
