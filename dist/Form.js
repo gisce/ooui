@@ -15,6 +15,7 @@ import ContainerWidget from "./ContainerWidget";
 import { parseNodes } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
+import { parseContext } from "./helpers/contextParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -121,7 +122,10 @@ var Form = /** @class */ (function () {
                     fields: _this._fields,
                 });
             }
-            var widget = widgetFactory.createWidget(tag, __assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes));
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: parseContext({
+                    context: tagAttributes["context"] || _this._fields["context"],
+                    values: values,
+                }) }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

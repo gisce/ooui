@@ -827,4 +827,25 @@ describe("A Form", () => {
     expect(field.buttonType).toBe("cancel");
   });
 
+  it("should be able to parse a Button with context", () => {
+    const fields = {
+      button: {
+        type: "button",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <button name="button" string="Generar periodes" special="cancel" context="{'power': potencia, 'tarifa_id': tarifa, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        potencia: 45,
+      },
+    });
+
+    const field = form.findById("button") as Button;
+    expect(field.context).toBeDefined();
+    expect(field.context!["power"]).toBe(45);
+  });
 });

@@ -54,6 +54,17 @@ abstract class Widget {
     this._type = value;
   }
 
+  /**
+   * Context
+   */
+  _context: any;
+  get context(): any {
+    return this._context;
+  }
+  set context(value: any) {
+    this._context = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
@@ -83,6 +94,9 @@ abstract class Widget {
       }
       if (props.type) {
         this._type = props.type;
+      }
+      if (props.context) {
+        this._context = props.context;
       }
     }
   }

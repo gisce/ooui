@@ -5,6 +5,7 @@ import Widget from "./Widget";
 import { parseNodes } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
+import { parseContext } from "./helpers/contextParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -123,6 +124,10 @@ class Form {
       const widget = widgetFactory.createWidget(tag, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
+        context: parseContext({
+          context: tagAttributes["context"] || this._fields["context"],
+          values,
+        }),
       });
 
       if (widget instanceof ContainerWidget) {

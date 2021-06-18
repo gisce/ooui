@@ -29,6 +29,12 @@ declare abstract class Widget {
     _type: string;
     get type(): string;
     set type(value: string);
+    /**
+     * Context
+     */
+    _context: any;
+    get context(): any;
+    set context(value: any);
     constructor(props?: any);
     abstract findById(id: string): Widget | null;
 }
