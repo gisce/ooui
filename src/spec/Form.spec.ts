@@ -832,6 +832,9 @@ describe("A Form", () => {
       button: {
         type: "button",
       },
+      potencia: {
+        type: "float",
+      },
     };
     const xmlViewForm = `<?xml version="1.0"?>
     <form string="Form1">
@@ -847,5 +850,31 @@ describe("A Form", () => {
     const field = form.findById("button") as Button;
     expect(field.context).toBeDefined();
     expect(field.context!["power"]).toBe(45);
+  });
+
+  it("should be able to parse a Button with context with a many2one value", () => {
+    const fields = {
+      button: {
+        type: "button",
+      },
+      tarifa: {
+        type: "many2one",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <button name="button" string="Generar periodes" special="cancel" context="{'power': potencia, 'tarifa_id': tarifa, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        potencia: 45,
+        tarifa: [1, "2.0A"],
+      },
+    });
+
+    const field = form.findById("button") as Button;
+    expect(field.context).toBeDefined();
+    expect(field.context!["tarifa_id"]).toBe(1);
   });
 });

@@ -125,6 +125,7 @@ var Form = /** @class */ (function () {
             var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: parseContext({
                     context: tagAttributes["context"] || _this._fields["context"],
                     values: values,
+                    fields: _this._fields,
                 }) }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });

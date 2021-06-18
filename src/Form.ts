@@ -127,6 +127,7 @@ class Form {
         context: parseContext({
           context: tagAttributes["context"] || this._fields["context"],
           values,
+          fields: this._fields,
         }),
       });
 
