@@ -41,7 +41,7 @@ export var parseContext = function (_a) {
                 var valueForField = getValueForField({
                     values: values,
                     fields: fields,
-                    fieldName: fieldName,
+                    fieldName: fieldName === "active_id" ? "id" : fieldName,
                 });
                 parsedContext_1[entry[0].replace(/'/g, "")] = valueForField || undefined;
             }

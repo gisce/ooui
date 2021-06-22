@@ -50,6 +50,17 @@ class Form {
     this._readOnly = value;
   }
 
+  /**
+   * Context
+   */
+  _context: any = {};
+  get context(): any {
+    return this._context;
+  }
+  set context(value: any) {
+    this._context = value;
+  }
+
   /*
   _widgets = {
     *[Symbol.iterator]() {
@@ -78,6 +89,8 @@ class Form {
     const view: Document = parser.parseFromString(xml, "text/xml");
     this._string = view.documentElement.getAttribute("string");
     this._readOnly = readOnly;
+    this._context = values["id"] ? { active_id: values["id"] } : {};
+
     this.parseNode({
       node: view.documentElement,
       container: this._container,
@@ -121,14 +134,20 @@ class Form {
         });
       }
 
+      const widgetContext = parseContext({
+        context: tagAttributes["context"] || this._fields["context"],
+        values,
+        fields: this._fields,
+      });
+
+      if (tag !== "button") {
+        this._context = { ...this._context, ...widgetContext };
+      }
+
       const widget = widgetFactory.createWidget(tag, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
-        context: parseContext({
-          context: tagAttributes["context"] || this._fields["context"],
-          values,
-          fields: this._fields,
-        }),
+        context: widgetContext,
       });
 
       if (widget instanceof ContainerWidget) {

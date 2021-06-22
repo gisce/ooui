@@ -877,4 +877,51 @@ describe("A Form", () => {
     expect(field.context).toBeDefined();
     expect(field.context!["tarifa_id"]).toBe(1);
   });
+
+  it("should be able to parse a Form with fields contexts", () => {
+    const fields = {
+      field_char: {
+        type: "char",
+      },
+      field_id: {
+        type: "integer",
+      },
+      field_num: {
+        type: "integer",
+      },
+      button: {
+        type: "button",
+      },
+      tarifa: {
+        type: "many2one",
+      },
+      potencia: {
+        type: "float",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <field name="field_id" colspan="4" nolabel="1" context="{'cups_id': active_id}"/>
+      <field name="field_char" colspan="4" nolabel="1" context="{'test_string': 'test'}"/>
+      <button name="button" string="Generar periodes" special="cancel" context="{'power': potencia, 'tarifa_id': tarifa, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        id: 99,
+        potencia: 45,
+        tarifa: [1, "2.0A"],
+      },
+    });
+    expect(form.context).toBeDefined();
+    expect(form.context.active_id).toBe(99);
+    expect(form.context.cups_id).toBe(99);
+    expect(form.context.test_string).toBe("test");
+    expect(form.context.power).toBeUndefined();
+
+    const field = form.findById("button") as Button;
+    expect(field.context).toBeDefined();
+    expect(field.context!["tarifa_id"]).toBe(1);
+    expect(field.context!["power"]).toBe(45);
+  });
 });

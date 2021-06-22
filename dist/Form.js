@@ -43,6 +43,10 @@ var Form = /** @class */ (function () {
          * Determines if form is read only (default is false)
          */
         this._readOnly = false;
+        /**
+         * Context
+         */
+        this._context = {};
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -84,12 +88,23 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Form.prototype, "context", {
+        get: function () {
+            return this._context;
+        },
+        set: function (value) {
+            this._context = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Form.prototype.parse = function (xml, options) {
         var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c;
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this._string = view.documentElement.getAttribute("string");
         this._readOnly = readOnly;
+        this._context = values["id"] ? { active_id: values["id"] } : {};
         this.parseNode({
             node: view.documentElement,
             container: this._container,
@@ -122,11 +137,15 @@ var Form = /** @class */ (function () {
                     fields: _this._fields,
                 });
             }
-            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: parseContext({
-                    context: tagAttributes["context"] || _this._fields["context"],
-                    values: values,
-                    fields: _this._fields,
-                }) }));
+            var widgetContext = parseContext({
+                context: tagAttributes["context"] || _this._fields["context"],
+                values: values,
+                fields: _this._fields,
+            });
+            if (tag !== "button") {
+                _this._context = __assign(__assign({}, _this._context), widgetContext);
+            }
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

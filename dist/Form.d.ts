@@ -25,6 +25,12 @@ declare class Form {
     _readOnly: boolean;
     get readOnly(): boolean;
     set readOnly(value: boolean);
+    /**
+     * Context
+     */
+    _context: any;
+    get context(): any;
+    set context(value: any);
     constructor(fields: Object, columns?: number);
     parse(xml: string, options?: FormParseOptions): void;
     parseNode({ node, container, values, }: {
