@@ -89,7 +89,7 @@ class Form {
     const view: Document = parser.parseFromString(xml, "text/xml");
     this._string = view.documentElement.getAttribute("string");
     this._readOnly = readOnly;
-    this._context = values["id"] ? { active_id: values["id"] } : {};
+    this._context = values["id"] ? { active_id: values["id"], active_ids: [values["id"]] } : {};
 
     this.parseNode({
       node: view.documentElement,
