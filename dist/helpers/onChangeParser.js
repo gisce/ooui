@@ -1,4 +1,4 @@
-var parseOnChange = function (onChangeString, values) {
+var parseOnChange = function (onChangeString) {
     var splitted = onChangeString
         .replace(/\s/g, "")
         .replace(/'/g, "")
@@ -7,18 +7,9 @@ var parseOnChange = function (onChangeString, values) {
     var method = splitted[0];
     var argsGross = splitted[1];
     var argsSplitted = argsGross.split(",");
-    var args = {};
-    argsSplitted.forEach(function (arg) {
-        if (arg === "context") {
-            args.context = {};
-        }
-        else if (values[arg]) {
-            args[arg] = values[arg];
-        }
-    });
     return {
         method: method,
-        args: args,
+        args: argsSplitted
     };
 };
 export { parseOnChange };

@@ -163,7 +163,7 @@ var Form = /** @class */ (function () {
                 _this._context = __assign(__assign({}, _this._context), widgetContext);
             }
             if (tagAttributes["on_change"]) {
-                _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"], values);
+                _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
             }
             var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext }));
             if (widget instanceof ContainerWidget) {

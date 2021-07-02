@@ -968,9 +968,11 @@ describe("A Form", () => {
       "on_change_partner_address_id"
     );
     expect(form.onChangeFields!["field_char"].args).toBeDefined();
-    expect(form.onChangeFields!["field_char"].args["partner_address_id"]).toBe(
-      29
+    expect(form.onChangeFields!["field_char"].args[0]).toBe(
+      "partner_address_id"
     );
-    expect(form.onChangeFields!["field_char"].args["context"]).toBeDefined();
+    expect(form.onChangeFields!["field_char"].args[1]).toBe(
+      "context"
+    );
   });
 });

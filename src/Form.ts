@@ -159,7 +159,7 @@ class Form {
       }
 
       if (tagAttributes["on_change"]) {
-        this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"], values);
+        this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
       }
 
       const widget = widgetFactory.createWidget(tag, {

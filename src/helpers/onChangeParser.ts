@@ -1,4 +1,4 @@
-const parseOnChange = (onChangeString: string, values: any) => {
+const parseOnChange = (onChangeString: string) => {
   const splitted = onChangeString
     .replace(/\s/g, "")
     .replace(/'/g, "")
@@ -9,19 +9,9 @@ const parseOnChange = (onChangeString: string, values: any) => {
   const argsGross = splitted[1];
   const argsSplitted = argsGross.split(",");
 
-  const args: any = {};
-
-  argsSplitted.forEach((arg) => {
-    if (arg === "context") {
-      args.context = {};
-    } else if (values[arg]) {
-      args[arg] = values[arg];
-    }
-  });
-
   return {
     method,
-    args,
+    args: argsSplitted
   };
 };
 

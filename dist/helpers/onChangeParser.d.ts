@@ -1,5 +1,5 @@
-declare const parseOnChange: (onChangeString: string, values: any) => {
+declare const parseOnChange: (onChangeString: string) => {
     method: string;
-    args: any;
+    args: string[];
 };
 export { parseOnChange };
