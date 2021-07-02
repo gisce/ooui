@@ -73,9 +73,6 @@ var Field = /** @class */ (function (_super) {
                     props.required === "True")) {
                 _this._required = true;
             }
-            if (props.on_change) {
-                _this._onChangeData = props.on_change;
-            }
         }
         return _this;
     }
@@ -145,16 +142,6 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._activated = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Field.prototype, "onChangeData", {
-        get: function () {
-            return this._onChangeData;
-        },
-        set: function (value) {
-            this._onChangeData = value;
         },
         enumerable: false,
         configurable: true

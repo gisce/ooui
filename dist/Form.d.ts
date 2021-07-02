@@ -31,6 +31,12 @@ declare class Form {
     _context: any;
     get context(): any;
     set context(value: any);
+    /**
+     * Collection of onChange actions for fields
+     */
+    _onChangeFields: any;
+    get onChangeFields(): any;
+    set onChangeFields(value: any);
     constructor(fields: Object, columns?: number);
     parse(xml: string, options?: FormParseOptions): void;
     parseNode({ node, container, values, }: {

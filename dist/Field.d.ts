@@ -1,8 +1,4 @@
 import Widget from "./Widget";
-declare type OnChangeData = {
-    method: string;
-    args: any;
-};
 declare class Field extends Widget {
     /**
      * Field identifier
@@ -53,12 +49,6 @@ declare class Field extends Widget {
     _activated: boolean;
     get activated(): boolean;
     set activated(value: boolean);
-    /**
-     * OnChangeData
-     */
-    _onChangeData?: OnChangeData;
-    get onChangeData(): OnChangeData | undefined;
-    set onChangeData(value: OnChangeData | undefined);
     constructor(props: any);
     /**
      * Returns this instance in case this id matches param id.

@@ -1,11 +1,6 @@
 import Widget from "./Widget";
 import { parseDomain } from "./helpers/domainParser";
 
-type OnChangeData = {
-  method: string;
-  args: any;
-};
-
 class Field extends Widget {
   /**
    * Field identifier
@@ -91,17 +86,6 @@ class Field extends Widget {
     this._activated = value;
   }
 
-  /**
-   * OnChangeData
-   */
-  _onChangeData?: OnChangeData;
-  get onChangeData(): OnChangeData | undefined {
-    return this._onChangeData;
-  }
-  set onChangeData(value: OnChangeData | undefined) {
-    this._onChangeData = value;
-  }
-
   constructor(props: any) {
     super(props);
 
@@ -144,10 +128,6 @@ class Field extends Widget {
           props.required === "True")
       ) {
         this._required = true;
-      }
-
-      if (props.on_change) {
-        this._onChangeData = props.on_change;
       }
     }
   }

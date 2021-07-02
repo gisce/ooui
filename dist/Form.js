@@ -48,6 +48,10 @@ var Form = /** @class */ (function () {
          * Context
          */
         this._context = {};
+        /**
+         * Collection of onChange actions for fields
+         */
+        this._onChangeFields = {};
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -95,6 +99,16 @@ var Form = /** @class */ (function () {
         },
         set: function (value) {
             this._context = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Form.prototype, "onChangeFields", {
+        get: function () {
+            return this._onChangeFields;
+        },
+        set: function (value) {
+            this._onChangeFields = value;
         },
         enumerable: false,
         configurable: true
@@ -148,10 +162,10 @@ var Form = /** @class */ (function () {
             if (tag !== "button") {
                 _this._context = __assign(__assign({}, _this._context), widgetContext);
             }
-            var evaluateOnChangeAttribute = tagAttributes["on_change"]
-                ? { on_change: parseOnChange(tagAttributes["on_change"], values) }
-                : {};
-            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), evaluateOnChangeAttribute), { context: widgetContext }));
+            if (tagAttributes["on_change"]) {
+                _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"], values);
+            }
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

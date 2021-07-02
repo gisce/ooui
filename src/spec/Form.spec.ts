@@ -962,10 +962,15 @@ describe("A Form", () => {
 
     const field = form.findById("field_char") as Field;
     expect(field).toBeDefined();
-    expect(field.onChangeData).toBeDefined();
-    expect(field.onChangeData!.method).toBe("on_change_partner_address_id");
-    expect(field.onChangeData!.args).toBeDefined();
-    expect(field.onChangeData!.args["partner_address_id"]).toBe(29);
-    expect(field.onChangeData!.args["context"]).toBeDefined();
+
+    expect(form.onChangeFields).toBeDefined();
+    expect(form.onChangeFields!["field_char"].method).toBe(
+      "on_change_partner_address_id"
+    );
+    expect(form.onChangeFields!["field_char"].args).toBeDefined();
+    expect(form.onChangeFields!["field_char"].args["partner_address_id"]).toBe(
+      29
+    );
+    expect(form.onChangeFields!["field_char"].args["context"]).toBeDefined();
   });
 });

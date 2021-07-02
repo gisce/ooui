@@ -62,6 +62,17 @@ class Form {
     this._context = value;
   }
 
+  /**
+   * Collection of onChange actions for fields
+   */
+  _onChangeFields: any = {};
+  get onChangeFields(): any {
+    return this._onChangeFields;
+  }
+  set onChangeFields(value: any) {
+    this._onChangeFields = value;
+  }
+
   /*
   _widgets = {
     *[Symbol.iterator]() {
@@ -147,14 +158,13 @@ class Form {
         this._context = { ...this._context, ...widgetContext };
       }
 
-      const evaluateOnChangeAttribute = tagAttributes["on_change"]
-        ? { on_change: parseOnChange(tagAttributes["on_change"], values) }
-        : {};
+      if (tagAttributes["on_change"]) {
+        this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"], values);
+      }
 
       const widget = widgetFactory.createWidget(tag, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
-        ...evaluateOnChangeAttribute,
         context: widgetContext,
       });
 
