@@ -16,6 +16,7 @@ import { parseNodes } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
+import { parseOnChange } from "./helpers/onChangeParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -104,7 +105,9 @@ var Form = /** @class */ (function () {
         var view = parser.parseFromString(xml, "text/xml");
         this._string = view.documentElement.getAttribute("string");
         this._readOnly = readOnly;
-        this._context = values["id"] ? { active_id: values["id"], active_ids: [values["id"]] } : {};
+        this._context = values["id"]
+            ? { active_id: values["id"], active_ids: [values["id"]] }
+            : {};
         this.parseNode({
             node: view.documentElement,
             container: this._container,
@@ -145,7 +148,10 @@ var Form = /** @class */ (function () {
             if (tag !== "button") {
                 _this._context = __assign(__assign({}, _this._context), widgetContext);
             }
-            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext }));
+            var evaluateOnChangeAttribute = tagAttributes["on_change"]
+                ? { on_change: parseOnChange(tagAttributes["on_change"], values) }
+                : {};
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), evaluateOnChangeAttribute), { context: widgetContext }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

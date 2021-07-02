@@ -926,4 +926,46 @@ describe("A Form", () => {
     expect(field.context!["tarifa_id"]).toBe(1);
     expect(field.context!["power"]).toBe(45);
   });
+
+  it("should be able to parse a on_change field", () => {
+    const fields = {
+      field_char: {
+        type: "char",
+      },
+      field_id: {
+        type: "integer",
+      },
+      field_num: {
+        type: "integer",
+      },
+      button: {
+        type: "button",
+      },
+      tarifa: {
+        type: "many2one",
+      },
+      potencia: {
+        type: "float",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <field name="field_id" colspan="4" nolabel="1" />
+      <field name="field_char" on_change="on_change_partner_address_id(partner_address_id, context)" colspan="4" nolabel="1"  />
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        partner_address_id: 29,
+      },
+    });
+
+    const field = form.findById("field_char") as Field;
+    expect(field).toBeDefined();
+    expect(field.onChangeData).toBeDefined();
+    expect(field.onChangeData!.method).toBe("on_change_partner_address_id");
+    expect(field.onChangeData!.args).toBeDefined();
+    expect(field.onChangeData!.args["partner_address_id"]).toBe(29);
+    expect(field.onChangeData!.args["context"]).toBeDefined();
+  });
 });

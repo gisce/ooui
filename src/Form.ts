@@ -6,6 +6,7 @@ import { parseNodes } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
+import { parseOnChange } from "./helpers/onChangeParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -89,7 +90,9 @@ class Form {
     const view: Document = parser.parseFromString(xml, "text/xml");
     this._string = view.documentElement.getAttribute("string");
     this._readOnly = readOnly;
-    this._context = values["id"] ? { active_id: values["id"], active_ids: [values["id"]] } : {};
+    this._context = values["id"]
+      ? { active_id: values["id"], active_ids: [values["id"]] }
+      : {};
 
     this.parseNode({
       node: view.documentElement,
@@ -144,9 +147,14 @@ class Form {
         this._context = { ...this._context, ...widgetContext };
       }
 
+      const evaluateOnChangeAttribute = tagAttributes["on_change"]
+        ? { on_change: parseOnChange(tagAttributes["on_change"], values) }
+        : {};
+
       const widget = widgetFactory.createWidget(tag, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
+        ...evaluateOnChangeAttribute,
         context: widgetContext,
       });
 
