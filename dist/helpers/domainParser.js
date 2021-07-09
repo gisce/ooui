@@ -1,63 +1,91 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var isNumeric = function (str) {
+import { getValueForField } from "./fieldParser";
+var stringHasNumber = function (str) {
     if (typeof str !== "string")
         return false; // we only process strings!
     return !isNaN(str) && !isNaN(parseFloat(str));
 };
-var parseDomain = function (domainValue) {
-    if (!domainValue || typeof domainValue !== "string") {
-        return [];
-    }
-    var parsedDomain = [];
-    var regex = /\(([^\)]+)\)/g;
-    var tupples = [];
-    var matches;
-    while ((matches = regex.exec(domainValue))) {
-        tupples.push(matches[1]);
-    }
-    tupples.forEach(function (tupple) {
-        var splitted = tupple.replace(/\s/g, "").split(",");
-        var field = splitted[0].replace(/'/g, "");
-        var operator = splitted[1].replace(/'/g, "");
-        var value = splitted[2];
-        if (value.indexOf("'") === -1 && isNumeric(value)) {
-            // Do nothing
+var parseDomain = function (_a) {
+    // [('municipi_id','=',id_municipi)]
+    var domainValue = _a.domainValue, values = _a.values, fields = _a.fields;
+    var outputDomain = "[";
+    var firstParse = domainValue
+        .replace(/\s/g, "")
+        .replace(/\"/g, "'")
+        .replace(/\[/g, "")
+        .replace(/\]/g, "");
+    var entries = firstParse.split(",");
+    entries.forEach(function (element, idx) {
+        if (element.indexOf("(") !== -1) {
+            outputDomain += element + ",";
+            return;
         }
-        else if (value.indexOf("'") === -1 &&
-            !(value === "True" || value === "False")) {
-            // If the value references to an actual field, add curly braces around it
-            value = "{" + value + "}";
+        if (element.indexOf("(") === -1 && element.indexOf(")") === -1) {
+            outputDomain += element + ",";
+            return;
         }
-        else {
-            value = value.replace(/'/g, "");
+        if (element.indexOf(")") !== -1) {
+            var value = element.replace(/\)/g, "").replace(/\'/g, "");
+            if (value === "True" ||
+                value === "False" ||
+                stringHasNumber(value) ||
+                element.indexOf("'") !== -1) {
+                outputDomain += element;
+            }
+            else {
+                var foundValue = getValueForField({
+                    values: values,
+                    fieldName: value,
+                    fields: fields,
+                });
+                if (!isNaN(foundValue)) {
+                    outputDomain += foundValue + ")";
+                }
+                else {
+                    outputDomain += "'" + foundValue + "')";
+                }
+            }
+            if (idx < entries.length - 1) {
+                outputDomain += ",";
+            }
+            return;
         }
-        parsedDomain.push([field, operator, value]);
     });
-    return parsedDomain;
+    return outputDomain + "]";
 };
-var getParamsForDomain = function (_a) {
-    var values = _a.values, domain = _a.domain;
-    var valuesToSearchIn = __assign(__assign({}, values), { active_id: values.id });
-    return domain.map(function (entry) {
-        var field = entry[0], operator = entry[1], value = entry[2];
-        var resolvedValue = value;
-        if (typeof value === "string" && value.indexOf("{") !== -1) {
-            var key = value.replace("{", "").replace("}", "");
-            if (valuesToSearchIn[key])
-                resolvedValue = valuesToSearchIn[key];
+function combineDomains(domains) {
+    var joined = domains.join(",").replace(/\[/g, "").replace(/\]/g, "");
+    return "[" + joined + "]";
+}
+function convertDomainFromFields(domainValue) {
+    if (!domainValue) {
+        return undefined;
+    }
+    if (domainValue.length === 0) {
+        return undefined;
+    }
+    var outputDomain = "[";
+    domainValue.forEach(function (entry, idx) {
+        outputDomain += "(";
+        entry.forEach(function (element, idy) {
+            if (typeof element !== "boolean" && !isNaN(element)) {
+                outputDomain += "" + element;
+            }
+            else if (typeof element === "boolean") {
+                outputDomain += "" + (element ? "True" : "False");
+            }
+            else {
+                outputDomain += "'" + element + "'";
+            }
+            if (idy < entry.length - 1) {
+                outputDomain += ",";
+            }
+        });
+        outputDomain += ")";
+        if (idx < domainValue.length - 1) {
+            outputDomain += ",";
         }
-        return [field, operator, resolvedValue];
     });
-};
-export { parseDomain, getParamsForDomain };
+    return outputDomain + "]";
+}
+export { parseDomain, combineDomains, convertDomainFromFields };
 //# sourceMappingURL=domainParser.js.map

@@ -1,5 +1,4 @@
 import Widget from "./Widget";
-import { parseDomain } from "./helpers/domainParser";
 
 class Field extends Widget {
   /**
@@ -107,10 +106,6 @@ class Field extends Widget {
 
       if (props.help) {
         this._tooltip = props.help;
-      }
-
-      if (props.domain) {
-        this._domain = parseDomain(props.domain);
       }
 
       if (

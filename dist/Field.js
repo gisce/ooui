@@ -12,7 +12,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import Widget from "./Widget";
-import { parseDomain } from "./helpers/domainParser";
 var Field = /** @class */ (function (_super) {
     __extends(Field, _super);
     function Field(props) {
@@ -58,9 +57,6 @@ var Field = /** @class */ (function (_super) {
             }
             if (props.help) {
                 _this._tooltip = props.help;
-            }
-            if (props.domain) {
-                _this._domain = parseDomain(props.domain);
             }
             if (props.nolabel &&
                 (props.nolabel === "1" ||

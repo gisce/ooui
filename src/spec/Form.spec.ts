@@ -500,42 +500,6 @@ describe("A Form", () => {
     );
   });
 
-  it("Should parse field domain", () => {
-    const arch =
-      '<form><field name="example" help="Tooltip" domain="[(\'municipi_id.id\', \'=\', id_municipi)]" /></form>';
-    const fields = {
-      example: {
-        type: "char",
-        domain: [],
-      },
-    };
-    const form = new Form(fields);
-    form.parse(arch);
-
-    const field = form.findById("example") as Field;
-    expect(Array.isArray(field.domain)).toBeTruthy();
-    expect(field.domain!.length).toBe(1);
-    expect(field.domain![0].length).toBe(3);
-  });
-
-  it("Should parse field domain with fields definition marked domain as false", () => {
-    const arch =
-      '<form><field name="example" help="Tooltip" domain="[(\'municipi_id.id\', \'=\', id_municipi)]" /></form>';
-    const fields = {
-      example: {
-        type: "char",
-        domain: false,
-      },
-    };
-    const form = new Form(fields);
-    form.parse(arch);
-
-    const field = form.findById("example") as Field;
-    expect(Array.isArray(field.domain)).toBeTruthy();
-    expect(field.domain!.length).toBe(1);
-    expect(field.domain![0].length).toBe(3);
-  });
-
   it("Should parse form string title properly", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },

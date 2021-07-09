@@ -1,65 +1,117 @@
-const isNumeric = (str: any) => {
+import { getValueForField } from "./fieldParser";
+
+const stringHasNumber = (str: any) => {
   if (typeof str !== "string") return false; // we only process strings!
   return !isNaN(str as any) && !isNaN(parseFloat(str));
 };
 
-const parseDomain = (domainValue: any) => {
-  if (!domainValue || typeof domainValue !== "string") {
-    return [];
-  }
-  const parsedDomain: Array<string[]> = [];
-
-  const regex = /\(([^\)]+)\)/g;
-  const tupples = [];
-  let matches;
-
-  while ((matches = regex.exec(domainValue))) {
-    tupples.push(matches[1]);
-  }
-
-  tupples.forEach((tupple: string) => {
-    const splitted = tupple.replace(/\s/g, "").split(",");
-    const field = splitted[0].replace(/'/g, "");
-    const operator = splitted[1].replace(/'/g, "");
-
-    let value = splitted[2];
-
-    if (value.indexOf("'") === -1 && isNumeric(value)) {
-      // Do nothing
-    } else if (
-      value.indexOf("'") === -1 &&
-      !(value === "True" || value === "False")
-    ) {
-      // If the value references to an actual field, add curly braces around it
-      value = `\{${value}\}`;
-    } else {
-      value = value.replace(/'/g, "");
-    }
-
-    parsedDomain.push([field, operator, value]);
-  });
-
-  return parsedDomain;
-};
-
-const getParamsForDomain = ({
+const parseDomain = ({
+  domainValue,
   values,
-  domain,
+  fields,
 }: {
+  domainValue: string;
   values: any;
-  domain: Array<any[]>;
+  fields: any;
 }) => {
-  const valuesToSearchIn = { ...values, active_id: values.id };
+  // [('municipi_id','=',id_municipi)]
 
-  return domain.map((entry: any[]) => {
-    const [field, operator, value] = entry;
-    let resolvedValue = value;
-    if (typeof value === "string" && value.indexOf("{") !== -1) {
-      const key = value.replace("{", "").replace("}", "");
-      if (valuesToSearchIn[key]) resolvedValue = valuesToSearchIn[key];
+  let outputDomain = "[";
+
+  const firstParse = domainValue
+    .replace(/\s/g, "")
+    .replace(/\"/g, "'")
+    .replace(/\[/g, "")
+    .replace(/\]/g, "");
+
+  const entries = firstParse.split(",");
+
+  entries.forEach((element, idx) => {
+    if (element.indexOf("(") !== -1) {
+      outputDomain += element + ",";
+      return;
     }
-    return [field, operator, resolvedValue];
+
+    if (element.indexOf("(") === -1 && element.indexOf(")") === -1) {
+      outputDomain += element + ",";
+      return;
+    }
+
+    if (element.indexOf(")") !== -1) {
+      const value = element.replace(/\)/g, "").replace(/\'/g, "");
+      if (
+        value === "True" ||
+        value === "False" ||
+        stringHasNumber(value) ||
+        element.indexOf("'") !== -1
+      ) {
+        outputDomain += element;
+      } else {
+        const foundValue = getValueForField({
+          values,
+          fieldName: value,
+          fields,
+        });
+
+        if (!isNaN(foundValue)) {
+          outputDomain += `${foundValue})`;
+        } else {
+          outputDomain += `'${foundValue}')`;
+        }
+      }
+
+      if (idx < entries.length - 1) {
+        outputDomain += ",";
+      }
+
+      return;
+    }
   });
+
+  return outputDomain + "]";
 };
 
-export { parseDomain, getParamsForDomain };
+function combineDomains(domains: string[]) {
+  const joined = domains.join(",").replace(/\[/g, "").replace(/\]/g, "");
+  return `[${joined}]`;
+}
+
+function convertDomainFromFields(domainValue?: boolean | any) {
+  if (!domainValue) {
+    return undefined;
+  }
+
+  if (domainValue.length === 0) {
+    return undefined;
+  }
+
+  let outputDomain = "[";
+
+  domainValue.forEach((entry: any[], idx: number) => {
+    outputDomain += "(";
+
+    entry.forEach((element, idy) => {
+      if (typeof element !== "boolean" && !isNaN(element)) {
+        outputDomain += `${element}`;
+      } else if (typeof element === "boolean") {
+        outputDomain += `${element ? "True" : "False"}`;
+      } else {
+        outputDomain += `'${element}'`;
+      }
+
+      if (idy < entry.length - 1) {
+        outputDomain += ",";
+      }
+    });
+
+    outputDomain += ")";
+
+    if (idx < domainValue.length - 1) {
+      outputDomain += ",";
+    }
+  });
+
+  return outputDomain + "]";
+}
+
+export { parseDomain, combineDomains, convertDomainFromFields };

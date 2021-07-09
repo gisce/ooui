@@ -1,6 +1,8 @@
-declare const parseDomain: (domainValue: any) => string[][];
-declare const getParamsForDomain: ({ values, domain, }: {
+declare const parseDomain: ({ domainValue, values, fields, }: {
+    domainValue: string;
     values: any;
-    domain: Array<any[]>;
-}) => any[][];
-export { parseDomain, getParamsForDomain };
+    fields: any;
+}) => string;
+declare function combineDomains(domains: string[]): string;
+declare function convertDomainFromFields(domainValue?: boolean | any): string | undefined;
+export { parseDomain, combineDomains, convertDomainFromFields };

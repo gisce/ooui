@@ -1,22 +1,4 @@
-function getValueForField(_a) {
-    var values = _a.values, fieldName = _a.fieldName, fields = _a.fields;
-    if (!fields) {
-        return undefined;
-    }
-    if (!fields[fieldName]) {
-        return values[fieldName] || undefined;
-    }
-    var fieldType = fields[fieldName].type;
-    if (fieldType === "many2one") {
-        return values[fieldName][0] || null;
-    }
-    else if (fieldType === "one2many" || fieldType === "many2many") {
-        return values[fieldName].map(function (item) { return item.id; });
-    }
-    else {
-        return values[fieldName];
-    }
-}
+import { getValueForField } from "./fieldParser";
 export var parseContext = function (_a) {
     var context = _a.context, values = _a.values, fields = _a.fields;
     // TODO: remove try/catch when we know for sure that all the incoming contexts formats are expected
