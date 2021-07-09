@@ -8,7 +8,7 @@ export function getValueForField(_a) {
     }
     var fieldType = fields[fieldName].type;
     if (fieldType === "many2one") {
-        return values[fieldName][0] || null;
+        return values[fieldName] ? values[fieldName][0] || null : undefined;
     }
     else if (fieldType === "one2many" || fieldType === "many2many") {
         return values[fieldName].map(function (item) { return item.id; });

@@ -17,6 +17,7 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
+import { parseDomain, combineDomains, } from "./helpers/domainParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -113,6 +114,16 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Form.prototype, "domain", {
+        get: function () {
+            return this._domain;
+        },
+        set: function (value) {
+            this._domain = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Form.prototype.parse = function (xml, options) {
         var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c;
         var parser = new DOMParser();
@@ -164,6 +175,23 @@ var Form = /** @class */ (function () {
             }
             if (tagAttributes["on_change"]) {
                 _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
+            }
+            if (tagAttributes["domain"]) {
+                var parsedDomain = parseDomain({
+                    domainValue: tagAttributes["domain"],
+                    values: values,
+                    fields: _this._fields,
+                });
+                _this._domain = combineDomains([_this._domain, parsedDomain]);
+            }
+            if (_this._fields[tagAttributes.name] &&
+                _this._fields[tagAttributes.name].domain) {
+                var parsedDomain = parseDomain({
+                    domainValue: _this._fields[tagAttributes.name].domain,
+                    values: values,
+                    fields: _this._fields,
+                });
+                _this._domain = combineDomains([_this._domain, parsedDomain]);
             }
             var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext }));
             if (widget instanceof ContainerWidget) {

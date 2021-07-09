@@ -10,15 +10,25 @@ const parseDomain = ({
   values,
   fields,
 }: {
-  domainValue: string;
+  domainValue: any;
   values: any;
   fields: any;
 }) => {
-  // [('municipi_id','=',id_municipi)]
+  let domain: string | undefined;
+
+  if (typeof domainValue === "string") {
+    domain = domainValue;
+  } else {
+    domain = convertArrayDomainToString(domainValue);
+
+    if (!domain) {
+      return;
+    }
+  }
 
   let outputDomain = "[";
 
-  const firstParse = domainValue
+  const firstParse = domain
     .replace(/\s/g, "")
     .replace(/\"/g, "'")
     .replace(/\[/g, "")
@@ -71,12 +81,16 @@ const parseDomain = ({
   return outputDomain + "]";
 };
 
-function combineDomains(domains: string[]) {
-  const joined = domains.join(",").replace(/\[/g, "").replace(/\]/g, "");
+function combineDomains(domains: any) {
+  const joined = domains
+    .filter((entry: any) => entry !== undefined)
+    .join(",")
+    .replace(/\[/g, "")
+    .replace(/\]/g, "");
   return `[${joined}]`;
 }
 
-function convertDomainFromFields(domainValue?: boolean | any) {
+function convertArrayDomainToString(domainValue?: boolean | any) {
   if (!domainValue) {
     return undefined;
   }
@@ -114,4 +128,4 @@ function convertDomainFromFields(domainValue?: boolean | any) {
   return outputDomain + "]";
 }
 
-export { parseDomain, combineDomains, convertDomainFromFields };
+export { parseDomain, combineDomains, convertArrayDomainToString };

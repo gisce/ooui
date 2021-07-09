@@ -935,8 +935,36 @@ describe("A Form", () => {
     expect(form.onChangeFields!["field_char"].args[0]).toBe(
       "partner_address_id"
     );
-    expect(form.onChangeFields!["field_char"].args[1]).toBe(
-      "context"
-    );
+    expect(form.onChangeFields!["field_char"].args[1]).toBe("context");
+  });
+
+  it("should be able to parse domain for the whole form", () => {
+    const fields = {
+      field_char: {
+        type: "char",
+      },
+      field_id: {
+        type: "integer",
+        domain: [["type", "=", "active"]],
+      },
+      tarifa: {
+        type: "many2one",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <field name="field_id" colspan="4" nolabel="1" domain="[('test', '=', 'foo')]"/>
+      <field name="field_char" colspan="4" nolabel="1" domain="[('bar', '=', tarifa)]"/>
+      <field name="tarifa" colspan="4" nolabel="1" />
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        field_char: "test",
+        field_id: 45,
+        tarifa: [1, "2.0A"],
+      },
+    });
+    expect(form.domain).toBe("[('test','=','foo'),('type','=','active'),('bar','=',1)]");
   });
 });

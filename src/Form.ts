@@ -7,6 +7,10 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
+import {
+  parseDomain,
+  combineDomains,
+} from "./helpers/domainParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -71,6 +75,17 @@ class Form {
   }
   set onChangeFields(value: any) {
     this._onChangeFields = value;
+  }
+
+  /**
+   * Domain
+   */
+  _domain: string | undefined;
+  get domain(): string | undefined {
+    return this._domain;
+  }
+  set domain(value: string | undefined) {
+    this._domain = value;
   }
 
   /*
@@ -159,7 +174,32 @@ class Form {
       }
 
       if (tagAttributes["on_change"]) {
-        this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
+        this._onChangeFields[tagAttributes.name] = parseOnChange(
+          tagAttributes["on_change"]
+        );
+      }
+
+      if (tagAttributes["domain"]) {
+        const parsedDomain = parseDomain({
+          domainValue: tagAttributes["domain"],
+          values,
+          fields: this._fields,
+        });
+
+        this._domain = combineDomains([this._domain!, parsedDomain]);
+      }
+
+      if (
+        this._fields[tagAttributes.name] &&
+        this._fields[tagAttributes.name].domain
+      ) {
+        const parsedDomain = parseDomain({
+          domainValue: this._fields[tagAttributes.name].domain,
+          values,
+          fields: this._fields,
+        });
+
+        this._domain = combineDomains([this._domain!, parsedDomain]);
       }
 
       const widget = widgetFactory.createWidget(tag, {

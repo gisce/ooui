@@ -1,7 +1,7 @@
 import {
   parseDomain,
   combineDomains,
-  convertDomainFromFields,
+  convertArrayDomainToString,
 } from "../helpers/domainParser";
 
 describe("A Domain Parser", () => {
@@ -156,32 +156,32 @@ describe("A Domain Parser", () => {
       );
     });
   });
-  describe("in convertDomainFromFields method", () => {
+  describe("in convertArrayDomainToString method", () => {
     it("Should return undefined when receiving domain false", () => {
       const domainValue = false;
-      const converted = convertDomainFromFields(domainValue);
+      const converted = convertArrayDomainToString(domainValue);
       expect(converted).toBeUndefined();
     });
     it("hould return undefined when receiving an empty array as a domain", () => {
       const domainValue: any[] = [];
-      const converted = convertDomainFromFields(domainValue);
+      const converted = convertArrayDomainToString(domainValue);
       expect(converted).toBeUndefined();
     });
     it("Should convert an array domain to string", () => {
       const domainValue = [["type", "=", "sale"]];
-      const converted = convertDomainFromFields(domainValue);
+      const converted = convertArrayDomainToString(domainValue);
       expect(converted).toBe("[('type','=','sale')]");
     });
     it("Should convert an array domain with boolean to string", () => {
-      const converted = convertDomainFromFields([["type", "=", false]]);
+      const converted = convertArrayDomainToString([["type", "=", false]]);
       expect(converted).toBe("[('type','=',False)]");
-      const converted2 = convertDomainFromFields([["type", "=", true]]);
+      const converted2 = convertArrayDomainToString([["type", "=", true]]);
       expect(converted2).toBe("[('type','=',True)]");
     });
     it("Should convert an array domain with numeric to string", () => {
-      const converted = convertDomainFromFields([["type", "=", 5]]);
+      const converted = convertArrayDomainToString([["type", "=", 5]]);
       expect(converted).toBe("[('type','=',5)]");
-      const converted2 = convertDomainFromFields([["type", "=", 10.32]]);
+      const converted2 = convertArrayDomainToString([["type", "=", 10.32]]);
       expect(converted2).toBe("[('type','=',10.32)]");
     });
     it("Should convert an array domain with multiple entries to string", () => {
@@ -189,7 +189,7 @@ describe("A Domain Parser", () => {
         ["type", "=", "sale"],
         ["foo", ">", "bar"],
       ];
-      const converted = convertDomainFromFields(domainValue);
+      const converted = convertArrayDomainToString(domainValue);
       expect(converted).toBe("[('type','=','sale'),('foo','>','bar')]");
     });
   });

@@ -37,6 +37,12 @@ declare class Form {
     _onChangeFields: any;
     get onChangeFields(): any;
     set onChangeFields(value: any);
+    /**
+     * Domain
+     */
+    _domain: string | undefined;
+    get domain(): string | undefined;
+    set domain(value: string | undefined);
     constructor(fields: Object, columns?: number);
     parse(xml: string, options?: FormParseOptions): void;
     parseNode({ node, container, values, }: {

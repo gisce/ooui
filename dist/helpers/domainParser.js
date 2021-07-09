@@ -5,10 +5,19 @@ var stringHasNumber = function (str) {
     return !isNaN(str) && !isNaN(parseFloat(str));
 };
 var parseDomain = function (_a) {
-    // [('municipi_id','=',id_municipi)]
     var domainValue = _a.domainValue, values = _a.values, fields = _a.fields;
+    var domain;
+    if (typeof domainValue === "string") {
+        domain = domainValue;
+    }
+    else {
+        domain = convertArrayDomainToString(domainValue);
+        if (!domain) {
+            return;
+        }
+    }
     var outputDomain = "[";
-    var firstParse = domainValue
+    var firstParse = domain
         .replace(/\s/g, "")
         .replace(/\"/g, "'")
         .replace(/\[/g, "")
@@ -53,10 +62,14 @@ var parseDomain = function (_a) {
     return outputDomain + "]";
 };
 function combineDomains(domains) {
-    var joined = domains.join(",").replace(/\[/g, "").replace(/\]/g, "");
+    var joined = domains
+        .filter(function (entry) { return entry !== undefined; })
+        .join(",")
+        .replace(/\[/g, "")
+        .replace(/\]/g, "");
     return "[" + joined + "]";
 }
-function convertDomainFromFields(domainValue) {
+function convertArrayDomainToString(domainValue) {
     if (!domainValue) {
         return undefined;
     }
@@ -87,5 +100,5 @@ function convertDomainFromFields(domainValue) {
     });
     return outputDomain + "]";
 }
-export { parseDomain, combineDomains, convertDomainFromFields };
+export { parseDomain, combineDomains, convertArrayDomainToString };
 //# sourceMappingURL=domainParser.js.map
