@@ -17,12 +17,8 @@ var parseDomain = function (_a) {
         }
     }
     var outputDomain = "[";
-    var firstParse = domain
-        .replace(/\s/g, "")
-        .replace(/\"/g, "'")
-        .replace(/\[/g, "")
-        .replace(/\]/g, "");
-    var entries = firstParse.split(",");
+    var firstParse = domain.slice(1, -1).replace(/\s/g, "").replace(/\"/g, "'");
+    var entries = firstParse.split(",").filter(function (entry) { return entry !== ""; });
     entries.forEach(function (element, idx) {
         if (element.indexOf("(") !== -1) {
             outputDomain += element + ",";
@@ -37,7 +33,8 @@ var parseDomain = function (_a) {
             if (value === "True" ||
                 value === "False" ||
                 stringHasNumber(value) ||
-                element.indexOf("'") !== -1) {
+                element.indexOf("'") !== -1 ||
+                element.indexOf("[") !== -1) {
                 outputDomain += element;
             }
             else {
@@ -62,11 +59,16 @@ var parseDomain = function (_a) {
     return outputDomain + "]";
 };
 function combineDomains(domains) {
-    var joined = domains
+    var filteredDomains = domains
         .filter(function (entry) { return entry !== undefined; })
-        .join(",")
-        .replace(/\[/g, "")
-        .replace(/\]/g, "");
+        .filter(function (item, pos, self) {
+        return self.indexOf(item) == pos;
+    })
+        .map(function (entry) { return entry.slice(1, -1); });
+    var joined = filteredDomains.join(",");
+    if (joined === "") {
+        return undefined;
+    }
     return "[" + joined + "]";
 }
 function convertArrayDomainToString(domainValue) {

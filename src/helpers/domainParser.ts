@@ -28,13 +28,8 @@ const parseDomain = ({
 
   let outputDomain = "[";
 
-  const firstParse = domain
-    .replace(/\s/g, "")
-    .replace(/\"/g, "'")
-    .replace(/\[/g, "")
-    .replace(/\]/g, "");
-
-  const entries = firstParse.split(",");
+  const firstParse = domain.slice(1, -1).replace(/\s/g, "").replace(/\"/g, "'");
+  const entries = firstParse.split(",").filter((entry) => entry !== "");
 
   entries.forEach((element, idx) => {
     if (element.indexOf("(") !== -1) {
@@ -53,7 +48,8 @@ const parseDomain = ({
         value === "True" ||
         value === "False" ||
         stringHasNumber(value) ||
-        element.indexOf("'") !== -1
+        element.indexOf("'") !== -1 ||
+        element.indexOf("[") !== -1
       ) {
         outputDomain += element;
       } else {
@@ -82,11 +78,17 @@ const parseDomain = ({
 };
 
 function combineDomains(domains: any) {
-  const joined = domains
+  const filteredDomains = domains
     .filter((entry: any) => entry !== undefined)
-    .join(",")
-    .replace(/\[/g, "")
-    .replace(/\]/g, "");
+    .filter(function (item: string, pos: number, self: string[]) {
+      return self.indexOf(item) == pos;
+    })
+    .map((entry: any) => entry.slice(1, -1));
+
+  const joined = filteredDomains.join(",");
+  if (joined === "") {
+    return undefined;
+  }
   return `[${joined}]`;
 }
 

@@ -8,6 +8,8 @@ import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
 
+import { polissa } from "./polissa";
+
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
     <notebook>
@@ -965,6 +967,19 @@ describe("A Form", () => {
         tarifa: [1, "2.0A"],
       },
     });
-    expect(form.domain).toBe("[('test','=','foo'),('type','=','active'),('bar','=',1)]");
+    expect(form.domain).toBe(
+      "[('test','=','foo'),('type','=','active'),('bar','=',1)]"
+    );
+  });
+
+  it("should be able to parse polissa domain", () => {
+    const { arch, fields, values } = polissa;
+
+    const form = new Form(fields);
+    form.parse(arch, { values });
+
+    expect(form.domain).toBe(
+      "[('supplier','=',1),('customer','=',1),('category_id.name','=','POTELEC'),('category_id.name','=','POTELEC'),('tarifes_atr_compatibles','=',1),('type','=','sale'),('type','=','sale'),('pricelist_id','=',false),'|',('date_end','>','2016-01-01'),('date_end','=',False),('partner_id','=',3),('customer','=',1),('partner_id','=',3),('type','=','invoice'),('partner_id','=',4),('id','in',[])]"
+    );
   });
 });

@@ -192,5 +192,19 @@ describe("A Domain Parser", () => {
       const converted = convertArrayDomainToString(domainValue);
       expect(converted).toBe("[('type','=','sale'),('foo','>','bar')]");
     });
+    it("Should parse domain with trailing coma", () => {
+      const domainValue =
+        "[('pricelist_id', '=', 32), '|', ('date_end', '>', 12), ('date_end', '=', False),]";
+
+      const parsedDomain = parseDomain({
+        domainValue: domainValue,
+        values: {},
+        fields: {},
+      });
+
+      const expected =
+        "[('pricelist_id', '=', 32), '|', ('date_end', '>', 12), ('date_end', '=', False)]";
+      expect(parsedDomain).toBe(expected.replace(/\s/g, ""));
+    });
   });
 });

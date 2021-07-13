@@ -3,6 +3,6 @@ declare const parseDomain: ({ domainValue, values, fields, }: {
     values: any;
     fields: any;
 }) => string | undefined;
-declare function combineDomains(domains: any): string;
+declare function combineDomains(domains: any): string | undefined;
 declare function convertArrayDomainToString(domainValue?: boolean | any): string | undefined;
 export { parseDomain, combineDomains, convertArrayDomainToString };

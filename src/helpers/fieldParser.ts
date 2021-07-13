@@ -8,17 +8,17 @@ export function getValueForField({
   fields: any;
 }) {
   if (!fields) {
-    return undefined;
+    return false;
   }
 
   if (!fields[fieldName]) {
-    return values[fieldName] || undefined;
+    return values[fieldName] || false;
   }
 
   const fieldType = fields[fieldName].type;
 
   if (fieldType === "many2one") {
-    return values[fieldName] ? values[fieldName][0] || null : undefined;
+    return values[fieldName] ? values[fieldName][0] || null : false;
   } else if (fieldType === "one2many" || fieldType === "many2many") {
     return values[fieldName].map((item: any) => item.id);
   } else {
