@@ -29,6 +29,7 @@ import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
+import { parseDomain } from "./helpers/domainParser";
 
 export {
   Char,
@@ -62,4 +63,5 @@ export {
   Binary,
   Image,
   parseContext,
+  parseDomain,
 };

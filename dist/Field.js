@@ -122,16 +122,6 @@ var Field = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Field.prototype, "domain", {
-        get: function () {
-            return this._domain;
-        },
-        set: function (value) {
-            this._domain = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Field.prototype, "activated", {
         get: function () {
             return this._activated;

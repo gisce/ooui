@@ -31,6 +31,9 @@ var Widget = /** @class */ (function () {
             if (props.context) {
                 this._context = props.context;
             }
+            if (props.domain) {
+                this._domain = props.domain;
+            }
         }
     }
     Object.defineProperty(Widget, "defaultColspan", {
@@ -89,6 +92,16 @@ var Widget = /** @class */ (function () {
         },
         set: function (value) {
             this._context = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Widget.prototype, "domain", {
+        get: function () {
+            return this._domain;
+        },
+        set: function (value) {
+            this._domain = value;
         },
         enumerable: false,
         configurable: true

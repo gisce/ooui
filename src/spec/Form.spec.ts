@@ -8,8 +8,6 @@ import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
 
-import { polissa } from "./polissa";
-
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
     <notebook>
@@ -955,7 +953,7 @@ describe("A Form", () => {
     };
     const xmlViewForm = `<?xml version="1.0"?>
     <form string="Form1">
-      <field name="field_id" colspan="4" nolabel="1" domain="[('test', '=', 'foo')]"/>
+      <field name="field_id" colspan="4" nolabel="1" />
       <field name="field_char" colspan="4" nolabel="1" domain="[('bar', '=', tarifa)]"/>
       <field name="tarifa" colspan="4" nolabel="1" />
     </form>`;
@@ -967,19 +965,20 @@ describe("A Form", () => {
         tarifa: [1, "2.0A"],
       },
     });
-    expect(form.domain).toBe(
-      "[('test','=','foo'),('type','=','active'),('bar','=',1)]"
-    );
-  });
 
-  it("should be able to parse polissa domain", () => {
-    const { arch, fields, values } = polissa;
+    const field_id = form.findById("field_id");
+    const field_char = form.findById("field_char");
 
-    const form = new Form(fields);
-    form.parse(arch, { values });
-
-    expect(form.domain).toBe(
-      "[('supplier','=',1),('customer','=',1),('category_id.name','=','POTELEC'),('category_id.name','=','POTELEC'),('tarifes_atr_compatibles','=',1),('type','=','sale'),('type','=','sale'),('pricelist_id','=',false),'|',('date_end','>','2016-01-01'),('date_end','=',False),('partner_id','=',3),('customer','=',1),('partner_id','=',3),('type','=','invoice'),('partner_id','=',4),('id','in',[])]"
-    );
+    expect(field_id!.domain.length).toBe(1);
+    expect(field_id!.domain[0].length).toBe(3);
+    expect(field_id!.domain[0][0]).toBe("type");
+    expect(field_id!.domain[0][1]).toBe("=");
+    expect(field_id!.domain[0][2]).toBe("active");
+    
+    expect(field_char!.domain.length).toBe(1);
+    expect(field_char!.domain[0].length).toBe(3);
+    expect(field_char!.domain[0][0]).toBe("bar");
+    expect(field_char!.domain[0][1]).toBe("=");
+    expect(field_char!.domain[0][2]).toBe(1);
   });
 });

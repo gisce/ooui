@@ -38,12 +38,6 @@ declare class Field extends Widget {
     get tooltip(): string | undefined;
     set tooltip(value: string | undefined);
     /**
-     * Domain
-     */
-    _domain?: Array<any[]>;
-    get domain(): Array<any[]> | undefined;
-    set domain(value: Array<any[]> | undefined);
-    /**
      * Activated (default is true)
      */
     _activated: boolean;

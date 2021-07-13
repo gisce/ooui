@@ -65,6 +65,17 @@ abstract class Widget {
     this._context = value;
   }
 
+  /**
+   * Domain
+   */
+  _domain: any;
+  get domain(): any {
+    return this._domain;
+  }
+  set domain(value: any) {
+    this._domain = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
@@ -97,6 +108,9 @@ abstract class Widget {
       }
       if (props.context) {
         this._context = props.context;
+      }
+      if (props.domain) {
+        this._domain = props.domain;
       }
     }
   }

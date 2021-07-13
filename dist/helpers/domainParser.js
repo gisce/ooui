@@ -11,13 +11,15 @@ var parseDomain = function (_a) {
         domain = domainValue;
     }
     else {
-        domain = convertArrayDomainToString(domainValue);
-        if (!domain) {
-            return;
-        }
+        return domainValue;
     }
-    var outputDomain = "[";
-    var firstParse = domain.slice(1, -1).replace(/\s/g, "").replace(/\"/g, "'");
+    var outputDomain = "";
+    var firstParse = domain
+        .slice(1, -1)
+        .replace(/\s/g, "")
+        .replace(/\"/g, "'")
+        .replace(/True/g, "true")
+        .replace(/False/g, "false");
     var entries = firstParse.split(",").filter(function (entry) { return entry !== ""; });
     entries.forEach(function (element, idx) {
         if (element.indexOf("(") !== -1) {
@@ -30,8 +32,8 @@ var parseDomain = function (_a) {
         }
         if (element.indexOf(")") !== -1) {
             var value = element.replace(/\)/g, "").replace(/\'/g, "");
-            if (value === "True" ||
-                value === "False" ||
+            if (value === "true" ||
+                value === "false" ||
                 stringHasNumber(value) ||
                 element.indexOf("'") !== -1 ||
                 element.indexOf("[") !== -1) {
@@ -56,51 +58,12 @@ var parseDomain = function (_a) {
             return;
         }
     });
-    return outputDomain + "]";
+    var output = "[" + outputDomain
+        .replace(/\(/g, "[")
+        .replace(/\)/g, "]")
+        .replace(/\'/g, '"') + "]";
+    var outputParsed = JSON.parse(output);
+    return outputParsed;
 };
-function combineDomains(domains) {
-    var filteredDomains = domains
-        .filter(function (entry) { return entry !== undefined; })
-        .filter(function (item, pos, self) {
-        return self.indexOf(item) == pos;
-    })
-        .map(function (entry) { return entry.slice(1, -1); });
-    var joined = filteredDomains.join(",");
-    if (joined === "") {
-        return undefined;
-    }
-    return "[" + joined + "]";
-}
-function convertArrayDomainToString(domainValue) {
-    if (!domainValue) {
-        return undefined;
-    }
-    if (domainValue.length === 0) {
-        return undefined;
-    }
-    var outputDomain = "[";
-    domainValue.forEach(function (entry, idx) {
-        outputDomain += "(";
-        entry.forEach(function (element, idy) {
-            if (typeof element !== "boolean" && !isNaN(element)) {
-                outputDomain += "" + element;
-            }
-            else if (typeof element === "boolean") {
-                outputDomain += "" + (element ? "True" : "False");
-            }
-            else {
-                outputDomain += "'" + element + "'";
-            }
-            if (idy < entry.length - 1) {
-                outputDomain += ",";
-            }
-        });
-        outputDomain += ")";
-        if (idx < domainValue.length - 1) {
-            outputDomain += ",";
-        }
-    });
-    return outputDomain + "]";
-}
-export { parseDomain, combineDomains, convertArrayDomainToString };
+export { parseDomain };
 //# sourceMappingURL=domainParser.js.map

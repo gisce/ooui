@@ -64,17 +64,6 @@ class Field extends Widget {
   }
 
   /**
-   * Domain
-   */
-  _domain?: Array<any[]>;
-  get domain(): Array<any[]> | undefined {
-    return this._domain;
-  }
-  set domain(value: Array<any[]> | undefined) {
-    this._domain = value;
-  }
-
-  /**
    * Activated (default is true)
    */
   _activated: boolean = true;

@@ -19,16 +19,17 @@ const parseDomain = ({
   if (typeof domainValue === "string") {
     domain = domainValue;
   } else {
-    domain = convertArrayDomainToString(domainValue);
-
-    if (!domain) {
-      return;
-    }
+    return domainValue;
   }
 
-  let outputDomain = "[";
+  let outputDomain = "";
 
-  const firstParse = domain.slice(1, -1).replace(/\s/g, "").replace(/\"/g, "'");
+  const firstParse = domain
+    .slice(1, -1)
+    .replace(/\s/g, "")
+    .replace(/\"/g, "'")
+    .replace(/True/g, "true")
+    .replace(/False/g, "false");
   const entries = firstParse.split(",").filter((entry) => entry !== "");
 
   entries.forEach((element, idx) => {
@@ -45,8 +46,8 @@ const parseDomain = ({
     if (element.indexOf(")") !== -1) {
       const value = element.replace(/\)/g, "").replace(/\'/g, "");
       if (
-        value === "True" ||
-        value === "False" ||
+        value === "true" ||
+        value === "false" ||
         stringHasNumber(value) ||
         element.indexOf("'") !== -1 ||
         element.indexOf("[") !== -1
@@ -74,60 +75,14 @@ const parseDomain = ({
     }
   });
 
-  return outputDomain + "]";
+  const output = `[${outputDomain
+    .replace(/\(/g, "[")
+    .replace(/\)/g, "]")
+    .replace(/\'/g, '"')}]`;
+
+  const outputParsed = JSON.parse(output);
+
+  return outputParsed;
 };
 
-function combineDomains(domains: any) {
-  const filteredDomains = domains
-    .filter((entry: any) => entry !== undefined)
-    .filter(function (item: string, pos: number, self: string[]) {
-      return self.indexOf(item) == pos;
-    })
-    .map((entry: any) => entry.slice(1, -1));
-
-  const joined = filteredDomains.join(",");
-  if (joined === "") {
-    return undefined;
-  }
-  return `[${joined}]`;
-}
-
-function convertArrayDomainToString(domainValue?: boolean | any) {
-  if (!domainValue) {
-    return undefined;
-  }
-
-  if (domainValue.length === 0) {
-    return undefined;
-  }
-
-  let outputDomain = "[";
-
-  domainValue.forEach((entry: any[], idx: number) => {
-    outputDomain += "(";
-
-    entry.forEach((element, idy) => {
-      if (typeof element !== "boolean" && !isNaN(element)) {
-        outputDomain += `${element}`;
-      } else if (typeof element === "boolean") {
-        outputDomain += `${element ? "True" : "False"}`;
-      } else {
-        outputDomain += `'${element}'`;
-      }
-
-      if (idy < entry.length - 1) {
-        outputDomain += ",";
-      }
-    });
-
-    outputDomain += ")";
-
-    if (idx < domainValue.length - 1) {
-      outputDomain += ",";
-    }
-  });
-
-  return outputDomain + "]";
-}
-
-export { parseDomain, combineDomains, convertArrayDomainToString };
+export { parseDomain };

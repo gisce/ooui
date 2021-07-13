@@ -1,7 +1,5 @@
 import {
   parseDomain,
-  combineDomains,
-  convertArrayDomainToString,
 } from "../helpers/domainParser";
 
 describe("A Domain Parser", () => {
@@ -15,7 +13,11 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe("foo");
     });
     it("should properly parse a multiple string domain", () => {
       const domain = "[('test', '=', 'foo'),('test', '=', 'bar')]";
@@ -26,7 +28,15 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(2);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![1].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe("foo");
+      expect(parsedDomain![1][0]).toBe("test");
+      expect(parsedDomain![1][1]).toBe("=");
+      expect(parsedDomain![1][2]).toBe("bar");
     });
 
     it("should properly parse a basic domain value", () => {
@@ -48,7 +58,11 @@ describe("A Domain Parser", () => {
         fields,
       });
 
-      expect(parsedDomain).toBe("[('municipi_id.id','=',6)]");
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("municipi_id.id");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(6);
     });
     it("should properly parse multiple domain value", () => {
       const domain =
@@ -74,9 +88,15 @@ describe("A Domain Parser", () => {
         fields,
       });
 
-      expect(parsedDomain).toBe(
-        "[('municipi_id.id','=',6),('test.id','=',10)]"
-      );
+      expect(parsedDomain!.length).toBe(2);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![1].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("municipi_id.id");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(6);
+      expect(parsedDomain![1][0]).toBe("test.id");
+      expect(parsedDomain![1][1]).toBe("=");
+      expect(parsedDomain![1][2]).toBe(10);
     });
     it("should properly parse a basic boolean true domain", () => {
       const domain = "[('test', '=', True)]";
@@ -87,7 +107,11 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(true);
     });
     it("should properly parse a basic boolean false domain", () => {
       const domain = "[('test', '=', False)]";
@@ -97,7 +121,11 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(false);
     });
     it("should properly parse a float numeric domain", () => {
       const domain = "[('test', '=', 50.3)]";
@@ -107,7 +135,11 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(50.3);
     });
     it("should properly parse a integer numeric domain", () => {
       const domain = "[('test', '=', 15000)]";
@@ -117,7 +149,11 @@ describe("A Domain Parser", () => {
         fields: {},
       });
 
-      expect(parsedDomain).toBe(domain.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(1);
+      expect(parsedDomain![0].length).toBe(3);
+      expect(parsedDomain![0][0]).toBe("test");
+      expect(parsedDomain![0][1]).toBe("=");
+      expect(parsedDomain![0][2]).toBe(15000);
     });
     it("should properly parse a domain with OR", () => {
       const domain =
@@ -139,72 +175,18 @@ describe("A Domain Parser", () => {
         fields,
       });
 
-      expect(parsedDomain).toBe(
-        "['&',('test','=',15000),'|',('municipi_id.id','=',6),('bool','=',True)]"
-      );
-    });
-  });
-  describe("in combineDomains method", () => {
-    it("should combine multiple domains in a unique string", () => {
-      const domains = [
-        "['&',('test','=',15000),'|',('municipi_id.id','=',6),('bool','=',True)]",
-        "[('test', '=', 50.3)]",
-      ];
-      const combinedDomains = combineDomains(domains);
-      expect(combinedDomains).toBe(
-        "['&',('test','=',15000),'|',('municipi_id.id','=',6),('bool','=',True),('test', '=', 50.3)]"
-      );
-    });
-  });
-  describe("in convertArrayDomainToString method", () => {
-    it("Should return undefined when receiving domain false", () => {
-      const domainValue = false;
-      const converted = convertArrayDomainToString(domainValue);
-      expect(converted).toBeUndefined();
-    });
-    it("hould return undefined when receiving an empty array as a domain", () => {
-      const domainValue: any[] = [];
-      const converted = convertArrayDomainToString(domainValue);
-      expect(converted).toBeUndefined();
-    });
-    it("Should convert an array domain to string", () => {
-      const domainValue = [["type", "=", "sale"]];
-      const converted = convertArrayDomainToString(domainValue);
-      expect(converted).toBe("[('type','=','sale')]");
-    });
-    it("Should convert an array domain with boolean to string", () => {
-      const converted = convertArrayDomainToString([["type", "=", false]]);
-      expect(converted).toBe("[('type','=',False)]");
-      const converted2 = convertArrayDomainToString([["type", "=", true]]);
-      expect(converted2).toBe("[('type','=',True)]");
-    });
-    it("Should convert an array domain with numeric to string", () => {
-      const converted = convertArrayDomainToString([["type", "=", 5]]);
-      expect(converted).toBe("[('type','=',5)]");
-      const converted2 = convertArrayDomainToString([["type", "=", 10.32]]);
-      expect(converted2).toBe("[('type','=',10.32)]");
-    });
-    it("Should convert an array domain with multiple entries to string", () => {
-      const domainValue = [
-        ["type", "=", "sale"],
-        ["foo", ">", "bar"],
-      ];
-      const converted = convertArrayDomainToString(domainValue);
-      expect(converted).toBe("[('type','=','sale'),('foo','>','bar')]");
-    });
-    it("Should parse domain with trailing coma", () => {
-      const domainValue =
-        "[('pricelist_id', '=', 32), '|', ('date_end', '>', 12), ('date_end', '=', False),]";
-
-      const parsedDomain = parseDomain({
-        domainValue: domainValue,
-        values: {},
-        fields: {},
-      });
-
-      const expected =
-        "[('pricelist_id', '=', 32), '|', ('date_end', '>', 12), ('date_end', '=', False)]";
-      expect(parsedDomain).toBe(expected.replace(/\s/g, ""));
+      expect(parsedDomain!.length).toBe(5);
+      expect(parsedDomain![0]).toBe("&");
+      expect(parsedDomain![1][0]).toBe("test");
+      expect(parsedDomain![1][1]).toBe("=");
+      expect(parsedDomain![1][2]).toBe(15000);
+      expect(parsedDomain![2]).toBe("|");
+      expect(parsedDomain![3][0]).toBe("municipi_id.id");
+      expect(parsedDomain![3][1]).toBe("=");
+      expect(parsedDomain![3][2]).toBe(6);
+      expect(parsedDomain![4][0]).toBe("bool");
+      expect(parsedDomain![4][1]).toBe("=");
+      expect(parsedDomain![4][2]).toBe(true);
     });
   });
 });
