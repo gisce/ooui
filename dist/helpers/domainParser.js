@@ -20,7 +20,12 @@ var parseDomain = function (_a) {
         .replace(/\"/g, "'")
         .replace(/True/g, "true")
         .replace(/False/g, "false");
-    var entries = firstParse.split(",").filter(function (entry) { return entry !== ""; });
+    var splittedEntries = firstParse.split(",").filter(function (entry) { return entry !== ""; });
+    var thirdEntries = [];
+    for (var i = 2; i <= splittedEntries.length - 1; i += 1) {
+        thirdEntries.push(splittedEntries[i]);
+    }
+    var entries = [splittedEntries[0], splittedEntries[1], thirdEntries.join(",")];
     entries.forEach(function (element, idx) {
         if (element.indexOf("(") !== -1) {
             outputDomain += element + ",";

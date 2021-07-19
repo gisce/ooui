@@ -30,7 +30,14 @@ const parseDomain = ({
     .replace(/\"/g, "'")
     .replace(/True/g, "true")
     .replace(/False/g, "false");
-  const entries = firstParse.split(",").filter((entry) => entry !== "");
+  const splittedEntries = firstParse.split(",").filter((entry) => entry !== "");
+
+  let thirdEntries = [];
+  for (let i = 2; i <= splittedEntries.length - 1; i += 1) {
+    thirdEntries.push(splittedEntries[i]);
+  }
+
+  const entries = [splittedEntries[0], splittedEntries[1], thirdEntries.join(",")];
 
   entries.forEach((element, idx) => {
     if (element.indexOf("(") !== -1) {
