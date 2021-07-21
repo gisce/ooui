@@ -26,7 +26,10 @@ var parseDomain = function (_a) {
     var arrayEntries = [];
     for (var i = 0; i <= splittedEntries.length - 1; i += 1) {
         var entry = splittedEntries[i];
-        if (entry.startsWith("[")) {
+        if (entry.indexOf("[]") !== -1) {
+            entries.push(entry);
+        }
+        else if (entry.startsWith("[")) {
             arrayStart = true;
             arrayEntries = [];
             arrayEntries.push(entry);
@@ -34,7 +37,7 @@ var parseDomain = function (_a) {
         else if (entry.indexOf("]") !== -1) {
             arrayStart = false;
             arrayEntries.push(entry);
-            entries.push(arrayEntries.join(','));
+            entries.push(arrayEntries.join(","));
         }
         else if (arrayStart) {
             arrayEntries.push(entry);

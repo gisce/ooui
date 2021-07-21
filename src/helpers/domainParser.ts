@@ -38,15 +38,17 @@ const parseDomain = ({
 
   for (let i = 0; i <= splittedEntries.length - 1; i += 1) {
     const entry = splittedEntries[i];
-    if (entry.startsWith("[")) {
+    if (entry.indexOf("[]") !== -1) {
+      entries.push(entry);
+    } else if (entry.startsWith("[")) {
       arrayStart = true;
       arrayEntries = [];
       arrayEntries.push(entry);
     } else if (entry.indexOf("]") !== -1) {
       arrayStart = false;
       arrayEntries.push(entry);
-      entries.push(arrayEntries.join(','));
-    } else if(arrayStart) {
+      entries.push(arrayEntries.join(","));
+    } else if (arrayStart) {
       arrayEntries.push(entry);
     } else {
       entries.push(entry);

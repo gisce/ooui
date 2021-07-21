@@ -203,4 +203,18 @@ describe("A Domain Parser", () => {
     expect(parsedDomain![0][2][1]).toBe(10);
     expect(parsedDomain![0][2][2]).toBe(6);
   });
+  it("should properly parse a domain with not_in and blank array", () => {
+    const domain = "[('section_id','not_in',[])]";
+
+    const parsedDomain = parseDomain({
+      domainValue: domain,
+      values: {},
+      fields: {},
+    });
+
+    expect(parsedDomain!.length).toBe(1);
+    expect(parsedDomain![0][0]).toBe("section_id");
+    expect(parsedDomain![0][1]).toBe("not_in");
+    expect(parsedDomain![0][2].length).toBe(0);
+  });
 });
