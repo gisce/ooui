@@ -32,12 +32,26 @@ const parseDomain = ({
     .replace(/False/g, "false");
   const splittedEntries = firstParse.split(",").filter((entry) => entry !== "");
 
-  let thirdEntries = [];
-  for (let i = 2; i <= splittedEntries.length - 1; i += 1) {
-    thirdEntries.push(splittedEntries[i]);
-  }
+  let entries = [];
+  let arrayStart = false;
+  let arrayEntries = [];
 
-  const entries = [splittedEntries[0], splittedEntries[1], thirdEntries.join(",")];
+  for (let i = 0; i <= splittedEntries.length - 1; i += 1) {
+    const entry = splittedEntries[i];
+    if (entry.startsWith("[")) {
+      arrayStart = true;
+      arrayEntries = [];
+      arrayEntries.push(entry);
+    } else if (entry.indexOf("]") !== -1) {
+      arrayStart = false;
+      arrayEntries.push(entry);
+      entries.push(arrayEntries.join(','));
+    } else if(arrayStart) {
+      arrayEntries.push(entry);
+    } else {
+      entries.push(entry);
+    }
+  }
 
   entries.forEach((element, idx) => {
     if (element.indexOf("(") !== -1) {

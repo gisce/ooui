@@ -21,11 +21,28 @@ var parseDomain = function (_a) {
         .replace(/True/g, "true")
         .replace(/False/g, "false");
     var splittedEntries = firstParse.split(",").filter(function (entry) { return entry !== ""; });
-    var thirdEntries = [];
-    for (var i = 2; i <= splittedEntries.length - 1; i += 1) {
-        thirdEntries.push(splittedEntries[i]);
+    var entries = [];
+    var arrayStart = false;
+    var arrayEntries = [];
+    for (var i = 0; i <= splittedEntries.length - 1; i += 1) {
+        var entry = splittedEntries[i];
+        if (entry.startsWith("[")) {
+            arrayStart = true;
+            arrayEntries = [];
+            arrayEntries.push(entry);
+        }
+        else if (entry.indexOf("]") !== -1) {
+            arrayStart = false;
+            arrayEntries.push(entry);
+            entries.push(arrayEntries.join(','));
+        }
+        else if (arrayStart) {
+            arrayEntries.push(entry);
+        }
+        else {
+            entries.push(entry);
+        }
     }
-    var entries = [splittedEntries[0], splittedEntries[1], thirdEntries.join(",")];
     entries.forEach(function (element, idx) {
         if (element.indexOf("(") !== -1) {
             outputDomain += element + ",";
