@@ -25,6 +25,9 @@ const fields = {
   link: {
     type: "char",
   },
+  change_adm: {
+    type: "boolean",
+  },
 };
 
 describe("An Attribute Parser", () => {
@@ -141,6 +144,30 @@ describe("An Attribute Parser", () => {
         fields,
       });
       expect(evaluatedAttrs.invisible).toBeFalsy();
+    });
+    it("should properly parse a boolean attribute without value (default false)", () => {
+      const tagAttributes = {
+        attrs: "{'invisible': [('change_adm', '!=', True)]}",
+      };
+      const values = {};
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
+    });
+    it("should properly parse a boolean attribute without value (default true)", () => {
+      const tagAttributes = {
+        attrs: "{'invisible': [('change_adm', '=', False)]}",
+      };
+      const values = {};
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
     });
   });
 });

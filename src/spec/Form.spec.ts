@@ -589,10 +589,10 @@ describe("A Form", () => {
 
   it("Should be able to parse attributes", () => {
     const arch =
-      "<form><group><field name=\"field1\" attrs=\"{'invisible':[('per_enviar', '=', 'postal')]}\"/><newline /><field name=\"field2\" readonly=\"0\"/></group></form>";
+      "<form><group><button name=\"field1\" attrs=\"{'invisible':[('per_enviar', '=', 'postal')]}\"/><newline /><field name=\"field2\" readonly=\"0\"/></group></form>";
     const fields = {
       field1: {
-        type: "char",
+        type: "button",
       },
       field2: {
         type: "char",

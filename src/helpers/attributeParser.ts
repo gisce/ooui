@@ -9,7 +9,11 @@ const evaluateCondition = ({
 }) => {
   const [fieldName, operator, expectedValue] = entry;
 
-  if (values[fieldName] === undefined || fields[fieldName] === undefined) {
+  if (fields[fieldName] === undefined) {
+    return false;
+  }
+
+  if (values[fieldName] === undefined && fields[fieldName].type !== "boolean") {
     return false;
   }
 
@@ -22,25 +26,30 @@ const evaluateCondition = ({
     filteredExpectedValue = expectedValue === 0 ? false : true;
   }
 
+  const value =
+    fields[fieldName].type === "boolean"
+      ? !!values[fieldName]
+      : values[fieldName];
+
   switch (operator.toLowerCase()) {
     case "=":
     case "==":
-      return values[fieldName] === filteredExpectedValue;
+      return value === filteredExpectedValue;
     case "<>":
     case "!=":
-      return values[fieldName] !== filteredExpectedValue;
+      return value !== filteredExpectedValue;
     case ">":
-      return values[fieldName] > filteredExpectedValue;
+      return value > filteredExpectedValue;
     case ">=":
-      return values[fieldName] >= filteredExpectedValue;
+      return value >= filteredExpectedValue;
     case "<":
-      return values[fieldName] < filteredExpectedValue;
+      return value < filteredExpectedValue;
     case "<=":
-      return values[fieldName] <= filteredExpectedValue;
+      return value <= filteredExpectedValue;
     case "in":
-      return filteredExpectedValue.includes(values[fieldName]);
+      return filteredExpectedValue.includes(value);
     case "not in":
-      return !filteredExpectedValue.includes(values[fieldName]);
+      return !filteredExpectedValue.includes(value);
     default:
       return false;
   }
