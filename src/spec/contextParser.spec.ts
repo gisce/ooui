@@ -44,5 +44,14 @@ describe("A Context Parser", () => {
       expect(parsedContext!["o2m"][0]).toBe(1);
       expect(parsedContext!["o2m"][1]).toBe(2);
     });
+
+    it("should properly parse a boolean context", () => {
+      const str = "{'active_test': False}";
+
+      const parsedContext = parseContext({ context: str });
+
+      expect(parsedContext!["active_test"]).toBeDefined();
+      expect(parsedContext!["active_test"]).toBeFalsy();
+    });
   });
 });

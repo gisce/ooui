@@ -19,7 +19,9 @@ export const parseContext = ({
 
     // TODO: maybe this can be accomplished more performant and elegant with regex
     const strNoWhitespaces = context.replace(/\s/g, "");
-    const strNoClauLeft = strNoWhitespaces.replace(/\{/g, "");
+    var replaceTrue = strNoWhitespaces.replace(/True/g, "true");
+    var replaceFalse = replaceTrue.replace(/False/g, "false");
+    const strNoClauLeft = replaceFalse.replace(/\{/g, "");
     const strNoClauRight = strNoClauLeft.replace(/\}/g, "");
 
     const entryValues = strNoClauRight.split(",");
@@ -32,7 +34,11 @@ export const parseContext = ({
     valuesSplitted.forEach((entry) => {
       const fieldName = entry[1];
 
-      if (entry[1].indexOf("'") === -1) {
+      if (
+        entry[1].indexOf("'") === -1 &&
+        entry[1] !== "true" &&
+        entry[1] !== "false"
+      ) {
         const valueForField = getValueForField({
           values,
           fields,
@@ -40,7 +46,16 @@ export const parseContext = ({
         });
         parsedContext[entry[0].replace(/'/g, "")] = valueForField || undefined;
       } else {
-        parsedContext[entry[0].replace(/'/g, "")] = entry[1].replace(/'/g, "");
+        if (entry[1] === "true") {
+          parsedContext[entry[0].replace(/'/g, "")] = true;
+        } else if (entry[1] === "false") {
+          parsedContext[entry[0].replace(/'/g, "")] = false;
+        } else {
+          parsedContext[entry[0].replace(/'/g, "")] = entry[1].replace(
+            /'/g,
+            ""
+          );
+        }
       }
     });
 
