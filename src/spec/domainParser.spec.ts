@@ -187,8 +187,8 @@ describe("A Domain Parser", () => {
       expect(parsedDomain![4][2]).toBe(true);
     });
   });
-  it("should properly parse a domain with not_in and array", () => {
-    const domain = "[('section_id','not_in',[5, 10, 6])]";
+  it("should properly parse a domain with not in and array", () => {
+    const domain = "[('section_id','not in',[5, 10, 6])]";
 
     const parsedDomain = parseDomain({
       domainValue: domain,
@@ -198,13 +198,13 @@ describe("A Domain Parser", () => {
 
     expect(parsedDomain!.length).toBe(1);
     expect(parsedDomain![0][0]).toBe("section_id");
-    expect(parsedDomain![0][1]).toBe("not_in");
+    expect(parsedDomain![0][1]).toBe("not in");
     expect(parsedDomain![0][2][0]).toBe(5);
     expect(parsedDomain![0][2][1]).toBe(10);
     expect(parsedDomain![0][2][2]).toBe(6);
   });
-  it("should properly parse a domain with not_in and blank array", () => {
-    const domain = "[('section_id','not_in',[])]";
+  it("should properly parse a domain with not in and blank array", () => {
+    const domain = "[('section_id','not in',[])]";
 
     const parsedDomain = parseDomain({
       domainValue: domain,
@@ -214,7 +214,7 @@ describe("A Domain Parser", () => {
 
     expect(parsedDomain!.length).toBe(1);
     expect(parsedDomain![0][0]).toBe("section_id");
-    expect(parsedDomain![0][1]).toBe("not_in");
+    expect(parsedDomain![0][1]).toBe("not in");
     expect(parsedDomain![0][2].length).toBe(0);
   });
 });

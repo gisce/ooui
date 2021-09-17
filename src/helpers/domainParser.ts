@@ -26,7 +26,7 @@ const parseDomain = ({
 
   const firstParse = domain
     .slice(1, -1)
-    .replace(/\s/g, "")
+    .replace(/, /g, ",")
     .replace(/\"/g, "'")
     .replace(/True/g, "true")
     .replace(/False/g, "false");
