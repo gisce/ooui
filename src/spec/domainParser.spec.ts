@@ -238,4 +238,21 @@ describe("A Domain Parser", () => {
     expect(parsedDomain![2][1]).toBe("not in");
     expect(parsedDomain![2][2].length).toBe(3);
   });
+  it("should properly parse a domain with not in from bug #58", () => {
+    const domain =
+      "[('data_ultima_lectura', '=', False), ('state', 'not in', ('esborrany', 'validar', 'cancelada'))]";
+    const parsedDomain = parseDomain({
+      domainValue: domain,
+      values: {},
+      fields: {},
+    });
+
+    expect(parsedDomain!.length).toBe(2);
+    expect(parsedDomain![0][0]).toBe("data_ultima_lectura");
+    expect(parsedDomain![0][1]).toBe("=");
+    expect(parsedDomain![0][2]).toBeFalsy();
+    expect(parsedDomain![1][0]).toBe("state");
+    expect(parsedDomain![1][1]).toBe("not in");
+    expect(parsedDomain![1][2].length).toBe(3);
+  });
 });
