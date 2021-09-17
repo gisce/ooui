@@ -17,6 +17,7 @@ var parseDomain = function (_a) {
     var firstParse = domain
         .slice(1, -1)
         .replace(/, /g, ",")
+        .replace(/\) /g, ")")
         .replace(/\"/g, "'")
         .replace(/True/g, "true")
         .replace(/False/g, "false");

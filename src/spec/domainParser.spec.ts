@@ -217,4 +217,25 @@ describe("A Domain Parser", () => {
     expect(parsedDomain![0][1]).toBe("not in");
     expect(parsedDomain![0][2].length).toBe(0);
   });
+  it("should properly parse a domain with not in from bug #58", () => {
+    const domain =
+      "[('section_id','=',2),('user_id','=',uid), ('state','not in', ['done','cancel','pending']) ]";
+
+    const parsedDomain = parseDomain({
+      domainValue: domain,
+      values: {},
+      fields: {},
+    });
+
+    expect(parsedDomain!.length).toBe(3);
+    expect(parsedDomain![0][0]).toBe("section_id");
+    expect(parsedDomain![0][1]).toBe("=");
+    expect(parsedDomain![0][2]).toBe(2);
+    expect(parsedDomain![1][0]).toBe("user_id");
+    expect(parsedDomain![1][1]).toBe("=");
+    expect(parsedDomain![1][2]).toBeFalsy();
+    expect(parsedDomain![2][0]).toBe("state");
+    expect(parsedDomain![2][1]).toBe("not in");
+    expect(parsedDomain![2][2].length).toBe(3);
+  });
 });
