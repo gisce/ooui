@@ -28,10 +28,6 @@ var One2many = /** @class */ (function (_super) {
          */
         _this._relation = "";
         /**
-         * Inv_field
-         */
-        _this._inv_field = "";
-        /**
          * Views
          */
         _this._views = null;
@@ -90,10 +86,10 @@ var One2many = /** @class */ (function (_super) {
     });
     Object.defineProperty(One2many.prototype, "inv_field", {
         get: function () {
-            return this._relation;
+            return this._inv_field;
         },
         set: function (value) {
-            this._relation = value;
+            this._inv_field = value;
         },
         enumerable: false,
         configurable: true

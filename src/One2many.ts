@@ -29,12 +29,12 @@ class One2many extends Field {
   /**
    * Inv_field
    */
-  _inv_field: string = "";
-  get inv_field(): string {
-    return this._relation;
+  _inv_field: string | undefined;
+  get inv_field(): string | undefined {
+    return this._inv_field;
   }
-  set inv_field(value: string) {
-    this._relation = value;
+  set inv_field(value: string | undefined) {
+    this._inv_field = value;
   }
 
   /**

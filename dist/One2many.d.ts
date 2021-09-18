@@ -18,9 +18,9 @@ declare class One2many extends Field {
     /**
      * Inv_field
      */
-    _inv_field: string;
-    get inv_field(): string;
-    set inv_field(value: string);
+    _inv_field: string | undefined;
+    get inv_field(): string | undefined;
+    set inv_field(value: string | undefined);
     /**
      * Views
      */
