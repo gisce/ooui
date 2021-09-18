@@ -16,6 +16,12 @@ declare class One2many extends Field {
     get relation(): string;
     set relation(value: string);
     /**
+     * Inv_field
+     */
+    _inv_field: string;
+    get inv_field(): string;
+    set inv_field(value: string);
+    /**
      * Views
      */
     _views: any;

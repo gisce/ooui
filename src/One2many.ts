@@ -27,6 +27,17 @@ class One2many extends Field {
   }
 
   /**
+   * Inv_field
+   */
+  _inv_field: string = "";
+  get inv_field(): string {
+    return this._relation;
+  }
+  set inv_field(value: string) {
+    this._relation = value;
+  }
+
+  /**
    * Views
    */
   _views: any = null;
@@ -83,6 +94,10 @@ class One2many extends Field {
         this.colspan = props.colspan;
       } else {
         this._mustExpand = true;
+      }
+
+      if (props.inv_field) {
+        this._inv_field = props.inv_field;
       }
     }
   }

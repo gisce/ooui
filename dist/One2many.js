@@ -28,6 +28,10 @@ var One2many = /** @class */ (function (_super) {
          */
         _this._relation = "";
         /**
+         * Inv_field
+         */
+        _this._inv_field = "";
+        /**
          * Views
          */
         _this._views = null;
@@ -58,6 +62,9 @@ var One2many = /** @class */ (function (_super) {
             else {
                 _this._mustExpand = true;
             }
+            if (props.inv_field) {
+                _this._inv_field = props.inv_field;
+            }
         }
         return _this;
     }
@@ -72,6 +79,16 @@ var One2many = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(One2many.prototype, "relation", {
+        get: function () {
+            return this._relation;
+        },
+        set: function (value) {
+            this._relation = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(One2many.prototype, "inv_field", {
         get: function () {
             return this._relation;
         },
