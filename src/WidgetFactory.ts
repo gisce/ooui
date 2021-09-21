@@ -103,6 +103,7 @@ class WidgetFactory {
         break;
       case "binary":
         this._widgetClass = Binary;
+        break;
       case "image":
         this._widgetClass = Image;
         break;
