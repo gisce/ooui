@@ -135,4 +135,21 @@ describe("A Tree", () => {
     tree.parse(`<tree><field name="name"/></tree>`);
     expect(tree.type).toBe("tree");
   });
+
+  it("Must parse colors", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name"/></tree>`
+    );
+    expect(tree.colorExpressions!.length).toBe(1);
+  });
 });

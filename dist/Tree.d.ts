@@ -14,6 +14,11 @@ declare class Tree {
      */
     _type: string;
     get type(): string;
+    /**
+     * Widget type
+     */
+    _colorExpressions: any[] | undefined;
+    get colorExpressions(): any[] | undefined;
     constructor(fields: Object);
     parse(xml: string): void;
     parseNode(node: Element): void;

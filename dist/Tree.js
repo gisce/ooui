@@ -1,5 +1,6 @@
 import WidgetFactory from "./WidgetFactory";
 import { parseNodes } from "./helpers/nodeParser";
+import { parseColors } from "./helpers/colorParser";
 var Tree = /** @class */ (function () {
     function Tree(fields) {
         this._columns = [];
@@ -38,11 +39,22 @@ var Tree = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Tree.prototype, "colorExpressions", {
+        get: function () {
+            return this._colorExpressions;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Tree.prototype.parse = function (xml) {
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this.parseNode(view.documentElement);
         this._string = view.documentElement.getAttribute("string");
+        var colorString = view.documentElement.getAttribute("colors");
+        if (colorString) {
+            this._colorExpressions = parseColors(colorString);
+        }
     };
     Tree.prototype.parseNode = function (node) {
         var _this = this;

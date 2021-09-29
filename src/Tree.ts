@@ -1,6 +1,7 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
 import { parseNodes } from "./helpers/nodeParser";
+import { parseColors } from "./helpers/colorParser";
 
 class Tree {
   /**
@@ -29,6 +30,14 @@ class Tree {
     return this._type;
   }
 
+  /**
+   * Widget type
+   */
+  _colorExpressions: any[] | undefined;
+  get colorExpressions(): any[] | undefined {
+    return this._colorExpressions;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }
@@ -38,6 +47,10 @@ class Tree {
     const view: Document = parser.parseFromString(xml, "text/xml");
     this.parseNode(view.documentElement);
     this._string = view.documentElement.getAttribute("string");
+    const colorString = view.documentElement.getAttribute("colors");
+    if (colorString) {
+      this._colorExpressions = parseColors(colorString);
+    }
   }
 
   parseNode(node: Element) {
