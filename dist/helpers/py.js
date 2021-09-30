@@ -718,7 +718,7 @@ py.object = py.type("object", [{}], {
             return this._hash;
         }
         // tagged counter, to avoid collisions with e.g. number hashes
-        return (this._hash = "\0\0\0" + String(hash_counter++));
+        return (this._hash = "\x0c\x0c\x0c" + String(hash_counter++));
     },
     __eq__: function (other) {
         return this === other ? py.True : py.False;
@@ -932,7 +932,7 @@ py.str = py.type("str", null, {
         this._value = py.PY_str(s)._value;
     },
     __hash__: function () {
-        return "\1\0\1" + this._value;
+        return "\x1c\x0c\x1c" + this._value;
     },
     __str__: function () {
         return this;

@@ -14,7 +14,9 @@ export var parseColors = function (colorExpression) {
     var replaceHtml = colorExpression
         .replace(/\&gt\;/g, ">")
         .replace(/\&lt\;/g, "<");
-    var colorsExpressions = replaceHtml.split(";");
+    var colorsExpressions = replaceHtml
+        .split(";")
+        .filter(function (item) { return item.length > 3; });
     var colors = [];
     colorsExpressions.forEach(function (colorExpression) {
         var _a = colorExpression.split(":"), color = _a[0], test = _a[1];
