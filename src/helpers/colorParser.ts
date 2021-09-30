@@ -4,7 +4,9 @@ export const parseColors = (colorExpression: string) => {
   const replaceHtml = colorExpression
     .replace(/\&gt\;/g, ">")
     .replace(/\&lt\;/g, "<");
-  const colorsExpressions = replaceHtml.split(";");
+  const colorsExpressions = replaceHtml
+    .split(";")
+    .filter((item) => item.length > 3);
   const colors: any = [];
   colorsExpressions.forEach((colorExpression) => {
     const [color, test] = colorExpression.split(":");
