@@ -15,10 +15,10 @@ declare class Tree {
     _type: string;
     get type(): string;
     /**
-     * Widget type
+     * Color expression value
      */
-    _colorExpressions: any[] | undefined;
-    get colorExpressions(): any[] | undefined;
+    _colors: string | null;
+    get colors(): string | null;
     constructor(fields: Object);
     parse(xml: string): void;
     parseNode(node: Element): void;

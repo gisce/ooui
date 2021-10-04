@@ -30,6 +30,5 @@ import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
 import { parseDomain } from "./helpers/domainParser";
-import { getEvaluatedColor } from "./helpers/colorParser";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, Binary, Image, parseContext, parseDomain, getEvaluatedColor, };
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, Binary, Image, parseContext, parseDomain, };
 //# sourceMappingURL=index.js.map

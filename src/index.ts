@@ -30,7 +30,6 @@ import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
 import { parseDomain } from "./helpers/domainParser";
-import { getEvaluatedColor } from "./helpers/colorParser";
 
 export {
   Char,
@@ -65,5 +64,4 @@ export {
   Image,
   parseContext,
   parseDomain,
-  getEvaluatedColor,
 };

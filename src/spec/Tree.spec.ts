@@ -150,6 +150,6 @@ describe("A Tree", () => {
     tree.parse(
       `<tree string="Partners" colors="red:type=='updated'"><field name="name"/></tree>`
     );
-    expect(tree.colorExpressions!.length).toBe(1);
+    expect(tree.colors!).toBe("red:type=='updated'");
   });
 });
