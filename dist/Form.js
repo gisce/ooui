@@ -114,8 +114,18 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Form.prototype, "domain", {
+        get: function () {
+            return this._domain;
+        },
+        set: function (value) {
+            this._domain = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Form.prototype.parse = function (xml, options) {
-        var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c;
+        var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c, _d = _a.domain, domain = _d === void 0 ? [] : _d;
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this._string = view.documentElement.getAttribute("string");
@@ -123,6 +133,15 @@ var Form = /** @class */ (function () {
         this._context = values["id"]
             ? { active_id: values["id"], active_ids: [values["id"]] }
             : {};
+        var domainString = view.documentElement.getAttribute("domain");
+        this._domain = domain;
+        if (domainString) {
+            this._domain = this._domain.concat(parseDomain({
+                domainValue: domainString,
+                values: values,
+                fields: this._fields,
+            }));
+        }
         this.parseNode({
             node: view.documentElement,
             container: this._container,
@@ -172,7 +191,7 @@ var Form = /** @class */ (function () {
                     domainValue: tagAttributes["domain"],
                     values: values,
                     fields: _this._fields,
-                });
+                }).concat(_this._domain);
             }
             if (_this._fields[tagAttributes.name] &&
                 _this._fields[tagAttributes.name].domain) {
@@ -180,7 +199,7 @@ var Form = /** @class */ (function () {
                     domainValue: _this._fields[tagAttributes.name].domain,
                     values: values,
                     fields: _this._fields,
-                });
+                }).concat(_this._domain);
             }
             var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: domain }));
             if (widget instanceof ContainerWidget) {

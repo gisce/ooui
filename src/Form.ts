@@ -12,6 +12,7 @@ import { parseDomain } from "./helpers/domainParser";
 export type FormParseOptions = {
   readOnly?: boolean;
   values?: any;
+  domain?: any;
 };
 
 class Form {
@@ -74,6 +75,17 @@ class Form {
     this._onChangeFields = value;
   }
 
+  /**
+   * Domain
+   */
+  _domain: any;
+  get domain(): any {
+    return this._domain;
+  }
+  set domain(value: any) {
+    this._domain = value;
+  }
+
   /*
   _widgets = {
     *[Symbol.iterator]() {
@@ -96,7 +108,7 @@ class Form {
   }
 
   parse(xml: string, options?: FormParseOptions) {
-    const { values = {}, readOnly = false } = options || {};
+    const { values = {}, readOnly = false, domain = [] } = options || {};
 
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
@@ -105,6 +117,20 @@ class Form {
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
+
+    const domainString = view.documentElement.getAttribute("domain");
+
+    this._domain = domain;
+
+    if (domainString) {
+      this._domain = this._domain.concat(
+        parseDomain({
+          domainValue: domainString,
+          values,
+          fields: this._fields,
+        })
+      );
+    }
 
     this.parseNode({
       node: view.documentElement,
@@ -172,7 +198,7 @@ class Form {
           domainValue: tagAttributes["domain"],
           values,
           fields: this._fields,
-        });
+        }).concat(this._domain);
       }
 
       if (
@@ -183,7 +209,7 @@ class Form {
           domainValue: this._fields[tagAttributes.name].domain,
           values,
           fields: this._fields,
-        });
+        }).concat(this._domain);
       }
 
       const widget = widgetFactory.createWidget(tag, {

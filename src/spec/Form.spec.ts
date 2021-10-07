@@ -952,7 +952,7 @@ describe("A Form", () => {
       },
     };
     const xmlViewForm = `<?xml version="1.0"?>
-    <form string="Form1">
+    <form string="Form1" domain="[('x', '=', 'y')]">
       <field name="field_id" colspan="4" nolabel="1" />
       <field name="field_char" colspan="4" nolabel="1" domain="[('bar', '=', tarifa)]"/>
       <field name="tarifa" colspan="4" nolabel="1" />
@@ -964,18 +964,19 @@ describe("A Form", () => {
         field_id: 45,
         tarifa: [1, "2.0A"],
       },
+      domain: [["foo", "=", "test"]],
     });
 
     const field_id = form.findById("field_id");
     const field_char = form.findById("field_char");
 
-    expect(field_id!.domain.length).toBe(1);
+    expect(field_id!.domain.length).toBe(3);
     expect(field_id!.domain[0].length).toBe(3);
     expect(field_id!.domain[0][0]).toBe("type");
     expect(field_id!.domain[0][1]).toBe("=");
     expect(field_id!.domain[0][2]).toBe("active");
-    
-    expect(field_char!.domain.length).toBe(1);
+
+    expect(field_char!.domain.length).toBe(3);
     expect(field_char!.domain[0].length).toBe(3);
     expect(field_char!.domain[0][0]).toBe("bar");
     expect(field_char!.domain[0][1]).toBe("=");

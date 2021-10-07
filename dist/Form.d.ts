@@ -3,6 +3,7 @@ import Widget from "./Widget";
 export declare type FormParseOptions = {
     readOnly?: boolean;
     values?: any;
+    domain?: any;
 };
 declare class Form {
     /**
@@ -37,6 +38,12 @@ declare class Form {
     _onChangeFields: any;
     get onChangeFields(): any;
     set onChangeFields(value: any);
+    /**
+     * Domain
+     */
+    _domain: any;
+    get domain(): any;
+    set domain(value: any);
     constructor(fields: Object, columns?: number);
     parse(xml: string, options?: FormParseOptions): void;
     parseNode({ node, container, values, }: {
