@@ -17,7 +17,7 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import { parseDomain } from "./helpers/domainParser";
+import { parseDomain, transformDomainForChildWidget, } from "./helpers/domainParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -185,7 +185,7 @@ var Form = /** @class */ (function () {
             if (tagAttributes["on_change"]) {
                 _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
             }
-            var domain;
+            var domain = [];
             if (tagAttributes["domain"]) {
                 domain = parseDomain({
                     domainValue: tagAttributes["domain"],
@@ -201,7 +201,10 @@ var Form = /** @class */ (function () {
                     fields: _this._fields,
                 }).concat(_this._domain);
             }
-            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: domain }));
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: transformDomainForChildWidget({
+                    domain: domain,
+                    widgetFieldName: tagAttributes.name,
+                }) }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

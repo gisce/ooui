@@ -3,4 +3,8 @@ declare const parseDomain: ({ domainValue, values, fields, }: {
     values: any;
     fields: any;
 }) => any;
-export { parseDomain };
+declare const transformDomainForChildWidget: ({ domain, widgetFieldName, }: {
+    domain: any;
+    widgetFieldName: string;
+}) => any[];
+export { parseDomain, transformDomainForChildWidget };
