@@ -109,4 +109,38 @@ const parseDomain = ({
   return outputParsed;
 };
 
-export { parseDomain };
+const transformDomainForChildWidget = ({
+  domain,
+  widgetFieldName,
+}: {
+  domain: any;
+  widgetFieldName: string;
+}) => {
+  const transformedDomain: any[] = [];
+
+  domain.forEach((domainEntry: any) => {
+    const [fieldName, operator, value] = domainEntry;
+
+    let rootFieldName;
+    let targetFieldName;
+
+    if (fieldName.indexOf(".") !== -1) {
+      rootFieldName = fieldName.substr(0, fieldName.indexOf("."));
+      targetFieldName = fieldName.substr(
+        fieldName.indexOf(".") + 1,
+        fieldName.length - 1
+      );
+    } else {
+      rootFieldName = fieldName;
+      targetFieldName = "id";
+    }
+
+    if (rootFieldName === widgetFieldName) {
+      transformedDomain.push([targetFieldName, operator, value]);
+    }
+  });
+
+  return transformedDomain;
+};
+
+export { parseDomain, transformDomainForChildWidget };

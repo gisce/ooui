@@ -7,7 +7,10 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import { parseDomain } from "./helpers/domainParser";
+import {
+  parseDomain,
+  transformDomainForChildWidget,
+} from "./helpers/domainParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -191,7 +194,7 @@ class Form {
         );
       }
 
-      let domain;
+      let domain = [];
 
       if (tagAttributes["domain"]) {
         domain = parseDomain({
@@ -216,7 +219,10 @@ class Form {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
         context: widgetContext,
-        domain,
+        domain: transformDomainForChildWidget({
+          domain,
+          widgetFieldName: tagAttributes.name,
+        }),
       });
 
       if (widget instanceof ContainerWidget) {
