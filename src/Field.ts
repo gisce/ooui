@@ -74,6 +74,17 @@ class Field extends Widget {
     this._activated = value;
   }
 
+  /**
+   * Sum - sum parameter (label), this will mean that we have to sum this field in the tree
+   */
+  _sum?: string;
+  get sum(): string | undefined {
+    return this._sum;
+  }
+  set sum(value: string | undefined) {
+    this._sum = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -112,6 +123,10 @@ class Field extends Widget {
           props.required === "True")
       ) {
         this._required = true;
+      }
+
+      if (props.sum) {
+        this._sum = props.sum;
       }
     }
   }

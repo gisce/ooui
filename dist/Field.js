@@ -69,6 +69,9 @@ var Field = /** @class */ (function (_super) {
                     props.required === "True")) {
                 _this._required = true;
             }
+            if (props.sum) {
+                _this._sum = props.sum;
+            }
         }
         return _this;
     }
@@ -128,6 +131,16 @@ var Field = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._activated = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Field.prototype, "sum", {
+        get: function () {
+            return this._sum;
+        },
+        set: function (value) {
+            this._sum = value;
         },
         enumerable: false,
         configurable: true

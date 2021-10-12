@@ -152,4 +152,22 @@ describe("A Tree", () => {
     );
     expect(tree.colors!).toBe("red:type=='updated'");
   });
+
+  it("Must parse sum fields", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" /></tree>`
+    );
+    const nameWidget = tree.findById("name") as Char;
+    expect(nameWidget.sum).toBe("Name");
+  });
 });

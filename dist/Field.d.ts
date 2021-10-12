@@ -43,6 +43,12 @@ declare class Field extends Widget {
     _activated: boolean;
     get activated(): boolean;
     set activated(value: boolean);
+    /**
+     * Sum - sum parameter (label), this will mean that we have to sum this field in the tree
+     */
+    _sum?: string;
+    get sum(): string | undefined;
+    set sum(value: string | undefined);
     constructor(props: any);
     /**
      * Returns this instance in case this id matches param id.
