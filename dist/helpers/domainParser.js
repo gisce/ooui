@@ -95,6 +95,9 @@ var transformDomainForChildWidget = function (_a) {
     var domain = _a.domain, widgetFieldName = _a.widgetFieldName;
     var transformedDomain = [];
     domain.forEach(function (domainEntry) {
+        if (!Array.isArray(domainEntry)) {
+            return;
+        }
         var fieldName = domainEntry[0], operator = domainEntry[1], value = domainEntry[2];
         var rootFieldName;
         var targetFieldName;

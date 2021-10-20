@@ -119,6 +119,10 @@ const transformDomainForChildWidget = ({
   const transformedDomain: any[] = [];
 
   domain.forEach((domainEntry: any) => {
+    if (!Array.isArray(domainEntry)) {
+      return;
+    }
+    
     const [fieldName, operator, value] = domainEntry;
 
     let rootFieldName;
