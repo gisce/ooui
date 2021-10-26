@@ -41,9 +41,9 @@ declare class Form {
     /**
      * Domain
      */
-    _domain: any;
-    get domain(): any;
-    set domain(value: any);
+    _domain: string[];
+    get domain(): string[];
+    set domain(value: string[]);
     constructor(fields: Object, columns?: number);
     parse(xml: string, options?: FormParseOptions): void;
     parseNode({ node, container, values, }: {

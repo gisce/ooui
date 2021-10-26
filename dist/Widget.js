@@ -4,6 +4,10 @@ var Widget = /** @class */ (function () {
          * Widget type
          */
         this._type = "";
+        /**
+         * Domain
+         */
+        this._domain = [];
         this._colspan = Widget._defaultColspan;
         this._readOnly = false;
         this._invisible = false;

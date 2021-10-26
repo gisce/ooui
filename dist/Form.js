@@ -9,6 +9,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
@@ -17,7 +24,6 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import { parseDomain, transformDomainForChildWidget, } from "./helpers/domainParser";
 var Form = /** @class */ (function () {
     /*
     _widgets = {
@@ -53,6 +59,10 @@ var Form = /** @class */ (function () {
          * Collection of onChange actions for fields
          */
         this._onChangeFields = {};
+        /**
+         * Domain
+         */
+        this._domain = [];
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -136,11 +146,7 @@ var Form = /** @class */ (function () {
         var domainString = view.documentElement.getAttribute("domain");
         this._domain = domain;
         if (domainString) {
-            this._domain = this._domain.concat(parseDomain({
-                domainValue: domainString,
-                values: values,
-                fields: this._fields,
-            }));
+            this._domain = __spreadArrays(this._domain, [domainString]);
         }
         this.parseNode({
             node: view.documentElement,
@@ -187,24 +193,13 @@ var Form = /** @class */ (function () {
             }
             var domain = [];
             if (tagAttributes["domain"]) {
-                domain = parseDomain({
-                    domainValue: tagAttributes["domain"],
-                    values: values,
-                    fields: _this._fields,
-                }).concat(_this._domain);
+                domain = __spreadArrays(_this._domain, [tagAttributes["domain"]]);
             }
             if (_this._fields[tagAttributes.name] &&
                 _this._fields[tagAttributes.name].domain) {
-                domain = parseDomain({
-                    domainValue: _this._fields[tagAttributes.name].domain,
-                    values: values,
-                    fields: _this._fields,
-                }).concat(_this._domain);
+                domain = __spreadArrays(_this._domain, [_this._fields[tagAttributes.name].domain]);
             }
-            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: transformDomainForChildWidget({
-                    domain: domain,
-                    widgetFieldName: tagAttributes.name,
-                }) }));
+            var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: domain }));
             if (widget instanceof ContainerWidget) {
                 _this.parseNode({ node: child, container: widget.container, values: values });
             }

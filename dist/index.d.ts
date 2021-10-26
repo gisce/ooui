@@ -29,5 +29,4 @@ import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
-import { parseDomain } from "./helpers/domainParser";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, Binary, Image, parseContext, parseDomain, };
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, DomainParser, Reference, Binary, Image, parseContext, };

@@ -7,10 +7,6 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import {
-  parseDomain,
-  transformDomainForChildWidget,
-} from "./helpers/domainParser";
 
 export type FormParseOptions = {
   readOnly?: boolean;
