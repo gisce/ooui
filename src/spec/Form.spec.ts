@@ -965,18 +965,20 @@ describe("A Form", () => {
         tarifa: [1, "2.0A"],
         active_id: 43,
       },
-      domain: [["foo", "=", "test"]],
+      domain: ["[('foo', '=', test)]"],
     });
 
     const field_id = form.findById("field_id");
     const field_char = form.findById("field_char");
 
-    expect(field_id!.domain.length).toBe(1);
-    expect(field_id!.domain[0].length).toBe(3);
-    expect(field_id!.domain[0][0]).toBe("id");
-    expect(field_id!.domain[0][1]).toBe("=");
-    expect(field_id!.domain[0][2]).toBe(43);
+    expect(field_id!.domain.length).toBe(3);
+    expect(field_id!.domain[0]).toBe("[('foo', '=', test)]");
+    expect(field_id!.domain[1]).toBe("[('x', '=', 'y')]");
+    expect(field_id!.domain[2]).toBe("[('field_id', '=', active_id)]");
 
-    expect(field_char!.domain.length).toBe(0);
+    expect(field_char!.domain.length).toBe(3);
+    expect(field_char!.domain[0]).toBe("[('foo', '=', test)]");
+    expect(field_char!.domain[1]).toBe("[('x', '=', 'y')]");
+    expect(field_char!.domain[2]).toBe("[('bar', '=', tarifa)]");
   });
 });
