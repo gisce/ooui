@@ -81,11 +81,11 @@ class Form {
   /**
    * Domain
    */
-  _domain: any;
-  get domain(): any {
+  _domain: string[] = [];
+  get domain(): string[] {
     return this._domain;
   }
-  set domain(value: any) {
+  set domain(value: string[]) {
     this._domain = value;
   }
 
@@ -126,13 +126,7 @@ class Form {
     this._domain = domain;
 
     if (domainString) {
-      this._domain = this._domain.concat(
-        parseDomain({
-          domainValue: domainString,
-          values,
-          fields: this._fields,
-        })
-      );
+      this._domain = [...this._domain, domainString];
     }
 
     this.parseNode({
@@ -194,35 +188,24 @@ class Form {
         );
       }
 
-      let domain = [];
+      let domain: string[] = [];
 
       if (tagAttributes["domain"]) {
-        domain = parseDomain({
-          domainValue: tagAttributes["domain"],
-          values,
-          fields: this._fields,
-        }).concat(this._domain);
+        domain = [...this._domain, tagAttributes["domain"]];
       }
 
       if (
         this._fields[tagAttributes.name] &&
         this._fields[tagAttributes.name].domain
       ) {
-        domain = parseDomain({
-          domainValue: this._fields[tagAttributes.name].domain,
-          values,
-          fields: this._fields,
-        }).concat(this._domain);
+        domain = [...this._domain, this._fields[tagAttributes.name].domain];
       }
 
       const widget = widgetFactory.createWidget(tag, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
         context: widgetContext,
-        domain: transformDomainForChildWidget({
-          domain,
-          widgetFieldName: tagAttributes.name,
-        }),
+        domain,
       });
 
       if (widget instanceof ContainerWidget) {
