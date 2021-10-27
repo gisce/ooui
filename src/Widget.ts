@@ -109,7 +109,7 @@ abstract class Widget {
       if (props.context) {
         this._context = props.context;
       }
-      if (props.domain) {
+      if (props.domain && typeof props.domain === "string") {
         this._domain = props.domain;
       }
     }
