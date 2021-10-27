@@ -24,11 +24,11 @@ import Group from "./Group";
 import Page from "./Page";
 import Separator from "./Separator";
 import Button from "./Button";
-import * as DomainParser from "./helpers/domainParser";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
+import { transformDomainForChildWidget } from "./helpers/domainParser";
 
 export {
   Char,
@@ -57,9 +57,9 @@ export {
   Label,
   Separator,
   Button,
-  DomainParser,
   Reference,
   Binary,
   Image,
   parseContext,
+  transformDomainForChildWidget
 };
