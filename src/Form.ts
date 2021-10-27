@@ -11,7 +11,6 @@ import { parseOnChange } from "./helpers/onChangeParser";
 export type FormParseOptions = {
   readOnly?: boolean;
   values?: any;
-  domain?: any;
 };
 
 class Form {
@@ -74,17 +73,6 @@ class Form {
     this._onChangeFields = value;
   }
 
-  /**
-   * Domain
-   */
-  _domain: string[] = [];
-  get domain(): string[] {
-    return this._domain;
-  }
-  set domain(value: string[]) {
-    this._domain = value;
-  }
-
   /*
   _widgets = {
     *[Symbol.iterator]() {
@@ -107,7 +95,7 @@ class Form {
   }
 
   parse(xml: string, options?: FormParseOptions) {
-    const { values = {}, readOnly = false, domain = [] } = options || {};
+    const { values = {}, readOnly = false } = options || {};
 
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
@@ -116,14 +104,6 @@ class Form {
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
-
-    const domainString = view.documentElement.getAttribute("domain");
-
-    this._domain = domain;
-
-    if (domainString) {
-      this._domain = [...this._domain, domainString];
-    }
 
     this.parseNode({
       node: view.documentElement,
@@ -184,17 +164,23 @@ class Form {
         );
       }
 
-      let domain: string[] = [];
+      let domain: string | undefined = undefined;
 
-      if (tagAttributes["domain"]) {
-        domain = [...this._domain, tagAttributes["domain"]];
+      if (
+        tagAttributes["domain"] &&
+        tagAttributes["domain"] !== "" &&
+        tagAttributes["domain"] !== "[]"
+      ) {
+        domain = tagAttributes["domain"];
       }
 
       if (
         this._fields[tagAttributes.name] &&
-        this._fields[tagAttributes.name].domain
+        this._fields[tagAttributes.name].domain &&
+        this._fields[tagAttributes.name].domain !== "" &&
+        this._fields[tagAttributes.name].domain !== "[]"
       ) {
-        domain = [...this._domain, this._fields[tagAttributes.name].domain];
+        domain = this._fields[tagAttributes.name].domain;
       }
 
       const widget = widgetFactory.createWidget(tag, {

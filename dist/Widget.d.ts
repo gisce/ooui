@@ -38,9 +38,9 @@ declare abstract class Widget {
     /**
      * Domain
      */
-    _domain: string[];
-    get domain(): string[];
-    set domain(value: string[]);
+    _domain?: string;
+    get domain(): string | undefined;
+    set domain(value: string | undefined);
     constructor(props?: any);
     abstract findById(id: string): Widget | null;
 }

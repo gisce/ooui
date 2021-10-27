@@ -9,13 +9,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
@@ -59,10 +52,6 @@ var Form = /** @class */ (function () {
          * Collection of onChange actions for fields
          */
         this._onChangeFields = {};
-        /**
-         * Domain
-         */
-        this._domain = [];
         this._fields = fields;
         this._container = new Container(columns);
     }
@@ -124,18 +113,8 @@ var Form = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Form.prototype, "domain", {
-        get: function () {
-            return this._domain;
-        },
-        set: function (value) {
-            this._domain = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Form.prototype.parse = function (xml, options) {
-        var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c, _d = _a.domain, domain = _d === void 0 ? [] : _d;
+        var _a = options || {}, _b = _a.values, values = _b === void 0 ? {} : _b, _c = _a.readOnly, readOnly = _c === void 0 ? false : _c;
         var parser = new DOMParser();
         var view = parser.parseFromString(xml, "text/xml");
         this._string = view.documentElement.getAttribute("string");
@@ -143,11 +122,6 @@ var Form = /** @class */ (function () {
         this._context = values["id"]
             ? { active_id: values["id"], active_ids: [values["id"]] }
             : {};
-        var domainString = view.documentElement.getAttribute("domain");
-        this._domain = domain;
-        if (domainString) {
-            this._domain = __spreadArrays(this._domain, [domainString]);
-        }
         this.parseNode({
             node: view.documentElement,
             container: this._container,
@@ -191,13 +165,17 @@ var Form = /** @class */ (function () {
             if (tagAttributes["on_change"]) {
                 _this._onChangeFields[tagAttributes.name] = parseOnChange(tagAttributes["on_change"]);
             }
-            var domain = [];
-            if (tagAttributes["domain"]) {
-                domain = __spreadArrays(_this._domain, [tagAttributes["domain"]]);
+            var domain = undefined;
+            if (tagAttributes["domain"] &&
+                tagAttributes["domain"] !== "" &&
+                tagAttributes["domain"] !== "[]") {
+                domain = tagAttributes["domain"];
             }
             if (_this._fields[tagAttributes.name] &&
-                _this._fields[tagAttributes.name].domain) {
-                domain = __spreadArrays(_this._domain, [_this._fields[tagAttributes.name].domain]);
+                _this._fields[tagAttributes.name].domain &&
+                _this._fields[tagAttributes.name].domain !== "" &&
+                _this._fields[tagAttributes.name].domain !== "[]") {
+                domain = _this._fields[tagAttributes.name].domain;
             }
             var widget = widgetFactory.createWidget(tag, __assign(__assign(__assign({}, evaluatedTagAttributes), evaluatedStateAttributes), { context: widgetContext, domain: domain }));
             if (widget instanceof ContainerWidget) {

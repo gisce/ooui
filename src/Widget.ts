@@ -68,11 +68,11 @@ abstract class Widget {
   /**
    * Domain
    */
-  _domain: string[] = [];
-  get domain(): string[] {
+  _domain?: string;
+  get domain(): string | undefined {
     return this._domain;
   }
-  set domain(value: string[]) {
+  set domain(value: string | undefined) {
     this._domain = value;
   }
 

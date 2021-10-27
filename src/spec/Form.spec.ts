@@ -949,7 +949,7 @@ describe("A Form", () => {
       },
       tarifa: {
         type: "many2one",
-      }
+      },
     };
     const xmlViewForm = `<?xml version="1.0"?>
     <form string="Form1" domain="[('x', '=', 'y')]">
@@ -965,20 +965,12 @@ describe("A Form", () => {
         tarifa: [1, "2.0A"],
         active_id: 43,
       },
-      domain: ["[('foo', '=', test)]"],
     });
 
     const field_id = form.findById("field_id");
     const field_char = form.findById("field_char");
 
-    expect(field_id!.domain.length).toBe(3);
-    expect(field_id!.domain[0]).toBe("[('foo', '=', test)]");
-    expect(field_id!.domain[1]).toBe("[('x', '=', 'y')]");
-    expect(field_id!.domain[2]).toBe("[('field_id', '=', active_id)]");
-
-    expect(field_char!.domain.length).toBe(3);
-    expect(field_char!.domain[0]).toBe("[('foo', '=', test)]");
-    expect(field_char!.domain[1]).toBe("[('x', '=', 'y')]");
-    expect(field_char!.domain[2]).toBe("[('bar', '=', tarifa)]");
+    expect(field_id!.domain!).toBe("[('field_id', '=', active_id)]");
+    expect(field_char!.domain!).toBe("[('bar', '=', tarifa)]");
   });
 });
