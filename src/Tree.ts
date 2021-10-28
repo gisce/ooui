@@ -56,8 +56,24 @@ class Tree {
 
     nodesParsed.forEach((nodeParsed) => {
       const { tag, tagAttributes } = nodeParsed;
-      const widget = widgetFactory.createWidget(tag, tagAttributes);
-      this._columns.push(widget);
+      let invisible =
+        tagAttributes.invisible || this._fields[tagAttributes.name]?.invisible;
+
+      if (
+        invisible === 1 ||
+        invisible === "1" ||
+        invisible === true ||
+        invisible === "True"
+      ) {
+        invisible = true;
+      } else {
+        invisible = false;
+      }
+
+      if (!invisible) {
+        const widget = widgetFactory.createWidget(tag, tagAttributes);
+        this._columns.push(widget);
+      }
     });
   }
 

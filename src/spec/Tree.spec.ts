@@ -170,4 +170,45 @@ describe("A Tree", () => {
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.sum).toBe("Name");
   });
+
+  it("Must ignore invisible fields as columns", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+      surnames: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Surnames",
+        type: "char",
+        views: {},
+        invisible: true,
+      },
+      city: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "City",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`
+    );
+
+    const nameWidget = tree.findById("name") as Char;
+    const surnamesWidget = tree.findById("surnames") as Char;
+    const cityWidget = tree.findById("city") as Char;
+
+    expect(nameWidget).toBeUndefined();
+    expect(surnamesWidget).toBeUndefined();
+    expect(cityWidget!.id).toBe("city");
+  });
 });

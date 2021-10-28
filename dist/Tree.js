@@ -61,9 +61,22 @@ var Tree = /** @class */ (function () {
         var widgetFactory = new WidgetFactory();
         var nodesParsed = parseNodes(node.childNodes, this._fields);
         nodesParsed.forEach(function (nodeParsed) {
+            var _a;
             var tag = nodeParsed.tag, tagAttributes = nodeParsed.tagAttributes;
-            var widget = widgetFactory.createWidget(tag, tagAttributes);
-            _this._columns.push(widget);
+            var invisible = tagAttributes.invisible || ((_a = _this._fields[tagAttributes.name]) === null || _a === void 0 ? void 0 : _a.invisible);
+            if (invisible === 1 ||
+                invisible === "1" ||
+                invisible === true ||
+                invisible === "True") {
+                invisible = true;
+            }
+            else {
+                invisible = false;
+            }
+            if (!invisible) {
+                var widget = widgetFactory.createWidget(tag, tagAttributes);
+                _this._columns.push(widget);
+            }
         });
     };
     /**
