@@ -15,6 +15,12 @@ declare class Text extends Field {
     _mustExpand: boolean;
     get mustExpand(): boolean;
     set mustExpand(value: boolean);
+    /**
+     * Height
+     */
+    _height: number | undefined;
+    get height(): number | undefined;
+    set height(value: number | undefined);
     constructor(props: any);
 }
 export default Text;

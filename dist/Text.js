@@ -34,6 +34,14 @@ var Text = /** @class */ (function (_super) {
             if (!props.colspan) {
                 _this._mustExpand = true;
             }
+            if (props.height) {
+                try {
+                    _this._height = parseInt(props.height);
+                }
+                catch (e) {
+                    _this._height = undefined;
+                }
+            }
         }
         return _this;
     }
@@ -53,6 +61,16 @@ var Text = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._mustExpand = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Text.prototype, "height", {
+        get: function () {
+            return this._height;
+        },
+        set: function (value) {
+            this._height = value;
         },
         enumerable: false,
         configurable: true

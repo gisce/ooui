@@ -26,6 +26,17 @@ class Text extends Field {
     this._mustExpand = value;
   }
 
+  /**
+   * Height
+   */
+  _height: number | undefined;
+  get height(): number | undefined {
+    return this._height;
+  }
+  set height(value: number | undefined) {
+    this._height = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -36,6 +47,14 @@ class Text extends Field {
 
       if (!props.colspan) {
         this._mustExpand = true;
+      }
+
+      if (props.height) {
+        try {
+          this._height = parseInt(props.height);
+        } catch (e) {
+          this._height = undefined;
+        }
       }
     }
   }
