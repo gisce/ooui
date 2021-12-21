@@ -37,6 +37,14 @@ class Text extends Field {
     this._height = value;
   }
 
+  _translatable: boolean = false;
+  get translatable(): boolean {
+    return this._translatable;
+  }
+  set translatable(value: boolean) {
+    this._translatable = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -55,6 +63,11 @@ class Text extends Field {
         } catch (e) {
           this._height = undefined;
         }
+      }
+
+      if (props.translate) {
+        this.translatable =
+          props.translate === "True" || props.translate === true ? true : false;
       }
     }
   }

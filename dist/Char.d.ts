@@ -18,6 +18,9 @@ declare class Char extends Field {
     _isPassword: boolean;
     get isPassword(): boolean;
     set isPassword(value: boolean);
+    _translatable: boolean;
+    get translatable(): boolean;
+    set translatable(value: boolean);
     constructor(props: any);
 }
 export default Char;

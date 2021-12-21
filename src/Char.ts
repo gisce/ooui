@@ -34,6 +34,14 @@ class Char extends Field {
     this._isPassword = value;
   }
 
+  _translatable: boolean = false;
+  get translatable(): boolean {
+    return this._translatable;
+  }
+  set translatable(value: boolean) {
+    this._translatable = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -44,6 +52,11 @@ class Char extends Field {
 
       if (props.password) {
         this.isPassword = props.password === "True" ? true : false;
+      }
+
+      if (props.translate) {
+        this.translatable =
+          props.translate === "True" || props.translate === true ? true : false;
       }
     }
   }

@@ -21,6 +21,9 @@ declare class Text extends Field {
     _height: number | undefined;
     get height(): number | undefined;
     set height(value: number | undefined);
+    _translatable: boolean;
+    get translatable(): boolean;
+    set translatable(value: boolean);
     constructor(props: any);
 }
 export default Text;

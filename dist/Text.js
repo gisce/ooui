@@ -27,6 +27,7 @@ var Text = /** @class */ (function (_super) {
          * Must expand widget
          */
         _this._mustExpand = false;
+        _this._translatable = false;
         if (props) {
             if (props.placeholder) {
                 _this._placeholder = props.placeholder;
@@ -41,6 +42,10 @@ var Text = /** @class */ (function (_super) {
                 catch (e) {
                     _this._height = undefined;
                 }
+            }
+            if (props.translate) {
+                _this.translatable =
+                    props.translate === "True" || props.translate === true ? true : false;
             }
         }
         return _this;
@@ -71,6 +76,16 @@ var Text = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._height = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Text.prototype, "translatable", {
+        get: function () {
+            return this._translatable;
+        },
+        set: function (value) {
+            this._translatable = value;
         },
         enumerable: false,
         configurable: true

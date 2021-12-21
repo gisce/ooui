@@ -28,12 +28,17 @@ var Char = /** @class */ (function (_super) {
          */
         _this._size = 150;
         _this._isPassword = false;
+        _this._translatable = false;
         if (props) {
             if (props.size) {
                 _this._size = props.size;
             }
             if (props.password) {
                 _this.isPassword = props.password === "True" ? true : false;
+            }
+            if (props.translate) {
+                _this.translatable =
+                    props.translate === "True" || props.translate === true ? true : false;
             }
         }
         return _this;
@@ -64,6 +69,16 @@ var Char = /** @class */ (function (_super) {
         },
         set: function (value) {
             this._isPassword = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Char.prototype, "translatable", {
+        get: function () {
+            return this._translatable;
+        },
+        set: function (value) {
+            this._translatable = value;
         },
         enumerable: false,
         configurable: true
