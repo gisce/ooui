@@ -114,3 +114,4 @@ web_modules/
 .pnp.*
 
 .vscode/
+.DS_Store
