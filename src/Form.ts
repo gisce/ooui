@@ -78,7 +78,7 @@ class Form {
     *[Symbol.iterator]() {
       if (this._container && this._container.length) {
         this._container.forEach((item) => {
-          
+
           // yield item
         });
       }

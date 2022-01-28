@@ -22,6 +22,7 @@ import Separator from "./Separator";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
+import FiberGrid from "./FiberGrid";
 
 class WidgetFactory {
   /**
@@ -107,6 +108,10 @@ class WidgetFactory {
       case "image":
         this._widgetClass = Image;
         break;
+      case "fiber_grid":
+        this._widgetClass = FiberGrid;
+        break;
+
       default:
         this._widgetClass = Widget;
         break;
