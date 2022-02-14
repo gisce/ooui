@@ -29,6 +29,7 @@ import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
 import { transformDomainForChildWidget } from "./helpers/domainParser";
+import Timeline from "./Timeline";
 
 export {
   Char,
@@ -61,5 +62,6 @@ export {
   Binary,
   Image,
   parseContext,
-  transformDomainForChildWidget
+  transformDomainForChildWidget,
+  Timeline,
 };

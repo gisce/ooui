@@ -34,6 +34,7 @@ import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
 import FiberGrid from "./FiberGrid";
+import Timeline from "./Timeline";
 var WidgetFactory = /** @class */ (function () {
     function WidgetFactory() {
     }
@@ -117,6 +118,9 @@ var WidgetFactory = /** @class */ (function () {
                 break;
             case "fiber_grid":
                 this._widgetClass = FiberGrid;
+                break;
+            case "timeline":
+                this._widgetClass = Timeline;
                 break;
             default:
                 this._widgetClass = Widget;

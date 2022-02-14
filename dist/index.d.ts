@@ -29,4 +29,5 @@ import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
 import { transformDomainForChildWidget } from "./helpers/domainParser";
-export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, Reference, Binary, Image, parseContext, transformDomainForChildWidget };
+import Timeline from "./Timeline";
+export { Char, Selection, Many2one, Field, Widget, Form, Tree, Boolean, One2many, Integer, Float, FloatTime, Date, DateTime, Many2many, SearchFilter, Container, ContainerWidget, Text, ProgressBar, Notebook, Group, Page, Label, Separator, Button, Reference, Binary, Image, parseContext, transformDomainForChildWidget, Timeline, };
