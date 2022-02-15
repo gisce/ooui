@@ -116,20 +116,32 @@ class WidgetFactory {
         this._widgetClass = Timeline;
         break;
       default:
-        this._widgetClass = Widget;
         break;
     }
   }
 
   createWidget(type: string, props: any) {
+    let finalType = type;
+
     this.setWidgetClass(type);
+
+    // Fallback to default widget, we try to use the fields type widget if it exists
+    if (this._widgetClass === undefined) {
+      finalType = props.fieldsWidgetType;
+      this.setWidgetClass(props.fieldsWidgetType);
+    }
+
+    if (this._widgetClass === undefined) {
+      this._widgetClass = Widget;
+    }
+
     // TODO: Widget Class constructors should use only the props needed, not all props.
     switch (type) {
       // Specific cases (only selected props should be used)
       case "notebook":
       case "page":
       case "group":
-        return new this._widgetClass({ ...props, type });
+        return new this._widgetClass({ ...props, type: finalType });
       case "button":
         return new this._widgetClass({
           ...props,
@@ -138,7 +150,7 @@ class WidgetFactory {
         });
       // Generic case
       default:
-        return new this._widgetClass({ ...props, type });
+        return new this._widgetClass({ ...props, type: finalType });
     }
   }
 }
