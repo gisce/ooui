@@ -12,6 +12,7 @@ var __assign = (this && this.__assign) || function () {
 var parseNodes = function (nodes, fields) {
     var parsedNodes = [];
     Array.prototype.forEach.call(nodes, function (child) {
+        var _a;
         if (child.nodeType === child.ELEMENT_NODE) {
             var tag = child.nodeName;
             var tagAttributes_1 = {};
@@ -30,7 +31,7 @@ var parseNodes = function (nodes, fields) {
                     }
                     tag = fields[name_1].type;
                 }
-                // We do this in order to ignore the blank domain attribute in fields and to prioritize the attributes value 
+                // We do this in order to ignore the blank domain attribute in fields and to prioritize the attributes value
                 if (((Array.isArray(fields[name_1].domain) &&
                     fields[name_1].domain.length === 0) ||
                     fields[name_1].domain === false) &&
@@ -38,7 +39,7 @@ var parseNodes = function (nodes, fields) {
                     tagAttributes_1["domain"].length > 0) {
                     delete fields[name_1].domain;
                 }
-                tagAttributes_1 = __assign(__assign({}, fields[name_1]), tagAttributes_1);
+                tagAttributes_1 = __assign(__assign(__assign({}, fields[name_1]), tagAttributes_1), { fieldsWidgetType: (_a = fields[name_1]) === null || _a === void 0 ? void 0 : _a.type });
             }
             parsedNodes.push({ tag: tag, tagAttributes: tagAttributes_1, child: child });
         }
