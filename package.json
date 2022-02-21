@@ -1,5 +1,5 @@
 {
-  "name": "ooui",
+  "name": "@gisce/ooui",
   "version": "0.1.0",
   "dependencies": {},
   "main": "dist/index.js",
@@ -9,6 +9,9 @@
     "src",
     "README.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",

@@ -116,3 +116,4 @@ web_modules/
 .vscode/
 .idea/
 .DS_Store
+dist
