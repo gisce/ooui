@@ -27,16 +27,9 @@ class Timeline extends One2many {
     super(props);
     this._titleField = "";
     this._summaryField = "";
-
-    if (props?.widget_props) {
-
-      try {
-        const parsedWidgetProps = JSON.parse(props.widget_props.replace(/'/g, '"'));
-        this._titleField = parsedWidgetProps.titleField;
-        this._summaryField = parsedWidgetProps.summaryField;
-      } catch(err) {
-        throw new Error(`Timeline - error parsing widget_props: ${JSON.stringify(err)}`);
-      }
+    if (this._parsedWidgetProps) {
+      this._titleField = this._parsedWidgetProps.titleField;
+      this._summaryField = this.parsedWidgetProps.summaryField;
     }
   }
 }

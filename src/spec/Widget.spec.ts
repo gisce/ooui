@@ -31,6 +31,29 @@ describe('A Widget', () => {
 
         expect(typeof widget.colspan).toBe("number");
     });
+    describe('Parsing widget props', () => {
+        it('should parse widget_props', () => {
+            const props = {
+                widget_props: "{'prop_1': 1, 'prop_2': 'prop2'}"
+            }
+            const widget = new WidgetImpl(props);
+            expect(JSON.stringify(widget.parsedWidgetProps)).toBe(
+              JSON.stringify({prop_1: 1, prop_2: 'prop2'})
+            )
+        });
+        it('should fail if widget props are not valid', () => {
+            const props = {
+                widget_props: "{'prop_1: 1, 'prop_2': 'prop2'}"
+            }
+            expect.assertions(1);
+            try {
+                new WidgetImpl(props);
+            } catch (e) {
+                expect(e.message).toBe('Error parsing widget_props');
+            }
+
+        });
+    });
 
     /*
     it('set colspan as string should store as a number', () => {
