@@ -24,6 +24,7 @@ import Binary from "./Binary";
 import Image from "./Image";
 import FiberGrid from "./FiberGrid";
 import Timeline from "./Timeline";
+import Indicator from "./Indicator";
 
 class WidgetFactory {
   /**
@@ -115,6 +116,9 @@ class WidgetFactory {
       case "timeline":
         this._widgetClass = Timeline;
         break;
+      case "indicator":
+        this._widgetClass = Indicator;
+
       default:
         break;
     }
