@@ -30,6 +30,7 @@ import Image from "./Image";
 import { parseContext } from "./helpers/contextParser";
 import { transformDomainForChildWidget } from "./helpers/domainParser";
 import Timeline from "./Timeline";
+import Indicator from "./Indicator";
 
 export {
   Char,
@@ -64,4 +65,5 @@ export {
   parseContext,
   transformDomainForChildWidget,
   Timeline,
+  Indicator,
 };
