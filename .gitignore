@@ -114,6 +114,6 @@ web_modules/
 .pnp.*
 
 .vscode/
+.idea/
 .DS_Store
 dist
-.idea
