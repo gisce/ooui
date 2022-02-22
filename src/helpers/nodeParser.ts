@@ -54,4 +54,21 @@ const parseNodes = (
   return parsedNodes;
 };
 
-export { parseNodes };
+const parseGenericNodes = (nodes: NodeListOf<ChildNode>): ParsedNode[] => {
+  const parsedNodes: ParsedNode[] = [];
+  Array.prototype.forEach.call(nodes, (child: Element) => {
+    if (child.nodeType === child.ELEMENT_NODE) {
+      let tag = child.nodeName;
+
+      let tagAttributes: any = {};
+      Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
+        tagAttributes[attr.name] = attr.value;
+      });
+
+      parsedNodes.push({ tag, tagAttributes, child });
+    }
+  });
+  return parsedNodes;
+};
+
+export { parseNodes, parseGenericNodes };
