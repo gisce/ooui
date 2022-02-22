@@ -76,6 +76,14 @@ abstract class Widget {
     this._domain = value;
   }
 
+  _parsedWidgetProps: any;
+  get parsedWidgetProps(): any {
+    return this._parsedWidgetProps;
+  }
+  set parsedWidgetProps(value: any) {
+    this._parsedWidgetProps = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._readOnly = false;
@@ -112,6 +120,14 @@ abstract class Widget {
       if (props.domain && typeof props.domain === "string") {
         this._domain = props.domain;
       }
+      if (props.widget_props) {
+
+      try {
+        this._parsedWidgetProps = JSON.parse(props.widget_props.replace(/'/g, '"'));
+      } catch(err) {
+        throw new Error('Error parsing widget_props');
+      }
+    }
     }
   }
 
