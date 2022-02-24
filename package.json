@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "dependencies": {},
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,7 +16,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {},
   "devDependencies": {
