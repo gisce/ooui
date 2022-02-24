@@ -55,4 +55,78 @@ describe("A Button", () => {
 
     expect(widget.nolabel).toBe(false);
   });
+  describe('primary attribute', () => {
+    it("should have primary attribute as false for default", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      string: "Button",
+    };
+    const widget = widgetFactory.createWidget("button", props);
+    expect(widget.primary).toBe(false);
+    });
+    it("should parse primary option for 1", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        primary: 1
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.primary).toBe(true);
+    });
+    it("should parse primary option for '1'", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        primary: "1"
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.primary).toBe(true);
+    });
+    it("should parse primary option for true", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        primary: true
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.primary).toBe(true);
+    });
+  });
+  describe('danger attribute', () => {
+    it("should have danger attribute as false for default", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      string: "Button",
+    };
+    const widget = widgetFactory.createWidget("button", props);
+    expect(widget.danger).toBe(false);
+    });
+    it("should parse danger option for 1", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        danger: 1
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.danger).toBe(true);
+    });
+    it("should parse danger option for '1'", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        danger: "1"
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.danger).toBe(true);
+    });
+    it("should parse danger option for true", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "Button",
+        danger: true
+      };
+      const widget = widgetFactory.createWidget("button", props);
+      expect(widget.danger).toBe(true);
+    });
+  });
 });

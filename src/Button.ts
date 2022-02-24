@@ -45,6 +45,22 @@ class Button extends Field {
     this._confirmMessage = value;
   }
 
+  _primary: boolean = false;
+  get primary(): boolean {
+    return this._primary;
+  }
+  set primary(value: boolean) {
+    this._primary = value;
+  }
+
+  _danger: boolean = false;
+  get danger(): boolean {
+    return this._danger;
+  }
+  set danger(value: boolean) {
+    this._danger = value;
+  }
+
   constructor(props: any) {
     super({
       ...props,
@@ -70,6 +86,18 @@ class Button extends Field {
 
       if (props.icon) {
         this._icon = props.icon;
+      }
+      if (props.primary) {
+        const primary = props.primary;
+        if (primary === "1" || primary === 1 || primary === true) {
+          this._primary = true
+        }
+      }
+      if (props.danger) {
+        const danger = props.danger;
+        if (danger === "1" || danger === 1 || danger === true) {
+          this._danger = true
+        }
       }
     }
   }
