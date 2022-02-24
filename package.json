@@ -16,7 +16,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {},
   "devDependencies": {
