@@ -32,6 +32,7 @@ import { transformDomainForChildWidget } from "./helpers/domainParser";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
+import Action from "./Action";
 
 export {
   Char,
@@ -68,4 +69,5 @@ export {
   Timeline,
   Indicator,
   Dashboard,
+  Action,
 };
