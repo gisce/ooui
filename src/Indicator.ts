@@ -1,6 +1,6 @@
-import Field from "./Field";
+import Selection from "./Selection";
 
-class Indicator extends Field {
+class Indicator extends Selection {
   _nolabel: boolean = true;
 
   _card: boolean;
