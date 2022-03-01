@@ -19,9 +19,28 @@ describe("An Indicator", () => {
   it('should parse widget props', () => {
     const widgetFactory = new WidgetFactory();
     const props = {
-      widget_props: "{'card': true}"
+      widget_props: "{'card': true, 'icon': 'wallet', 'suffix': '€'}"
     };
     const widget = widgetFactory.createWidget("indicator", props);
     expect(widget.card).toBe(true);
+    expect(widget.icon).toBe('wallet');
+    expect(widget.suffix).toBe('€');
+  });
+  it('icon and suffix should be an empty string if not defined', () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      widget_props: "{'card': true}"
+    };
+    const widget = widgetFactory.createWidget("indicator", props);
+    expect(widget.icon).toBe("");
+    expect(widget.suffix).toBe("");
+  });
+  it('card should be false if not defined', () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      widget_props: "{'icon': 'wallet'}"
+    };
+    const widget = widgetFactory.createWidget("indicator", props);
+    expect(widget.card).toBe(false);
   });
 });
