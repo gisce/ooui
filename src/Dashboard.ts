@@ -1,4 +1,4 @@
-import Action from "./Action";
+import DashboardItem from "./DashboardItem";
 import { parseGenericNodes } from "./helpers/nodeParser";
 
 class Dashboard {
@@ -7,9 +7,9 @@ class Dashboard {
     return this._string;
   }
 
-  _actions: Action[] = [];
-  get actions(): Action[] {
-    return this._actions;
+  _items: DashboardItem[] = [];
+  get items(): DashboardItem[] {
+    return this._items;
   }
 
   constructor(xml: string) {
@@ -21,8 +21,8 @@ class Dashboard {
     const actionsParsed = parseGenericNodes(documentElement.childNodes);
 
     actionsParsed.forEach((nodeParsed) => {
-      if (nodeParsed.tag === "action") {
-        this._actions.push(new Action(nodeParsed.tagAttributes));
+      if (nodeParsed.tag === "dashboard_item") {
+        this._items.push(new DashboardItem(nodeParsed.tagAttributes));
       }
     });
   }
