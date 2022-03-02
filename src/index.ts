@@ -31,6 +31,9 @@ import { parseContext } from "./helpers/contextParser";
 import { transformDomainForChildWidget } from "./helpers/domainParser";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
+import Dashboard from "./Dashboard";
+import DashboardItem from "./DashboardItem";
+import Graph from "./Graph";
 
 export {
   Char,
@@ -66,4 +69,7 @@ export {
   transformDomainForChildWidget,
   Timeline,
   Indicator,
+  Dashboard,
+  DashboardItem,
+  Graph
 };
