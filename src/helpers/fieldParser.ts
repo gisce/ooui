@@ -1,27 +1,27 @@
 export function getValueForField({
-  values,
+  values = {},
   fieldName,
-  fields,
+  fields = {},
 }: {
   values: any;
   fieldName: string;
   fields: any;
 }) {
-  if (!fields) {
-    return false;
-  }
-
-  if (!fields[fieldName]) {
-    return values[fieldName] || false;
-  }
-
-  const fieldType = fields[fieldName].type;
+  const fieldType = fields[fieldName]?.type || "passthrough";
 
   if (fieldType === "many2one") {
     return values[fieldName] ? values[fieldName][0] || null : false;
   } else if (fieldType === "one2many" || fieldType === "many2many") {
     return values[fieldName].map((item: any) => item.id);
   } else {
-    return values[fieldName];
+    if (values?.[fieldName]) {
+      return values?.[fieldName];
+    }
+
+    if (fieldName.indexOf("'") !== -1) {
+      return fieldName;
+    } else {
+      return parseInt(fieldName);
+    }
   }
 }
