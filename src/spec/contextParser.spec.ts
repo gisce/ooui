@@ -53,5 +53,14 @@ describe("A Context Parser", () => {
       expect(parsedContext!["active_test"]).toBeDefined();
       expect(parsedContext!["active_test"]).toBeFalsy();
     });
+
+    it("should properly parse a number context", () => {
+      const str = "{'active_id': 3}";
+
+      const parsedContext = parseContext({ context: str });
+
+      expect(parsedContext!["active_id"]).toBeDefined();
+      expect(parsedContext!["active_id"]).toBe(3);
+    });
   });
 });
