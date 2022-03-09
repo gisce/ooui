@@ -26,6 +26,11 @@ class Graph {
     return this._totalDomain;
   }
 
+  _showPercent: boolean = false;
+  get showPercent(): boolean {
+    return this._showPercent;
+  }
+
   constructor(xml: string) {
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
@@ -35,6 +40,15 @@ class Graph {
     this._color = view.documentElement.getAttribute("color");
     this._icon = view.documentElement.getAttribute("icon");
     this._totalDomain = view.documentElement.getAttribute("totalDomain");
+
+    const showPercent = view.documentElement.getAttribute("showPercent");
+    if (
+      showPercent &&
+      (showPercent === "1" ||
+        (typeof showPercent === "boolean" && showPercent === true))
+    ) {
+      this._showPercent = true;
+    }
 
     if (type === "indicator") {
       this._type = "indicator";
