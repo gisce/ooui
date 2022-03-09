@@ -21,6 +21,11 @@ class Graph {
     return this._icon;
   }
 
+  _totalDomain: string | null = null;
+  get totalDomain(): string | null {
+    return this._totalDomain;
+  }
+
   constructor(xml: string) {
     const parser = new DOMParser();
     const view: Document = parser.parseFromString(xml, "text/xml");
@@ -29,6 +34,7 @@ class Graph {
 
     this._color = view.documentElement.getAttribute("color");
     this._icon = view.documentElement.getAttribute("icon");
+    this._totalDomain = view.documentElement.getAttribute("totalDomain");
 
     if (type === "indicator") {
       this._type = "indicator";
