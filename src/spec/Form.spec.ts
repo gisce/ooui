@@ -915,7 +915,7 @@ describe("A Form", () => {
     const xmlViewForm = `<?xml version="1.0"?>
     <form string="Form1">
       <field name="field_id" colspan="4" nolabel="1" />
-      <field name="field_char" on_change="on_change_partner_address_id(partner_address_id, context)" colspan="4" nolabel="1"  />
+      <field name="field_char" on_change="on_change_partner_address_id(partner_address_id, 'foo', context)" colspan="4" nolabel="1"  />
     </form>`;
     const form = new Form(fields);
     form.parse(xmlViewForm, {
@@ -935,7 +935,10 @@ describe("A Form", () => {
     expect(form.onChangeFields!["field_char"].args[0]).toBe(
       "partner_address_id"
     );
-    expect(form.onChangeFields!["field_char"].args[1]).toBe("context");
+    expect(form.onChangeFields!["field_char"].args[1]).toBe(
+      "'foo'"
+    );
+    expect(form.onChangeFields!["field_char"].args[2]).toBe("context");
   });
 
   it("should be able to parse domain for the whole form", () => {
