@@ -1,7 +1,6 @@
 const parseOnChange = (onChangeString: string) => {
   const splitted = onChangeString
     .replace(/\s/g, "")
-    .replace(/'/g, "")
     .replace(")", "")
     .split("(");
 
