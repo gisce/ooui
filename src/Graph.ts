@@ -21,6 +21,11 @@ class Graph {
     return this._icon;
   }
 
+  _suffix: string | null = null;
+  get suffix(): string | null {
+    return this._suffix;
+  }
+
   _totalDomain: string | null = null;
   get totalDomain(): string | null {
     return this._totalDomain;
@@ -40,6 +45,7 @@ class Graph {
     this._color = view.documentElement.getAttribute("color");
     this._icon = view.documentElement.getAttribute("icon");
     this._totalDomain = view.documentElement.getAttribute("totalDomain");
+    this._suffix = view.documentElement.getAttribute("suffix");
 
     const showPercent = view.documentElement.getAttribute("showPercent");
     if (
