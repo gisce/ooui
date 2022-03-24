@@ -21,18 +21,12 @@ export class GraphIndicator extends Graph {
     return this._showPercent;
   }
 
-  _suffix: string | null = null;
-  get suffix(): string | null {
-    return this._suffix;
-  }
-
   constructor(element: HTMLElement) {
     super(element);
 
     this._type = "indicator";
     this._color = element.getAttribute("color");
     this._icon = element.getAttribute("icon");
-    this._suffix = element.getAttribute("suffix");
     this._totalDomain = element.getAttribute("totalDomain");
     const showPercent = element.getAttribute("showPercent");
 
