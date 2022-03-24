@@ -1,4 +1,5 @@
-import { GraphIndicator, GraphLine, parseGraph } from "..";
+import { GraphIndicator, GraphLine } from ".";
+import { parseGraph } from "..";
 
 describe("A Graph", () => {
   it("should parse a basic XML title and type indicator", () => {
