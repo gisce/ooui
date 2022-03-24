@@ -33,14 +33,7 @@ import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
-import {
-  Graph,
-  GraphAxis,
-  GraphIndicator,
-  GraphLine,
-  GraphType,
-  parseGraph,
-} from "./Graph";
+import Graph from "./Graph";
 
 export {
   Char,
@@ -78,10 +71,5 @@ export {
   Indicator,
   Dashboard,
   DashboardItem,
-  Graph,
-  GraphAxis,
-  GraphIndicator,
-  GraphLine,
-  GraphType,
-  parseGraph,
+  Graph
 };
