@@ -40,6 +40,7 @@ import {
   GraphLine,
   GraphType,
   parseGraph,
+  Operator,
 } from "./Graph";
 
 export {
@@ -84,4 +85,5 @@ export {
   GraphLine,
   GraphType,
   parseGraph,
+  Operator,
 };

@@ -1,5 +1,5 @@
 export type Axis = "x" | "y";
-export type Operator = "+";
+export type Operator = "count" | "+" | "-" | "*" | "min" | "max" | "avg";
 
 export class GraphAxis {
   _name: string | undefined;
