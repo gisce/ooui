@@ -1,4 +1,4 @@
-import { Graph } from "./Graph";
+import { Graph, GraphType } from "./Graph";
 
 export class GraphIndicator extends Graph {
   _color: string | null = null;
@@ -26,10 +26,10 @@ export class GraphIndicator extends Graph {
     return this._suffix;
   }
 
-  constructor(element: HTMLElement) {
+  constructor(type: GraphType, element: HTMLElement) {
     super(element);
 
-    this._type = "indicator";
+    this._type = type;
     this._color = element.getAttribute("color");
     this._icon = element.getAttribute("icon");
     this._suffix = element.getAttribute("suffix");

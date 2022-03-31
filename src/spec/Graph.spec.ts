@@ -1,4 +1,4 @@
-import { GraphIndicator, GraphLine, parseGraph } from "..";
+import { GraphIndicator, GraphChart, parseGraph } from "..";
 
 describe("A Graph", () => {
   it("should parse a basic XML title and type indicator", () => {
@@ -21,7 +21,7 @@ describe("A Graph", () => {
     </graph>
     `;
 
-    const graph = parseGraph(xml) as GraphLine;
+    const graph = parseGraph(xml) as GraphChart;
     expect(graph.type).toBe("line");
     expect(graph.x).toBeDefined();
     expect(graph.y).toBeDefined();

@@ -1,12 +1,12 @@
 import { GraphIndicator } from "./GraphIndicator";
-import { GraphLine } from "./GraphLine";
+import { GraphChart } from "./GraphChart";
 
 const GraphTypes: { [key: string]: any } = {
   indicator: GraphIndicator,
-  line: GraphLine,
+  line: GraphChart,
 };
 
-export const parseGraph = (xml: string): GraphIndicator | GraphLine => {
+export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
   const parser = new DOMParser();
   const view: Document = parser.parseFromString(xml, "text/xml");
 
@@ -22,5 +22,5 @@ export const parseGraph = (xml: string): GraphIndicator | GraphLine => {
     throw new Error(`${type} not found as a GraphModel`);
   }
 
-  return new graphModel(view.documentElement);
+  return new graphModel(type, view.documentElement);
 };

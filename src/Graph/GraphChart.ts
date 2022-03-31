@@ -1,8 +1,8 @@
 import { GraphAxis } from ".";
-import { Graph } from "./Graph";
+import { Graph, GraphType } from "./Graph";
 import { parseXYAxis } from "./graphHelper";
 
-export class GraphLine extends Graph {
+export class GraphChart extends Graph {
   _x: GraphAxis | undefined;
   get x(): GraphAxis | undefined {
     return this._x;
@@ -12,10 +12,10 @@ export class GraphLine extends Graph {
   get y(): GraphAxis | undefined {
     return this._y;
   }
-  constructor(element: HTMLElement) {
+  constructor(type: GraphType, element: HTMLElement) {
     super(element);
 
-    this._type = "line";
+    this._type = type;
 
     const xyAxis = parseXYAxis(element.childNodes);
     this._x = xyAxis.x;
