@@ -4,6 +4,8 @@ import { GraphChart } from "./GraphChart";
 const GraphTypes: { [key: string]: any } = {
   indicator: GraphIndicator,
   line: GraphChart,
+  bar: GraphChart,
+  pie: GraphChart,
 };
 
 export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
