@@ -13,11 +13,23 @@ const evaluateCondition = ({
     return false;
   }
 
-  if (values[fieldName] === undefined && fields[fieldName].type !== "boolean") {
+  if (
+    values[fieldName] === undefined &&
+    fields[fieldName].type !== "boolean" &&
+    fields[fieldName].type !== "many2one"
+  ) {
     return false;
   }
 
   let filteredExpectedValue = expectedValue;
+
+  if (
+    fields[fieldName].type === "many2one" &&
+    expectedValue === false &&
+    values[fieldName] === undefined
+  ) {
+    filteredExpectedValue = undefined;
+  }
 
   if (
     fields[fieldName].type === "boolean" &&
