@@ -28,6 +28,9 @@ const fields = {
   change_adm: {
     type: "boolean",
   },
+  autoconsum_id: {
+    type: "many2one",
+  },
 };
 
 describe("An Attribute Parser", () => {
@@ -162,6 +165,30 @@ describe("An Attribute Parser", () => {
         attrs: "{'invisible': [('change_adm', '=', False)]}",
       };
       const values = {};
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
+    });
+    it("should properly parse a many2one attribute with false value", () => {
+      const tagAttributes = {
+        attrs: "{'invisible': [('autoconsum_id', '=', False)]}",
+      };
+      const values = { autoconsum_id: false };
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
+    });
+    it.only("should properly parse a many2one attribute with undefined value", () => {
+      const tagAttributes = {
+        attrs: "{'invisible': [('autoconsum_id', '=', False)]}",
+      };
+      const values = { autoconsum_id: undefined };
       const evaluatedAttrs = evaluateAttributes({
         tagAttributes,
         values,
