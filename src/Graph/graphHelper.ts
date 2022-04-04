@@ -1,13 +1,12 @@
 import { Axis, GraphAxis, Operator } from ".";
-import { Label } from "..";
 
 export type XYAxis = {
-  x: GraphAxis;
-  y: GraphAxis;
+  x: GraphAxis | undefined;
+  y: GraphAxis[];
 };
 
 export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
-  const xyAxis: any = {};
+  const xyAxis: XYAxis = { x: undefined, y: [] };
 
   Array.prototype.forEach.call(nodes, (child: Element) => {
     if (child.nodeType === child.ELEMENT_NODE) {
@@ -36,7 +35,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       if (axis === "x") {
         xyAxis.x = graphAxis;
       } else if (axis === "y") {
-        xyAxis.y = graphAxis;
+        xyAxis.y.push(graphAxis);
       }
     }
   });
