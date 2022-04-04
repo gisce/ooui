@@ -1,4 +1,5 @@
 import { Axis, GraphAxis, Operator } from ".";
+import { Label } from "..";
 
 export type XYAxis = {
   x: GraphAxis;
@@ -15,6 +16,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       const axis = child.getAttribute("axis");
       const operator = child.getAttribute("operator");
       const name = child.getAttribute("name");
+      const label = child.getAttribute("label");
 
       if (!axis) {
         throw new Error(`Field ${name} doesn't have an axis`);
@@ -28,6 +30,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
         axis: axis as Axis,
         name,
         operator: operator as Operator,
+        label: label || undefined,
       });
 
       if (axis === "x") {
