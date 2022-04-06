@@ -71,5 +71,14 @@ describe("A Context Parser", () => {
       expect(parsedContext!["active_id"]).toBeDefined();
       expect(parsedContext!["active_id"]).toBe(3);
     });
+
+    it("should properly parse with double quotes", () => {
+      const str = "{\"active_id\": 3}";
+
+      const parsedContext = parseContext({ context: str });
+
+      expect(parsedContext!["active_id"]).toBeDefined();
+      expect(parsedContext!["active_id"]).toBe(3);
+    });
   });
 });

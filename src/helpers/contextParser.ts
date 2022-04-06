@@ -18,7 +18,8 @@ export const parseContext = ({
     }
 
     // TODO: maybe this can be accomplished more performant and elegant with regex
-    const strNoWhitespaces = context.replace(/\s/g, "");
+    const singleQuotesReplace = context.replace(/\"/g, "'");
+    const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
     var replaceTrue = strNoWhitespaces.replace(/True/g, "true");
     var replaceFalse = replaceTrue.replace(/False/g, "false");
     const strNoClauLeft = replaceFalse.replace(/\{/g, "");

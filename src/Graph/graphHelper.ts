@@ -1,12 +1,12 @@
 import { Axis, GraphAxis, Operator } from ".";
 
 export type XYAxis = {
-  x: GraphAxis;
-  y: GraphAxis;
+  x: GraphAxis | undefined;
+  y: GraphAxis[];
 };
 
 export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
-  const xyAxis: any = {};
+  const xyAxis: XYAxis = { x: undefined, y: [] };
 
   Array.prototype.forEach.call(nodes, (child: Element) => {
     if (child.nodeType === child.ELEMENT_NODE) {
@@ -15,6 +15,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       const axis = child.getAttribute("axis");
       const operator = child.getAttribute("operator");
       const name = child.getAttribute("name");
+      const label = child.getAttribute("label");
 
       if (!axis) {
         throw new Error(`Field ${name} doesn't have an axis`);
@@ -28,12 +29,13 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
         axis: axis as Axis,
         name,
         operator: operator as Operator,
+        label: label || undefined,
       });
 
       if (axis === "x") {
         xyAxis.x = graphAxis;
       } else if (axis === "y") {
-        xyAxis.y = graphAxis;
+        xyAxis.y.push(graphAxis);
       }
     }
   });

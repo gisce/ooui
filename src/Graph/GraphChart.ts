@@ -8,8 +8,8 @@ export class GraphChart extends Graph {
     return this._x;
   }
 
-  _y: GraphAxis | undefined;
-  get y(): GraphAxis | undefined {
+  _y: GraphAxis[] | undefined;
+  get y(): GraphAxis[] | undefined {
     return this._y;
   }
   constructor(type: GraphType, element: HTMLElement) {
