@@ -1,4 +1,4 @@
-export type GraphType = "indicator" | "line" | "bar" | "pie";
+export type GraphType = "indicator" | "indicatorField" | "line" | "bar" | "pie";
 
 export class Graph {
   _string: string | null = null;

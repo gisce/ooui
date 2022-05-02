@@ -1,8 +1,10 @@
 import { GraphIndicator } from "./GraphIndicator";
+import { GraphIndicatorField } from "./GraphIndicatorField";
 import { GraphChart } from "./GraphChart";
 
 const GraphTypes: { [key: string]: any } = {
   indicator: GraphIndicator,
+  indicatorField: GraphIndicatorField,
   line: GraphChart,
   bar: GraphChart,
   pie: GraphChart,

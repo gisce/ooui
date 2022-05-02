@@ -1,4 +1,4 @@
-import { GraphIndicator, GraphChart, parseGraph, GraphAxis } from "..";
+import { GraphIndicator, GraphChart, parseGraph, GraphAxis, GraphIndicatorField } from "..";
 
 describe("A Graph", () => {
   it("should parse a basic XML title and type indicator", () => {
@@ -33,5 +33,19 @@ describe("A Graph", () => {
     expect(y.axis).toBe("y");
     expect(graph.x?.operator).toBeNull();
     expect(y.operator).toBe("+");
+  });
+  it("should parse a basic XML title and type indicator field", () => {
+    const xml = `<?xml version="1.0"?>
+    <graph string="My indicator" type="indicatorField" color="red:debt>0;green:debt==0" icon="slack"><field name="potencia" operator="+" /></graph>
+    `;
+
+    const graph = parseGraph(xml) as GraphIndicatorField;
+
+    expect(graph.string).toBe("My indicator");
+    expect(graph.type).toBe("indicatorField");
+    expect(graph.color).toBe("red:debt>0;green:debt==0");
+    expect(graph.icon).toBe("slack");
+    expect(graph.field).toBe("potencia");
+    expect(graph.operator).toBe("+");
   });
 });

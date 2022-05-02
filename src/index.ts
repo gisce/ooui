@@ -37,6 +37,7 @@ import {
   Graph,
   GraphAxis,
   GraphIndicator,
+  GraphIndicatorField,
   GraphChart,
   GraphType,
   parseGraph,
@@ -86,4 +87,5 @@ export {
   GraphType,
   parseGraph,
   Operator,
+  GraphIndicatorField,
 };
