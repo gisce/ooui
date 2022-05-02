@@ -1,7 +1,7 @@
 import { Axis, GraphAxis, Operator } from ".";
 
 export type XYAxis = {
-  x: GraphAxis | undefined;
+  x: GraphAxis | undefined;
   y: GraphAxis[];
 };
 
@@ -9,9 +9,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
   const xyAxis: XYAxis = { x: undefined, y: [] };
 
   Array.prototype.forEach.call(nodes, (child: Element) => {
-    if (child.nodeType === child.ELEMENT_NODE) {
-      if (child.nodeName === "field") {
-      }
+    if (child.nodeType === child.ELEMENT_NODE && child.nodeName === "field") {
       const axis = child.getAttribute("axis");
       const operator = child.getAttribute("operator");
       const name = child.getAttribute("name");
