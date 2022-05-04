@@ -27,7 +27,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       const graphAxis = new GraphAxis({
         axis: axis as Axis,
         name,
-        operator: operator as Operator,
+        operator: operator ? (operator as Operator) : undefined,
         label: label || undefined,
       });
 

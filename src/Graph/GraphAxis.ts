@@ -2,13 +2,13 @@ export type Axis = "x" | "y";
 export type Operator = "count" | "+" | "-" | "*" | "min" | "max" | "avg";
 
 export class GraphAxis {
-  _name: string | undefined;
-  get name(): string | undefined {
+  _name: string;
+  get name(): string {
     return this._name;
   }
 
-  _axis: Axis | undefined;
-  get axis(): Axis | undefined {
+  _axis: Axis;
+  get axis(): Axis {
     return this._axis;
   }
 
@@ -31,7 +31,7 @@ export class GraphAxis {
     name: string;
     axis: Axis;
     operator?: Operator;
-    label: string | undefined;
+    label?: string;
   }) {
     this._name = name;
     this._axis = axis;
