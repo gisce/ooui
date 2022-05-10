@@ -5,6 +5,16 @@ export type GroupedValues = {
   [key: string]: { label: string; entries: { [key: string]: any }[] };
 };
 
+export const labelsForOperator = {
+  count: "count",
+  "+": "sum",
+  "-": "subtract",
+  "*": "multiply",
+  avg: "average",
+  min: "min",
+  max: "max",
+};
+
 export const processGraphData = ({
   ooui,
   values,
@@ -44,7 +54,10 @@ export const processGraphData = ({
         operator: yField.operator!, // TODO: fix this
       });
 
-      data.push({ [ooui.x.name]: label, [yField.name]: finalValue });
+      data.push({
+        [ooui.x.name]: label || false,
+        [`${yField.name}_${labelsForOperator[yField.operator!]}`]: finalValue,
+      });
     });
   });
 

@@ -102,28 +102,67 @@ describe("in getValuesGroupedByField method", () => {
 });
 
 describe("in processGraphData method", () => {
-  it("should do basic test", () => {
+  it("should do basic test with one y axis", () => {
     const parsedGraph = parseGraph(`<?xml version="1.0"?>
-    <graph type="bar">
-      <field name="name" axis="x"/>
-      <field name="consum" operator="+" axis="y"/>
+    <graph type="pie">
+      <field name="llista_preu" axis="x"/>
+      <field name="llista_preu" operator="count" axis="y"/>
     </graph>
     `) as GraphChart;
-    const lecturaModel = models.find((m) => m.key === "lectura");
-    expect(lecturaModel).toBeDefined();
-    if (!lecturaModel) {
+    const model = models.find((m) => m.key === "polissa");
+    expect(model).toBeDefined();
+    if (!model) {
       throw new Error("Model not found");
     }
-    const lecturaValues = lecturaModel.data;
-    const lecturaFields = lecturaModel.fields;
+    const values = model.data;
+    const fields = model.fields;
 
-    const data = processGraphData({
+    const { data } = processGraphData({
       ooui: parsedGraph,
-      values: lecturaValues as any,
-      fields: lecturaFields as any,
+      values: values as any,
+      fields: fields as any,
     });
 
-    console.log(JSON.stringify(data, null, 2));
+    expect(data.length).toBe(6);
+    expect(
+      data.find(
+        (d) =>
+          d.llista_preu === "TARIFAS ELECTRICIDAD (EUR)" &&
+          d.llista_preu_count === 8
+      )
+    ).toBeTruthy();
+    expect(
+      data.find(
+        (d) => d.llista_preu === "Adeu (CHF)" && d.llista_preu_count === 4
+      )
+    ).toBeTruthy();
+    expect(
+      data.find(
+        (d) =>
+          d.llista_preu === "Hola bipartit (EUR)" && d.llista_preu_count === 5
+      )
+    ).toBeTruthy();
+    expect(
+      data.find(
+        (d) =>
+          d.llista_preu === "Mucha potencia (EUR)" && d.llista_preu_count === 1
+      )
+    ).toBeTruthy();
+
+    expect(
+      data.find(
+        (d) => d.llista_preu === "Hola (EUR)" && d.llista_preu_count === 13
+      )
+    ).toBeTruthy();
+
+    expect(
+      data.find((d) => d.llista_preu === false && d.llista_preu_count === 2)
+    ).toBeTruthy();
+
+    expect(
+      data.find((d) => d.llista_preu === "random" && d.llista_preu_count === 15)
+    ).toBeUndefined();
+
     expect(data).toBeTruthy();
   });
 });
