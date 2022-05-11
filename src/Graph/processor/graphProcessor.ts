@@ -64,7 +64,6 @@ export const processGraphData = ({
   // We now merge the results with the same name key
   const uniqueXkeys = [...new Set(data.map((item) => item[ooui.x.name]))];
 
-  console.log(uniqueXkeys);
   const processedData = uniqueXkeys.map((key) => {
     const mergedRecord = {};
     const valuesForKey = data.filter((item) => item[ooui.x.name] === key);

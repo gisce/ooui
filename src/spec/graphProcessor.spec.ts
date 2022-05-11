@@ -102,7 +102,7 @@ describe("in getValuesGroupedByField method", () => {
 });
 
 describe("in processGraphData method", () => {
-  it.only("should do basic test with one y axis", () => {
+  it("should do basic test with one y axis", () => {
     const parsedGraph = parseGraph(`<?xml version="1.0"?>
     <graph type="pie">
       <field name="llista_preu" axis="x"/>
@@ -122,8 +122,6 @@ describe("in processGraphData method", () => {
       values: values as any,
       fields: fields as any,
     });
-
-    console.log(data);
 
     expect(data.length).toBe(6);
     expect(
@@ -190,7 +188,18 @@ describe("in processGraphData method", () => {
       fields: fields as any,
     });
 
-    console.log(JSON.stringify(data, null, 2));
-    expect(data).toBeTruthy();
+    expect(data.length).toBe(12);
+    expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
+    const obj1 = data.find((d) => d.name === "2020-09-30")!;
+    expect(obj1.consum_sum).toBe(0);
+    expect(obj1.ajust_sum).toBe(0);
+    expect(data.find((d) => d.name === "2020-06-30")).toBeTruthy();
+    const obj2 = data.find((d) => d.name === "2020-06-30")!;
+    expect(obj2.consum_sum).toBe(150);
+    expect(obj2.ajust_sum).toBe(0);
+    expect(data.find((d) => d.name === "2016-04-04")).toBeTruthy();
+    const obj3 = data.find((d) => d.name === "2016-04-04")!;
+    expect(obj3.consum_sum).toBe(15);
+    expect(obj3.ajust_sum).toBe(15);
   });
 });
