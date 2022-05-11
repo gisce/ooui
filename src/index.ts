@@ -46,6 +46,9 @@ import {
   GraphXAxis,
 } from "./Graph";
 
+import * as graphProcessor from "./Graph/processor/graphProcessor";
+import * as graphFieldUtils from "./Graph/processor/fieldUtils";
+
 export {
   Char,
   Selection,
@@ -92,4 +95,6 @@ export {
   parseGraph,
   Operator,
   GraphIndicatorField,
+  graphProcessor,
+  graphFieldUtils,
 };
