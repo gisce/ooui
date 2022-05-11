@@ -51,7 +51,7 @@ export const processGraphData = ({
 
       const finalValue = getValueForOperator({
         values: valuesForYField,
-        operator: yField.operator!, // TODO: fix this
+        operator: yField.operator,
       });
 
       data.push({
@@ -61,7 +61,20 @@ export const processGraphData = ({
     });
   });
 
-  return { data };
+  // We now merge the results with the same name key
+  const uniqueXkeys = [...new Set(data.map((item) => item[ooui.x.name]))];
+
+  console.log(uniqueXkeys);
+  const processedData = uniqueXkeys.map((key) => {
+    const mergedRecord = {};
+    const valuesForKey = data.filter((item) => item[ooui.x.name] === key);
+    valuesForKey.forEach((item) => {
+      Object.assign(mergedRecord, item);
+    });
+    return mergedRecord as { [key: string]: any };
+  });
+
+  return { data: processedData };
 };
 
 export function getValueForOperator({

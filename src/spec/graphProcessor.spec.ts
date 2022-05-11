@@ -102,7 +102,7 @@ describe("in getValuesGroupedByField method", () => {
 });
 
 describe("in processGraphData method", () => {
-  it("should do basic test with one y axis", () => {
+  it.only("should do basic test with one y axis", () => {
     const parsedGraph = parseGraph(`<?xml version="1.0"?>
     <graph type="pie">
       <field name="llista_preu" axis="x"/>
@@ -122,6 +122,8 @@ describe("in processGraphData method", () => {
       values: values as any,
       fields: fields as any,
     });
+
+    console.log(data);
 
     expect(data.length).toBe(6);
     expect(
@@ -163,6 +165,32 @@ describe("in processGraphData method", () => {
       data.find((d) => d.llista_preu === "random" && d.llista_preu_count === 15)
     ).toBeUndefined();
 
+    expect(data).toBeTruthy();
+  });
+  it("should do basic test with two y axis", () => {
+    const parsedGraph = parseGraph(`<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x" />
+      <field name="consum" operator="+" axis="y"/>
+      <field name="ajust" operator="+" axis="y" />
+    </graph>
+    `) as GraphChart;
+
+    const model = models.find((m) => m.key === "lectura");
+    expect(model).toBeDefined();
+    if (!model) {
+      throw new Error("Model not found");
+    }
+    const values = model.data;
+    const fields = model.fields;
+
+    const { data } = processGraphData({
+      ooui: parsedGraph,
+      values: values as any,
+      fields: fields as any,
+    });
+
+    console.log(JSON.stringify(data, null, 2));
     expect(data).toBeTruthy();
   });
 });
