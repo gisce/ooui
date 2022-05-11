@@ -182,11 +182,17 @@ describe("in processGraphData method", () => {
     const values = model.data;
     const fields = model.fields;
 
-    const { data } = processGraphData({
+    const { data, xField, yFields, seriesFields } = processGraphData({
       ooui: parsedGraph,
       values: values as any,
       fields: fields as any,
     });
+
+    expect(xField).toBe("name");
+    expect(yFields!.length).toBe(2);
+    expect(yFields![0]).toBe("consum_sum");
+    expect(yFields![1]).toBe("ajust_sum");
+    expect(seriesFields).toBeUndefined();
 
     expect(data.length).toBe(12);
     expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
@@ -218,12 +224,18 @@ describe("in processGraphData method", () => {
     const values = model.data;
     const fields = model.fields;
 
-    const { data } = processGraphData({
+    const { data, xField, yFields, seriesFields } = processGraphData({
       ooui: parsedGraph,
       values: values as any,
       fields: fields as any,
     });
-    console.log(JSON.stringify(data, null, 2));
+
+    expect(xField).toBe("name");
+    expect(yFields!.length).toBe(1);
+    expect(yFields![0]).toBe("consum_sum");
+    expect(seriesFields!.length).toBe(1);
+    expect(seriesFields![0]).toBe("periode");
+
     expect(data.length).toBe(15);
     expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
     const obj1 = data.find((d) => d.name === "2020-09-30")!;

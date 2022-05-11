@@ -1,4 +1,4 @@
-import { GraphChart, Operator } from "..";
+import { GraphChart, GraphYAxis, Operator } from "..";
 import { getValueAndLabelForField } from "./fieldUtils";
 
 export type GroupedValues = {
@@ -29,6 +29,15 @@ export const processGraphData = ({
     values,
     fields,
   });
+
+  const fieldsData = {
+    xField: ooui.x.name,
+    yFields: [...new Set(ooui.y.map((item) => getYAxisFieldname(item)))],
+    seriesFields:
+      ooui.y.filter((yField) => yField.label).length !== 0
+        ? [...new Set(ooui.y.map((item) => item.label))]
+        : undefined,
+  };
 
   const data: { [key: string]: any }[] = [];
 
@@ -90,7 +99,7 @@ export const processGraphData = ({
 
         data.push({
           [ooui.x.name]: xLabel || false,
-          [`${yField.name}_${labelsForOperator[yField.operator!]}`]: finalValue,
+          [getYAxisFieldname(yField)]: finalValue,
         });
       }
     });
@@ -108,9 +117,13 @@ export const processGraphData = ({
       });
       return mergedRecord as { [key: string]: any };
     });
-    return { data: processedData };
+    return { data: processedData, ...fieldsData };
   }
-  return { data };
+
+  return {
+    data,
+    ...fieldsData,
+  };
 };
 
 export function getValueForOperator({
@@ -198,4 +211,11 @@ export function getAllObjectsInGroupedValues(grouped: GroupedValues) {
     totalObjects = totalObjects.concat(group.entries);
   });
   return totalObjects;
+}
+
+export function getYAxisFieldname(y: GraphYAxis) {
+  if (y.operator) {
+    return y.name + "_" + labelsForOperator[y.operator];
+  }
+  return y.name!;
 }
