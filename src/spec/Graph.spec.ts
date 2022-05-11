@@ -4,6 +4,7 @@ import {
   parseGraph,
   GraphAxis,
   GraphIndicatorField,
+  GraphYAxis,
 } from "..";
 
 describe("A Graph", () => {
@@ -28,7 +29,7 @@ describe("A Graph", () => {
     `;
 
     const graph = parseGraph(xml) as GraphChart;
-    const y: GraphAxis = graph.y[0];
+    const y: GraphYAxis = graph.y[0];
 
     expect(graph.type).toBe("line");
     expect(graph.x).toBeDefined();
@@ -37,7 +38,6 @@ describe("A Graph", () => {
     expect(y.name).toBe("data_alta");
     expect(graph.x.axis).toBe("x");
     expect(y.axis).toBe("y");
-    expect(graph.x?.operator).toBeUndefined();
     expect(y.operator).toBe("+");
   });
   it("should parse a basic XML title and type indicator field", () => {

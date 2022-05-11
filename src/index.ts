@@ -42,6 +42,8 @@ import {
   GraphType,
   parseGraph,
   Operator,
+  GraphYAxis,
+  GraphXAxis,
 } from "./Graph";
 
 export {
@@ -82,6 +84,8 @@ export {
   DashboardItem,
   Graph,
   GraphAxis,
+  GraphYAxis,
+  GraphXAxis,
   GraphIndicator,
   GraphChart,
   GraphType,

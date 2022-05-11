@@ -1,15 +1,15 @@
-import { GraphAxis } from ".";
+import { GraphXAxis, GraphYAxis } from ".";
 import { Graph, GraphType } from "./Graph";
 import { parseXYAxis } from "./graphHelper";
 
 export class GraphChart extends Graph {
-  _x: GraphAxis;
-  get x(): GraphAxis {
+  _x: GraphXAxis;
+  get x(): GraphXAxis {
     return this._x;
   }
 
-  _y: GraphAxis[];
-  get y(): GraphAxis[] {
+  _y: GraphYAxis[];
+  get y(): GraphYAxis[] {
     return this._y;
   }
   constructor(type: GraphType, element: HTMLElement) {

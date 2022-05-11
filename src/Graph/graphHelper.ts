@@ -1,12 +1,12 @@
-import { Axis, GraphAxis, Operator } from ".";
+import { GraphXAxis, GraphYAxis, Operator } from ".";
 
 export type XYAxis = {
-  x: GraphAxis;
-  y: GraphAxis[];
+  x: GraphXAxis;
+  y: GraphYAxis[];
 };
 
 export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
-  const yAxisElements: GraphAxis[] = [];
+  const yAxisElements: GraphYAxis[] = [];
   let xAxis;
 
   Array.prototype.forEach.call(nodes, (child: Element) => {
@@ -14,7 +14,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       const axis = child.getAttribute("axis");
       const operator = child.getAttribute("operator");
       const name = child.getAttribute("name");
-      const label = child.getAttribute("label");
+      const label = child.getAttribute("label") || undefined;
 
       if (!axis) {
         throw new Error(`Field ${name} doesn't have an axis`);
@@ -24,17 +24,18 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
         throw new Error("Missing name attribute for field");
       }
 
-      const graphAxis = new GraphAxis({
-        axis: axis as Axis,
-        name,
-        operator: operator ? (operator as Operator) : undefined,
-        label: label || undefined,
-      });
-
       if (axis === "x") {
-        xAxis = graphAxis;
+        xAxis = new GraphXAxis({
+          name,
+        });
       } else if (axis === "y") {
-        yAxisElements.push(graphAxis);
+        yAxisElements.push(
+          new GraphYAxis({
+            name,
+            operator: operator as Operator,
+            label,
+          })
+        );
       }
     }
   });
