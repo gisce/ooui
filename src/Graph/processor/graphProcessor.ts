@@ -34,46 +34,83 @@ export const processGraphData = ({
 
   ooui.y.forEach((yField) => {
     Object.keys(valuesGroupedByX).forEach((xValue) => {
-      const label = valuesGroupedByX[xValue].label;
+      const xLabel = valuesGroupedByX[xValue].label;
       const objectsForXValue = valuesGroupedByX[xValue].entries;
 
-      const valuesForYField = objectsForXValue
-        .map((obj) => {
-          return getValueAndLabelForField({
-            fieldName: yField.name,
-            values: obj,
-            fields: fields,
-          });
-        })
-        .map(({ value, label }) => {
-          return label;
+      if (yField.label) {
+        const valuesGroupedByYLabel = getValuesGroupedByField({
+          fieldName: yField.label,
+          values: objectsForXValue,
+          fields,
         });
 
-      const finalValue = getValueForOperator({
-        values: valuesForYField,
-        operator: yField.operator,
-      });
+        Object.keys(valuesGroupedByYLabel).forEach((yUniqueValue) => {
+          const entries = valuesGroupedByYLabel[yUniqueValue].entries;
+          const label = valuesGroupedByYLabel[yUniqueValue].label;
+          const valuesForYField = entries
+            .map((obj) => {
+              return getValueAndLabelForField({
+                fieldName: yField.name,
+                values: obj,
+                fields: fields,
+              });
+            })
+            .map(({ value, label }) => {
+              return label;
+            });
+          const finalValue = getValueForOperator({
+            values: valuesForYField,
+            operator: yField.operator,
+          });
+          data.push({
+            [ooui.x.name]: xLabel || false,
+            [`${yField.name}_${
+              labelsForOperator[yField.operator!]
+            }`]: finalValue,
+            [yField.label!]: label,
+          });
+        });
+      } else {
+        const valuesForYField = objectsForXValue
+          .map((obj) => {
+            return getValueAndLabelForField({
+              fieldName: yField.name,
+              values: obj,
+              fields: fields,
+            });
+          })
+          .map(({ value, label }) => {
+            return label;
+          });
 
-      data.push({
-        [ooui.x.name]: label || false,
-        [`${yField.name}_${labelsForOperator[yField.operator!]}`]: finalValue,
-      });
+        const finalValue = getValueForOperator({
+          values: valuesForYField,
+          operator: yField.operator,
+        });
+
+        data.push({
+          [ooui.x.name]: xLabel || false,
+          [`${yField.name}_${labelsForOperator[yField.operator!]}`]: finalValue,
+        });
+      }
     });
   });
 
-  // We now merge the results with the same name key
-  const uniqueXkeys = [...new Set(data.map((item) => item[ooui.x.name]))];
-
-  const processedData = uniqueXkeys.map((key) => {
-    const mergedRecord = {};
-    const valuesForKey = data.filter((item) => item[ooui.x.name] === key);
-    valuesForKey.forEach((item) => {
-      Object.assign(mergedRecord, item);
+  // If we don't have y axis fields with label specified, we need to,
+  // merge the results with the same name key
+  if (ooui.y.filter((yField) => yField.label).length === 0) {
+    const uniqueXkeys = [...new Set(data.map((item) => item[ooui.x.name]))];
+    const processedData = uniqueXkeys.map((key) => {
+      const mergedRecord = {};
+      const valuesForKey = data.filter((item) => item[ooui.x.name] === key);
+      valuesForKey.forEach((item) => {
+        Object.assign(mergedRecord, item);
+      });
+      return mergedRecord as { [key: string]: any };
     });
-    return mergedRecord as { [key: string]: any };
-  });
-
-  return { data: processedData };
+    return { data: processedData };
+  }
+  return { data };
 };
 
 export function getValueForOperator({

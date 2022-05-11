@@ -202,4 +202,37 @@ describe("in processGraphData method", () => {
     expect(obj3.consum_sum).toBe(15);
     expect(obj3.ajust_sum).toBe(15);
   });
+  it("should do basic test with one y axis with label", () => {
+    const parsedGraph = parseGraph(`<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x" />
+      <field name="consum" operator="+" label="periode" axis="y"/>
+    </graph>
+    `) as GraphChart;
+
+    const model = models.find((m) => m.key === "lectura");
+    expect(model).toBeDefined();
+    if (!model) {
+      throw new Error("Model not found");
+    }
+    const values = model.data;
+    const fields = model.fields;
+
+    const { data } = processGraphData({
+      ooui: parsedGraph,
+      values: values as any,
+      fields: fields as any,
+    });
+    console.log(JSON.stringify(data, null, 2));
+    expect(data.length).toBe(15);
+    expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
+    const obj1 = data.find((d) => d.name === "2020-09-30")!;
+    expect(obj1.consum_sum).toBe(0);
+    expect(obj1.periode).toBe("2.0A (P1)");
+    const obj2 = data.filter((d) => d.name === "2020-07-31")!;
+    expect(obj2.length).toBe(3);
+    expect(obj2.map((e) => e.periode).toString()).toBe(
+      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
+    );
+  });
 });
