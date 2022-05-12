@@ -15,6 +15,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
       const operator = child.getAttribute("operator");
       const name = child.getAttribute("name");
       const label = child.getAttribute("label") || undefined;
+      const stacked = child.getAttribute("stacked") || undefined;
 
       if (!axis) {
         throw new Error(`Field ${name} doesn't have an axis`);
@@ -34,6 +35,7 @@ export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
             name,
             operator: operator as Operator,
             label,
+            stacked,
           })
         );
       }
