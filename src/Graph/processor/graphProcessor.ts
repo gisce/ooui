@@ -37,7 +37,8 @@ export const processGraphData = ({
       ooui.y.filter((yField) => yField.label).length !== 0
         ? [...new Set(ooui.y.map((item) => item.label))]
         : undefined,
-    isGrouped: false,
+    isGroup: false,
+    isStack: false,
   };
 
   const data: { [key: string]: any }[] = [];
@@ -121,11 +122,14 @@ export const processGraphData = ({
     return { data: processedData, ...fieldsData };
   }
 
-  if (
-    ooui.y.filter((yField) => yField.label).length > 0 &&
-    ooui.y.filter((yField) => yField.stacked).length === 0
-  ) {
-    fieldsData.isGrouped = true;
+  const yFieldsWithLabel = ooui.y.filter((yField) => yField.label).length;
+  const yFieldsWithStacked = ooui.y.filter((yField) => yField.stacked).length;
+
+  if (yFieldsWithLabel > 0 && yFieldsWithStacked === 0) {
+    fieldsData.isGroup = true;
+  } else if (yFieldsWithLabel > 0 && yFieldsWithStacked > 0) {
+    fieldsData.isGroup = true;
+    fieldsData.isStack = true;
   }
 
   return {

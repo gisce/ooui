@@ -224,7 +224,7 @@ describe("in processGraphData method", () => {
     const values = model.data;
     const fields = model.fields;
 
-    const { data, xField, yFields, seriesFields, isGrouped } = processGraphData(
+    const { data, xField, yFields, seriesFields, isGroup } = processGraphData(
       {
         ooui: parsedGraph,
         values: values as any,
@@ -237,7 +237,7 @@ describe("in processGraphData method", () => {
     expect(yFields![0]).toBe("consum_sum");
     expect(seriesFields!.length).toBe(1);
     expect(seriesFields![0]).toBe("periode");
-    expect(isGrouped).toBe(true);
+    expect(isGroup).toBe(true);
 
     expect(data.length).toBe(15);
     expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
