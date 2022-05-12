@@ -127,7 +127,11 @@ export const processGraphData = ({
 
   if (yFieldsWithLabel > 0 && yFieldsWithStacked === 0) {
     fieldsData.isGroup = true;
-  } else if (yFieldsWithLabel > 0 && yFieldsWithStacked > 0) {
+    fieldsData.isStack = false;
+  } else if (yFieldsWithLabel === 1 && yFieldsWithStacked === 1) {
+    fieldsData.isGroup = false;
+    fieldsData.isStack = true;
+  } else if (yFieldsWithLabel > 1 && yFieldsWithStacked > 1) {
     fieldsData.isGroup = true;
     fieldsData.isStack = true;
   }
