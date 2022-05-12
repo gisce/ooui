@@ -30,13 +30,14 @@ export const processGraphData = ({
     fields,
   });
 
-  const fieldsData = {
+  let fieldsData = {
     xField: ooui.x.name,
     yFields: [...new Set(ooui.y.map((item) => getYAxisFieldname(item)))],
     seriesFields:
       ooui.y.filter((yField) => yField.label).length !== 0
         ? [...new Set(ooui.y.map((item) => item.label))]
         : undefined,
+    isGrouped: false,
   };
 
   const data: { [key: string]: any }[] = [];
@@ -118,6 +119,13 @@ export const processGraphData = ({
       return mergedRecord as { [key: string]: any };
     });
     return { data: processedData, ...fieldsData };
+  }
+
+  if (
+    ooui.y.filter((yField) => yField.label).length > 0 &&
+    ooui.y.filter((yField) => yField.stacked).length === 0
+  ) {
+    fieldsData.isGrouped = true;
   }
 
   return {
