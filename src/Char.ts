@@ -18,11 +18,11 @@ class Char extends Field {
   /**
    * Field size
    */
-  _size: number = 150;
-  get size(): number {
+  _size: number | undefined;
+  get size(): number | undefined {
     return this._size;
   }
-  set size(value: number) {
+  set size(value: number | undefined) {
     this._size = value;
   }
 
