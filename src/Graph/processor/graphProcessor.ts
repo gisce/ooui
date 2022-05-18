@@ -244,8 +244,10 @@ export function getYAxisFieldname({
   const fieldProps = fields[yAxis.name];
 
   if (fieldProps && fieldProps.string) {
-    return `${fieldProps.string} (${labelsForOperator[yAxis.operator]})`;
+    // return `${fieldProps.string} (${labelsForOperator[yAxis.operator]})`;
+    return fieldProps.string;
   }
 
-  return yAxis.name + "_" + labelsForOperator[yAxis.operator];
+  // return yAxis.name + "_" + labelsForOperator[yAxis.operator];
+  return yAxis.name;
 }
