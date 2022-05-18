@@ -107,6 +107,14 @@ export const processGraphData = ({
   // Check if we have to flag
   const isStack = data.some((entry) => entry.stacked !== undefined);
 
+  // Check if we have to set groupField
+  const stackedFields = ooui.y.map((yAxis) => yAxis.stacked);
+  const uniqueStackedFields = stackedFields.filter(
+    (v, i, a) => a.indexOf(v) === i
+  );
+
+  const groupField = uniqueStackedFields.length > 1 ? "stacked" : undefined;
+
   // We sort the data by x
   const sortedData = data.sort((a, b) => {
     if (a["x"] < b["x"]) {
@@ -122,6 +130,7 @@ export const processGraphData = ({
     data: sortedData,
     isGroup,
     isStack,
+    groupField,
   };
 };
 
