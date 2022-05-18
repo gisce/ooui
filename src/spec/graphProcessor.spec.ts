@@ -103,151 +103,308 @@ describe("in getValuesGroupedByField method", () => {
 
 describe("in processGraphData method", () => {
   it("should do basic test with one y axis", () => {
-    const parsedGraph = parseGraph(`<?xml version="1.0"?>
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
     <graph type="pie">
       <field name="llista_preu" axis="x"/>
       <field name="llista_preu" operator="count" axis="y"/>
     </graph>
-    `) as GraphChart;
-    const model = models.find((m) => m.key === "polissa");
-    expect(model).toBeDefined();
-    if (!model) {
-      throw new Error("Model not found");
-    }
-    const values = model.data;
-    const fields = model.fields;
+    `,
+      "polissa"
+    );
 
-    const { data } = processGraphData({
-      ooui: parsedGraph,
-      values: values as any,
-      fields: fields as any,
-    });
+    expect(isGroup).toBe(false);
+    expect(isStack).toBe(false);
 
     expect(data.length).toBe(6);
     expect(
       data.find(
         (d) =>
-          d.llista_preu === "TARIFAS ELECTRICIDAD (EUR)" &&
-          d.llista_preu_count === 8
-      )
-    ).toBeTruthy();
-    expect(
-      data.find(
-        (d) => d.llista_preu === "Adeu (CHF)" && d.llista_preu_count === 4
-      )
-    ).toBeTruthy();
-    expect(
-      data.find(
-        (d) =>
-          d.llista_preu === "Hola bipartit (EUR)" && d.llista_preu_count === 5
+          d.x === "TARIFAS ELECTRICIDAD (EUR)" &&
+          d.value === 8 &&
+          d.type === "Tarifa Comercialitzadora (count)"
       )
     ).toBeTruthy();
     expect(
       data.find(
         (d) =>
-          d.llista_preu === "Mucha potencia (EUR)" && d.llista_preu_count === 1
+          d.x === "Adeu (CHF)" &&
+          d.value === 4 &&
+          d.type === "Tarifa Comercialitzadora (count)"
+      )
+    ).toBeTruthy();
+    expect(
+      data.find(
+        (d) =>
+          d.x === "Hola bipartit (EUR)" &&
+          d.value === 5 &&
+          d.type === "Tarifa Comercialitzadora (count)"
+      )
+    ).toBeTruthy();
+    expect(
+      data.find(
+        (d) =>
+          d.x === "Mucha potencia (EUR)" &&
+          d.value === 1 &&
+          d.type === "Tarifa Comercialitzadora (count)"
       )
     ).toBeTruthy();
 
     expect(
       data.find(
-        (d) => d.llista_preu === "Hola (EUR)" && d.llista_preu_count === 13
+        (d) =>
+          d.x === "Hola (EUR)" &&
+          d.value === 13 &&
+          d.type === "Tarifa Comercialitzadora (count)"
       )
     ).toBeTruthy();
 
     expect(
-      data.find((d) => d.llista_preu === false && d.llista_preu_count === 2)
+      data.find(
+        (d) =>
+          d.x === false &&
+          d.value === 2 &&
+          d.type === "Tarifa Comercialitzadora (count)"
+      )
     ).toBeTruthy();
 
     expect(
-      data.find((d) => d.llista_preu === "random" && d.llista_preu_count === 15)
+      data.find(
+        (d) =>
+          d.x === "random" &&
+          d.value === 15 &&
+          d.type === "Tarifa Comercialitzadora (count)"
+      )
     ).toBeUndefined();
 
     expect(data).toBeTruthy();
   });
-  it("should do basic test with two y axis", () => {
-    const parsedGraph = parseGraph(`<?xml version="1.0"?>
-    <graph type="bar">
-      <field name="name" axis="x" />
-      <field name="consum" operator="+" axis="y"/>
-      <field name="ajust" operator="+" axis="y" />
-    </graph>
-    `) as GraphChart;
 
-    const model = models.find((m) => m.key === "lectura");
-    expect(model).toBeDefined();
-    if (!model) {
-      throw new Error("Model not found");
-    }
-    const values = model.data;
-    const fields = model.fields;
-
-    const { data, xField, yFields, seriesFields } = processGraphData({
-      ooui: parsedGraph,
-      values: values as any,
-      fields: fields as any,
-    });
-
-    expect(xField).toBe("name");
-    expect(yFields!.length).toBe(2);
-    expect(yFields![0]).toBe("consum_sum");
-    expect(yFields![1]).toBe("ajust_sum");
-    expect(seriesFields).toBeUndefined();
-
-    expect(data.length).toBe(12);
-    expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
-    const obj1 = data.find((d) => d.name === "2020-09-30")!;
-    expect(obj1.consum_sum).toBe(0);
-    expect(obj1.ajust_sum).toBe(0);
-    expect(data.find((d) => d.name === "2020-06-30")).toBeTruthy();
-    const obj2 = data.find((d) => d.name === "2020-06-30")!;
-    expect(obj2.consum_sum).toBe(150);
-    expect(obj2.ajust_sum).toBe(0);
-    expect(data.find((d) => d.name === "2016-04-04")).toBeTruthy();
-    const obj3 = data.find((d) => d.name === "2016-04-04")!;
-    expect(obj3.consum_sum).toBe(15);
-    expect(obj3.ajust_sum).toBe(15);
-  });
   it("should do basic test with one y axis with label", () => {
-    const parsedGraph = parseGraph(`<?xml version="1.0"?>
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
     <graph type="bar">
       <field name="name" axis="x" />
       <field name="consum" operator="+" label="periode" axis="y"/>
     </graph>
-    `) as GraphChart;
-
-    const model = models.find((m) => m.key === "lectura");
-    expect(model).toBeDefined();
-    if (!model) {
-      throw new Error("Model not found");
-    }
-    const values = model.data;
-    const fields = model.fields;
-
-    const { data, xField, yFields, seriesFields, isGroup } = processGraphData(
-      {
-        ooui: parsedGraph,
-        values: values as any,
-        fields: fields as any,
-      }
+    `,
+      "lectura"
     );
 
-    expect(xField).toBe("name");
-    expect(yFields!.length).toBe(1);
-    expect(yFields![0]).toBe("consum_sum");
-    expect(seriesFields!.length).toBe(1);
-    expect(seriesFields![0]).toBe("periode");
     expect(isGroup).toBe(true);
+    expect(isStack).toBe(false);
 
     expect(data.length).toBe(15);
-    expect(data.find((d) => d.name === "2020-09-30")).toBeTruthy();
-    const obj1 = data.find((d) => d.name === "2020-09-30")!;
-    expect(obj1.consum_sum).toBe(0);
-    expect(obj1.periode).toBe("2.0A (P1)");
-    const obj2 = data.filter((d) => d.name === "2020-07-31")!;
+    const obj1 = data.find((d) => d.x === "2020-09-30")!;
+    expect(obj1).toBeTruthy();
+    expect(obj1.value).toBe(0);
+    expect(obj1.type).toBe("2.0A (P1)");
+    const obj2 = data.filter((d) => d.x === "2020-07-31")!;
+    expect(obj2).toBeTruthy();
     expect(obj2.length).toBe(3);
-    expect(obj2.map((e) => e.periode).toString()).toBe(
+    expect(obj2.map((e) => e.type).toString()).toBe(
       "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
     );
   });
+
+  it("should do basic test with one y axis with label and stacked", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x" />
+      <field name="consum" operator="+" label="periode" stacked="periode" axis="y"/>
+    </graph>
+    `,
+      "lectura"
+    );
+
+    expect(isGroup).toBe(true);
+    expect(isStack).toBe(true);
+
+    expect(data.length).toBe(15);
+    const obj1 = data.find((d) => d.x === "2020-09-30")!;
+    expect(obj1).toBeTruthy();
+    expect(obj1.value).toBe(0);
+    expect(obj1.type).toBe("2.0A (P1)");
+    const obj2 = data.filter((d) => d.x === "2020-07-31")!;
+    expect(obj2).toBeTruthy();
+    expect(obj2.length).toBe(3);
+    expect(obj2.map((e) => e.type).toString()).toBe(
+      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
+    );
+  });
+
+  it("should do basic test with two y axis", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x"/>
+      <field name="consum" operator="+" axis="y"/>
+      <field name="ajust" operator="+" axis="y"/>
+    </graph>
+    `,
+      "lectura"
+    );
+
+    expect(isGroup).toBe(false);
+    expect(isStack).toBe(false);
+
+    expect(data.length).toBe(24);
+
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Consum (sum)"
+    );
+    expect(obj1!).toBeTruthy();
+    expect(obj1!.value).toBe(0);
+
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Ajust (sum)"
+    );
+    expect(obj2!).toBeTruthy();
+    expect(obj2!.value).toBe(15);
+
+    const obj3 = data.find(
+      (d) => d.x === "2020-07-31" && d.type == "Consum (sum)"
+    );
+    expect(obj3!).toBeTruthy();
+    expect(obj3!.value).toBe(400);
+
+    const obj4 = data.find(
+      (d) => d.x === "2020-09-30" && d.type == "Consum (sum)"
+    );
+    expect(obj4!).toBeTruthy();
+    expect(obj4!.value).toBe(0);
+  });
+
+  it("should do basic test with 4 y axis, stacked but without labels", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x"/>
+      <field name="consum" operator="+" axis="y" stacked="entrada" />
+      <field name="ajust" operator="+" axis="y" stacked="entrada" />
+      <field name="generacio" operator="+" axis="y" stacked="sortida" />
+      <field name="ajust_exporta" operator="+" axis="y" stacked="sortida" />
+    </graph>
+    `,
+      "lectura"
+    );
+
+    expect(isGroup).toBe(false);
+    expect(isStack).toBe(true);
+
+    expect(data.length).toBe(48);
+
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Consum (sum)"
+    );
+    expect(obj1!).toBeTruthy();
+    expect(obj1!.value).toBe(0);
+    expect(obj1!.stacked).toBe("entrada");
+
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Ajust (sum)"
+    );
+    expect(obj2!).toBeTruthy();
+    expect(obj2!.value).toBe(15);
+    expect(obj2!.stacked).toBe("entrada");
+
+    const obj3 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Generació (sum)"
+    );
+    expect(obj3!).toBeTruthy();
+    expect(obj3!.value).toBe(0);
+    expect(obj3!.stacked).toBe("sortida");
+
+    const obj4 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Ajust Exporta (sum)"
+    );
+    expect(obj4!).toBeTruthy();
+    expect(obj4!.value).toBe(0);
+    expect(obj4!.stacked).toBe("sortida");
+  });
+
+  it("should do basic test with 2 y axis, stacked and label", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x"/>
+      <field name="consum" operator="+" label="periode" axis="y" stacked="entrada" />
+      <field name="generacio" operator="+" label="periode" axis="y" stacked="sortida" />
+    </graph>
+    `,
+      "lectura"
+    );
+
+    expect(isGroup).toBe(true);
+    expect(isStack).toBe(true);
+
+    expect(data.length).toBe(30);
+
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.stacked == "entrada"
+    );
+    expect(obj1!).toBeTruthy();
+    expect(obj1!.value).toBe(0);
+    expect(obj1!.type).toBe("2.0A (P1)");
+
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.stacked == "sortida"
+    );
+    expect(obj2!).toBeTruthy();
+    expect(obj2!.value).toBe(0);
+    expect(obj2!.type).toBe("2.0A (P1)");
+  });
+
+  it("should do basic test with 2 y axis, stacked, 1 label, 1 without label", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+    <graph type="bar">
+      <field name="name" axis="x"/>
+      <field name="consum" operator="+" label="periode" axis="y" stacked="entrada" />
+      <field name="generacio" operator="+" axis="y" stacked="sortida" />
+    </graph>
+    `,
+      "lectura"
+    );
+
+    expect(isGroup).toBe(true);
+    expect(isStack).toBe(true);
+
+    expect(data.length).toBe(27);
+
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.stacked == "entrada"
+    );
+    expect(obj1!).toBeTruthy();
+    expect(obj1!.value).toBe(0);
+    expect(obj1!.type).toBe("2.0A (P1)");
+
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.stacked == "sortida"
+    );
+    expect(obj2!).toBeTruthy();
+    expect(obj2!.value).toBe(0);
+    expect(obj2!.type).toBe("Generació (sum)");
+  });
 });
+
+function getModelData(model: string) {
+  const modelObj = models.find((m) => m.key === model);
+  if (!modelObj) {
+    throw new Error("Model not found");
+  }
+  return modelObj;
+}
+
+function getGraphData(xml: string, model: string) {
+  const parsedGraph = parseGraph(xml) as GraphChart;
+
+  const { data: values, fields } = getModelData(model);
+
+  return processGraphData({
+    ooui: parsedGraph,
+    values: values as any,
+    fields: fields as any,
+  });
+}

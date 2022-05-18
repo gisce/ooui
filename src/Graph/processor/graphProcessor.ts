@@ -24,75 +24,31 @@ export const processGraphData = ({
   values: { [key: string]: any }[];
   fields: { [key: string]: any };
 }) => {
+  // First we group all the results by the x field. This way we will have one or more items in an array for every occurrence of ooui.x.name
+  // Result of this will be an object which keys will be unique keys for values of ooui.x.name for each item
   const valuesGroupedByX = getValuesGroupedByField({
     fieldName: ooui.x.name,
     values,
     fields,
   });
 
-  let fieldsData = {
-    xField: ooui.x.name,
-    yFields: [...new Set(ooui.y.map((item) => getYAxisFieldname(item)))],
-    seriesFields:
-      ooui.y.filter((yField) => yField.label).length !== 0
-        ? [...new Set(ooui.y.map((item) => item.label))]
-        : undefined,
-    isGroup: false,
-    isStack: false,
-  };
-
   const data: { [key: string]: any }[] = [];
 
+  // We iterate through the y axis items found in the ooui object
   ooui.y.forEach((yField) => {
+    // We iterate now for every single key of the grouped results by x
     Object.keys(valuesGroupedByX).forEach((xValue) => {
       const xLabel = valuesGroupedByX[xValue].label;
       const objectsForXValue = valuesGroupedByX[xValue].entries;
 
-      if (yField.label) {
-        const valuesGroupedByYLabel = getValuesGroupedByField({
-          fieldName: yField.label,
-          values: objectsForXValue,
+      // If the y field hasn't got label defined
+      if (!yField.label) {
+        // We calculate the final value using the entries of this unique x key
+        const valuesForYField = getValuesForYField({
+          entries: objectsForXValue,
           fields,
+          fieldName: yField.name,
         });
-
-        Object.keys(valuesGroupedByYLabel).forEach((yUniqueValue) => {
-          const entries = valuesGroupedByYLabel[yUniqueValue].entries;
-          const label = valuesGroupedByYLabel[yUniqueValue].label;
-          const valuesForYField = entries
-            .map((obj) => {
-              return getValueAndLabelForField({
-                fieldName: yField.name,
-                values: obj,
-                fields: fields,
-              });
-            })
-            .map(({ value, label }) => {
-              return label;
-            });
-          const finalValue = getValueForOperator({
-            values: valuesForYField,
-            operator: yField.operator,
-          });
-          data.push({
-            [ooui.x.name]: xLabel || false,
-            [`${yField.name}_${
-              labelsForOperator[yField.operator!]
-            }`]: finalValue,
-            [yField.label!]: label,
-          });
-        });
-      } else {
-        const valuesForYField = objectsForXValue
-          .map((obj) => {
-            return getValueAndLabelForField({
-              fieldName: yField.name,
-              values: obj,
-              fields: fields,
-            });
-          })
-          .map(({ value, label }) => {
-            return label;
-          });
 
         const finalValue = getValueForOperator({
           values: valuesForYField,
@@ -100,47 +56,96 @@ export const processGraphData = ({
         });
 
         data.push({
-          [ooui.x.name]: xLabel || false,
-          [getYAxisFieldname(yField)]: finalValue,
+          x: xLabel || false,
+          value: finalValue,
+          type: getYAxisFieldname({
+            yAxis: yField,
+            fields,
+          }),
+          stacked: yField.stacked,
+        });
+      }
+      // The field has label
+      else {
+        // We retrieve an object with unique keys and grouped values for the label
+        const valuesGroupedByYLabel = getValuesGroupedByField({
+          fieldName: yField.label,
+          values: objectsForXValue,
+          fields,
+        });
+
+        // For every key of the grouped results by label
+        Object.keys(valuesGroupedByYLabel).forEach((yUniqueValue) => {
+          const entries = valuesGroupedByYLabel[yUniqueValue].entries;
+          const label = valuesGroupedByYLabel[yUniqueValue].label;
+
+          // We calculate the final value using the entries of this unique x key
+          const valuesForYField = getValuesForYField({
+            entries,
+            fields,
+            fieldName: yField.name,
+          });
+
+          const finalValue = getValueForOperator({
+            values: valuesForYField,
+            operator: yField.operator,
+          });
+          data.push({
+            x: xLabel || false,
+            value: finalValue,
+            type: label,
+            stacked: yField.stacked,
+          });
         });
       }
     });
   });
 
-  // If we don't have y axis fields with label specified, we need to,
-  // merge the results with the same name key
-  if (ooui.y.filter((yField) => yField.label).length === 0) {
-    const uniqueXkeys = [...new Set(data.map((item) => item[ooui.x.name]))];
-    const processedData = uniqueXkeys.map((key) => {
-      const mergedRecord = {};
-      const valuesForKey = data.filter((item) => item[ooui.x.name] === key);
-      valuesForKey.forEach((item) => {
-        Object.assign(mergedRecord, item);
-      });
-      return mergedRecord as { [key: string]: any };
-    });
-    return { data: processedData, ...fieldsData };
-  }
+  // Check if we have to flag isGroup
+  const isGroup = ooui.y.some((y) => y.label !== undefined);
 
-  const yFieldsWithLabel = ooui.y.filter((yField) => yField.label).length;
-  const yFieldsWithStacked = ooui.y.filter((yField) => yField.stacked).length;
+  // Check if we have to flag
+  const isStack = data.some((entry) => entry.stacked !== undefined);
 
-  if (yFieldsWithLabel > 0 && yFieldsWithStacked === 0) {
-    fieldsData.isGroup = true;
-    fieldsData.isStack = false;
-  } else if (yFieldsWithLabel === 1 && yFieldsWithStacked === 1) {
-    fieldsData.isGroup = false;
-    fieldsData.isStack = true;
-  } else if (yFieldsWithLabel > 1 && yFieldsWithStacked > 1) {
-    fieldsData.isGroup = true;
-    fieldsData.isStack = true;
-  }
+  // We sort the data by x
+  const sortedData = data.sort((a, b) => {
+    if (a["x"] < b["x"]) {
+      return -1;
+    }
+    if (a["x"] > b["x"]) {
+      return 1;
+    }
+    return 0;
+  });
 
   return {
-    data,
-    ...fieldsData,
+    data: sortedData,
+    isGroup,
+    isStack,
   };
 };
+
+export function getValuesForYField({
+  entries,
+  fieldName,
+  fields,
+}: {
+  entries: { [key: string]: any }[];
+  fieldName: string;
+  fields: { [key: string]: any };
+}) {
+  return entries
+    .map((obj) => {
+      return getValueAndLabelForField({
+        fieldName: fieldName,
+        values: obj,
+        fields: fields,
+      });
+    })
+    .map(({ value, label }) => {
+      return label;
+    });
+}
 
 export function getValueForOperator({
   operator,
@@ -229,9 +234,18 @@ export function getAllObjectsInGroupedValues(grouped: GroupedValues) {
   return totalObjects;
 }
 
-export function getYAxisFieldname(y: GraphYAxis) {
-  if (y.operator) {
-    return y.name + "_" + labelsForOperator[y.operator];
+export function getYAxisFieldname({
+  yAxis,
+  fields,
+}: {
+  yAxis: GraphYAxis;
+  fields: { [key: string]: any };
+}) {
+  const fieldProps = fields[yAxis.name];
+
+  if (fieldProps && fieldProps.string) {
+    return `${fieldProps.string} (${labelsForOperator[yAxis.operator]})`;
   }
-  return y.name!;
+
+  return yAxis.name + "_" + labelsForOperator[yAxis.operator];
 }
