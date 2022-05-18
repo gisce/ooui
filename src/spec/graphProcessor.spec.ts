@@ -208,7 +208,7 @@ describe("in processGraphData method", () => {
   });
 
   it("should do basic test with one y axis with label and stacked", () => {
-    const { data, isGroup, isStack, groupField } = getGraphData(
+    const { data, isGroup, isStack } = getGraphData(
       `<?xml version="1.0"?>
     <graph type="bar">
       <field name="name" axis="x" />
@@ -220,7 +220,6 @@ describe("in processGraphData method", () => {
 
     expect(isGroup).toBe(true);
     expect(isStack).toBe(true);
-    expect(groupField).toBe(undefined);
 
     expect(data.length).toBe(15);
     const obj1 = data.find((d) => d.x === "2020-09-30")!;
@@ -252,25 +251,33 @@ describe("in processGraphData method", () => {
 
     expect(data.length).toBe(24);
 
-    const obj1 = data.find((d) => d.x === "2015-10-31" && d.type == "Consum");
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Consum"
+    );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
 
-    const obj2 = data.find((d) => d.x === "2015-10-31" && d.type == "Ajust");
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Ajust"
+    );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(15);
 
-    const obj3 = data.find((d) => d.x === "2020-07-31" && d.type == "Consum");
+    const obj3 = data.find(
+      (d) => d.x === "2020-07-31" && d.type == "Consum"
+    );
     expect(obj3!).toBeTruthy();
     expect(obj3!.value).toBe(400);
 
-    const obj4 = data.find((d) => d.x === "2020-09-30" && d.type == "Consum");
+    const obj4 = data.find(
+      (d) => d.x === "2020-09-30" && d.type == "Consum"
+    );
     expect(obj4!).toBeTruthy();
     expect(obj4!.value).toBe(0);
   });
 
   it("should do basic test with 4 y axis, stacked but without labels", () => {
-    const { data, isGroup, isStack, groupField } = getGraphData(
+    const { data, isGroup, isStack } = getGraphData(
       `<?xml version="1.0"?>
     <graph type="bar">
       <field name="name" axis="x"/>
@@ -285,16 +292,19 @@ describe("in processGraphData method", () => {
 
     expect(isGroup).toBe(false);
     expect(isStack).toBe(true);
-    expect(groupField).toBe("stacked");
-    
+
     expect(data.length).toBe(48);
 
-    const obj1 = data.find((d) => d.x === "2015-10-31" && d.type == "Consum");
+    const obj1 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Consum"
+    );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
     expect(obj1!.stacked).toBe("entrada");
 
-    const obj2 = data.find((d) => d.x === "2015-10-31" && d.type == "Ajust");
+    const obj2 = data.find(
+      (d) => d.x === "2015-10-31" && d.type == "Ajust"
+    );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(15);
     expect(obj2!.stacked).toBe("entrada");
