@@ -225,12 +225,12 @@ describe("in processGraphData method", () => {
     const obj1 = data.find((d) => d.x === "2020-09-30")!;
     expect(obj1).toBeTruthy();
     expect(obj1.value).toBe(0);
-    expect(obj1.type).toBe("2.0A (P1)");
+    expect(obj1.type).toBe("2.0A (P1) - periode");
     const obj2 = data.filter((d) => d.x === "2020-07-31")!;
     expect(obj2).toBeTruthy();
     expect(obj2.length).toBe(3);
     expect(obj2.map((e) => e.type).toString()).toBe(
-      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
+      "2.0A (P1) - periode,2.0DHA (P1) - periode,2.0DHA (P2) - periode"
     );
   });
 
@@ -251,27 +251,19 @@ describe("in processGraphData method", () => {
 
     expect(data.length).toBe(24);
 
-    const obj1 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Consum"
-    );
+    const obj1 = data.find((d) => d.x === "2015-10-31" && d.type == "Consum");
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
 
-    const obj2 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Ajust"
-    );
+    const obj2 = data.find((d) => d.x === "2015-10-31" && d.type == "Ajust");
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(15);
 
-    const obj3 = data.find(
-      (d) => d.x === "2020-07-31" && d.type == "Consum"
-    );
+    const obj3 = data.find((d) => d.x === "2020-07-31" && d.type == "Consum");
     expect(obj3!).toBeTruthy();
     expect(obj3!.value).toBe(400);
 
-    const obj4 = data.find(
-      (d) => d.x === "2020-09-30" && d.type == "Consum"
-    );
+    const obj4 = data.find((d) => d.x === "2020-09-30" && d.type == "Consum");
     expect(obj4!).toBeTruthy();
     expect(obj4!.value).toBe(0);
   });
@@ -290,34 +282,34 @@ describe("in processGraphData method", () => {
       "lectura"
     );
 
-    expect(isGroup).toBe(false);
+    expect(isGroup).toBe(true);
     expect(isStack).toBe(true);
 
     expect(data.length).toBe(48);
 
     const obj1 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Consum"
+      (d) => d.x === "2015-10-31" && d.type == "Consum - entrada"
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
     expect(obj1!.stacked).toBe("entrada");
 
     const obj2 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Ajust"
+      (d) => d.x === "2015-10-31" && d.type == "Ajust - entrada"
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(15);
     expect(obj2!.stacked).toBe("entrada");
 
     const obj3 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Generació"
+      (d) => d.x === "2015-10-31" && d.type == "Generació - sortida"
     );
     expect(obj3!).toBeTruthy();
     expect(obj3!.value).toBe(0);
     expect(obj3!.stacked).toBe("sortida");
 
     const obj4 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Ajust Exporta"
+      (d) => d.x === "2015-10-31" && d.type == "Ajust Exporta - sortida"
     );
     expect(obj4!).toBeTruthy();
     expect(obj4!.value).toBe(0);
@@ -346,14 +338,14 @@ describe("in processGraphData method", () => {
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
-    expect(obj1!.type).toBe("2.0A (P1)");
+    expect(obj1!.type).toBe("2.0A (P1) - entrada");
 
     const obj2 = data.find(
       (d) => d.x === "2015-10-31" && d.stacked == "sortida"
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(0);
-    expect(obj2!.type).toBe("2.0A (P1)");
+    expect(obj2!.type).toBe("2.0A (P1) - sortida");
   });
 
   it("should do basic test with 2 y axis, stacked, 1 label, 1 without label", () => {
@@ -378,14 +370,14 @@ describe("in processGraphData method", () => {
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
-    expect(obj1!.type).toBe("2.0A (P1)");
+    expect(obj1!.type).toBe("2.0A (P1) - entrada");
 
     const obj2 = data.find(
       (d) => d.x === "2015-10-31" && d.stacked == "sortida"
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(0);
-    expect(obj2!.type).toBe("Generació");
+    expect(obj2!.type).toBe("Generació - sortida");
   });
 });
 

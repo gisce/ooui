@@ -104,7 +104,7 @@ export const processGraphData = ({
   // Check if we have to flag isGroup
   const isGroup = ooui.y.some((y) => y.label !== undefined);
 
-  // Check if we have to flag
+  // Check if we have to flag isStacked
   const isStack = data.some((entry) => entry.stacked !== undefined);
 
   // We sort the data by x
@@ -118,9 +118,21 @@ export const processGraphData = ({
     return 0;
   });
 
+  let adjustedStackedData = [...sortedData];
+  // If it's an stacked graph and we have more than one group stacked, we have to change the type description in order to add
+  // the stacked group
+  if (
+    isStack &&
+    data.filter((entry) => entry.stacked !== undefined).length > 1
+  ) {
+    adjustedStackedData = adjustedStackedData.map((entry) => {
+      return { ...entry, type: `${entry.type} - ${entry.stacked}` };
+    });
+  }
+
   return {
-    data: sortedData,
-    isGroup,
+    data: adjustedStackedData,
+    isGroup: isStack || isGroup,
     isStack,
   };
 };
