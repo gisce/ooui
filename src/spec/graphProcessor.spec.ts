@@ -112,6 +112,7 @@ describe("in processGraphData method", () => {
     `,
       "polissa"
     );
+    expect(data).toBeTruthy();
 
     expect(isGroup).toBe(false);
     expect(isStack).toBe(false);
@@ -166,7 +167,7 @@ describe("in processGraphData method", () => {
           d.value === 2 &&
           d.type === "Tarifa Comercialitzadora"
       )
-    ).toBeTruthy();
+    ).toBeUndefined();
 
     expect(
       data.find(
@@ -176,8 +177,25 @@ describe("in processGraphData method", () => {
           d.type === "Tarifa Comercialitzadora"
       )
     ).toBeUndefined();
+  });
+
+  it("should do basic test with one y axis (line)", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+      <graph type="line">
+      <field name="data_alta" axis="x"/>
+      <field name="data_alta" operator="count" axis="y"/>
+  </graph>
+    `,
+      "polissa"
+    );
+
+    expect(isGroup).toBe(false);
+    expect(isStack).toBe(false);
 
     expect(data).toBeTruthy();
+    expect(data.length).toBe(13);
+    expect(data.some((entry) => entry.x === false)).toBeFalsy();
   });
 
   it("should do basic test with one y axis with label", () => {

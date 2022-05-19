@@ -15,14 +15,20 @@ export const labelsForOperator = {
   max: "max",
 };
 
+export type ProcessGraphDataOpts = {
+  uninformedString: string;
+};
+
 export const processGraphData = ({
   ooui,
   values,
   fields,
+  options,
 }: {
   ooui: GraphChart;
   values: { [key: string]: any }[];
   fields: { [key: string]: any };
+  options?: ProcessGraphDataOpts;
 }) => {
   // First we group all the results by the x field. This way we will have one or more items in an array for every occurrence of ooui.x.name
   // Result of this will be an object which keys will be unique keys for values of ooui.x.name for each item
@@ -130,8 +136,28 @@ export const processGraphData = ({
     });
   }
 
+  let adjustedUninformedData = [...adjustedStackedData];
+  // If the type of the graph is pie, we have to check for "false" (uninformed) computes values
+  // in order to adjust the description to a localized string for "Unassigned / not introduced"
+  // Else, we have to ignore those entries
+  if (
+    ooui.type === "pie" &&
+    adjustedUninformedData.some((entry) => entry.x === false)
+  ) {
+    adjustedUninformedData = adjustedUninformedData.map((entry) => {
+      if (entry.x === false) {
+        return { ...entry, x: options?.uninformedString || "Not informed" };
+      }
+      return entry;
+    });
+  } else if (adjustedStackedData.some((entry) => entry.x === false)) {
+    adjustedUninformedData = adjustedUninformedData.filter(
+      (entry) => entry.x !== false
+    );
+  }
+
   return {
-    data: adjustedStackedData,
+    data: adjustedUninformedData,
     isGroup: isStack || isGroup,
     isStack,
   };
