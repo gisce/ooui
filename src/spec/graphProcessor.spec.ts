@@ -225,12 +225,12 @@ describe("in processGraphData method", () => {
     const obj1 = data.find((d) => d.x === "2020-09-30")!;
     expect(obj1).toBeTruthy();
     expect(obj1.value).toBe(0);
-    expect(obj1.type).toBe("2.0A (P1) - periode");
+    expect(obj1.type).toBe("2.0A (P1)");
     const obj2 = data.filter((d) => d.x === "2020-07-31")!;
     expect(obj2).toBeTruthy();
     expect(obj2.length).toBe(3);
     expect(obj2.map((e) => e.type).toString()).toBe(
-      "2.0A (P1) - periode,2.0DHA (P1) - periode,2.0DHA (P2) - periode"
+      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
     );
   });
 

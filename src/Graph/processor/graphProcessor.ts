@@ -105,7 +105,7 @@ export const processGraphData = ({
   const isGroup = ooui.y.some((y) => y.label !== undefined);
 
   // Check if we have to flag isStacked
-  const isStack = data.some((entry) => entry.stacked !== undefined);
+  const isStack = ooui.y.some((entry) => entry.stacked !== undefined);
 
   // We sort the data by x
   const sortedData = data.sort((a, b) => {
@@ -123,7 +123,7 @@ export const processGraphData = ({
   // the stacked group
   if (
     isStack &&
-    data.filter((entry) => entry.stacked !== undefined).length > 1
+    ooui.y.filter((entry) => entry.stacked !== undefined).length > 1
   ) {
     adjustedStackedData = adjustedStackedData.map((entry) => {
       return { ...entry, type: `${entry.type} - ${entry.stacked}` };
