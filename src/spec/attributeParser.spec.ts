@@ -184,7 +184,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    it.only("should properly parse a many2one attribute with undefined value", () => {
+    it("should properly parse a many2one attribute with undefined value", () => {
       const tagAttributes = {
         attrs: "{'invisible': [('autoconsum_id', '=', False)]}",
       };

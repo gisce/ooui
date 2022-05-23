@@ -42,7 +42,12 @@ import {
   GraphType,
   parseGraph,
   Operator,
+  GraphYAxis,
+  GraphXAxis,
 } from "./Graph";
+
+import * as graphProcessor from "./Graph/processor/graphProcessor";
+import * as graphFieldUtils from "./Graph/processor/fieldUtils";
 
 export {
   Char,
@@ -82,10 +87,14 @@ export {
   DashboardItem,
   Graph,
   GraphAxis,
+  GraphYAxis,
+  GraphXAxis,
   GraphIndicator,
   GraphChart,
   GraphType,
   parseGraph,
   Operator,
   GraphIndicatorField,
+  graphProcessor,
+  graphFieldUtils,
 };
