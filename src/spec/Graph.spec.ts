@@ -54,4 +54,15 @@ describe("A Graph", () => {
     expect(graph.field).toBe("potencia");
     expect(graph.operator).toBe("+");
   });
+  it("should parse a graph with timerange parameter", () => {
+    const xml = `<?xml version="1.0"?>
+    <graph type="line" timerange="day">
+        <field name="data_alta" axis="x"/>
+        <field name="data_alta" operator="count" axis="y"/>
+    </graph>
+    `;
+
+    const graph = parseGraph(xml) as GraphChart;
+    expect(graph.timerange).toBe("day");
+  });
 });
