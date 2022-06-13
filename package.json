@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "0.6.14",
+  "version": "0.6.15",
   "dependencies": {},
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
