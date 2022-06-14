@@ -37,16 +37,4 @@ describe("A Domain Parser", () => {
     expect(domainForStageId![0][1]).toBe("ilike");
     expect(domainForStageId![0][2]).toBe("backlog");
   });
-
-  it("should properly transform plain domain", () => {
-    const domain = [["partner_id", "=", 3]];
-    const test = transformDomainForChildWidget({
-      domain: domain,
-      widgetFieldName: "bank",
-    }) as any;
-    expect(test!.length).toBe(1);
-    expect(test![0][0]).toBe("partner_id");
-    expect(test![0][1]).toBe("=");
-    expect(test![0][2]).toBe(3);
-  });
 });
