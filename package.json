@@ -1,7 +1,9 @@
 {
   "name": "@gisce/ooui",
   "version": "0.6.15",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.3"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
