@@ -2,6 +2,7 @@ import {
   checkDatesConsecutive,
   adjustXValuesForTimeRage,
   combineValuesForTimerange,
+  fillGapsInTimerangeData,
 } from "../Graph/processor/timerangeHelper";
 
 describe("a timerangeHelper", () => {
@@ -29,6 +30,63 @@ describe("a timerangeHelper", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01", "2020-01-02", "2020-07-02"],
           "days"
+        );
+        expect(consecutive).toBeFalsy();
+      });
+    });
+    describe("with hour units", () => {
+      it("should return true with only one date", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01-01 18:00"],
+          "hours"
+        );
+        expect(consecutive).toBeTruthy();
+      });
+      it("should return false with two non consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01-01 18:00", "2020-01-05 05:00"],
+          "hours"
+        );
+        expect(consecutive).toBeFalsy();
+      });
+      it("should return true with two consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01-01 18:00", "2020-01-01 19:00"],
+          "hours"
+        );
+        expect(consecutive).toBeTruthy();
+      });
+      it("should return false with three non consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01-01 01:00", "2020-01-01 04:00", "2020-01-02 01:00"],
+          "hours"
+        );
+        expect(consecutive).toBeFalsy();
+      });
+    });
+    describe("with week units", () => {
+      it("should return true with only one date", () => {
+        const consecutive = checkDatesConsecutive(["2020-01"], "weeks");
+        expect(consecutive).toBeTruthy();
+      });
+      it("should return false with two non consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01", "2020-03"],
+          "weeks"
+        );
+        expect(consecutive).toBeFalsy();
+      });
+      it("should return true with two consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-24", "2020-25"],
+          "weeks"
+        );
+        expect(consecutive).toBeTruthy();
+      });
+      it("should return false with three non consecutive dates", () => {
+        const consecutive = checkDatesConsecutive(
+          ["2020-01", "2020-02", "2020-04"],
+          "weeks"
         );
         expect(consecutive).toBeFalsy();
       });
@@ -437,6 +495,26 @@ describe("a timerangeHelper", () => {
       expect(combinedValues[3].value).toBe(5);
       expect(combinedValues[3].type).toBe("Data alta");
       expect(combinedValues[3].stacked).toBe("sortida");
+    });
+  });
+  describe("in fillGapsInTimerangeData function", () => {
+    it("should fill gaps in data for hour grouping", () => {
+      const values = [
+        {
+          x: "2022-06-01 15:00",
+          value: 1,
+        },
+        {
+          x: "2022-06-01 20:00",
+          value: 2,
+        },
+      ];
+      const filledValues = fillGapsInTimerangeData({
+        values,
+        timerange: "hour",
+      });
+      console.log();
+      expect(true).toBeTruthy();
     });
   });
 });

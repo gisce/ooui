@@ -14,6 +14,12 @@ export function processTimerangeData({
     timerange,
   });
 
+  // Fill the gaps
+  // const filledValues = fillGapsInTimerangeData({
+  //   values: combinedValues,
+  //   timerange,
+  // });
+
   return combinedValues;
 }
 
@@ -23,7 +29,55 @@ export function fillGapsInTimerangeData({
 }: {
   values: any[];
   timerange: string;
-}) {}
+}) {
+  // let finalValues: any[] = [];
+  // const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
+  //   values,
+  //   groupBy: "type-stacked",
+  // });
+  // Object.keys(uniqueValues).forEach((key) => {
+  //   const valuesForKey = uniqueValues[key];
+  //   finalValues.push({
+  //     ...valuesForKey[0],
+  //     value: finalValue,
+  //   });
+  // });
+  // console.log();
+  // const sortedData = finalValues.sort((a, b) => {
+  //   if (a["x"] < b["x"]) {
+  //     return -1;
+  //   }
+  //   if (a["x"] > b["x"]) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+  // return sortedData;
+}
+
+export function getMissingConsecutiveDates({
+  dates,
+  timerange,
+}: {
+  dates: string[];
+  timerange: string;
+}) {
+  const missingDates = [];
+
+  if (dates.length === 1) {
+    return dates;
+  }
+
+  const sortedDates = dates.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
 export function combineValuesForTimerange({
   values,
@@ -36,31 +90,24 @@ export function combineValuesForTimerange({
     values,
     timerange,
   });
-  const uniqueValues: { [key: string]: any } = {};
   let finalValues: any[] = [];
 
   // group by x, type and stacked
-  adjustedValues.forEach((value) => {
-    const x = value.x;
-    const type = value.type;
-    const stacked = value.stacked;
-    const uniqueKey = `${x}-${type}-${stacked}`;
-    if (!uniqueValues[uniqueKey]) {
-      uniqueValues[uniqueKey] = { operator: value.operator, values: [] };
-    }
-    uniqueValues[uniqueKey].values.push(value);
+  const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
+    values: adjustedValues,
+    groupBy: "all",
   });
 
   Object.keys(uniqueValues).forEach((key) => {
-    const objectForKey = uniqueValues[key];
+    const valuesForKey = uniqueValues[key];
 
     const finalValue = getValueForOperator({
-      values: objectForKey.values.map((entry: any) => entry.value),
-      operator: objectForKey.operator,
+      values: valuesForKey.map((entry: any) => entry.value),
+      operator: valuesForKey[0].operator,
     });
 
     finalValues.push({
-      ...objectForKey.values[0],
+      ...valuesForKey[0],
       value: finalValue,
     });
   });
@@ -129,6 +176,7 @@ export function checkDatesConsecutive(
   unit: "hours" | "days" | "weeks" | "months" | "years"
 ) {
   let consecutive = false;
+  const format = getFormatForUnits(unit);
 
   if (dates.length === 0) {
     return false;
@@ -139,14 +187,58 @@ export function checkDatesConsecutive(
   }
 
   for (let i = 0; i < dates.length - 1; i++) {
-    const format = getDateFormat(dates[i]);
     const date1 = moment(dates[i], format);
     const date2 = moment(dates[i + 1], format);
-    if (date2.diff(date1, unit) === 1) {
+    const diff = date2.diff(date1, unit);
+
+    if (Math.abs(diff) === 1) {
       consecutive = true;
     } else {
       consecutive = false;
     }
   }
   return consecutive;
+}
+
+export function getUniqueValuesGroupedBy({
+  values,
+  groupBy,
+}: {
+  values: any[];
+  groupBy: "all" | "type-stacked";
+}) {
+  const uniqueValues: { [key: string]: any } = {};
+  values.forEach((value) => {
+    const x = value.x;
+    const type = value.type;
+    const stacked = value.stacked;
+    const uniqueKey =
+      groupBy === "all" ? `${x}-${type}-${stacked}` : `${type}-${stacked}`;
+    if (!uniqueValues[uniqueKey]) {
+      uniqueValues[uniqueKey] = [];
+    }
+    uniqueValues[uniqueKey].push(value);
+  });
+  return uniqueValues;
+}
+
+export function getFormatForUnits(units: string) {
+  switch (units) {
+    default:
+    case "hours": {
+      return "YYYY-MM-DD HH:mm";
+    }
+    case "days": {
+      return "YYYY-MM-DD";
+    }
+    case "weeks": {
+      return "YYYY-WW";
+    }
+    case "months": {
+      return "YYYY-MM";
+    }
+    case "years": {
+      return "YYYY";
+    }
+  }
 }
