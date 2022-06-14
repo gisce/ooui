@@ -1,5 +1,4 @@
 import moment from "moment";
-import { Graph } from "..";
 import { getValueForOperator } from "./graphProcessor";
 
 export function processTimerangeData({
@@ -15,12 +14,12 @@ export function processTimerangeData({
   });
 
   // Fill the gaps
-  // const filledValues = fillGapsInTimerangeData({
-  //   values: combinedValues,
-  //   timerange,
-  // });
+  const filledValues = fillGapsInTimerangeData({
+    values: combinedValues,
+    timerange,
+  });
 
-  return combinedValues;
+  return filledValues;
 }
 
 export function fillGapsInTimerangeData({
@@ -35,9 +34,41 @@ export function fillGapsInTimerangeData({
     values,
     groupBy: "type-stacked",
   });
+  const units = `${timerange}s` as any;
 
   Object.keys(uniqueValues).forEach((key) => {
     const valuesForKey = uniqueValues[key];
+
+    for (let i = 0; i < valuesForKey.length; i++) {
+      const value = valuesForKey[i];
+
+      finalValues.push(value);
+
+      // If it's the last item
+      if (i === valuesForKey.length - 1) {
+        return;
+      }
+
+      const date = value.x;
+      const nextDate = valuesForKey[i + 1].x;
+
+      if (!checkDatesConsecutive([date, nextDate], units)) {
+        const missingDates = getMissingConsecutiveDates({
+          dates: [date, nextDate],
+          timerange,
+        });
+        finalValues = finalValues.concat(
+          missingDates.map((stringDate) => {
+            return {
+              x: stringDate,
+              value: 0,
+              type: value.type,
+              stacked: value.stacked,
+            };
+          })
+        );
+      }
+    }
   });
 
   const sortedData = finalValues.sort((a, b) => {

@@ -585,7 +585,19 @@ describe("a timerangeHelper", () => {
         values,
         timerange: "hour",
       });
-      expect(true).toBeTruthy();
+      expect(filledValues.length).toBe(6);
+      expect(filledValues[0].x).toBe("2022-06-01 15:00");
+      expect(filledValues[0].value).toBe(1);
+      expect(filledValues[1].x).toBe("2022-06-01 16:00");
+      expect(filledValues[1].value).toBe(0);
+      expect(filledValues[2].x).toBe("2022-06-01 17:00");
+      expect(filledValues[2].value).toBe(0);
+      expect(filledValues[3].x).toBe("2022-06-01 18:00");
+      expect(filledValues[3].value).toBe(0);
+      expect(filledValues[4].x).toBe("2022-06-01 19:00");
+      expect(filledValues[4].value).toBe(0);
+      expect(filledValues[5].x).toBe("2022-06-01 20:00");
+      expect(filledValues[5].value).toBe(2);
     });
   });
 });
