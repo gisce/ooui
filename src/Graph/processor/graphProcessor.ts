@@ -1,5 +1,6 @@
 import { GraphChart, GraphYAxis, Operator } from "..";
 import { getValueAndLabelForField } from "./fieldUtils";
+import { processTimerangeData } from "./timerangeHelper";
 
 export type GroupedValues = {
   [key: string]: { label: string; entries: { [key: string]: any }[] };
@@ -68,6 +69,7 @@ export const processGraphData = ({
             yAxis: yField,
             fields,
           }),
+          operator: yField.operator,
           stacked: yField.stacked,
         });
       }
@@ -100,6 +102,7 @@ export const processGraphData = ({
             x: xLabel || false,
             value: finalValue,
             type: label,
+            operator: yField.operator,
             stacked: yField.stacked,
           });
         });
@@ -156,8 +159,18 @@ export const processGraphData = ({
     );
   }
 
+  // If we have a timerange parameter defined in ooui, we must fill the gaps with the desired units and group results too
+  let finalData = adjustedUninformedData;
+
+  if (ooui.timerange) {
+    finalData = processTimerangeData({
+      values: finalData,
+      timerange: ooui.timerange!,
+    });
+  }
+
   return {
-    data: adjustedUninformedData,
+    data: finalData,
     isGroup: isStack || isGroup,
     isStack,
   };
