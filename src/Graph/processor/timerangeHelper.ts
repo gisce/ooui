@@ -136,7 +136,6 @@ export function combineValuesForTimerange({
     timerange,
   });
   let finalValues: any[] = [];
-
   // group by x, type and stacked
   const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
     values: adjustedValues,
@@ -145,10 +144,12 @@ export function combineValuesForTimerange({
 
   Object.keys(uniqueValues).forEach((key) => {
     const valuesForKey = uniqueValues[key];
+    const operator =
+      valuesForKey[0].operator === "count" ? "+" : valuesForKey[0].operator;
 
     const finalValue = getValueForOperator({
       values: valuesForKey.map((entry: any) => entry.value),
-      operator: valuesForKey[0].operator,
+      operator,
     });
 
     finalValues.push({

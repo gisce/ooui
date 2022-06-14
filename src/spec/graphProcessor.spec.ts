@@ -398,7 +398,7 @@ describe("in processGraphData method", () => {
     expect(obj2!.type).toBe("Generació - sortida");
   });
 
-  it("should do basic test with a timerange for days", () => {
+  it.only("should do basic test with a timerange for days", () => {
     const { data, isGroup, isStack } = getGraphData(
       `<?xml version="1.0"?>
       <graph type="line" timerange="day">
@@ -414,6 +414,11 @@ describe("in processGraphData method", () => {
 
     expect(data).toBeTruthy();
     expect(data.length).not.toBe(13);
+
+    const obj1 = data.find((d) => d.x === "2019-01-01");
+    expect(obj1).toBeTruthy();
+    expect(obj1!.value).toBe(3);
+
     expect(data.some((entry) => entry.x === false)).toBeFalsy();
   });
 });
