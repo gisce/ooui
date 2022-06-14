@@ -3,6 +3,7 @@ import {
   adjustXValuesForTimeRage,
   combineValuesForTimerange,
   fillGapsInTimerangeData,
+  getMissingConsecutiveDates,
 } from "../Graph/processor/timerangeHelper";
 
 describe("a timerangeHelper", () => {
@@ -497,6 +498,77 @@ describe("a timerangeHelper", () => {
       expect(combinedValues[3].stacked).toBe("sortida");
     });
   });
+  describe("in getMissingConsecutiveDates function", () => {
+    it("should return missing consecutive dates by hour", () => {
+      const dates = ["2021-01-01 15:00", "2021-01-01 18:00"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "hour",
+      });
+      expect(missingDates.length).toBe(2);
+      expect(missingDates[0]).toBe("2021-01-01 16:00");
+      expect(missingDates[1]).toBe("2021-01-01 17:00");
+    });
+    it("should return missing consecutive dates by hour in two different days", () => {
+      const dates = ["2021-01-01 23:00", "2021-01-02 05:00"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "hour",
+      });
+      expect(missingDates.length).toBe(5);
+      expect(missingDates[0]).toBe("2021-01-02 00:00");
+      expect(missingDates[1]).toBe("2021-01-02 01:00");
+      expect(missingDates[2]).toBe("2021-01-02 02:00");
+      expect(missingDates[3]).toBe("2021-01-02 03:00");
+      expect(missingDates[4]).toBe("2021-01-02 04:00");
+    });
+    it("should return missing consecutive dates by day", () => {
+      const dates = ["2021-01-01", "2021-01-15"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "day",
+      });
+      expect(missingDates.length).toBe(13);
+      expect(missingDates[0]).toBe("2021-01-02");
+      expect(missingDates[12]).toBe("2021-01-14");
+    });
+    it("should return missing consecutive dates by day different month", () => {
+      const dates = ["2021-01-31", "2021-02-02"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "day",
+      });
+      expect(missingDates.length).toBe(1);
+      expect(missingDates[0]).toBe("2021-02-01");
+    });
+    it("should return missing consecutive dates by day different year", () => {
+      const dates = ["2021-12-31", "2022-01-02"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "day",
+      });
+      expect(missingDates.length).toBe(1);
+      expect(missingDates[0]).toBe("2022-01-01");
+    });
+    it("should return missing consecutive dates by week", () => {
+      const dates = ["2021-50", "2021-52"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "week",
+      });
+      expect(missingDates.length).toBe(1);
+      expect(missingDates[0]).toBe("2021-51");
+    });
+    it("should return missing consecutive dates by week between years", () => {
+      const dates = ["2021-52", "2022-02"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "week",
+      });
+      expect(missingDates.length).toBe(1);
+      expect(missingDates[0]).toBe("2022-01");
+    });
+  });
   describe("in fillGapsInTimerangeData function", () => {
     it("should fill gaps in data for hour grouping", () => {
       const values = [
@@ -513,7 +585,6 @@ describe("a timerangeHelper", () => {
         values,
         timerange: "hour",
       });
-      console.log();
       expect(true).toBeTruthy();
     });
   });

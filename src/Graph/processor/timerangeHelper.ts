@@ -30,29 +30,26 @@ export function fillGapsInTimerangeData({
   values: any[];
   timerange: string;
 }) {
-  // let finalValues: any[] = [];
-  // const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
-  //   values,
-  //   groupBy: "type-stacked",
-  // });
-  // Object.keys(uniqueValues).forEach((key) => {
-  //   const valuesForKey = uniqueValues[key];
-  //   finalValues.push({
-  //     ...valuesForKey[0],
-  //     value: finalValue,
-  //   });
-  // });
-  // console.log();
-  // const sortedData = finalValues.sort((a, b) => {
-  //   if (a["x"] < b["x"]) {
-  //     return -1;
-  //   }
-  //   if (a["x"] > b["x"]) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-  // return sortedData;
+  let finalValues: any[] = [];
+  const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
+    values,
+    groupBy: "type-stacked",
+  });
+
+  Object.keys(uniqueValues).forEach((key) => {
+    const valuesForKey = uniqueValues[key];
+  });
+
+  const sortedData = finalValues.sort((a, b) => {
+    if (a["x"] < b["x"]) {
+      return -1;
+    }
+    if (a["x"] > b["x"]) {
+      return 1;
+    }
+    return 0;
+  });
+  return sortedData;
 }
 
 export function getMissingConsecutiveDates({
@@ -62,8 +59,8 @@ export function getMissingConsecutiveDates({
   dates: string[];
   timerange: string;
 }) {
-  const missingDates = [];
-
+  const missingDates: string[] = [];
+  const units = `${timerange}s` as any;
   if (dates.length === 1) {
     return dates;
   }
@@ -77,6 +74,23 @@ export function getMissingConsecutiveDates({
     }
     return 0;
   });
+
+  for (let i = 0; i < sortedDates.length - 1; i++) {
+    const date1 = sortedDates[i];
+    const date2 = sortedDates[i + 1];
+
+    if (!checkDatesConsecutive([date1, date2], units)) {
+      let iDate = moment(date1, getFormatForUnits(units)).add(1, units);
+      let fDate = moment(date2, getFormatForUnits(units));
+
+      while (iDate.isBefore(fDate)) {
+        missingDates.push(iDate.format(getFormatForUnits(units)));
+        iDate.add(1, units);
+      }
+    }
+  }
+
+  return missingDates;
 }
 
 export function combineValuesForTimerange({
