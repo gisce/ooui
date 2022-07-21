@@ -33,6 +33,7 @@ import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
+import Tags from "./Tags";
 import {
   Graph,
   GraphAxis,
@@ -97,4 +98,5 @@ export {
   GraphIndicatorField,
   graphProcessor,
   graphFieldUtils,
+  Tags,
 };
