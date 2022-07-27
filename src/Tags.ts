@@ -64,8 +64,8 @@ class Tags extends Field {
       if (props.inv_field) {
         this._inv_field = props.inv_field;
       }
-      if (props.field) {
-        this._field = props.field;
+      if (this.parsedWidgetProps.hasOwnProperty('field')) {
+        this._field = this.parsedWidgetProps.field
       }
     }
   }

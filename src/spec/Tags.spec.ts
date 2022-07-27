@@ -16,7 +16,17 @@ describe("A Tags widget", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       name: "one2many1",
-      field: "name",
+      widget_props: "{'field': 'foo'}",
+    };
+    const widget = widgetFactory.createWidget("tags", props);
+
+    expect(widget.field).toBe("foo");
+  });
+
+  it("should have default field to 'name'", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      name: "one2many1",
     };
     const widget = widgetFactory.createWidget("tags", props);
 
