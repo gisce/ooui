@@ -76,7 +76,7 @@ abstract class Widget {
     this._domain = value;
   }
 
-  _parsedWidgetProps: any;
+  _parsedWidgetProps: any = {};
   get parsedWidgetProps(): any {
     return this._parsedWidgetProps;
   }
