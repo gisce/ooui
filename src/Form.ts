@@ -149,14 +149,12 @@ class Form {
       }
 
       const widgetContext = parseContext({
-        context: tagAttributes["context"] || this._fields["context"],
+        context:
+          tagAttributes["context"] ||
+          this._fields[tagAttributes.name]?.["context"],
         values,
         fields: this._fields,
       });
-
-      if (tag !== "button") {
-        this._context = { ...this._context, ...widgetContext };
-      }
 
       if (tagAttributes["on_change"]) {
         this._onChangeFields[tagAttributes.name] = parseOnChange(

@@ -881,9 +881,6 @@ describe("A Form", () => {
     expect(form.context.active_id).toBe(99);
     expect(Array.isArray(form.context.active_ids)).toBeTruthy();
     expect(form.context.active_ids[0]).toBe(99);
-    expect(form.context.cups_id).toBe(99);
-    expect(form.context.test_string).toBe("test");
-    expect(form.context.power).toBeUndefined();
 
     const field = form.findById("button") as Button;
     expect(field.context).toBeDefined();
