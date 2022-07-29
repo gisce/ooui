@@ -26,6 +26,7 @@ import FiberGrid from "./FiberGrid";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Tags from "./Tags";
+import Radio from "./Radio";
 
 class WidgetFactory {
   /**
@@ -122,6 +123,9 @@ class WidgetFactory {
         break;
       case "tags":
         this._widgetClass = Tags;
+        break;
+      case "radio":
+        this._widgetClass = Radio;
         break;
 
       default:

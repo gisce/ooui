@@ -2,6 +2,7 @@ import Char from "../Char";
 import Button from "../Button";
 import NewLine from "../NewLine";
 import Tags from "../Tags";
+import Radio from "../Radio";
 import WidgetFactory from "../WidgetFactory";
 
 
@@ -45,5 +46,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("tags", props);
         expect(widget).toBeInstanceOf(Tags);
         expect(widget.type).toBe("tags");
+    });
+
+    it('should be able to retrieve Radio type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("radio", props);
+        expect(widget).toBeInstanceOf(Radio);
+        expect(widget.type).toBe("radio");
     });
 });
