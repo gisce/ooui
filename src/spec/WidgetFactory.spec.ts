@@ -1,8 +1,5 @@
-import Char from "../Char";
-import Button from "../Button";
-import NewLine from "../NewLine";
-import Tags from "../Tags";
 import WidgetFactory from "../WidgetFactory";
+import { Char, Button, NewLine, Tags, MultiCheckbox } from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -45,5 +42,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("tags", props);
         expect(widget).toBeInstanceOf(Tags);
         expect(widget.type).toBe("tags");
+    });
+
+    it('should be able to retrieve MultiCheckbox type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("multicheckbox", props);
+        expect(widget).toBeInstanceOf(MultiCheckbox);
+        expect(widget.type).toBe("multicheckbox");
     });
 });
