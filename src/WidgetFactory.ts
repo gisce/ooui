@@ -27,6 +27,7 @@ import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Tags from "./Tags";
 import Radio from "./Radio";
+import MultiCheckbox from "./MultiCheckbox";
 
 class WidgetFactory {
   /**
@@ -126,6 +127,9 @@ class WidgetFactory {
         break;
       case "radio":
         this._widgetClass = Radio;
+        break;
+      case "multicheckbox":
+        this._widgetClass = MultiCheckbox;
         break;
 
       default:
