@@ -34,6 +34,8 @@ import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
 import Tags from "./Tags";
+import Radio from "./Radio";
+
 import {
   Graph,
   GraphAxis,
@@ -99,4 +101,5 @@ export {
   graphProcessor,
   graphFieldUtils,
   Tags,
+  Radio,
 };
