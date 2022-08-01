@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { Char, Button, NewLine, Tags, MultiCheckbox } from "..";
+import { Char, Button, NewLine, Tags, MultiCheckbox, Radio } from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -50,5 +50,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("multicheckbox", props);
         expect(widget).toBeInstanceOf(MultiCheckbox);
         expect(widget.type).toBe("multicheckbox");
+    });
+
+    it('should be able to retrieve Radio type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("radio", props);
+        expect(widget).toBeInstanceOf(Radio);
+        expect(widget.type).toBe("radio");
     });
 });

@@ -1,5 +1,9 @@
 import Field from "./Field";
 
+
+type LabelType = "secondary" | "success" | "warning" | "danger" | "default";
+type LabelSize = "h1" | "h2" | "h3" | "h4" | "h5" | "text";
+
 class Label extends Field {
   /**
    * Label text
@@ -24,6 +28,29 @@ class Label extends Field {
   }
 
   /**
+   * Label type
+   */
+  _labelType: LabelType = "default";
+  get labelType(): LabelType {
+    return this._labelType;
+  }
+  set labelType(value: LabelType) {
+    this._labelType = value;
+  }
+
+  /**
+   * Label size
+   */
+   _labelSize: LabelSize = "text";
+   get labelSize(): LabelSize {
+     return this._labelSize;
+   }
+   set labelSize(value: LabelSize) {
+     this._labelSize = value;
+   }
+
+
+  /**
    * Id of the field that this label goes with. Null if it's an independent label
    */
   _fieldForLabel: string | null = null;
@@ -39,6 +66,14 @@ class Label extends Field {
 
     if (props?.fieldForLabel) {
       this._fieldForLabel = props.fieldForLabel;
+    }
+    if (props.widget_props) {
+      if (this.parsedWidgetProps.label_type) {
+        this.labelType = this.parsedWidgetProps.label_type;
+      }
+      if (this.parsedWidgetProps.label_size) {
+        this.labelSize = this.parsedWidgetProps.label_size;
+      }
     }
   }
 }

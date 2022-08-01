@@ -36,6 +36,8 @@ import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
 import Tags from "./Tags";
 import MultiCheckbox from "./MultiCheckbox";
+import Radio from "./Radio";
+
 import {
   Graph,
   GraphAxis,
@@ -103,4 +105,5 @@ export {
   graphFieldUtils,
   Tags,
   MultiCheckbox,
+  Radio,
 };
