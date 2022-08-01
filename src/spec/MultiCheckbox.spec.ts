@@ -12,24 +12,47 @@ describe("A MultiCheckbox widget", () => {
     expect(widget.id).toBe("one2many1");
   });
 
-  it("should properly set field", () => {
-    const widgetFactory = new WidgetFactory();
-    const props = {
-      name: "one2many1",
-      widget_props: "{'field': 'foo'}",
-    };
-    const widget = widgetFactory.createWidget("multicheckbox", props);
+  describe("Parsing widget props", () => {
+    it("should properly set field", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "one2many1",
+        widget_props: "{'field': 'foo'}",
+      };
+      const widget = widgetFactory.createWidget("multicheckbox", props);
 
-    expect(widget.field).toBe("foo");
-  });
+      expect(widget.field).toBe("foo");
+    });
 
-  it("should have default field to 'name'", () => {
-    const widgetFactory = new WidgetFactory();
-    const props = {
-      name: "one2many1",
-    };
-    const widget = widgetFactory.createWidget("multicheckbox", props);
+    it("should have default field to 'name'", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "one2many1",
+      };
+      const widget = widgetFactory.createWidget("multicheckbox", props);
 
-    expect(widget.field).toBe("name");
+      expect(widget.field).toBe("name");
+    });
+
+    it("should have the number of columns default 4", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "one2many1",
+      };
+      const widget = widgetFactory.createWidget("multicheckbox", props);
+
+      expect(widget.columns).toBe(4);
+    });
+
+    it("should parse the number of columns", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "one2many1",
+        widget_props: "{'columns': 6}"
+      };
+      const widget = widgetFactory.createWidget("multicheckbox", props);
+
+      expect(widget.columns).toBe(6);
+    });
   });
 });

@@ -49,6 +49,14 @@ class MultiCheckbox extends Field {
     this._field = value;
   }
 
+  _columns: number = 4;
+  get columns(): number {
+    return this._columns;
+  }
+  set columns(value: number) {
+    this._columns = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -66,6 +74,9 @@ class MultiCheckbox extends Field {
       }
       if (this.parsedWidgetProps.hasOwnProperty('field')) {
         this._field = this.parsedWidgetProps.field
+      }
+      if (this.parsedWidgetProps.columns) {
+        this._columns = this.parsedWidgetProps.columns;
       }
     }
   }
