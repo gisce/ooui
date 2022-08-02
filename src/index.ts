@@ -3,6 +3,7 @@ import Tree from "./Tree";
 import Char from "./Char";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
+import NewLine from "./NewLine";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Field from "./Field";
@@ -34,7 +35,9 @@ import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
 import Tags from "./Tags";
+import MultiCheckbox from "./MultiCheckbox";
 import Radio from "./Radio";
+import Switch from "./Switch";
 
 import {
   Graph,
@@ -60,6 +63,7 @@ export {
   Widget,
   Form,
   Tree,
+  NewLine,
   Boolean,
   One2many,
   Integer,
@@ -101,5 +105,7 @@ export {
   graphProcessor,
   graphFieldUtils,
   Tags,
+  MultiCheckbox,
   Radio,
+  Switch,
 };

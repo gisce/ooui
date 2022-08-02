@@ -1,9 +1,5 @@
-import Char from "../Char";
-import Button from "../Button";
-import NewLine from "../NewLine";
-import Tags from "../Tags";
-import Radio from "../Radio";
 import WidgetFactory from "../WidgetFactory";
+import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch } from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -48,11 +44,27 @@ describe('A WidgetFactory', () => {
         expect(widget.type).toBe("tags");
     });
 
+    it('should be able to retrieve MultiCheckbox type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("multicheckbox", props);
+        expect(widget).toBeInstanceOf(MultiCheckbox);
+        expect(widget.type).toBe("multicheckbox");
+    });
+
     it('should be able to retrieve Radio type', () => {
         const widgetFactory = new WidgetFactory();
         const props = {};
         const widget = widgetFactory.createWidget("radio", props);
         expect(widget).toBeInstanceOf(Radio);
         expect(widget.type).toBe("radio");
+    });
+
+    it('should be able to retrieve Switch type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("switch", props);
+        expect(widget).toBeInstanceOf(Switch);
+        expect(widget.type).toBe("switch");
     });
 });
