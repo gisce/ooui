@@ -28,6 +28,7 @@ import Indicator from "./Indicator";
 import Tags from "./Tags";
 import Radio from "./Radio";
 import MultiCheckbox from "./MultiCheckbox";
+import Switch from "./Switch";
 
 class WidgetFactory {
   /**
@@ -130,6 +131,9 @@ class WidgetFactory {
         break;
       case "multicheckbox":
         this._widgetClass = MultiCheckbox;
+        break;
+      case "switch":
+        this._widgetClass = Switch;
         break;
 
       default:
