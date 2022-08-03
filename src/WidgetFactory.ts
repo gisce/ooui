@@ -29,6 +29,7 @@ import Tags from "./Tags";
 import Radio from "./Radio";
 import MultiCheckbox from "./MultiCheckbox";
 import Switch from "./Switch";
+import Steps from "./Steps";
 
 class WidgetFactory {
   /**
@@ -134,6 +135,9 @@ class WidgetFactory {
         break;
       case "switch":
         this._widgetClass = Switch;
+        break;
+      case "steps":
+        this._widgetClass = Steps;
         break;
 
       default:
