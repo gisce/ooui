@@ -38,6 +38,7 @@ import Tags from "./Tags";
 import MultiCheckbox from "./MultiCheckbox";
 import Radio from "./Radio";
 import Switch from "./Switch";
+import Steps from "./Steps";
 
 import {
   Graph,
@@ -108,4 +109,5 @@ export {
   MultiCheckbox,
   Radio,
   Switch,
+  Steps,
 };

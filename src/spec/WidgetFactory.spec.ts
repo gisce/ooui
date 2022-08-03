@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch } from "..";
+import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch, Steps } from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -66,5 +66,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("switch", props);
         expect(widget).toBeInstanceOf(Switch);
         expect(widget.type).toBe("switch");
+    });
+
+    it('should be able to retrieve Steps type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("steps", props);
+        expect(widget).toBeInstanceOf(Steps);
+        expect(widget.type).toBe("steps");
     });
 });
