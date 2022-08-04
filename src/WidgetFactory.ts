@@ -30,6 +30,7 @@ import Radio from "./Radio";
 import MultiCheckbox from "./MultiCheckbox";
 import Switch from "./Switch";
 import Steps from "./Steps";
+import CodeEditor from "./CodeEditor";
 
 class WidgetFactory {
   /**
@@ -138,6 +139,9 @@ class WidgetFactory {
         break;
       case "steps":
         this._widgetClass = Steps;
+        break;
+      case "codeeditor":
+        this._widgetClass = CodeEditor;
         break;
 
       default:
