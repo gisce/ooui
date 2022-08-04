@@ -30,7 +30,7 @@ describe("A ButtonsGroup widget", () => {
     });
 
     it("should have this default button", () => {
-      expect(buttonGroup.defaultButton.id).toBe("btn1");
+      expect(buttonGroup.defaultButton?.id).toBe("btn1");
     });
 
     it("should have this secondary buttons", () => {
