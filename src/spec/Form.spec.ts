@@ -7,6 +7,7 @@ import Label from "../Label";
 import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
+import ButtonGroup from "../ButtonGroup";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -754,6 +755,28 @@ describe("A Form", () => {
     const field = form.findById("button") as Button;
     expect(field.confirmMessage).toBe("Text modal");
     expect(field.buttonType).toBe("object");
+  });
+
+  describe("A ButtonGroup", () => {
+    it("should be able to parse a ButtonGroup", () => {
+      const fields = {};
+      const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Form1">
+        <buttonGroup name="aButtonGroup" default="main">
+          <button name="main" type="object" string="Main action" />
+          <button name="secondary" type="object" string="Secondary action" />
+        </buttonGroup>
+      </form>`;
+      const form = new Form(fields);
+      form.parse(xmlViewForm);
+
+      const buttonGroup = form.container.rows[0][0] as ButtonGroup;
+      expect(buttonGroup).toBeInstanceOf(ButtonGroup);
+      expect(buttonGroup.buttons).toHaveLength(2);
+      buttonGroup.buttons.forEach((button) => {
+        expect(button).toBeInstanceOf(Button);
+      })
+    });
   });
 
   it("should be able to parse a Button by default to type workflow", () => {
