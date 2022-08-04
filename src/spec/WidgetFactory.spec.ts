@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch, Steps } from "..";
+import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch, Steps, CodeEditor } from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -74,5 +74,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("steps", props);
         expect(widget).toBeInstanceOf(Steps);
         expect(widget.type).toBe("steps");
+    });
+
+    it('should be able to retrieve CodeEditor type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("codeeditor", props);
+        expect(widget).toBeInstanceOf(CodeEditor);
+        expect(widget.type).toBe("codeeditor");
     });
 });
