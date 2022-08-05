@@ -1,5 +1,8 @@
 import WidgetFactory from "../WidgetFactory";
-import { Char, Button, NewLine, Tags, MultiCheckbox, Radio, Switch, Steps, CodeEditor } from "..";
+import {
+    Char, Button, NewLine, Tags, MultiCheckbox,
+    Radio, Switch, Steps, CodeEditor, ButtonGroup
+} from "..";
 
 
 describe('A WidgetFactory', () => {
@@ -82,5 +85,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("codeeditor", props);
         expect(widget).toBeInstanceOf(CodeEditor);
         expect(widget.type).toBe("codeeditor");
+    });
+
+    it('should be able to retrieve ButtonGroup type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("buttonGroup", props);
+        expect(widget).toBeInstanceOf(ButtonGroup);
+        expect(widget.type).toBe("buttonGroup");
     });
 });

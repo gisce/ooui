@@ -2,6 +2,7 @@ import Notebook from "./Notebook";
 import Page from "./Page";
 import Group from "./Group";
 import Button from "./Button";
+import ButtonGroup from "./ButtonGroup";
 import Label from "./Label";
 import Char from "./Char";
 import Text from "./Text";
@@ -60,6 +61,9 @@ class WidgetFactory {
         break;
       case "button":
         this._widgetClass = Button;
+        break;
+      case "buttonGroup":
+        this._widgetClass = ButtonGroup;
         break;
       case "selection":
         this._widgetClass = Selection;
