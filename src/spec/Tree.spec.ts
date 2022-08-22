@@ -210,5 +210,41 @@ describe("A Tree", () => {
     expect(nameWidget).toBeUndefined();
     expect(surnamesWidget).toBeUndefined();
     expect(cityWidget!.id).toBe("city");
+    expect(tree.editable).toBeNull();
+  });
+
+  it("Must parse an editable tree", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Name",
+        type: "char",
+        views: {},
+      },
+      surnames: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Surnames",
+        type: "char",
+        views: {},
+        invisible: true,
+      },
+      city: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "City",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" editable="top" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`
+    );
+
+    expect(tree.editable).toBe("top");
   });
 });

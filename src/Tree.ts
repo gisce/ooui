@@ -2,6 +2,8 @@ import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
 import { parseNodes } from "./helpers/nodeParser";
 
+type EditableTreeOptions = "top" | " bottom" | null;
+
 class Tree {
   /**
    * Object containing fields specification of the form.
@@ -37,6 +39,14 @@ class Tree {
     return this._colors;
   }
 
+  /**
+   * Editable value
+   */
+  _editable: "top" | " bottom" | null = null;
+  get editable(): "top" | " bottom" | null {
+    return this._editable;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }
@@ -47,6 +57,9 @@ class Tree {
     this.parseNode(view.documentElement);
     this._string = view.documentElement.getAttribute("string");
     this._colors = view.documentElement.getAttribute("colors");
+    this._editable = view.documentElement.getAttribute(
+      "editable"
+    ) as EditableTreeOptions;
   }
 
   parseNode(node: Element) {
