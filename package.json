@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "dependencies": {
     "moment": "^2.29.3"
   },
