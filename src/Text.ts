@@ -1,5 +1,7 @@
 import Field from "./Field";
 
+export type formatType = "plain" | "html" | "markdown"
+
 /**
  * Multiline input with no length limit.
  */
@@ -45,6 +47,14 @@ class Text extends Field {
     this._translatable = value;
   }
 
+  _format: formatType = "plain";
+  get format(): formatType {
+    return this._format;
+  }
+  set format(value: formatType) {
+    this._format = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -68,6 +78,9 @@ class Text extends Field {
       if (props.translate) {
         this.translatable =
           props.translate === "True" || props.translate === true ? true : false;
+      }
+      if (this.parsedWidgetProps.hasOwnProperty("format")) {
+        this._format = this.parsedWidgetProps.format;
       }
     }
   }
