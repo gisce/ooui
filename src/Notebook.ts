@@ -1,4 +1,7 @@
 import ContainerWidget from "./ContainerWidget";
+import Page from "./Page";
+
+export type TabPosition = "top" | "bottom" | "left" | "right";
 
 class Notebook extends ContainerWidget {
   static _defaultColspan: number = 3;
@@ -9,6 +12,19 @@ class Notebook extends ContainerWidget {
     Notebook._defaultColspan = value;
   }
 
+  _tabPosition: TabPosition = "top";
+  get tabPosition(): TabPosition {
+    return this._tabPosition;
+  }
+  set tabPosition(value: TabPosition) {
+    this._tabPosition = value;
+  }
+
+  _pages: Page[] = [];
+  get pages(): Page[] {
+    return this._container.rows.map(r => r[0]) as Page[];
+  }
+
   constructor(props: any) {
     super(props);
     this.colspan = Notebook._defaultColspan;
@@ -16,6 +32,9 @@ class Notebook extends ContainerWidget {
     if (props) {
       if (props.colspan) {
         this.colspan = props.colspan;
+      }
+      if (props.tabpos) {
+        this._tabPosition = props.tabpos;
       }
     }
   }
