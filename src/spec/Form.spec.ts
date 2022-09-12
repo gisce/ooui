@@ -250,6 +250,10 @@ describe("A Form", () => {
             <page string="Page1" col="8">
                 <field colspan="16" name="char1" />
             </page>
+            <page string="Page2">
+            </page>
+            <page string="Page3">
+            </page>
         </notebook>
     </form>`;
     const form = new Form(fields);
@@ -259,6 +263,7 @@ describe("A Form", () => {
     expect(notebook).toBeInstanceOf(Notebook);
     const page = notebook.container.rows[0][0] as Page;
     expect(page).toBeInstanceOf(Page);
+    expect(notebook.pages).toHaveLength(3);
     const labelField = page.container.rows[0][0];
     expect(labelField).toBeInstanceOf(Label);
     const charField = page.container.rows[0][1];
