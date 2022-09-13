@@ -22,7 +22,7 @@ class Notebook extends ContainerWidget {
 
   _pages: Page[] = [];
   get pages(): Page[] {
-    return this._container.rows.map(r => r[0]) as Page[];
+    return this._container.rows.flat() as Page[];
   }
 
   constructor(props: any) {
