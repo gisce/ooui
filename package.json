@@ -2,7 +2,8 @@
   "name": "@gisce/ooui",
   "version": "0.16.2",
   "dependencies": {
-    "moment": "^2.29.3"
+    "moment": "^2.29.3",
+    "txml": "^5.1.1"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

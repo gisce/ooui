@@ -71,4 +71,18 @@ const parseGenericNodes = (nodes: NodeListOf<ChildNode>): ParsedNode[] => {
   return parsedNodes;
 };
 
-export { parseNodes, parseGenericNodes };
+const parseBoolAttribute = (attr: any): boolean => {
+  if (
+    attr === 1 ||
+    attr === "1" ||
+    attr === true ||
+    attr === "True"
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
+
+export { parseNodes, parseGenericNodes, parseBoolAttribute };

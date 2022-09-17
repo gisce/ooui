@@ -7,6 +7,7 @@ import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
+import * as txml from 'txml';
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -96,46 +97,45 @@ class Form {
 
   parse(xml: string, options?: FormParseOptions) {
     const { values = {}, readOnly = false } = options || {};
-
-    const parser = new DOMParser();
-    const view: Document = parser.parseFromString(xml, "text/xml");
-    this._string = view.documentElement.getAttribute("string");
+    const view = txml.parse(xml).filter((el: any) => el.tagName === "form")[0];
+    this._string = view.attributes?.string || null;
     this._readOnly = readOnly;
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
-
-    this.parseNode({
-      node: view.documentElement,
-      container: this._container,
-      values,
-    });
+    this.parseNode({fields: view.children, container: this._container, values});
   }
 
-  parseNode({
-    node,
-    container,
-    values,
-  }: {
-    node: Element;
-    container: Container;
-    values: any;
-  }) {
+  parseNode({fields, container, values} : {fields: any[], container: Container, values: any}) {
     const widgetFactory = new WidgetFactory();
-
-    const nodesParsed = parseNodes(node.childNodes, this._fields);
-
-    nodesParsed.forEach((nodeParsed) => {
-      const { tag, tagAttributes, child } = nodeParsed;
+    fields.forEach((field) => {
+      const { tagName, attributes, children } = field;
+      let widgetType = tagName;
+      let tagAttributes = attributes;
+      if (tagName === "field") {
+        const { name, widget} = attributes;
+        if (widget) {
+          widgetType = widget;
+        } else if (name) {
+          if (!this._fields[name]) {
+            throw new Error(`Field ${name} doesn't exist in fields defintion`);
+          }
+          widgetType = this._fields[name].type;
+        }
+        tagAttributes = {
+          ...this._fields[name],
+          ...attributes,
+          fieldsWidgetType: this._fields[name].type,
+        };
+      }
       const evaluatedTagAttributes = evaluateAttributes({
         tagAttributes,
         values,
         fields: this._fields,
       });
-
       let evaluatedStateAttributes;
 
-      if (tag === "button" && tagAttributes.states) {
+      if (tagName === "button" && tagAttributes.states) {
         evaluatedStateAttributes = evaluateButtonStates({
           states: tagAttributes.states,
           values,
@@ -150,7 +150,7 @@ class Form {
 
       const widgetContext = parseContext({
         context:
-          tagAttributes["context"] ||
+        tagAttributes["context"] ||
           this._fields[tagAttributes.name]?.["context"],
         values,
         fields: this._fields,
@@ -181,7 +181,7 @@ class Form {
         domain = this._fields[tagAttributes.name].domain;
       }
 
-      const widget = widgetFactory.createWidget(tag, {
+      const widget = widgetFactory.createWidget(widgetType, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
         context: widgetContext,
@@ -189,7 +189,7 @@ class Form {
       });
 
       if (widget instanceof ContainerWidget) {
-        this.parseNode({ node: child, container: widget.container, values });
+        this.parseNode({ fields: children, container: widget.container, values });
       }
 
       // If the form is set to readonly, reflect it to its children
