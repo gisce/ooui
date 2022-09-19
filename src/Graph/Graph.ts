@@ -1,3 +1,5 @@
+import { ParsedNode } from "../helpers/nodeParser";
+
 export type GraphType = "indicator" | "indicatorField" | "line" | "bar" | "pie";
 
 export class Graph {
@@ -16,7 +18,7 @@ export class Graph {
     return this._timerange;
   }
 
-  constructor(element: any) {
+  constructor(element: ParsedNode) {
     this._string = element.attributes.string || null;
     this._timerange = element.attributes.timerange || null;
   }

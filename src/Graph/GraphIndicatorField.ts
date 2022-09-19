@@ -1,6 +1,7 @@
 import { Operator } from ".";
 import { GraphType } from "./Graph";
 import { GraphIndicator } from "./GraphIndicator";
+import { ParsedNode } from "../helpers/nodeParser";
 
 export class GraphIndicatorField extends GraphIndicator {
   _field: string | undefined;
@@ -13,11 +14,11 @@ export class GraphIndicatorField extends GraphIndicator {
     return this._operator;
   }
 
-  constructor(type: GraphType, element: any) {
+  constructor(type: GraphType, element: ParsedNode) {
     super(type, element);
 
     const { children } = element;
-    children.forEach((item: any) => {
+    children.forEach((item) => {
       if (item.tagName === "field") {
         const name = item.attributes.name;
         const operator = item.attributes.operator;

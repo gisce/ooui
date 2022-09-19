@@ -1,6 +1,7 @@
 import { GraphXAxis, GraphYAxis } from ".";
 import { Graph, GraphType } from "./Graph";
 import { parseXYAxis } from "./graphHelper";
+import { ParsedNode } from "../helpers/nodeParser";
 
 export class GraphChart extends Graph {
   _x: GraphXAxis;
@@ -12,7 +13,7 @@ export class GraphChart extends Graph {
   get y(): GraphYAxis[] {
     return this._y;
   }
-  constructor(type: GraphType, element: any) {
+  constructor(type: GraphType, element: ParsedNode) {
     super(element);
 
     this._type = type;

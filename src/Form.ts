@@ -2,7 +2,7 @@ import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
-import { parseNodes } from "./helpers/nodeParser";
+import { ParsedNode } from "./helpers/nodeParser";
 import { evaluateAttributes } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
@@ -97,7 +97,7 @@ class Form {
 
   parse(xml: string, options?: FormParseOptions) {
     const { values = {}, readOnly = false } = options || {};
-    const view = txml.parse(xml).filter((el: any) => el.tagName === "form")[0];
+    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "form")[0];
     this._string = view.attributes?.string || null;
     this._readOnly = readOnly;
     this._context = values["id"]
@@ -106,7 +106,7 @@ class Form {
     this.parseNode({fields: view.children, container: this._container, values});
   }
 
-  parseNode({fields, container, values} : {fields: any[], container: Container, values: any}) {
+  parseNode({fields, container, values} : {fields: ParsedNode[], container: Container, values: any}) {
     const widgetFactory = new WidgetFactory();
     fields.forEach((field) => {
       const { tagName, attributes, children } = field;

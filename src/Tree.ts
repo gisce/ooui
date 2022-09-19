@@ -1,6 +1,6 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
-import { parseNodes, parseBoolAttribute } from "./helpers/nodeParser";
+import { ParsedNode, parseBoolAttribute } from "./helpers/nodeParser";
 import * as txml from 'txml';
 
 type EditableTreeOptions = "top" | " bottom" | null;
@@ -53,12 +53,12 @@ class Tree {
   }
 
   parse(xml: string) {
-    const view = txml.parse(xml).filter((el: any) => el.tagName === "tree")[0];
+    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
     this._colors = view.attributes.colors || null;
     this._editable = view.attributes.editable || null;
     const widgetFactory = new WidgetFactory();
-    view.children.forEach((field: any) => {
+    view.children.forEach((field: ParsedNode) => {
       const { tagName, attributes } = field;
       let widgetType = null;
       if (tagName === "field") {

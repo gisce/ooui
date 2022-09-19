@@ -1,15 +1,16 @@
 import { GraphXAxis, GraphYAxis, Operator } from ".";
+import { ParsedNode } from "../helpers/nodeParser";
 
 export type XYAxis = {
   x: GraphXAxis;
   y: GraphYAxis[];
 };
 
-export const parseXYAxis = (nodes: any[]): XYAxis => {
+export const parseXYAxis = (nodes: ParsedNode[]): XYAxis => {
   const yAxisElements: GraphYAxis[] = [];
   let xAxis;
 
-  nodes.forEach((child: any) => {
+  nodes.forEach((child) => {
     if (child.tagName === "field") {
       const axis = child.attributes.axis;
       const operator = child.attributes.operator;
