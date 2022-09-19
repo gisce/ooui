@@ -1,5 +1,5 @@
 import DashboardItem from "./DashboardItem";
-import { parseGenericNodes } from "./helpers/nodeParser";
+import * as txml from 'txml';
 
 class Dashboard {
   _string: string | null = null;
@@ -13,16 +13,14 @@ class Dashboard {
   }
 
   constructor(xml: string) {
-    const parser = new DOMParser();
-    const view: Document = parser.parseFromString(xml, "text/xml");
-    this._string = view.documentElement.getAttribute("string");
-    const documentElement = view.documentElement;
+    const view = txml.parse(xml).filter((el: any) => el.tagName === "dashboard")[0];
+    this._string = view.attributes.string || null;
 
-    const actionsParsed = parseGenericNodes(documentElement.childNodes);
+    const { children } = view;
 
-    actionsParsed.forEach((nodeParsed) => {
-      if (nodeParsed.tag === "dashboard_item") {
-        this._items.push(new DashboardItem(nodeParsed.tagAttributes));
+    children.forEach((item: any) => {
+      if (item.tagName === "dashboard_item") {
+        this._items.push(new DashboardItem(item.attributes));
       }
     });
   }
