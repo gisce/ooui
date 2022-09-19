@@ -31,6 +31,9 @@ jobs:
       - name: Installing dependencies
         run: npm ci
 
+      - name: Installing dependencies
+        run: rm package-lock.json
+
       - name: Build and publish
         run: npm publish
         env:
