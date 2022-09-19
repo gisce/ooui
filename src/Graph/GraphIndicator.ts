@@ -1,4 +1,5 @@
 import { Graph, GraphType } from "./Graph";
+import { parseBoolAttribute } from "../helpers/nodeParser";
 
 export class GraphIndicator extends Graph {
   _color: string | null = null;
@@ -26,22 +27,14 @@ export class GraphIndicator extends Graph {
     return this._suffix;
   }
 
-  constructor(type: GraphType, element: HTMLElement) {
+  constructor(type: GraphType, element: any) {
     super(element);
 
     this._type = type;
-    this._color = element.getAttribute("color");
-    this._icon = element.getAttribute("icon");
-    this._suffix = element.getAttribute("suffix");
-    this._totalDomain = element.getAttribute("totalDomain");
-    const showPercent = element.getAttribute("showPercent");
-
-    if (
-      showPercent &&
-      (showPercent === "1" ||
-        (typeof showPercent === "boolean" && showPercent === true))
-    ) {
-      this._showPercent = true;
-    }
+    this._color = element.attributes.color || null;
+    this._icon = element.attributes.icon || null;
+    this._suffix = element.attributes.suffix || null;
+    this._totalDomain = element.attributes.totalDomain || null;
+    this._showPercent = parseBoolAttribute(element.attributes.showPercent);
   }
 }

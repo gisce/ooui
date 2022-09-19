@@ -16,8 +16,8 @@ export class Graph {
     return this._timerange;
   }
 
-  constructor(element: HTMLElement) {
-    this._string = element.getAttribute("string");
-    this._timerange = element.getAttribute("timerange");
+  constructor(element: any) {
+    this._string = element.attributes.string || null;
+    this._timerange = element.attributes.timerange || null;
   }
 }

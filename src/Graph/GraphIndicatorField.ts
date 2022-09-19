@@ -13,13 +13,14 @@ export class GraphIndicatorField extends GraphIndicator {
     return this._operator;
   }
 
-  constructor(type: GraphType, element: HTMLElement) {
+  constructor(type: GraphType, element: any) {
     super(type, element);
 
-    Array.prototype.forEach.call(element.childNodes, (child: Element) => {
-      if (child.nodeType === child.ELEMENT_NODE && child.nodeName === "field") {
-        const name = child.getAttribute("name");
-        const operator = child.getAttribute("operator");
+    const { children } = element;
+    children.forEach((item: any) => {
+      if (item.tagName === "field") {
+        const name = item.attributes.name;
+        const operator = item.attributes.operator;
         this._field = name || undefined;
         this._operator = operator as Operator;
       }

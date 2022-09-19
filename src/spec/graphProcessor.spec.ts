@@ -398,7 +398,7 @@ describe("in processGraphData method", () => {
     expect(obj2!.type).toBe("Generació - sortida");
   });
 
-  it.only("should do basic test with a timerange for days", () => {
+  it("should do basic test with a timerange for days", () => {
     const { data, isGroup, isStack } = getGraphData(
       `<?xml version="1.0"?>
       <graph type="line" timerange="day">

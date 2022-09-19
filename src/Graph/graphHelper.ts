@@ -5,17 +5,17 @@ export type XYAxis = {
   y: GraphYAxis[];
 };
 
-export const parseXYAxis = (nodes: NodeListOf<ChildNode>): XYAxis => {
+export const parseXYAxis = (nodes: any[]): XYAxis => {
   const yAxisElements: GraphYAxis[] = [];
   let xAxis;
 
-  Array.prototype.forEach.call(nodes, (child: Element) => {
-    if (child.nodeType === child.ELEMENT_NODE && child.nodeName === "field") {
-      const axis = child.getAttribute("axis");
-      const operator = child.getAttribute("operator");
-      const name = child.getAttribute("name");
-      const label = child.getAttribute("label") || undefined;
-      const stacked = child.getAttribute("stacked") || undefined;
+  nodes.forEach((child: any) => {
+    if (child.tagName === "field") {
+      const axis = child.attributes.axis;
+      const operator = child.attributes.operator;
+      const name = child.attributes.name;
+      const label = child.attributes.label || undefined;
+      const stacked = child.attributes.stacked || undefined;
 
       if (!axis) {
         throw new Error(`Field ${name} doesn't have an axis`);
