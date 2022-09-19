@@ -19,6 +19,7 @@
     "access": "public"
   },
   "scripts": {
+    "prerelease": "npm version prerelease --preid rc",
     "build": "npx tsc && npx vite build",
     "test": "jest",
     "test:watch": "jest --watch",
