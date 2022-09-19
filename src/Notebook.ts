@@ -22,7 +22,8 @@ class Notebook extends ContainerWidget {
 
   _pages: Page[] = [];
   get pages(): Page[] {
-    return this._container.rows.flat() as Page[];
+    // @ts-ignore
+    return [].concat.apply([], this._container.rows!) as Page[];
   }
 
   constructor(props: any) {
