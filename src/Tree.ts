@@ -53,7 +53,7 @@ class Tree {
   }
 
   parse(xml: string) {
-    const view = txml.parse(xml)[0];
+    const view = txml.parse(xml).filter((el: any) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
     this._colors = view.attributes.colors || null;
     this._editable = view.attributes.editable || null;
