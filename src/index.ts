@@ -3,6 +3,7 @@ import Tree from "./Tree";
 import Char from "./Char";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
+import NewLine from "./NewLine";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
 import Field from "./Field";
@@ -24,6 +25,7 @@ import Group from "./Group";
 import Page from "./Page";
 import Separator from "./Separator";
 import Button from "./Button";
+import ButtonGroup from "./ButtonGroup";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
@@ -33,18 +35,25 @@ import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
+import Tags from "./Tags";
+import MultiCheckbox from "./MultiCheckbox";
+import Radio from "./Radio";
+import Switch from "./Switch";
+import Steps from "./Steps";
+import CodeEditor from "./CodeEditor";
+
 import {
   Graph,
   GraphAxis,
   GraphIndicator,
   GraphIndicatorField,
   GraphChart,
-  GraphType,
   parseGraph,
-  Operator,
   GraphYAxis,
   GraphXAxis,
 } from "./Graph";
+
+import type { GraphType, Operator } from "./Graph";
 
 import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";
@@ -57,6 +66,7 @@ export {
   Widget,
   Form,
   Tree,
+  NewLine,
   Boolean,
   One2many,
   Integer,
@@ -76,6 +86,7 @@ export {
   Label,
   Separator,
   Button,
+  ButtonGroup,
   Reference,
   Binary,
   Image,
@@ -97,4 +108,10 @@ export {
   GraphIndicatorField,
   graphProcessor,
   graphFieldUtils,
+  Tags,
+  MultiCheckbox,
+  Radio,
+  Switch,
+  Steps,
+  CodeEditor,
 };

@@ -397,6 +397,30 @@ describe("in processGraphData method", () => {
     expect(obj2!.value).toBe(0);
     expect(obj2!.type).toBe("Generació - sortida");
   });
+
+  it("should do basic test with a timerange for days", () => {
+    const { data, isGroup, isStack } = getGraphData(
+      `<?xml version="1.0"?>
+      <graph type="line" timerange="day">
+      <field name="data_alta" axis="x"/>
+      <field name="data_alta" operator="count" axis="y"/>
+  </graph>
+    `,
+      "polissa"
+    );
+
+    expect(isGroup).toBe(false);
+    expect(isStack).toBe(false);
+
+    expect(data).toBeTruthy();
+    expect(data.length).not.toBe(13);
+
+    const obj1 = data.find((d) => d.x === "2019-01-01");
+    expect(obj1).toBeTruthy();
+    expect(obj1!.value).toBe(3);
+
+    expect(data.some((entry) => entry.x === false)).toBeFalsy();
+  });
 });
 
 function getModelData(model: string) {

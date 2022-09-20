@@ -85,6 +85,17 @@ class Field extends Widget {
     this._sum = value;
   }
 
+  /**
+  * Values and keys
+  */
+  _selectionValues: Map<string, string> = new Map([]);
+  get selectionValues(): Map<string, string> {
+    return this._selectionValues;
+  }
+  set selectionValues(value: Map<string, string>) {
+    this._selectionValues = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -127,6 +138,10 @@ class Field extends Widget {
 
       if (props.sum) {
         this._sum = props.sum;
+      }
+
+      if (props.selection) {
+        this._selectionValues = new Map(props.selection);
       }
     }
   }

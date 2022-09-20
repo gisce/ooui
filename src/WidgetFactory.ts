@@ -2,6 +2,7 @@ import Notebook from "./Notebook";
 import Page from "./Page";
 import Group from "./Group";
 import Button from "./Button";
+import ButtonGroup from "./ButtonGroup";
 import Label from "./Label";
 import Char from "./Char";
 import Text from "./Text";
@@ -25,6 +26,12 @@ import Image from "./Image";
 import FiberGrid from "./FiberGrid";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
+import Tags from "./Tags";
+import Radio from "./Radio";
+import MultiCheckbox from "./MultiCheckbox";
+import Switch from "./Switch";
+import Steps from "./Steps";
+import CodeEditor from "./CodeEditor";
 
 class WidgetFactory {
   /**
@@ -54,6 +61,9 @@ class WidgetFactory {
         break;
       case "button":
         this._widgetClass = Button;
+        break;
+      case "buttonGroup":
+        this._widgetClass = ButtonGroup;
         break;
       case "selection":
         this._widgetClass = Selection;
@@ -118,6 +128,25 @@ class WidgetFactory {
         break;
       case "indicator":
         this._widgetClass = Indicator;
+        break;
+      case "tags":
+        this._widgetClass = Tags;
+        break;
+      case "radio":
+        this._widgetClass = Radio;
+        break;
+      case "multicheckbox":
+        this._widgetClass = MultiCheckbox;
+        break;
+      case "switch":
+        this._widgetClass = Switch;
+        break;
+      case "steps":
+        this._widgetClass = Steps;
+        break;
+      case "codeeditor":
+        this._widgetClass = CodeEditor;
+        break;
 
       default:
         break;

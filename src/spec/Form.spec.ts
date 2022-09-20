@@ -7,6 +7,7 @@ import Label from "../Label";
 import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
+import ButtonGroup from "../ButtonGroup";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -249,6 +250,10 @@ describe("A Form", () => {
             <page string="Page1" col="8">
                 <field colspan="16" name="char1" />
             </page>
+            <page string="Page2">
+            </page>
+            <page string="Page3">
+            </page>
         </notebook>
     </form>`;
     const form = new Form(fields);
@@ -258,6 +263,7 @@ describe("A Form", () => {
     expect(notebook).toBeInstanceOf(Notebook);
     const page = notebook.container.rows[0][0] as Page;
     expect(page).toBeInstanceOf(Page);
+    expect(notebook.pages).toHaveLength(3);
     const labelField = page.container.rows[0][0];
     expect(labelField).toBeInstanceOf(Label);
     const charField = page.container.rows[0][1];
@@ -373,7 +379,7 @@ describe("A Form", () => {
 
   it("should properly parse a password field", () => {
     const arch =
-      '<group><field name="password" password="True" readonly="0"/></group>';
+      '<form><group><field name="password" password="True" readonly="0"/></group></form>';
     const fields = {
       password: {
         help:
@@ -393,7 +399,7 @@ describe("A Form", () => {
   });
 
   it("should properly parse a normal char field without password flag", () => {
-    const arch = '<group><field name="password" readonly="0"/></group>';
+    const arch = '<form><group><field name="password" readonly="0"/></group></form>';
     const fields = {
       password: {
         help:
@@ -756,6 +762,28 @@ describe("A Form", () => {
     expect(field.buttonType).toBe("object");
   });
 
+  describe("A ButtonGroup", () => {
+    it("should be able to parse a ButtonGroup", () => {
+      const fields = {};
+      const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Form1">
+        <buttonGroup name="aButtonGroup" default="main">
+          <button name="main" type="object" string="Main action" />
+          <button name="secondary" type="object" string="Secondary action" />
+        </buttonGroup>
+      </form>`;
+      const form = new Form(fields);
+      form.parse(xmlViewForm);
+
+      const buttonGroup = form.container.rows[0][0] as ButtonGroup;
+      expect(buttonGroup).toBeInstanceOf(ButtonGroup);
+      expect(buttonGroup.buttons).toHaveLength(2);
+      buttonGroup.buttons.forEach((button) => {
+        expect(button).toBeInstanceOf(Button);
+      });
+    });
+  });
+
   it("should be able to parse a Button by default to type workflow", () => {
     const fields = {
       button: {
@@ -881,9 +909,6 @@ describe("A Form", () => {
     expect(form.context.active_id).toBe(99);
     expect(Array.isArray(form.context.active_ids)).toBeTruthy();
     expect(form.context.active_ids[0]).toBe(99);
-    expect(form.context.cups_id).toBe(99);
-    expect(form.context.test_string).toBe("test");
-    expect(form.context.power).toBeUndefined();
 
     const field = form.findById("button") as Button;
     expect(field.context).toBeDefined();
@@ -935,9 +960,7 @@ describe("A Form", () => {
     expect(form.onChangeFields!["field_char"].args[0]).toBe(
       "partner_address_id"
     );
-    expect(form.onChangeFields!["field_char"].args[1]).toBe(
-      "'foo'"
-    );
+    expect(form.onChangeFields!["field_char"].args[1]).toBe("'foo'");
     expect(form.onChangeFields!["field_char"].args[2]).toBe("context");
   });
 
@@ -975,5 +998,1761 @@ describe("A Form", () => {
 
     expect(field_id!.domain!).toBe("[('field_id', '=', active_id)]");
     expect(field_char!.domain!).toBe("[('bar', '=', tarifa)]");
+  });
+
+  it("should be able to parse a notebook", () => {
+    const fields = {
+      ac_state: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 30,
+        string: "Estado del AC",
+        type: "char",
+        views: {},
+      },
+      active: {
+        readonly: true,
+        required: true,
+        string: "Activa",
+        type: "boolean",
+        views: {},
+      },
+      agree_dh: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 2,
+        string: "Código DH",
+        type: "char",
+        views: {},
+      },
+      agree_tarifa: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 2,
+        string: "Código Tarifa",
+        type: "char",
+        views: {},
+      },
+      agree_tensio: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 2,
+        string: "Código Tensión",
+        type: "char",
+        views: {},
+      },
+      agree_tipus: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 2,
+        string: "Tipo Punto",
+        type: "char",
+        views: {},
+      },
+      altre_p: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner",
+        size: 40,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Contacto alternativo",
+        type: "many2one",
+        views: {},
+      },
+      article_560: {
+        readonly: true,
+        selection: [
+          ["sin", "Sin exención o reducción"],
+          ["94.1", "Exento artículo 94.1 LIE"],
+          ["94.2", "Exento artículo 94.2 LIE"],
+          ["94.3", "Exento artículo 94.3 LIE"],
+          ["94.4", "Exento artículo 94.4 LIE"],
+          ["94.5", "Exento artículo 94.5 LIE"],
+          ["94.6", "Exento artículo 94.6 LIE"],
+          ["94.7", "Exento artículo 94.7 LIE"],
+          ["94.8", "Exento artículo 94.8 LIE"],
+          ["94.9", "Exento artículo 94.9 LIE"],
+          ["98.1A", "Con reducción artículo 98.1a) LIE"],
+          ["98.1B", "Con reducción artículo 98.1b) LIE"],
+          ["98.1C", "Con reducción artículo 98.1c) LIE"],
+          ["98.1D", "Con reducción artículo 98.1d) LIE"],
+          ["98.1E", "Con reducción artículo 98.1e) LIE"],
+          ["98.1F", "Con reducción artículo 98.1f) LIE"],
+          ["98.2", "Con reducción artículo 98.2 LIE"],
+          ["98.3", "Con reducción artículo 98.3 LIE"],
+        ],
+        size: 10,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Artículo CIE",
+        type: "selection",
+        views: {},
+      },
+      autoconsum_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        readonly: 1,
+        relation: "giscedata.autoconsum",
+        string: "Autoconsumo",
+        type: "many2one",
+        views: {},
+      },
+      autoconsumo: {
+        help: "Tipo de autoconsumo del contrato según RD. 900/2015",
+        readonly: true,
+        selection: [
+          ["00", "[00] - Sin Autoconsumo"],
+          ["01", "[01] - Autoconsumo Tipo 1"],
+          [
+            "2A",
+            "[2A] - Autoconsumo tipo 2 (según el Art. 13. 2. a) RD 900/2015)",
+          ],
+          [
+            "2B",
+            "[2B] - Autoconsumo tipo 2 (según el Art. 13. 2. b) RD 900/2015)",
+          ],
+          [
+            "2G",
+            "[2G] - Servicios auxiliares de generación ligada a un autoconsumo tipo 2",
+          ],
+          ["31", "[31] - Sin Excedentes Individual – Consumo"],
+          ["32", "[32] - Sin Excedentes Colectivo – Consumo"],
+          [
+            "33",
+            "[33] - Sin Excedentes Colectivo con acuerdo de compensación – Consumo",
+          ],
+          ["41", "[41] - Con excedentes y compensación Individual - Consumo"],
+          ["42", "[42] - Con excedentes y compensación Colectivo– Consumo"],
+          [
+            "43",
+            "[43] - Con excedentes y compensación Colectivo a través de red– Consumo",
+          ],
+          [
+            "51",
+            "[51] - Con excedentes sin compensación Individual sin cto de SSAA en Red Interior– Consumo",
+          ],
+          [
+            "52",
+            "[52] - Con excedentes sin compensación Colectivo sin cto de SSAA en Red Interior– Consumo",
+          ],
+          [
+            "53",
+            "[53] - Con excedentes sin compensación Individual con cto SSAA en Red Interior– Consumo",
+          ],
+          [
+            "54",
+            "[54] - Con excedentes sin compensación individual con cto SSAA en Red Interior– SSAA",
+          ],
+          [
+            "55",
+            "[55] - Con excedentes sin compensación Colectivo/en Red Interior– Consumo",
+          ],
+          [
+            "56",
+            "[56] - Con excedentes sin compensación Colectivo/en Red Interior - SSAA",
+          ],
+          [
+            "57",
+            "[57] - Con excedentes sin compensación Colectivo sin cto de SSAA (despreciable) en red interior – Consumo",
+          ],
+          [
+            "58",
+            "[58] - Con excedentes sin compensación Colectivo sin cto de SSAA a través de red - Consumo",
+          ],
+          [
+            "61",
+            "[61] - Con excedentes sin compensación Individual con cto SSAA a través de red – Consumo",
+          ],
+          [
+            "62",
+            "[62] - Con excedentes sin compensación individual con cto SSAA a través de red – SSAA",
+          ],
+          [
+            "63",
+            "[63] - Con excedentes sin compensación Colectivo a través de red – Consumo",
+          ],
+          [
+            "64",
+            "[64] - Con excedentes sin compensación Colectivo a través de red - SSAA",
+          ],
+          [
+            "71",
+            "[71] - Con excedentes sin compensación Individual con cto SSAA a través de red y red interior – Consumo",
+          ],
+          [
+            "72",
+            "[72] - Con excedentes sin compensación individual con cto SSAA a través de red y red interior – SSAA",
+          ],
+          [
+            "73",
+            "[73] - Con excedentes sin compensación Colectivo con cto de SSAA  a través de red y red interior – Consumo",
+          ],
+          [
+            "74",
+            "[74] - Con excedentes sin compensación Colectivo con cto de SSAA a través de red y red interior - SSAA",
+          ],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Autoconsumo",
+        type: "selection",
+        views: {},
+      },
+      bank: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner.bank",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Cuenta bancaria",
+        type: "many2one",
+        views: {},
+      },
+      bono_social_disponible: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Bono social disponible",
+        type: "boolean",
+        views: {},
+      },
+      butlletins: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        relation: "giscedata.butlleti",
+        string: "Boletines",
+        type: "one2many",
+        views: {},
+      },
+      category_id: {
+        context: "",
+        domain: [],
+        relation: "giscedata.polissa.category",
+        select: true,
+        string: "Categorías",
+        type: "many2many",
+        views: {},
+      },
+      cie: {
+        readonly: true,
+        size: 30,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "CIE",
+        type: "char",
+        views: {},
+      },
+      cnae: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscemisc.cnae",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "CNAE",
+        type: "many2one",
+        views: {},
+      },
+      coef_repartiment: {
+        digits: [12, 2],
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Coeficiente de reparto [%]",
+        type: "float",
+        views: {},
+      },
+      coef_repercusio_gas: {
+        digits: [5, 2],
+        string: "Coef. repercussió ajust gas",
+        type: "float",
+        views: {},
+      },
+      coeficient_d: {
+        digits: [4, 2],
+        help: "Coste del desvío",
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Coeficiente CDSVh €/MWh",
+        type: "float",
+        views: {},
+      },
+      coeficient_d_renovacio: {
+        digits: [4, 2],
+        help: "Coste de Desvíos",
+        string: "Coeficiente D €/MWh Renovación",
+        type: "float",
+        views: {},
+      },
+      coeficient_k: {
+        digits: [4, 2],
+        help: "Coste Operativo de Comercialización",
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Coeficiente CO €/MWh",
+        type: "float",
+        views: {},
+      },
+      coeficient_k_renovacio: {
+        digits: [4, 2],
+        help: "Coste de Operación",
+        string: "Coeficiente K €/MWh Renovación",
+        type: "float",
+        views: {},
+      },
+      colaborador_ids: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        readonly: 1,
+        relation: "hr.colaborador",
+        select: 2,
+        string: "Col.laboradors",
+        type: "one2many",
+        views: {},
+      },
+      comercial_id: {
+        context: "",
+        domain: [],
+        relation: "hr.employee",
+        size: 64,
+        string: "Comercial",
+        type: "many2one",
+        views: {},
+      },
+      comptador: {
+        digits: [16, 2],
+        readonly: 1,
+        select: true,
+        size: 64,
+        string: "Contador",
+        type: "char",
+        views: {},
+      },
+      comptadors: {
+        context: {
+          active_test: false,
+        },
+        domain: [],
+        inv_field: "polissa",
+        relation: "giscedata.lectures.comptador",
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [["readonly", false]],
+        },
+        string: "Contadores",
+        type: "one2many",
+        views: {},
+      },
+      condicions_generals_id: {
+        context: "",
+        domain: [],
+        relation: "giscedata.polissa.condicions.generals",
+        size: 64,
+        string: "Condiciones generales",
+        type: "many2one",
+        views: {},
+      },
+      consum_anual: {
+        digits: [12, 3],
+        string: "Consum anual",
+        type: "float",
+        views: {},
+      },
+      contract_type: {
+        help: "Distintos tipos de contratos. Ver REAL DECRETO 1164/2001",
+        readonly: true,
+        selection: [
+          ["01", "Anual"],
+          ["02", "Eventual medido"],
+          ["03", "Temporada"],
+          ["05", "RECORE"],
+          ["07", "Suministro de Obras"],
+          ["08", "Suministro de socorro"],
+          ["09", "Eventual a tanto alzado"],
+          ["10", "Pruebas"],
+          ["11", "Duplicado"],
+          ["12", "De reserva"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Tipo de contrato",
+        type: "selection",
+        views: {},
+      },
+      cups: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscedata.cups.ps",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "CUPS",
+        type: "many2one",
+        views: {},
+      },
+      cups_cp: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Código Postal",
+        type: "char",
+        views: {},
+      },
+      cups_direccio: {
+        digits: [16, 2],
+        readonly: true,
+        size: 256,
+        string: "Dirección CUPS",
+        type: "char",
+        views: {},
+      },
+      cups_poblacio: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Población",
+        type: "char",
+        views: {},
+      },
+      data_alta: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Fecha Alta",
+        type: "date",
+        views: {},
+      },
+      data_baixa: {
+        string: "Fecha baja",
+        type: "date",
+        views: {},
+      },
+      data_comunicada: {
+        string: "Data Comunicació Renovació",
+        type: "date",
+        views: {},
+      },
+      data_firma_contracte: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Fecha firma contrato",
+        type: "datetime",
+        views: {},
+      },
+      data_renovacio: {
+        string: "Data Pròxima Renovació de Preus",
+        type: "date",
+        views: {},
+      },
+      data_tall: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Fecha corte prevista",
+        type: "date",
+        views: {},
+      },
+      data_ultima_lectura: {
+        digits: [16, 2],
+        string: "Última fecha real facturada",
+        type: "date",
+        views: {},
+      },
+      data_ultima_lectura_estimada: {
+        string: "Fecha última estimada facturada",
+        type: "date",
+        views: {},
+      },
+      data_ultima_lectura_f1: {
+        string: "Data última lectura cargada de F1",
+        type: "date",
+        views: {},
+      },
+      debt_amount: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Cantidad de deuda",
+        type: "float",
+        views: {},
+      },
+      deposit: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Depósito",
+        type: "float",
+        views: {},
+      },
+      direccio_notificacio: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner.address",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Dirección notificación",
+        type: "many2one",
+        views: {},
+      },
+      direccio_pagament: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner.address",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Dirección fiscal",
+        type: "many2one",
+        views: {},
+      },
+      distribuidora: {
+        context: "",
+        domain: [
+          ["supplier", "=", 1],
+          ["energy_sector", "in", ["electric", "elegas"]],
+        ],
+        readonly: true,
+        relation: "res.partner",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Distribuidora",
+        type: "many2one",
+        views: {},
+      },
+      enviament: {
+        readonly: true,
+        selection: [
+          ["postal", "Correo postal"],
+          ["email", "E-mail"],
+          ["postal+email", "Correo postal y e-mail"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [["readonly", false]],
+        },
+        string: "Enviar factura vía",
+        type: "selection",
+        views: {},
+      },
+      expected_consumption: {
+        help:
+          "Este campo calcula el consumo total pactado para contratos eventuales sin contador",
+        readonly: true,
+        string: "Consumo pactado",
+        type: "float",
+        views: {},
+      },
+      facturacio: {
+        readonly: true,
+        selection: [
+          [1, "Mensual"],
+          [2, "Bimestral"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Facturación",
+        type: "selection",
+        views: {},
+      },
+      facturacio_distri: {
+        help: "Periodicidad de facturación de distribuidora",
+        readonly: true,
+        selection: [
+          [1, "Mensual"],
+          [2, "Bimestral"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Facturación de distribuidora",
+        type: "selection",
+        views: {},
+      },
+      facturacio_potencia: {
+        readonly: true,
+        selection: [
+          ["max", "Maxímetro"],
+          ["icp", "ICP"],
+          ["recarrec", "Recargo NO_ICP"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Facturación Potencia",
+        type: "selection",
+        views: {},
+      },
+      facturacio_suspesa: {
+        string: "Facturación Suspendida",
+        type: "boolean",
+        views: {},
+      },
+      facturae_filereference: {
+        help: "Referencia expediente para indicar dentro del XML",
+        readonly: true,
+        size: 20,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Referencia expediente facturae ",
+        type: "char",
+        views: {},
+      },
+      firmat: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Contrato Firmado",
+        type: "boolean",
+        views: {},
+      },
+      fiscal_position_id: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "account.fiscal.position",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Posición fiscal",
+        type: "many2one",
+        views: {},
+      },
+      is_autoconsum_collectiu: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Es colectivo",
+        type: "boolean",
+        views: {},
+      },
+      lectura_en_baja: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [["readonly", false]],
+        },
+        string: "Lectura en baja",
+        type: "boolean",
+        views: {},
+      },
+      llista_preu: {
+        context: "",
+        domain: [["type", "=", "sale"]],
+        readonly: true,
+        relation: "product.pricelist",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Tarifa Comercializadora",
+        type: "many2one",
+        views: {},
+      },
+      log_ids: {
+        context: "",
+        domain: [],
+        inv_field: "polissa_id",
+        readonly: true,
+        relation: "giscedata.polissa.log",
+        string: "Histórico",
+        type: "one2many",
+        views: {},
+      },
+      lot_facturacio: {
+        context: "",
+        domain: [],
+        relation: "giscedata.facturacio.lot",
+        size: 64,
+        string: "Lote de facturación",
+        type: "many2one",
+        views: {},
+      },
+      modcontractual_activa: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscedata.polissa.modcontractual",
+        size: 64,
+        string: "Modificación contractual actual",
+        type: "many2one",
+        views: {},
+      },
+      modcontractuals_ids: {
+        context: {
+          active_test: false,
+        },
+        domain: [],
+        inv_field: "polissa_id",
+        readonly: true,
+        relation: "giscedata.polissa.modcontractual",
+        string: "Modificaciones contractuales",
+        type: "one2many",
+        views: {},
+      },
+      mode_facturacio: {
+        readonly: true,
+        selection: [
+          ["atr", "ATR"],
+          ["index", "Indexada"],
+          ["tplana", "Tarifa Plana"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Mode facturación",
+        type: "selection",
+        views: {},
+      },
+      mode_facturacio_generacio: {
+        readonly: true,
+        selection: [
+          ["atr", "ATR"],
+          ["index", "Indexada"],
+          ["tplana", "Tarifa Plana"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Modo facturación generación (autoconsumo)",
+        type: "selection",
+        views: {},
+      },
+      motiu_560: {
+        readonly: true,
+        selection: [
+          ["sin", "Sin exención o reducción"],
+          ["R", "Comunicada por el beneficiario"],
+          ["D", "Comunicada por el operador del mercado"],
+        ],
+        size: 10,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Motivo CIE",
+        type: "selection",
+        views: {},
+      },
+      multipunt_id: {
+        context: "",
+        domain: [],
+        relation: "giscedata.polissa.multipunt",
+        select: 1,
+        size: 64,
+        string: "Multipunto",
+        type: "many2one",
+        views: {},
+      },
+      name: {
+        readonly: true,
+        select: true,
+        size: 60,
+        states: {
+          esborrany: [["readonly", false]],
+        },
+        string: "Contrato",
+        type: "char",
+        views: {},
+      },
+      name_auto: {
+        string: "Auto",
+        type: "boolean",
+        views: {},
+      },
+      next_pricelist_id: {
+        context: "",
+        domain: [],
+        relation: "product.pricelist",
+        size: 64,
+        string: "Preus de renovació",
+        type: "many2one",
+        views: {},
+      },
+      no_cessio_sips: {
+        help:
+          "Nota: si el campo está activo significa que el cliente ha firmado la no cesión de los datos personales por motivos de privacidad en todos los contratos acogidos. Esta condición aplica a los SIPS u otros procesos como el P0.",
+        readonly: true,
+        selection: [
+          ["unactive", "Desactivado"],
+          ["requested", "Solicitado"],
+          ["active", "Activado"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "No cesión de SIPS",
+        type: "selection",
+        views: {},
+      },
+      no_cessio_sips_data: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Fecha solicitud",
+        type: "date",
+        views: {},
+      },
+      no_penalitzar: {
+        string: "No aplicar penalización por baja anticipada",
+        type: "boolean",
+        views: {},
+      },
+      nocutoff: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscedata.polissa.nocutoff",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Suministro no cortable",
+        type: "many2one",
+        views: {},
+      },
+      notificacio: {
+        readonly: true,
+        selection: [
+          ["titular", "Titular"],
+          ["pagador", "Fiscal"],
+          ["altre_p", "Otra"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Persona notificación",
+        type: "selection",
+        views: {},
+      },
+      notificacio_email: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 240,
+        string: "Email dir. notif.",
+        type: "char",
+        views: {},
+      },
+      observacio_suspesa: {
+        size: 170,
+        string: "Observaciones f. suspendida",
+        type: "char",
+        views: {},
+      },
+      observacions: {
+        string: "Observaciones",
+        type: "text",
+        views: {},
+      },
+      ordre_carta: {
+        select: true,
+        size: 60,
+        string: "Orden carta",
+        type: "char",
+        views: {},
+      },
+      pagador: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner",
+        select: true,
+        size: 40,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Razón fiscal",
+        type: "many2one",
+        views: {},
+      },
+      pagador_email: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 240,
+        string: "Email dir. fiscal",
+        type: "char",
+        views: {},
+      },
+      pagador_nif: {
+        digits: [16, 2],
+        readonly: true,
+        string: "NIF fiscal",
+        type: "char",
+        views: {},
+      },
+      pagador_sel: {
+        readonly: true,
+        selection: [
+          ["titular", "Titular"],
+          ["altre_p", "Otro"],
+        ],
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Persona fiscal",
+        type: "selection",
+        views: {},
+      },
+      payment_mode_id: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "payment.mode",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Grupo de pago",
+        type: "many2one",
+        views: {},
+      },
+      payment_term: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "account.payment.term",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", false],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", false],
+          ],
+        },
+        string: "Plazo de pago",
+        type: "many2one",
+        views: {},
+      },
+      peatge_directe: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [["readonly", false]],
+        },
+        string: "Peaje directo",
+        type: "boolean",
+        views: {},
+      },
+      pending_amount: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Cantidad pendiente",
+        type: "float",
+        views: {},
+      },
+      pending_state: {
+        digits: [16, 2],
+        readonly: 1,
+        size: 64,
+        string: "Estado pendiente",
+        type: "char",
+        views: {},
+      },
+      percentatge_560: {
+        digits: [5, 2],
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Percentage sobre el 85%",
+        type: "float",
+        views: {},
+      },
+      persona_fisica: {
+        digits: [16, 2],
+        size: 2,
+        string: "desconocido",
+        type: "char",
+        views: {},
+      },
+      potencia: {
+        digits: [16, 3],
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Potencia contratada (kW)",
+        type: "float",
+        views: {},
+      },
+      potencies_percentatge_a_descomptar: {
+        string: "Potències percentatge a descomptar [0-100(%)]: ",
+        type: "integer",
+        views: {},
+      },
+      potencies_periode: {
+        context: "",
+        domain: [],
+        inv_field: "polissa_id",
+        readonly: true,
+        relation: "giscedata.polissa.potencia.contractada.periode",
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Potencias contratadas per periodo",
+        type: "one2many",
+        views: {
+          form: {
+            arch:
+              '<form string="Potencia">\n                                        <field name="periode_id" readonly="1"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </form>\n                                ',
+            fields: {
+              periode_id: {
+                context: "",
+                domain: [],
+                readonly: true,
+                relation: "giscedata.polissa.tarifa.periodes",
+                required: true,
+                size: 64,
+                string: "Periodo",
+                type: "many2one",
+                views: {},
+              },
+              potencia: {
+                digits: [15, 3],
+                required: true,
+                string: "Potencia contratada",
+                type: "float",
+                views: {},
+              },
+              potencia_a_facturar: {
+                digits: [15, 3],
+                string: "Potències per període a facturar",
+                type: "float",
+                views: {},
+              },
+            },
+          },
+          tree: {
+            arch:
+              '<tree string="Potencias">\n                                        <field name="periode_id"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </tree>\n                                    ',
+            fields: {
+              periode_id: {
+                context: "",
+                domain: [],
+                readonly: true,
+                relation: "giscedata.polissa.tarifa.periodes",
+                required: true,
+                size: 64,
+                string: "Periodo",
+                type: "many2one",
+                views: {},
+              },
+              potencia: {
+                digits: [15, 3],
+                required: true,
+                string: "Potencia contratada",
+                type: "float",
+                views: {},
+              },
+              potencia_a_facturar: {
+                digits: [15, 3],
+                string: "Potències per període a facturar",
+                type: "float",
+                views: {},
+              },
+            },
+          },
+        },
+      },
+      print_observations: {
+        string: "Observaciones impresas",
+        type: "text",
+        views: {},
+      },
+      process_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        readonly: true,
+        relation: "account.invoice.pending.state.process",
+        required: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Proceso de corte",
+        type: "many2one",
+        views: {},
+      },
+      property_unitat_potencia: {
+        context: "",
+        digits: [16, 2],
+        domain: "[('category_id.name', '=', 'POT ELEC')]",
+        help: "Con que unidad se quiere facturar la potencia",
+        readonly: true,
+        relation: "product.uom",
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Unidad de facturación potencia",
+        type: "many2one",
+        views: {},
+      },
+      propietari_bank: {
+        digits: [16, 2],
+        readonly: true,
+        size: 128,
+        string: "Propietario de la cuenta bancaria",
+        type: "char",
+        views: {},
+      },
+      quantitat_compensable: {
+        digits: [16, 2],
+        help:
+          "Cantidad compensable del cliente calculada a partir de los movimientos hechos a la cuenta de compensación.",
+        readonly: 1,
+        string: "Cantidad Compensable",
+        type: "float",
+        views: {},
+      },
+      quota_mensual: {
+        digits: [8, 2],
+        help:
+          "Quota mensual a facturar. Quan es tria el mode de facturacio tarifa plana s'aplica un descompte del 100% a totes les linies de energia de la factura i es recalcula el preu de la energia per facturar com a total la quota definida.",
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Quota Mensual Tarifa Plana",
+        type: "float",
+        views: {},
+      },
+      ref_dist: {
+        size: 60,
+        string: "Referencia distribuidora",
+        type: "char",
+        views: {},
+      },
+      refacturacio_pendent: {
+        string: "Refacturación Pendiente",
+        type: "boolean",
+        views: {},
+      },
+      related_attachments: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        readonly: 1,
+        relation: "ir.attachment",
+        string: "Adjuntos relacionados",
+        type: "one2many",
+        views: {},
+      },
+      renovacio_auto: {
+        string: "Renovación Automática",
+        type: "boolean",
+        views: {},
+      },
+      serveis: {
+        context: "",
+        domain: [],
+        inv_field: "polissa_id",
+        relation: "giscedata.facturacio.services",
+        string: "Servicios Contratados",
+        type: "one2many",
+        views: {},
+      },
+      state: {
+        readonly: true,
+        required: true,
+        selection: [
+          ["esborrany", "Borrador"],
+          ["validar", "Validar"],
+          ["pendent", "Pendiente"],
+          ["activa", "Activa"],
+          ["cancelada", "Cancelada"],
+          ["contracte", "Activación Contrato"],
+          ["novapolissa", "Creación nuevo contrato"],
+          ["modcontractual", "Modificación Contractual"],
+          ["impagament", "Impago"],
+          ["tall", "Corte"],
+          ["baixa", "Baja"],
+          ["facturacio", "Facturación"],
+        ],
+        string: "Estado",
+        type: "selection",
+        views: {},
+      },
+      tarifa: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscedata.polissa.tarifa",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Tarifa de acceso",
+        type: "many2one",
+        views: {},
+      },
+      tarifa_codi: {
+        digits: [16, 2],
+        string: "Código Tarifa",
+        type: "char",
+        views: {},
+      },
+      tarifa_plana_mes_natural: {
+        help:
+          "Si es marca aquesta opcio, al facturar un contracte quan es carreguen lectures del pool es crea (si no existeix) una lectura sempre a mes natural per facturar un periode estandard sempre. La lectura es crea fent una estimacio a partir de P5Ds.",
+        string: "Facturar tarifa plana a mes natural",
+        type: "boolean",
+        views: {},
+      },
+      tensio: {
+        digits: [16, 2],
+        readonly: 1,
+        string: "Tensión (v)",
+        type: "integer",
+        views: {},
+      },
+      tensio_normalitzada: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "giscedata.tensions.tensio",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Tensión normalizada",
+        type: "many2one",
+        views: {},
+      },
+      tg: {
+        help: "Telegestión operativa con o sin curva de carga (CCH)",
+        readonly: true,
+        selection: [
+          ["1", "Operativa con CCH"],
+          ["2", "No operativa"],
+          ["3", "Operativa Sin CCH"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Telegestión",
+        type: "selection",
+        views: {},
+      },
+      tipo_medida: {
+        help:
+          "Per defecte es marca com a tipus 05 i s'actualitzarà amb la càrrega de F1s.",
+        readonly: true,
+        size: 2,
+        string: "Tipus de Punt de Mesura",
+        type: "char",
+        views: {},
+      },
+      tipo_pago: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "payment.type",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Tipo de pago",
+        type: "many2one",
+        views: {},
+      },
+      tipus_vivenda: {
+        readonly: true,
+        selection: [
+          ["habitual", "Habitual"],
+          ["no_habitual", "No habitual"],
+        ],
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Tipo vivienda",
+        type: "selection",
+        views: {},
+      },
+      titular: {
+        context: "",
+        domain: [],
+        readonly: true,
+        relation: "res.partner",
+        size: 40,
+        states: {
+          esborrany: [["readonly", false]],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Titular",
+        type: "many2one",
+        views: {},
+      },
+      titular_nif: {
+        digits: [16, 2],
+        readonly: true,
+        string: "NIF titular",
+        type: "char",
+        views: {},
+      },
+      trafo: {
+        readonly: true,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [["readonly", false]],
+        },
+        string: "Trafo kVA",
+        type: "float",
+        views: {},
+      },
+      ultima_lectura_importacion: {
+        readonly: true,
+        select: true,
+        string: "Ultima lectura importación",
+        type: "date",
+        views: {},
+      },
+      user_id: {
+        context: "",
+        domain: [],
+        relation: "res.users",
+        size: 64,
+        string: "Comercial",
+        type: "many2one",
+        views: {},
+      },
+      versio_primera_factura: {
+        context: "",
+        domain: [],
+        help:
+          "Establece la versión de la lista de precios que se utilizará para la primera facturación.",
+        readonly: true,
+        relation: "product.pricelist.version",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", false],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", false],
+          ],
+        },
+        string: "Versión primera facturación",
+        type: "many2one",
+        views: {},
+      },
+      zona_carta_id: {
+        context: "",
+        domain: [],
+        relation: "giscedata.polissa.carta.zona",
+        size: 64,
+        string: "Zona carta",
+        type: "many2one",
+        views: {},
+      },
+    };
+
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="polizas">
+    <notebook colspan="6" cols="4">
+        <page string="General">
+            <separator string="CUPS" colspan="4"/>
+            <field name="cups" select="1" size="25"/>
+            <field name="cups_direccio" colspan="4" select="1"/>
+            <field name="cups_cp" invisible="1" select="2"/>
+            <field name="cups_poblacio" invisible="1" select="2"/>
+            <separator string="Datos técnicos" colspan="4"/>
+            <group col="2" colspan="2">
+                <field name="contract_type" select="2"/>
+                <group colspan="2" col="4" attrs="{'invisible':[('contract_type', '!=', '09')]}">
+        <field name="expected_consumption"/>
+        <button string="Calcular" name="473" states="esborrany,validar,modcontractual" type="action" readonly="0"/>
+    </group>
+<field name="tarifa" on_change="onchange_potencia(potencia, tarifa, context)" select="1"/>
+                <group colspan="2" col="4">
+                    <field name="potencia" select="1" on_change="onchange_potencia(potencia, tarifa, context)"/>
+                    <field name="potencies_percentatge_a_descomptar"/>
+<button name="308" type="action" string="Normalizar" context="{'power': potencia, 'tarifa_id': tarifa, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}" states="esborrany,validar,modcontractual" readonly="0"/>
+                </group>
+                <field name="tensio_normalitzada" select="2" on_change="onchange_tensio(tensio_normalitzada, tarifa, context)"/>
+                <field name="tarifa_codi" invisible="1"/>
+    <group colspan="4" attrs="{'invisible': [('tarifa_codi','in',['2.0TD'])]}">
+        <field name="lectura_en_baja" select="2"/>
+        <group colspan="2" col="2" attrs="{'invisible': [('tarifa_codi', '!=', '3.1A LB'),('lectura_en_baja','=',False)]}">
+            <field name="trafo"/>
+        </group>
+    </group>
+<field name="tensio"/>
+                <field name="tg" select="2"/>
+                <field name="condicions_generals_id" select="2"/>
+<field name="autoconsumo" select="2"/>
+                <group colspan="4">
+            <field name="consum_anual" string="Consum Anual (kWh):"/>
+            <button icon="gtk-execute" name="calcular_consum_anual" string="Calcular consum anual" type="object" colspan="2"/>
+        </group>
+    <field name="nocutoff" select="2"/><field name="peatge_directe" select="2"/>
+
+            </group>
+            <group col="2" colspan="2">
+                <field name="potencies_periode" colspan="4" nolabel="1">
+                    </field>
+                <button name="generar_periodes_potencia" states="esborrany,validar,modcontractual" string="Generar periodos" type="object" context="{'force_genpot': True}"/>
+            </group>
+            <group col="4" colspan="4" attrs="{'invisible':[('persona_fisica', '=', 'CI')]}">
+            <separator string="Otros datos" colspan="4"/>
+            </group>
+            <group col="4" colspan="2" attrs="{'invisible':[('persona_fisica', '=', 'CI')]}">
+                <field name="tipus_vivenda" select="1"/>
+                <field name="persona_fisica" invisible="1"/>
+            </group>
+        <group colspan="4">
+        <separator string="Categorías" colspan="4"/>
+        <field name="category_id" nolabel="1" select="2" height="150"/>
+    </group>
+</page>
+        <page string="Autoconsumo" attrs="{'invisible':[('autoconsum_id', '=', False)]}">
+        <separator string="Información del autoconsumo del CUPS asociado" colspan="6"/>
+        <field name="autoconsum_id" attrs="{'required':[('autoconsumo','!=','00'), ('state','in',['validar','modcontractual'])]}" on_change="onchange_autoconsum_id(autoconsum_id)"/>
+        <field name="ac_state"/>
+        <field name="is_autoconsum_collectiu"/>
+        <group attrs="{'invisible':[('is_autoconsum_collectiu','!=', True)]}" colspan="2" name="autoconsum_colectiu_group">
+            <field name="coef_repartiment" attrs="{'required':[('autoconsumo','!=','00'), ('is_autoconsum_collectiu','=',True), ('state','in',['validar','modcontractual'])]}"/>
+        </group>
+    </page>
+<page string="Facturació"><group col="4" colspan="4">
+        <separator string="Facturación de distribuidora" colspan="4"/>
+        <group colspan="2">
+            <field name="facturacio_distri"/>
+        </group>
+    </group>
+<separator string="Facturació" colspan="4"/>
+    <field name="facturacio" select="1"/>
+    <group col="2" colspan="2" string="Lote Facturación">
+        <field name="lot_facturacio" select="1"/><field name="facturacio_suspesa" colspan="2" select="2" on_change="onchange_suspesa(facturacio_suspesa)"/>
+<group colspan="2" col="2" attrs="{'invisible': [('facturacio_suspesa','=',False)]}">
+        <field name="observacio_suspesa" height="50" widget="text"/>
+    </group>
+
+    </group>
+    <group col="2" colspan="2">
+        <field name="facturacio_potencia" select="2"/>
+        <field name="mode_facturacio_generacio" select="2"/>
+<field name="mode_facturacio" select="2"/>
+<field name="property_unitat_potencia"/>
+        <field name="fiscal_position_id" select="2"/>
+<field name="cie" select="2"/>
+    <field name="percentatge_560" select="2"/>
+    <field name="article_560" select="2"/>
+    <field name="motiu_560" select="2"/>
+<field name="deposit"/>
+    </group>
+    <group string="Datos últimas lecturas facturadas" col="2" colspan="2" rowspan="1">
+        <field string="Real" name="data_ultima_lectura" select="2"/>
+        <field string="De F1" name="data_ultima_lectura_f1" select="2"/>
+<field name="ultima_lectura_importacion" select="2"/>
+<field string="Estimada" name="data_ultima_lectura_estimada"/><field name="refacturacio_pendent"/>
+
+    </group>
+    <newline/>
+    <separator string="Tarificación" colspan="4"/>
+    <field name="llista_preu" select="1" domain="[('tarifes_atr_compatibles', '=', tarifa), ('en_vigor', '=', True), ('type', '=', 'sale')]"/>
+<field name="next_pricelist_id" domain="[('tarifes_atr_compatibles', '=', tarifa), ('en_vigor', '=', True), ('type', '=', 'sale')]"/>
+<!-- Dos dominis, la llista de preus que tingui i que la data_end sigui > now() -->
+    <field name="versio_primera_factura" domain="[('pricelist_id', '=', llista_preu), '|', ('date_end', '&gt;', data_alta), ('date_end', '=', False),]"/>
+    <separator string="Pago" colspan="4"/>
+    <field name="payment_term" select="2"/>
+    <field name="tipo_pago" on_change="onchange_tipo_pago(tipo_pago, pagador, context)" invisible="1"/>
+    <field name="payment_mode_id" select="2" on_change="onchange_modo_pago(payment_mode_id, pagador, context)"/>
+    <newline/>
+<field name="bank" on_change="onchange_bank(propietari_bank, bank)" attrs="{'readonly': [('tipo_pago.code', '=', 'RECIBO_CSB')]}" domain="[('partner_id', '=', pagador)]" context="{'partner_id': pagador}"/>
+    <field name="propietari_bank" select="2"/>
+<newline/>
+    <separator string="Facturae Info" colspan="4"/>
+    <field name="facturae_filereference" size="20"/>
+<separator string="Multipunto" colspan="4"/>
+    <field name="multipunt_id" select="2"/>
+</page>
+</notebook>
+</form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {},
+    });
+    expect(true).toBeTruthy();
   });
 });
