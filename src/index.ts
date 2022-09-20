@@ -48,12 +48,12 @@ import {
   GraphIndicator,
   GraphIndicatorField,
   GraphChart,
-  GraphType,
   parseGraph,
-  Operator,
   GraphYAxis,
   GraphXAxis,
 } from "./Graph";
+
+import type { GraphType, Operator } from "./Graph";
 
 import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";

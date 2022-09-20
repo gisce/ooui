@@ -1,6 +1,7 @@
 import { GraphXAxis, GraphYAxis } from ".";
 import { Graph, GraphType } from "./Graph";
 import { parseXYAxis } from "./graphHelper";
+import { ParsedNode } from "../helpers/nodeParser";
 
 export class GraphChart extends Graph {
   _x: GraphXAxis;
@@ -12,12 +13,11 @@ export class GraphChart extends Graph {
   get y(): GraphYAxis[] {
     return this._y;
   }
-  constructor(type: GraphType, element: HTMLElement) {
+  constructor(type: GraphType, element: ParsedNode) {
     super(element);
 
     this._type = type;
-
-    const xyAxis = parseXYAxis(element.childNodes);
+    const xyAxis = parseXYAxis(element.children);
     this._x = xyAxis.x;
     this._y = xyAxis.y;
   }

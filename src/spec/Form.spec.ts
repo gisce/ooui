@@ -379,7 +379,7 @@ describe("A Form", () => {
 
   it("should properly parse a password field", () => {
     const arch =
-      '<group><field name="password" password="True" readonly="0"/></group>';
+      '<form><group><field name="password" password="True" readonly="0"/></group></form>';
     const fields = {
       password: {
         help:
@@ -399,7 +399,7 @@ describe("A Form", () => {
   });
 
   it("should properly parse a normal char field without password flag", () => {
-    const arch = '<group><field name="password" readonly="0"/></group>';
+    const arch = '<form><group><field name="password" readonly="0"/></group></form>';
     const fields = {
       password: {
         help:
@@ -1000,7 +1000,7 @@ describe("A Form", () => {
     expect(field_char!.domain!).toBe("[('bar', '=', tarifa)]");
   });
 
-  it.only("should be able to parse a notebook", () => {
+  it("should be able to parse a notebook", () => {
     const fields = {
       ac_state: {
         digits: [16, 2],

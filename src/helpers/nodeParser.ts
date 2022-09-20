@@ -1,74 +1,21 @@
 type ParsedNode = {
-  tag: string;
-  tagAttributes: any;
-  child: Element;
+  tagName: string;
+  attributes: any;
+  children: ParsedNode[];
 };
 
-const parseNodes = (
-  nodes: NodeListOf<ChildNode>,
-  fields: any
-): ParsedNode[] => {
-  const parsedNodes: ParsedNode[] = [];
-  Array.prototype.forEach.call(nodes, (child: Element) => {
-    if (child.nodeType === child.ELEMENT_NODE) {
-      let tag = child.nodeName;
+const parseBoolAttribute = (attr: any): boolean => {
+  if (
+    attr === 1 ||
+    attr === "1" ||
+    attr === true ||
+    attr === "True"
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
 
-      let tagAttributes: any = {};
-      Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
-        tagAttributes[attr.name] = attr.value;
-      });
 
-      if (tag === "field") {
-        const name = child.getAttribute("name");
-        const attrWidget = child.getAttribute("widget");
-        if (attrWidget) {
-          tag = attrWidget;
-        } else if (name) {
-          if (!fields[name]) {
-            throw new Error(`Field ${name} doesn't exist in fields defintion`);
-          }
-          tag = fields[name].type;
-        }
-
-        // We do this in order to ignore the blank domain attribute in fields and to prioritize the attributes value
-        if (
-          ((Array.isArray(fields[name!].domain) &&
-            fields[name!].domain.length === 0) ||
-            fields[name!].domain === false) &&
-          tagAttributes["domain"] &&
-          tagAttributes["domain"].length > 0
-        ) {
-          delete fields[name!].domain;
-        }
-
-        tagAttributes = {
-          ...fields[name!],
-          ...tagAttributes,
-          fieldsWidgetType: fields[name!]?.type,
-        };
-      }
-
-      parsedNodes.push({ tag, tagAttributes, child });
-    }
-  });
-  return parsedNodes;
-};
-
-const parseGenericNodes = (nodes: NodeListOf<ChildNode>): ParsedNode[] => {
-  const parsedNodes: ParsedNode[] = [];
-  Array.prototype.forEach.call(nodes, (child: Element) => {
-    if (child.nodeType === child.ELEMENT_NODE) {
-      let tag = child.nodeName;
-
-      let tagAttributes: any = {};
-      Array.prototype.forEach.call(child.attributes, (attr: Attr) => {
-        tagAttributes[attr.name] = attr.value;
-      });
-
-      parsedNodes.push({ tag, tagAttributes, child });
-    }
-  });
-  return parsedNodes;
-};
-
-export { parseNodes, parseGenericNodes };
+export { ParsedNode, parseBoolAttribute };

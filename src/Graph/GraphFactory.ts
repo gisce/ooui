@@ -1,6 +1,8 @@
 import { GraphIndicator } from "./GraphIndicator";
 import { GraphIndicatorField } from "./GraphIndicatorField";
 import { GraphChart } from "./GraphChart";
+import { ParsedNode } from "../helpers/nodeParser";
+import * as txml from 'txml';
 
 const GraphTypes: { [key: string]: any } = {
   indicator: GraphIndicator,
@@ -11,10 +13,8 @@ const GraphTypes: { [key: string]: any } = {
 };
 
 export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
-  const parser = new DOMParser();
-  const view: Document = parser.parseFromString(xml, "text/xml");
-
-  const type = view.documentElement.getAttribute("type");
+  const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "graph")[0];
+  const type = view.attributes.type;
 
   if (!type) {
     throw new Error(`${type} is not a valid graph`);
@@ -26,5 +26,5 @@ export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
     throw new Error(`${type} not found as a GraphModel`);
   }
 
-  return new graphModel(type, view.documentElement);
+  return new graphModel(type, view);
 };
