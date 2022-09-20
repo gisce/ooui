@@ -1,5 +1,6 @@
 import { Graph, GraphType } from "./Graph";
 import { parseBoolAttribute, ParsedNode } from "../helpers/nodeParser";
+import { replaceEntities } from "../helpers/attributeParser";
 
 export class GraphIndicator extends Graph {
   _color: string | null = null;
@@ -32,7 +33,13 @@ export class GraphIndicator extends Graph {
 
     this._type = type;
     this._color = element.attributes.color || null;
+    if (this._color) {
+      this._color = replaceEntities(this._color);
+    }
     this._icon = element.attributes.icon || null;
+    if (this._icon) {
+      this._icon = replaceEntities(this._icon);
+    }
     this._suffix = element.attributes.suffix || null;
     this._totalDomain = element.attributes.totalDomain || null;
     this._showPercent = parseBoolAttribute(element.attributes.showPercent);
