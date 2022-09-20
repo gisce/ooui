@@ -1,10 +1,12 @@
 import Tree from "../Tree";
 import Char from "../Char";
 
-const XML_VIEW_TREE = `<tree string="Partners">
+const XML_VIEW_TREE = `<?xml version="1.0"?>
+<tree string="Partners" colors="red:debt_amount&gt;0">
   <field name="name"/>
   <field name="title"/>
   <field name="ref"/>
+  <field name="debt_amount"/>
   <field name="city" select="2"/>
   <field name="country" select="2"/>
   <field name="lang"/>
@@ -56,6 +58,11 @@ const FIELDS = {
     type: "char",
     views: {},
   },
+  debt_amount: {
+    type: "integer",
+    string: "Debt amount",
+    views: {}
+  },
   title: {
     selection: [
       ["Corp.", "Corp."],
@@ -74,9 +81,11 @@ describe("A Tree", () => {
     tree.parse(XML_VIEW_TREE);
 
     expect(tree.fields).toBeDefined();
-    expect(tree.columns.length).toBe(6);
+    expect(tree.columns.length).toBe(7);
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.label).toBe("Name");
+    expect(tree.colors).toBeDefined();
+    expect(tree.colors).toBe("red:debt_amount>0")
   });
   it("Must throw an error if a field isn't present in field definitions", () => {
     const parseInvalidTree = () => {
