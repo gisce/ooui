@@ -68,7 +68,7 @@ const evaluateCondition = ({
 };
 
 const replaceEntities = (string: string) : string => {
-  return string.replace(/&gt;/g, ">").replace(/&lt;/g, "<");
+  return string.replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 }
 
 const parseAttributes = ({

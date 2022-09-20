@@ -2,7 +2,7 @@ import Tree from "../Tree";
 import Char from "../Char";
 
 const XML_VIEW_TREE = `<?xml version="1.0"?>
-<tree string="Partners" colors="red:debt_amount&gt;0">
+<tree string="Partners" colors="red:debt_amount&gt;0 &amp; city!=''">
   <field name="name"/>
   <field name="title"/>
   <field name="ref"/>
@@ -85,7 +85,7 @@ describe("A Tree", () => {
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.label).toBe("Name");
     expect(tree.colors).toBeDefined();
-    expect(tree.colors).toBe("red:debt_amount>0")
+    expect(tree.colors).toBe("red:debt_amount>0 & city!=''")
   });
   it("Must throw an error if a field isn't present in field definitions", () => {
     const parseInvalidTree = () => {
