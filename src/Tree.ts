@@ -1,5 +1,6 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
+import { replaceEntities } from "./helpers/attributeParser";
 import { ParsedNode, parseBoolAttribute } from "./helpers/nodeParser";
 import * as txml from 'txml';
 
@@ -56,6 +57,9 @@ class Tree {
     const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
     this._colors = view.attributes.colors || null;
+    if (this._colors) {
+      this._colors = replaceEntities(this._colors);
+    }
     this._editable = view.attributes.editable || null;
     const widgetFactory = new WidgetFactory();
     view.children.forEach((field: ParsedNode) => {

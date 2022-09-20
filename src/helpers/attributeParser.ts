@@ -67,6 +67,10 @@ const evaluateCondition = ({
   }
 };
 
+const replaceEntities = (string: string) : string => {
+  return string.replace(/&gt;/g, ">").replace(/&lt;/g, "<");
+}
+
 const parseAttributes = ({
   attrs,
   values,
@@ -81,7 +85,8 @@ const parseAttributes = ({
   const clearQuotes = rightP.replace(/\'/g, '"');
   const replaceTrue = clearQuotes.replace(/True/g, "true");
   const replaceFalse = replaceTrue.replace(/False/g, "false");
-  const parsedObject = JSON.parse(replaceFalse);
+  const replaceTags = replaceEntities(replaceFalse);
+  const parsedObject = JSON.parse(replaceTags);
   const newAttributes: any = {};
 
   for (const attrField of Object.keys(parsedObject)) {
@@ -117,4 +122,4 @@ const evaluateAttributes = ({
   return { ...tagAttributes, ...newTagAttributes, attrs: undefined };
 };
 
-export { evaluateAttributes };
+export { evaluateAttributes, replaceEntities };

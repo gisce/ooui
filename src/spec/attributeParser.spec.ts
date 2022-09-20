@@ -91,12 +91,26 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    it("should properly parse a boolean attribute with '=' operator", () => {
+    it("should properly parse a boolean attribute with '>' operator", () => {
       const tagAttributes = {
-        attrs: "{'readonly':[('force_potencia_adscrita','=',0)]}",
+        attrs: "{'readonly':[('force_potencia_adscrita','&gt;',0)]}",
       };
       const values = {
-        force_potencia_adscrita: false,
+        force_potencia_adscrita: 10,
+      };
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.readonly).toBeTruthy();
+    });
+    it("should properly parse a boolean attribute with '<' operator", () => {
+      const tagAttributes = {
+        attrs: "{'readonly':[('force_potencia_adscrita','&lt;',10)]}",
+      };
+      const values = {
+        force_potencia_adscrita: 5,
       };
       const evaluatedAttrs = evaluateAttributes({
         tagAttributes,
