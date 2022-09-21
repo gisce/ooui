@@ -1,4 +1,5 @@
 import Field from "./Field";
+import { replaceEntities } from "./helpers/attributeParser";
 
 class Button extends Field {
   /**
@@ -69,7 +70,7 @@ class Button extends Field {
 
     if (props) {
       if (props.string) {
-        this._caption = props.string;
+        this._caption = replaceEntities(props.string);
       }
 
       if (props.buttonType) {
@@ -77,7 +78,7 @@ class Button extends Field {
       }
 
       if (props.confirm) {
-        this._confirmMessage = props.confirm;
+        this._confirmMessage = replaceEntities(props.confirm);
       }
 
       if (props.special && props.special === "cancel") {

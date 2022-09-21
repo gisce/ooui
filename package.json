@@ -26,6 +26,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "html-entities": "^2.3.3",
     "moment": "^2.29.3"
   },
   "devDependencies": {
