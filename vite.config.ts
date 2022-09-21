@@ -36,7 +36,7 @@ export default defineConfig({
       fileName: (format) => `ooui.${format}.js`,
     },
     rollupOptions: {
-      external: ["moment"],
+      external: ["moment", "html-entities"],
       plugins: [rollupNodePolyFill() as any],
     },
   },
