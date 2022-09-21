@@ -1,4 +1,5 @@
 import Widget from "./Widget";
+import { replaceEntities } from "./helpers/attributeParser";
 
 class Field extends Widget {
   /**
@@ -112,11 +113,11 @@ class Field extends Widget {
       }
 
       if (props.string) {
-        this._label = props.string;
+        this._label = replaceEntities(props.string);
       }
 
       if (props.help) {
-        this._tooltip = props.help;
+        this._tooltip = replaceEntities(props.help);
       }
 
       if (

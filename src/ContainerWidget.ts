@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import Container from "./Container";
+import { replaceEntities } from "./helpers/attributeParser";
 
 class ContainerWidget extends Widget {
   /**
@@ -84,7 +85,7 @@ class ContainerWidget extends Widget {
       }
 
       if (props.string) {
-        this._label = props.string;
+        this._label = replaceEntities(props.string);
       }
     }
   }

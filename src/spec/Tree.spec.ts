@@ -109,9 +109,9 @@ describe("A Tree", () => {
         views: {},
       },
     });
-    tree.parse(`<tree string="Partners"><field name="name"/></tree>`);
+    tree.parse(`<tree string="Comunicaci&#xF3;n"><field name="name"/></tree>`);
     const treeTitle = tree.string;
-    expect(treeTitle).toBe("Partners");
+    expect(treeTitle).toBe("Comunicación");
   });
 
   it("Should parse tree string title as null if we don't pass it", () => {

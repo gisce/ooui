@@ -56,6 +56,9 @@ class Tree {
   parse(xml: string) {
     const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
+    if (this._string) {
+      this._string = replaceEntities(this._string);
+    }
     this._colors = view.attributes.colors || null;
     if (this._colors) {
       this._colors = replaceEntities(this._colors);
