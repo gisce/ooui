@@ -181,7 +181,7 @@ describe("A Tree", () => {
     expect(nameWidget.sum).toBe("Name");
   });
 
-  it.only("Must priorize widget attributes", () => { 
+  it("Must priorize widget attributes", () => {
     const tree = new Tree({
       "date": {
         "string": "Data",

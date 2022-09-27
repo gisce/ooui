@@ -2755,4 +2755,16 @@ describe("A Form", () => {
     });
     expect(true).toBeTruthy();
   });
+  it('Parse with bad data', () => {
+    const xmlViewForm = `<form string="Casos"><group>"<field name="active"/></group></form>`;
+  const fields = {
+    "active": {
+      "string": "Actiu",
+      "type": "boolean",
+      "views": {}
+    },
+  }
+  const form = new Form(fields);
+  form.parse(xmlViewForm);
+  });
 });

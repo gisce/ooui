@@ -111,7 +111,7 @@ class Form {
 
   parseNode({fields, container, values} : {fields: ParsedNode[], container: Container, values: any}) {
     const widgetFactory = new WidgetFactory();
-    fields.forEach((field) => {
+    fields.filter((f) => typeof f === 'object').forEach((field) => {
       const { tagName, attributes, children } = field;
       let widgetType = tagName;
       let tagAttributes = attributes;
