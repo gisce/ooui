@@ -57,16 +57,29 @@ class Container {
     this._readOnly = value;
   }
 
+  /**
+   * Unique key for container
+   */
+  _key?: string;
+  get key(): string | undefined {
+    return this._key;
+  }
+  set key(value: string | undefined) {
+    this._key = value;
+  }
+
   constructor(
     columns: number = 4,
     colspan: number = 6,
-    readOnly: boolean = false
+    readOnly: boolean = false,
+    key: string | undefined = undefined
   ) {
     this._columns = columns;
     this._colspan = colspan;
     this._rows = [[]];
     this._index = 0;
     this._readOnly = readOnly;
+    this._key = key;
   }
 
   /**
@@ -114,6 +127,7 @@ class Container {
         invisible: widget.invisible,
         help: widget.tooltip,
         fieldForLabel: widget.id,
+        key: widget.key + "-label",
       });
       label.type = "label";
 

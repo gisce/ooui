@@ -7,7 +7,8 @@ import { evaluateAttributes, replaceEntities } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import * as txml from 'txml';
+import * as txml from "txml";
+import Field from "./Field";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -90,14 +91,38 @@ class Form {
   }
   */
 
+  /**
+   * Unique key for container
+   */
+  _keyIdx: number = 0;
+  get keyIdx(): number {
+    return this._keyIdx;
+  }
+  set keyIdx(value: number) {
+    this._keyIdx = value;
+  }
+
+  /**
+   * List of invisible fields
+   */
+  _invisibleFields: string[] = [];
+  get invisibleFields(): string[] {
+    return this._invisibleFields;
+  }
+  set invisibleFields(value: string[]) {
+    this._invisibleFields = value;
+  }
+
   constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
-    this._container = new Container(columns);
+    this._container = new Container(columns, 6, false, "root");
   }
 
   parse(xml: string, options?: FormParseOptions) {
     const { values = {}, readOnly = false } = options || {};
-    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "form")[0];
+    const view = txml
+      .parse(xml)
+      .filter((el: ParsedNode) => el.tagName === "form")[0];
     this._string = view.attributes?.string || null;
     if (this._string) {
       this._string = replaceEntities(this._string);
@@ -106,99 +131,129 @@ class Form {
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
-    this.parseNode({fields: view.children, container: this._container, values});
+    this._invisibleFields = [];
+    this.parseNode({
+      fields: view.children,
+      container: this._container,
+      values,
+    });
   }
 
-  parseNode({fields, container, values} : {fields: ParsedNode[], container: Container, values: any}) {
+  parseNode({
+    fields,
+    container,
+    values,
+  }: {
+    fields: ParsedNode[];
+    container: Container;
+    values: any;
+  }) {
     const widgetFactory = new WidgetFactory();
-    fields.filter((f) => typeof f === 'object').forEach((field) => {
-      const { tagName, attributes, children } = field;
-      let widgetType = tagName;
-      let tagAttributes = attributes;
-      if (tagName === "field") {
-        const { name, widget} = attributes;
-        if (widget) {
-          widgetType = widget;
-        } else if (name) {
-          if (!this._fields[name]) {
-            throw new Error(`Field ${name} doesn't exist in fields defintion`);
+    fields
+      .filter((f) => typeof f === "object")
+      .forEach((field) => {
+        const { tagName, attributes, children } = field;
+        let widgetType = tagName;
+        let tagAttributes = attributes;
+        if (tagName === "field") {
+          const { name, widget } = attributes;
+          if (widget) {
+            widgetType = widget;
+          } else if (name) {
+            if (!this._fields[name]) {
+              throw new Error(
+                `Field ${name} doesn't exist in fields defintion`
+              );
+            }
+            widgetType = this._fields[name].type;
           }
-          widgetType = this._fields[name].type;
+          tagAttributes = {
+            ...this._fields[name],
+            ...attributes,
+            fieldsWidgetType: this._fields[name].type,
+          };
         }
-        tagAttributes = {
-          ...this._fields[name],
-          ...attributes,
-          fieldsWidgetType: this._fields[name].type,
-        };
-      }
-      const evaluatedTagAttributes = evaluateAttributes({
-        tagAttributes,
-        values,
-        fields: this._fields,
-      });
-      let evaluatedStateAttributes;
-
-      if (tagName === "button" && tagAttributes.states) {
-        evaluatedStateAttributes = evaluateButtonStates({
-          states: tagAttributes.states,
-          values,
-        });
-      } else {
-        evaluatedStateAttributes = evaluateStates({
-          fieldName: tagAttributes.name,
+        const evaluatedTagAttributes = evaluateAttributes({
+          tagAttributes,
           values,
           fields: this._fields,
         });
-      }
+        let evaluatedStateAttributes;
 
-      const widgetContext = parseContext({
-        context:
-        tagAttributes["context"] ||
-          this._fields[tagAttributes.name]?.["context"],
-        values,
-        fields: this._fields,
+        if (tagName === "button" && tagAttributes.states) {
+          evaluatedStateAttributes = evaluateButtonStates({
+            states: tagAttributes.states,
+            values,
+          });
+        } else {
+          evaluatedStateAttributes = evaluateStates({
+            fieldName: tagAttributes.name,
+            values,
+            fields: this._fields,
+          });
+        }
+
+        const widgetContext = parseContext({
+          context:
+            tagAttributes["context"] ||
+            this._fields[tagAttributes.name]?.["context"],
+          values,
+          fields: this._fields,
+        });
+
+        if (tagAttributes["on_change"]) {
+          this._onChangeFields[tagAttributes.name] = parseOnChange(
+            tagAttributes["on_change"]
+          );
+        }
+
+        let domain: string | undefined = undefined;
+
+        if (
+          tagAttributes["domain"] &&
+          tagAttributes["domain"] !== "" &&
+          tagAttributes["domain"] !== "[]"
+        ) {
+          domain = tagAttributes["domain"];
+        }
+
+        if (
+          this._fields[tagAttributes.name] &&
+          this._fields[tagAttributes.name].domain &&
+          this._fields[tagAttributes.name].domain !== "" &&
+          this._fields[tagAttributes.name].domain !== "[]"
+        ) {
+          domain = this._fields[tagAttributes.name].domain;
+        }
+
+        this._keyIdx = this._keyIdx + 1;
+
+        const widgetProps = {
+          ...evaluatedTagAttributes,
+          ...evaluatedStateAttributes,
+          context: widgetContext,
+          domain,
+          key: `${this._keyIdx}`,
+        };
+
+        const widget = widgetFactory.createWidget(widgetType, widgetProps);
+
+        if (widget.invisible && widget instanceof Field) {
+          this._invisibleFields.push(widgetProps.name);
+        }
+
+        if (widget instanceof ContainerWidget) {
+          this.parseNode({
+            fields: children,
+            container: widget.container,
+            values,
+          });
+        }
+
+        // If the form is set to readonly, reflect it to its children
+        widget.readOnly = widget.readOnly || this.readOnly;
+        container.addWidget(widget);
       });
-
-      if (tagAttributes["on_change"]) {
-        this._onChangeFields[tagAttributes.name] = parseOnChange(
-          tagAttributes["on_change"]
-        );
-      }
-
-      let domain: string | undefined = undefined;
-
-      if (
-        tagAttributes["domain"] &&
-        tagAttributes["domain"] !== "" &&
-        tagAttributes["domain"] !== "[]"
-      ) {
-        domain = tagAttributes["domain"];
-      }
-
-      if (
-        this._fields[tagAttributes.name] &&
-        this._fields[tagAttributes.name].domain &&
-        this._fields[tagAttributes.name].domain !== "" &&
-        this._fields[tagAttributes.name].domain !== "[]"
-      ) {
-        domain = this._fields[tagAttributes.name].domain;
-      }
-
-      const widget = widgetFactory.createWidget(widgetType, {
-        ...evaluatedTagAttributes,
-        ...evaluatedStateAttributes,
-        context: widgetContext,
-        domain,
-      });
-
-      if (widget instanceof ContainerWidget) {
-        this.parseNode({ fields: children, container: widget.container, values });
-      }
-
-      // If the form is set to readonly, reflect it to its children
-      widget.readOnly = widget.readOnly || this.readOnly;
-      container.addWidget(widget);
-    });
   }
 
   /**
