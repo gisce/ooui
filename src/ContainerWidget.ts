@@ -70,7 +70,8 @@ class ContainerWidget extends Widget {
     this._container = new Container(
       props && props.col,
       ContainerWidget._defaultColspan,
-      this.readOnly
+      this.readOnly,
+      props && props.key
     );
 
     if (props) {

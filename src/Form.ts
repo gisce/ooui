@@ -7,7 +7,7 @@ import { evaluateAttributes, replaceEntities } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
-import * as txml from 'txml';
+import * as txml from "txml";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -90,14 +90,27 @@ class Form {
   }
   */
 
+  /**
+   * Unique key for container
+   */
+  _keyIdx: number = 0;
+  get keyIdx(): number {
+    return this._keyIdx;
+  }
+  set keyIdx(value: number) {
+    this._keyIdx = value;
+  }
+
   constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
-    this._container = new Container(columns);
+    this._container = new Container(columns, 6, false, "root");
   }
 
   parse(xml: string, options?: FormParseOptions) {
     const { values = {}, readOnly = false } = options || {};
-    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "form")[0];
+    const view = txml
+      .parse(xml)
+      .filter((el: ParsedNode) => el.tagName === "form")[0];
     this._string = view.attributes?.string || null;
     if (this._string) {
       this._string = replaceEntities(this._string);
@@ -106,17 +119,30 @@ class Form {
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
-    this.parseNode({fields: view.children, container: this._container, values});
+    this.parseNode({
+      fields: view.children,
+      container: this._container,
+      values,
+    });
   }
 
-  parseNode({fields, container, values} : {fields: ParsedNode[], container: Container, values: any}) {
+  parseNode({
+    fields,
+    container,
+    values,
+  }: {
+    fields: ParsedNode[];
+    container: Container;
+    values: any;
+  }) {
     const widgetFactory = new WidgetFactory();
+
     fields.forEach((field) => {
       const { tagName, attributes, children } = field;
       let widgetType = tagName;
       let tagAttributes = attributes;
       if (tagName === "field") {
-        const { name, widget} = attributes;
+        const { name, widget } = attributes;
         if (widget) {
           widgetType = widget;
         } else if (name) {
@@ -153,7 +179,7 @@ class Form {
 
       const widgetContext = parseContext({
         context:
-        tagAttributes["context"] ||
+          tagAttributes["context"] ||
           this._fields[tagAttributes.name]?.["context"],
         values,
         fields: this._fields,
@@ -184,15 +210,22 @@ class Form {
         domain = this._fields[tagAttributes.name].domain;
       }
 
+      this._keyIdx = this._keyIdx + 1;
+
       const widget = widgetFactory.createWidget(widgetType, {
         ...evaluatedTagAttributes,
         ...evaluatedStateAttributes,
         context: widgetContext,
         domain,
+        key: `${this._keyIdx}`,
       });
 
       if (widget instanceof ContainerWidget) {
-        this.parseNode({ fields: children, container: widget.container, values });
+        this.parseNode({
+          fields: children,
+          container: widget.container,
+          values,
+        });
       }
 
       // If the form is set to readonly, reflect it to its children
