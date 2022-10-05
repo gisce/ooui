@@ -8,6 +8,7 @@ import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
 import * as txml from "txml";
+import Field from "./Field";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -101,6 +102,17 @@ class Form {
     this._keyIdx = value;
   }
 
+  /**
+   * List of invisible fields
+   */
+  _invisibleFields: string[] = [];
+  get invisibleFields(): string[] {
+    return this._invisibleFields;
+  }
+  set invisibleFields(value: string[]) {
+    this._invisibleFields = value;
+  }
+
   constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
     this._container = new Container(columns, 6, false, "root");
@@ -119,6 +131,7 @@ class Form {
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
       : {};
+    this._invisibleFields = [];
     this.parseNode({
       fields: view.children,
       container: this._container,
@@ -215,13 +228,19 @@ class Form {
 
         this._keyIdx = this._keyIdx + 1;
 
-        const widget = widgetFactory.createWidget(widgetType, {
+        const widgetProps = {
           ...evaluatedTagAttributes,
           ...evaluatedStateAttributes,
           context: widgetContext,
           domain,
           key: `${this._keyIdx}`,
-        });
+        };
+
+        const widget = widgetFactory.createWidget(widgetType, widgetProps);
+
+        if (widget.invisible && widget instanceof Field) {
+          this._invisibleFields.push(widgetProps.name);
+        }
 
         if (widget instanceof ContainerWidget) {
           this.parseNode({
