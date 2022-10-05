@@ -1,4 +1,5 @@
 import Field from "./Field";
+import { replaceEntities } from "./helpers/attributeParser";
 
 /**
  * Multiline input with no length limit.
@@ -50,7 +51,7 @@ class Text extends Field {
 
     if (props) {
       if (props.placeholder) {
-        this._placeholder = props.placeholder;
+        this._placeholder = replaceEntities(props.placeholder);
       }
 
       if (!props.colspan) {

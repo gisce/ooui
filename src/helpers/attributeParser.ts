@@ -1,3 +1,5 @@
+import { decode } from 'html-entities';
+
 const evaluateCondition = ({
   entry,
   values,
@@ -68,7 +70,7 @@ const evaluateCondition = ({
 };
 
 const replaceEntities = (string: string) : string => {
-  return string.replace(/&gt;/g, ">").replace(/&lt;/g, "<");
+  return decode(string, {level: 'xml'});
 }
 
 const parseAttributes = ({

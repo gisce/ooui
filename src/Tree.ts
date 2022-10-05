@@ -56,6 +56,9 @@ class Tree {
   parse(xml: string) {
     const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
+    if (this._string) {
+      this._string = replaceEntities(this._string);
+    }
     this._colors = view.attributes.colors || null;
     if (this._colors) {
       this._colors = replaceEntities(this._colors);
@@ -67,15 +70,13 @@ class Tree {
       let widgetType = null;
       if (tagName === "field") {
         const { name, widget} = attributes;
-        if (widget) {
-          widgetType = widget;
-        } else if (name) {
+        let mergedAttrs = attributes
+        if (name) {
           if (!this._fields[name]) {
             throw new Error(`Field ${name} doesn't exist in fields defintion`);
           }
           const fieldDef = this._fields[name];
           widgetType = fieldDef.type;
-          const invisible = parseBoolAttribute(attributes.invisible || fieldDef?.invisible);
           if (
             ((Array.isArray(fieldDef?.domain) &&
               fieldDef?.domain.length === 0) ||
@@ -85,15 +86,18 @@ class Tree {
           ) {
             delete fieldDef.domain;
           }
-          const mergedAttrs = {
+          mergedAttrs = {
             ...fieldDef,
             ...attributes,
             fieldsWidgetType: fieldDef?.type,
           };
-          if (!invisible) {
-            const widget = widgetFactory.createWidget(widgetType, mergedAttrs);
-            this._columns.push(widget);
-          }
+        }
+        if (widget) {
+          widgetType = widget;
+        }
+        if (!mergedAttrs.invisible) {
+          const widget = widgetFactory.createWidget(widgetType, mergedAttrs);
+          this._columns.push(widget);
         }
       }
     })

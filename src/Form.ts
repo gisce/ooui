@@ -3,7 +3,7 @@ import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 import { ParsedNode } from "./helpers/nodeParser";
-import { evaluateAttributes } from "./helpers/attributeParser";
+import { evaluateAttributes, replaceEntities } from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
@@ -99,6 +99,9 @@ class Form {
     const { values = {}, readOnly = false } = options || {};
     const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "form")[0];
     this._string = view.attributes?.string || null;
+    if (this._string) {
+      this._string = replaceEntities(this._string);
+    }
     this._readOnly = readOnly;
     this._context = values["id"]
       ? { active_id: values["id"], active_ids: [values["id"]] }
@@ -108,7 +111,7 @@ class Form {
 
   parseNode({fields, container, values} : {fields: ParsedNode[], container: Container, values: any}) {
     const widgetFactory = new WidgetFactory();
-    fields.forEach((field) => {
+    fields.filter((f) => typeof f === 'object').forEach((field) => {
       const { tagName, attributes, children } = field;
       let widgetType = tagName;
       let tagAttributes = attributes;

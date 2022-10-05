@@ -1,4 +1,5 @@
 import Widget from "./Widget";
+import { replaceEntities } from "./helpers/attributeParser";
 
 class Separator extends Widget {
   /**
@@ -17,7 +18,7 @@ class Separator extends Widget {
 
     if (props) {
       if (props.string) {
-        this._label = props.string;
+        this._label = replaceEntities(props.string);
       }
     }
   }
