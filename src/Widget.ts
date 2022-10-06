@@ -76,6 +76,17 @@ abstract class Widget {
     this._domain = value;
   }
 
+  /**
+   * Unique key for widget
+   */
+  _key?: string;
+  get key(): string | undefined {
+    return this._key;
+  }
+  set key(value: string | undefined) {
+    this._key = value;
+  }
+
   _parsedWidgetProps: any = {};
   get parsedWidgetProps(): any {
     return this._parsedWidgetProps;
@@ -121,13 +132,17 @@ abstract class Widget {
         this._domain = props.domain;
       }
       if (props.widget_props) {
-
-      try {
-        this._parsedWidgetProps = JSON.parse(props.widget_props.replace(/'/g, '"'));
-      } catch(err) {
-        throw new Error('Error parsing widget_props');
+        try {
+          this._parsedWidgetProps = JSON.parse(
+            props.widget_props.replace(/'/g, '"')
+          );
+        } catch (err) {
+          throw new Error("Error parsing widget_props");
+        }
       }
-    }
+      if (props.key) {
+        this._key = props.key;
+      }
     }
   }
 

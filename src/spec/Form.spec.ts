@@ -187,8 +187,7 @@ const FIELDS = {
     views: {},
   },
   type: {
-    help:
-      "Used to select automatically the right address according to the context in sales and purchases documents.",
+    help: "Used to select automatically the right address according to the context in sales and purchases documents.",
     selection: [
       ["default", "Default"],
       ["invoice", "Invoice"],
@@ -382,8 +381,7 @@ describe("A Form", () => {
       '<form><group><field name="password" password="True" readonly="0"/></group></form>';
     const fields = {
       password: {
-        help:
-          "Keep empty if you don't want the user to be able to connect on the system.",
+        help: "Keep empty if you don't want the user to be able to connect on the system.",
         invisible: true,
         size: 64,
         string: "Password",
@@ -399,11 +397,11 @@ describe("A Form", () => {
   });
 
   it("should properly parse a normal char field without password flag", () => {
-    const arch = '<form><group><field name="password" readonly="0"/></group></form>';
+    const arch =
+      '<form><group><field name="password" readonly="0"/></group></form>';
     const fields = {
       password: {
-        help:
-          "Keep empty if you don't want the user to be able to connect on the system.",
+        help: "Keep empty if you don't want the user to be able to connect on the system.",
         invisible: true,
         size: 64,
         string: "Password",
@@ -1649,8 +1647,7 @@ describe("A Form", () => {
         views: {},
       },
       expected_consumption: {
-        help:
-          "Este campo calcula el consumo total pactado para contratos eventuales sin contador",
+        help: "Este campo calcula el consumo total pactado para contratos eventuales sin contador",
         readonly: true,
         string: "Consumo pactado",
         type: "float",
@@ -1935,8 +1932,7 @@ describe("A Form", () => {
         views: {},
       },
       no_cessio_sips: {
-        help:
-          "Nota: si el campo está activo significa que el cliente ha firmado la no cesión de los datos personales por motivos de privacidad en todos los contratos acogidos. Esta condición aplica a los SIPS u otros procesos como el P0.",
+        help: "Nota: si el campo está activo significa que el cliente ha firmado la no cesión de los datos personales por motivos de privacidad en todos los contratos acogidos. Esta condición aplica a los SIPS u otros procesos como el P0.",
         readonly: true,
         selection: [
           ["unactive", "Desactivado"],
@@ -2218,8 +2214,7 @@ describe("A Form", () => {
         type: "one2many",
         views: {
           form: {
-            arch:
-              '<form string="Potencia">\n                                        <field name="periode_id" readonly="1"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </form>\n                                ',
+            arch: '<form string="Potencia">\n                                        <field name="periode_id" readonly="1"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </form>\n                                ',
             fields: {
               periode_id: {
                 context: "",
@@ -2248,8 +2243,7 @@ describe("A Form", () => {
             },
           },
           tree: {
-            arch:
-              '<tree string="Potencias">\n                                        <field name="periode_id"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </tree>\n                                    ',
+            arch: '<tree string="Potencias">\n                                        <field name="periode_id"/>\n                                        <field name="potencia"/><field name="potencia_a_facturar"/>\n                \n                                    </tree>\n                                    ',
             fields: {
               periode_id: {
                 context: "",
@@ -2332,8 +2326,7 @@ describe("A Form", () => {
       },
       quantitat_compensable: {
         digits: [16, 2],
-        help:
-          "Cantidad compensable del cliente calculada a partir de los movimientos hechos a la cuenta de compensación.",
+        help: "Cantidad compensable del cliente calculada a partir de los movimientos hechos a la cuenta de compensación.",
         readonly: 1,
         string: "Cantidad Compensable",
         type: "float",
@@ -2341,8 +2334,7 @@ describe("A Form", () => {
       },
       quota_mensual: {
         digits: [8, 2],
-        help:
-          "Quota mensual a facturar. Quan es tria el mode de facturacio tarifa plana s'aplica un descompte del 100% a totes les linies de energia de la factura i es recalcula el preu de la energia per facturar com a total la quota definida.",
+        help: "Quota mensual a facturar. Quan es tria el mode de facturacio tarifa plana s'aplica un descompte del 100% a totes les linies de energia de la factura i es recalcula el preu de la energia per facturar com a total la quota definida.",
         readonly: true,
         states: {
           esborrany: [["readonly", false]],
@@ -2443,8 +2435,7 @@ describe("A Form", () => {
         views: {},
       },
       tarifa_plana_mes_natural: {
-        help:
-          "Si es marca aquesta opcio, al facturar un contracte quan es carreguen lectures del pool es crea (si no existeix) una lectura sempre a mes natural per facturar un periode estandard sempre. La lectura es crea fent una estimacio a partir de P5Ds.",
+        help: "Si es marca aquesta opcio, al facturar un contracte quan es carreguen lectures del pool es crea (si no existeix) una lectura sempre a mes natural per facturar un periode estandard sempre. La lectura es crea fent una estimacio a partir de P5Ds.",
         string: "Facturar tarifa plana a mes natural",
         type: "boolean",
         views: {},
@@ -2495,8 +2486,7 @@ describe("A Form", () => {
         views: {},
       },
       tipo_medida: {
-        help:
-          "Per defecte es marca com a tipus 05 i s'actualitzarà amb la càrrega de F1s.",
+        help: "Per defecte es marca com a tipus 05 i s'actualitzarà amb la càrrega de F1s.",
         readonly: true,
         size: 2,
         string: "Tipus de Punt de Mesura",
@@ -2596,8 +2586,7 @@ describe("A Form", () => {
       versio_primera_factura: {
         context: "",
         domain: [],
-        help:
-          "Establece la versión de la lista de precios que se utilizará para la primera facturación.",
+        help: "Establece la versión de la lista de precios que se utilizará para la primera facturación.",
         readonly: true,
         relation: "product.pricelist.version",
         size: 64,
@@ -2755,16 +2744,36 @@ describe("A Form", () => {
     });
     expect(true).toBeTruthy();
   });
-  it('Parse with bad data', () => {
+  it("Parse with bad data", () => {
     const xmlViewForm = `<form string="Casos"><group>"<field name="active"/></group></form>`;
-  const fields = {
-    "active": {
-      "string": "Actiu",
-      "type": "boolean",
-      "views": {}
-    },
-  }
-  const form = new Form(fields);
-  form.parse(xmlViewForm);
+    const fields = {
+      active: {
+        string: "Actiu",
+        type: "boolean",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+  });
+  it.only("should be able to get a list of evaluated invisible fields after a parse", () => {
+    const fields = {
+      char1: { size: 128, string: "Name", type: "char", views: {} },
+      char2: { size: 128, string: "Name", type: "char", views: {} },
+      char3: { size: 128, string: "Name", type: "char", views: {} },
+      char4: { size: 128, string: "Name", type: "char", views: {} },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+    <field name="char1" invisible="1"/>
+    <field name="char2"/>
+    <field name="char3" invisible="1"/>
+    <field name="char4"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm);
+    expect(form.invisibleFields.length).toBe(2);
+    expect(form.invisibleFields[0]).toBe("char1");
+    expect(form.invisibleFields[1]).toBe("char3");
   });
 });
