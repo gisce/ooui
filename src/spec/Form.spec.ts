@@ -209,25 +209,6 @@ const FIELDS = {
   },
 };
 
-/*
-function printRow(row, tab) {
-  console.log("-".repeat(80));
-  row.forEach((el) => {
-    const container = el.container || false;
-    const prefix = " ".repeat(tab);
-    if (container) {
-      console.log(prefix, el.type, el.container.columns);
-      tab = tab + 4;
-      container.rows.forEach((row) => {
-        printRow(row, tab);
-      });
-    } else {
-      console.log(prefix, el);
-    }
-  });
-}
-*/
-
 describe("A Form", () => {
   it("should parse xml", () => {
     const form = new Form(FIELDS);
@@ -2756,7 +2737,7 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(xmlViewForm);
   });
-  it.only("should be able to get a list of evaluated invisible fields after a parse", () => {
+  it("should be able to get a list of evaluated invisible fields after a parse", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
       char2: { size: 128, string: "Name", type: "char", views: {} },
@@ -2775,5 +2756,247 @@ describe("A Form", () => {
     expect(form.invisibleFields.length).toBe(2);
     expect(form.invisibleFields[0]).toBe("char1");
     expect(form.invisibleFields[1]).toBe("char3");
+  });
+
+  it("should be able to show fields when we have a state which is a selection and invisible fields based on this field", () => {
+    const fields = {
+      buscar_per: {
+        selection: [
+          ["data", "Fecha"],
+          ["lot", "Lote"],
+          ["llistat_ids", "Identificadores"],
+          ["active_ids", "Filtro actual"],
+        ],
+        string: "Filtrar facturas por",
+        type: "selection",
+        views: {},
+      },
+      data_final: {
+        string: "Fecha final",
+        type: "date",
+        views: {},
+      },
+      data_inici: {
+        string: "Fecha inicio",
+        type: "date",
+        views: {},
+      },
+      diari_factures: {
+        selection: [
+          [16, "Facturas Energía"],
+          [17, "Facturas Energía (Abono)"],
+          [18, "Facturas Energía (B)"],
+          [19, "Facturas Energía (BRA)"],
+          [20, "Facturas Energía (Rectificadoras)"],
+          [36, "Facturas contratación"],
+          [46, "ENERGIA.DESVIO"],
+          ["all", "Todos"],
+        ],
+        string: "Diario",
+        type: "selection",
+        views: {},
+      },
+      download_url: {
+        size: 1000,
+        string: "Descarga",
+        type: "char",
+        views: {},
+      },
+      end_invoice_number: {
+        size: 128,
+        string: "Factura final",
+        type: "char",
+        views: {},
+      },
+      estat_factures: {
+        selection: [
+          ["draft", "Borrador"],
+          ["open", "Abiertas"],
+          ["paid", "Realitzadas"],
+          ["cancel", "Canceladas"],
+          ["all", "Todas"],
+        ],
+        string: "Estado",
+        type: "selection",
+        views: {},
+      },
+      factures_per_pdf: {
+        help: "Número máximo de facturas para cada PDF. Para evitar PDFs con muchas páginas.",
+        string: "Número facturas por PDF",
+        type: "integer",
+        views: {},
+      },
+      factures_per_proces: {
+        help: "Número de facturas que se imprimen en un proceso en paralelo. 1 valor por defecto y recomendado.",
+        string: "Número facturas por grupo (1 valor recomendado)",
+        type: "integer",
+        views: {},
+      },
+      fitxer: {
+        string: "Facturas generadas",
+        type: "binary",
+        views: {},
+      },
+      force: {
+        help: "Imprimir también configurados por enviamiento mail",
+        string: "Forzar impresión",
+        type: "boolean",
+        views: {},
+      },
+      forzar_numero_pagines: {
+        help: "Añade las páginas en blanco necesarias a cada grupo de impresión para tener el total de páginas indicado. ",
+        string:
+          "Forzar total de páginas por grupo (0 no añade páginas en blanco)",
+        type: "integer",
+        views: {},
+      },
+      info: {
+        string: "Información",
+        type: "text",
+        views: {},
+      },
+      llistat_ids: {
+        string: "Identificador de facturas",
+        type: "text",
+        views: {},
+      },
+      lot: {
+        selection: [
+          [39, "02/2023"],
+          [38, "01/2023"],
+          [36, "12/2022"],
+          [35, "11/2022"],
+          [34, "10/2022"],
+          [33, "09/2022"],
+          [32, "08/2022"],
+          [31, "07/2022"],
+          [30, "06/2022"],
+          [29, "05/2022"],
+          [28, "04/2022"],
+          [27, "03/2022"],
+          [26, "02/2022"],
+          [25, "01/2022"],
+          [24, "12/2021"],
+          [23, "11/2021"],
+          [22, "10/2021"],
+          [21, "09/2021"],
+          [20, "08/2021"],
+          [19, "07/2021"],
+          [18, "06/2021"],
+          [17, "05/2021"],
+          [16, "04/2021"],
+          [15, "03/2021"],
+          [14, "02/2021"],
+          [13, "01/2021"],
+          [12, "12/2020"],
+          [11, "11/2020"],
+          [10, "10/2020"],
+          [9, "09/2020"],
+        ],
+        string: "Lote",
+        type: "selection",
+        views: {},
+      },
+      n_factures: {
+        string: "Facturas a imprimir",
+        type: "integer",
+        views: {},
+      },
+      name: {
+        size: 300,
+        string: "Nombre",
+        type: "char",
+        views: {},
+      },
+      pagines_per_factura: {
+        help: "Comprueba que cada factura tenga el número de páginas indicado. La comprovación se hace antes de añadir páginas en blanco. 0 para ignorar la validación.",
+        string: "Válidar número de páginas por factura (0 no válida)",
+        type: "integer",
+        views: {},
+      },
+      progress: {
+        string: "Progreso general",
+        type: "float",
+        views: {},
+      },
+      report: {
+        context: "",
+        domain: [["model", "=", "giscedata.facturacio.factura"]],
+        relation: "ir.actions.report.xml",
+        size: 64,
+        string: "Informe",
+        type: "many2one",
+        views: {},
+      },
+      start_invoice_number: {
+        size: 128,
+        string: "Factura inicial",
+        type: "char",
+        views: {},
+      },
+      state: {
+        selection: [
+          ["zona", "zona"],
+          ["resum", "resumen"],
+          ["working", "Trabajando"],
+          ["fitxer", "Fichero"],
+        ],
+        string: "Estado",
+        type: "selection",
+        views: {},
+      },
+      zona: {
+        required: true,
+        selection: [
+          ["select", "Seleccionar"],
+          ["all", "Todas"],
+          ["sz", "Sin zona"],
+        ],
+        string: "Zona",
+        type: "selection",
+        views: {},
+      },
+      "zona_SIN ZONA": {
+        string: "SIN ZONA",
+        type: "boolean",
+      },
+      zone_progress: {
+        string: "Progreso zona",
+        type: "float",
+        views: {},
+      },
+    };
+
+    const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Imprimir facturas por zona y orden"> <field name="state" invisible="1"/> <separator colspan="4" string="Imprimir facturas con"/> <group colspan="4" col="4" attrs="{'readonly': [('state', '=', 'resum')]}"> <field name="estat_factures"/> <field name="diari_factures"/> </group> <separator colspan="4"/> <group colspan="4" col="4" attrs="{'invisible': [('state', '!=', 'zona')]}"> <notebook> <page string="General"> <group colspan="4"> <field name="buscar_per" colspan="4"/> </group> <group col="2" colspan="4" attrs="{'invisible':[('buscar_per', '!=', 'lot')]}"> <field name="lot" attrs="{'required':[('buscar_per', '=', 'lot')]}"/> </group> <group colspan="4" col="4" attrs="{'invisible': [('buscar_per', 'not in', ('data','lot'))]}"> <field name="data_inici" attrs="{'required':[('buscar_per', '=', 'data')]}"/> <field name="data_final" attrs="{'required':[('buscar_per', '=', 'data')]}"/> </group> <group colspan="2" col="4" attrs="{'invisible': [('buscar_per', '!=', 'data')]}"> <field name="start_invoice_number"/> <field name="end_invoice_number"/> </group> <group colspan="4" col="2" attrs="{'invisible': [('buscar_per', '!=', 'llistat_ids')]}"> <separator string="Listado de ids de facturas (separados por comas)" colspan="2"/> <field name="llistat_ids" attrs="{'required':[('buscar_per', '=', 'llistat_ids')]}" nolabel="1" colspan="2"/> </group> <field name="zona" colspan="4"/> <group name="select_zones" colspan="4" col="8" string="Seleccionar" attrs="{'invisible': [('zona', '!=', 'select')]}"> <field name="zona_SIN ZONA"/></group> </page> <page string="Avanzado"> <field name="report" required="1" colspan="4"/> <field name="factures_per_pdf" colspan="4"/> <field name="factures_per_proces" colspan="4"/> <field name="pagines_per_factura" colspan="4"/> <field name="forzar_numero_pagines" colspan="4"/> </page> </notebook> <separator colspan="4"/> <field name="force"/> <newline/> <button icon="gtk-go-forward" name="get_invoices" string="Continuar" type="object"/> <group colspan="4" col="2"> <label string="" colspan="4"/> <label string="" colspan="4"/> </group> </group> <group colspan="4" col="4" attrs="{'invisible': [('state', '!=', 'resum')]}"> <field name="n_factures" readonly="True"/> <newline/> <separator colspan="4"/> <newline/> <group attrs="{'invisible': [('n_factures', '=', 0)]}"> <button icon="gtk-go-back" name="go_start" string="Atr&#225;s" type="object"/> <button icon="gtk-go-forward" name="print_invoices" string="Continuar" type="object"/> </group> <group attrs="{'invisible': [('n_factures', '!=', 0)]}"> <button icon="gtk-go-back" name="go_start" string="Atr&#225;s" type="object"/> <button icon="gtk-cancel" special="cancel" string="Cancelar" type="object"/> </group> </group> <group colspan="4" col="4" attrs="{'invisible': [('state', '!=', 'working')]}"> <field name="progress" widget="progressbar" colspan="4"/> <field name="zone_progress" widget="progressbar" colspan="4"/> <button type="object" name="read" string="Actualizar" icon="gtk-refresh"/> </group> <group colspan="4" col="4" attrs="{'invisible': [('state', '!=', 'fitxer')]}"> <group colspan="4" col="4" attrs="{'invisible': [('download_url', '!=', False)]}"> <field name="name" invisible="1"/> <field name="fitxer" editable="False" readonly="true"/> </group> <group colspan="4" col="4" attrs="{'invisible': [('download_url', '=', False)]}"> <field name="download_url" colspan="4" widget="url"/> </group> </group> <group colspan="4" col="4" attrs="{'invisible': [('state', '!=', 'fitxer')]}"> <field name="info" readonly="true" height="150"/> </group> </form>`;
+
+    const values = {
+      diari_factures: "all",
+      estat_factures: ["all", "Totes"],
+      factures_per_pdf: 1000,
+      factures_per_proces: 1,
+      n_factures: 0,
+      report: 1030,
+      state: ["zona", "zona"],
+      zona: "select",
+    };
+    const form = new Form(fields);
+    form.parse(xmlViewForm, { values });
+  });
+  it("Should be able to parse attributes with required and != False", () => {
+    const arch =
+      "<form><field name='consum_recarrec_prod' attrs=\"{'required':[('consum_recarrec_perc','!=',False)]}\"/></form>";
+    const fields = {
+      consum_recarrec_prod: {
+        type: "integer",
+      },
+      consum_recarrec_perc: {
+        type: "float",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, { values: { consum_recarrec_perc: 0 } });
+    const field1 = form.findById("consum_recarrec_prod") as Field;
+    expect(field1.required).toBeFalsy();
   });
 });
