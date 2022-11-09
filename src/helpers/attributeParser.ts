@@ -1,4 +1,4 @@
-import { decode } from 'html-entities';
+import { decode } from "html-entities";
 
 const evaluateCondition = ({
   entry,
@@ -25,12 +25,28 @@ const evaluateCondition = ({
 
   let filteredExpectedValue = expectedValue;
 
+  let value =
+    fields[fieldName].type === "boolean"
+      ? !!values[fieldName]
+      : values[fieldName];
+
   if (
     fields[fieldName].type === "many2one" &&
     expectedValue === false &&
     values[fieldName] === undefined
   ) {
     filteredExpectedValue = undefined;
+  } else {
+    value = value === undefined ? false : value;
+    value = value === null ? false : value;
+  }
+
+  if (
+    fields[fieldName].type === "many2one" &&
+    Array.isArray(value) &&
+    value[0] === undefined
+  ) {
+    value = false;
   }
 
   if (
@@ -40,18 +56,13 @@ const evaluateCondition = ({
     filteredExpectedValue = expectedValue === 0 ? false : true;
   }
 
-  const value =
-    fields[fieldName].type === "boolean"
-      ? !!values[fieldName]
-      : values[fieldName];
-
   switch (operator.toLowerCase()) {
     case "=":
     case "==":
-      return value === filteredExpectedValue;
+      return value == filteredExpectedValue;
     case "<>":
     case "!=":
-      return value !== filteredExpectedValue;
+      return value != filteredExpectedValue;
     case ">":
       return value > filteredExpectedValue;
     case ">=":
@@ -69,9 +80,9 @@ const evaluateCondition = ({
   }
 };
 
-const replaceEntities = (string: string) : string => {
-  return decode(string, {level: 'xml'});
-}
+const replaceEntities = (string: string): string => {
+  return decode(string, { level: "xml" });
+};
 
 const parseAttributes = ({
   attrs,
