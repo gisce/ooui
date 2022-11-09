@@ -1,4 +1,4 @@
-import { decode } from "html-entities";
+import { decode } from 'html-entities';
 
 const evaluateCondition = ({
   entry,
@@ -45,13 +45,6 @@ const evaluateCondition = ({
       ? !!values[fieldName]
       : values[fieldName];
 
-  if (
-    typeof value === "number" &&
-    typeof filteredExpectedValue === "boolean"
-  ) {
-    return false;
-  }
-
   switch (operator.toLowerCase()) {
     case "=":
     case "==":
@@ -76,9 +69,9 @@ const evaluateCondition = ({
   }
 };
 
-const replaceEntities = (string: string): string => {
-  return decode(string, { level: "xml" });
-};
+const replaceEntities = (string: string) : string => {
+  return decode(string, {level: 'xml'});
+}
 
 const parseAttributes = ({
   attrs,
