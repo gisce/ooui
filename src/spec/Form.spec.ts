@@ -2983,20 +2983,92 @@ describe("A Form", () => {
     const form = new Form(fields);
     form.parse(xmlViewForm, { values });
   });
-  it("Should be able to parse attributes with required and != False", () => {
-    const arch =
-      "<form><field name='consum_recarrec_prod' attrs=\"{'required':[('consum_recarrec_perc','!=',False)]}\"/></form>";
+  it("Should be able to parse attributes with required and != False (1)", () => {
+    const arch = `<form>
+      <field name="consum_recarrec_perc" attrs="{'required':[('consum_recarrec_prod','!=',False)]}"/>
+      <field name="consum_recarrec_prod" attrs="{'required':[('consum_recarrec_perc','!=',False)]}"/>
+      </form>`;
     const fields = {
       consum_recarrec_prod: {
-        type: "integer",
+        type: "many2one",
       },
       consum_recarrec_perc: {
         type: "float",
       },
     };
     const form = new Form(fields);
-    form.parse(arch, { values: { consum_recarrec_perc: 0 } });
-    const field1 = form.findById("consum_recarrec_prod") as Field;
+    form.parse(arch, {
+      values: { consum_recarrec_prod: undefined, consum_recarrec_perc: 0 },
+    });
+    const field1 = form.findById("consum_recarrec_perc") as Field;
     expect(field1.required).toBeFalsy();
+    const field2 = form.findById("consum_recarrec_prod") as Field;
+    expect(field2.required).toBeFalsy();
+  });
+  it("Should be able to parse attributes with required and != False (2)", () => {
+    const arch = `<form>
+        <field name="consum_recarrec_perc" attrs="{'required':[('consum_recarrec_prod','!=',False)]}"/>
+        <field name="consum_recarrec_prod" attrs="{'required':[('consum_recarrec_perc','!=',False)]}"/>
+        </form>`;
+    const fields = {
+      consum_recarrec_prod: {
+        type: "many2one",
+      },
+      consum_recarrec_perc: {
+        type: "float",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: { consum_recarrec_prod: [1, "Test"], consum_recarrec_perc: 0 },
+    });
+    const field3 = form.findById("consum_recarrec_perc") as Field;
+    expect(field3.required).toBeTruthy();
+    const field4 = form.findById("consum_recarrec_prod") as Field;
+    expect(field4.required).toBeFalsy();
+  });
+  it("Should be able to parse attributes with required and != False (3)", () => {
+    const arch = `<form>
+        <field name="consum_recarrec_perc" attrs="{'required':[('consum_recarrec_prod','!=',False)]}"/>
+        <field name="consum_recarrec_prod" attrs="{'required':[('consum_recarrec_perc','!=',False)]}"/>
+        </form>`;
+    const fields = {
+      consum_recarrec_prod: {
+        type: "many2one",
+      },
+      consum_recarrec_perc: {
+        type: "float",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: { consum_recarrec_prod: [1, "Test"], consum_recarrec_perc: null },
+    });
+    const field3 = form.findById("consum_recarrec_perc") as Field;
+    expect(field3.required).toBeTruthy();
+    const field4 = form.findById("consum_recarrec_prod") as Field;
+    expect(field4.required).toBeFalsy();
+  });
+  it("Should be able to parse attributes with required and != False (4)", () => {
+    const arch = `<form>
+        <field name="consum_recarrec_perc" attrs="{'required':[('consum_recarrec_prod','!=',False)]}"/>
+        <field name="consum_recarrec_prod" attrs="{'required':[('consum_recarrec_perc','!=',False)]}"/>
+        </form>`;
+    const fields = {
+      consum_recarrec_prod: {
+        type: "many2one",
+      },
+      consum_recarrec_perc: {
+        type: "float",
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: { consum_recarrec_prod: [undefined, ""], consum_recarrec_perc: 0 },
+    });
+    const field3 = form.findById("consum_recarrec_perc") as Field;
+    expect(field3.required).toBeFalsy();
+    const field4 = form.findById("consum_recarrec_prod") as Field;
+    expect(field4.required).toBeFalsy();
   });
 });
