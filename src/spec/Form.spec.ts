@@ -3074,7 +3074,7 @@ describe("A Form", () => {
     const field4 = form.findById("consum_recarrec_prod") as Field;
     expect(field4.required).toBeFalsy();
   });
-  it.only("Should be able to parse readonly attributes mixed with state", () => {
+  it("Should be able to parse readonly attributes mixed with state", () => {
     const arch = `<form>
         <field name="bank" attrs="{'readonly':[('tipo_pago.code','=','RECIBO_CSB')]}"/>
         </form>`;
@@ -3104,5 +3104,36 @@ describe("A Form", () => {
     });
     const field = form.findById("bank") as Field;
     expect(field.readOnly).toBeTruthy();
+  });
+  it.only("Should be able to parse readonly attributes mixed with state - false", () => {
+    const arch = `<form>
+        <field name="bank" attrs="{'readonly':[('tipo_pago.code','=','RECIBO_CSB')]}"/>
+        </form>`;
+    const fields = {
+      bank: {
+        context: "",
+        domain: [],
+        is_function: false,
+        readonly: true,
+        relation: "res.partner.bank",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Compte bancari",
+        type: "many2one",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: {
+        state: "esborrany",
+      },
+    });
+    const field = form.findById("bank") as Field;
+    expect(field.readOnly).toBeFalsy();
   });
 });
