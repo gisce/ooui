@@ -135,29 +135,4 @@ const evaluateAttributes = ({
   return { ...tagAttributes, ...newTagAttributes, attrs: undefined };
 };
 
-const mergeAttributes = ({
-  tagAttributes,
-  stateAttributes,
-}: {
-  tagAttributes: any;
-  stateAttributes: any;
-}) => {
-  const finalObject: { [key: string]: any } = {};
-
-  for (const attr of Object.keys(tagAttributes)) {
-    if (
-      typeof stateAttributes[attr] == "boolean" ||
-      typeof tagAttributes[attr] == "boolean"
-    ) {
-      finalObject[attr] = !!tagAttributes[attr] || !!stateAttributes[attr];
-    } else if (stateAttributes[attr] !== undefined) {
-      finalObject[attr] = stateAttributes[attr];
-    } else if (tagAttributes[attr] !== undefined) {
-      finalObject[attr] = tagAttributes[attr];
-    }
-  }
-
-  return finalObject as any;
-};
-
-export { evaluateAttributes, replaceEntities, mergeAttributes };
+export { evaluateAttributes, replaceEntities };
