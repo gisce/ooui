@@ -3,7 +3,11 @@ import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 import { ParsedNode } from "./helpers/nodeParser";
-import { evaluateAttributes, replaceEntities } from "./helpers/attributeParser";
+import {
+  evaluateAttributes,
+  mergeAttributes,
+  replaceEntities,
+} from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
@@ -190,6 +194,7 @@ class Form {
             fieldName: tagAttributes.name,
             values,
             fields: this._fields,
+            tagAttributes,
           });
         }
 
@@ -229,8 +234,10 @@ class Form {
         this._keyIdx = this._keyIdx + 1;
 
         const widgetProps = {
-          ...evaluatedTagAttributes,
-          ...evaluatedStateAttributes,
+          ...mergeAttributes({
+            tagAttributes: evaluatedTagAttributes,
+            stateAttributes: evaluatedStateAttributes,
+          }),
           context: widgetContext,
           domain,
           key: `${this._keyIdx}`,

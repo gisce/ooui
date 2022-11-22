@@ -2,10 +2,12 @@ const evaluateStates = ({
   fieldName,
   values,
   fields,
+  tagAttributes = {},
 }: {
   fieldName: string;
   values: any;
   fields: any;
+  tagAttributes?: any;
 }) => {
   if (!fieldName) {
     return {};
@@ -21,15 +23,23 @@ const evaluateStates = ({
   const evaluatedStates: any = {};
 
   for (const stateCondition of Object.keys(fieldStatesConfig)) {
-    if (values["state"] === stateCondition) {
-      const configAttrValues = fieldStatesConfig[stateCondition];
+    const configAttrValues = fieldStatesConfig[stateCondition];
 
-      for (const entryConfig of configAttrValues) {
-        const [attribute, value] = entryConfig;
+    for (const entryConfig of configAttrValues) {
+      const [attribute, value] = entryConfig;
+
+      if (values["state"] === stateCondition) {
         if (!evaluatedStates[attribute]) {
           evaluatedStates[attribute] = [];
         }
+
         evaluatedStates[attribute].push(value);
+      } else if (tagAttributes[attribute] !== undefined) {
+        if (!evaluatedStates[attribute]) {
+          evaluatedStates[attribute] = [];
+        }
+
+        evaluatedStates[attribute].push(tagAttributes[attribute]);
       }
     }
   }
