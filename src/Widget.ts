@@ -128,8 +128,12 @@ abstract class Widget {
       if (props.context) {
         this._context = props.context;
       }
-      if (props.domain && typeof props.domain === "string") {
-        this._domain = props.domain;
+      if (props.domain) {
+        if (typeof props.domain !== "string") {
+          this._domain = JSON.stringify(props.domain);
+        } else {
+          this._domain = props.domain;
+        }
       }
       if (props.widget_props) {
         try {

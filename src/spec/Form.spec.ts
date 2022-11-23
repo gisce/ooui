@@ -3137,4 +3137,21 @@ describe("A Form", () => {
     const field = form.findById("bank") as Field;
     expect(field.readOnly).toBeFalsy();
   });
+  it("Should be able to parse domain in array format", () => {
+    const arch = `<form>
+        <field name="bank" />
+        </form>`;
+    const fields = {
+      bank: {
+        type: "many2one",
+        domain: [["category_id.name", "=", "ALQ ELEC"]],
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: {},
+    });
+    const field = form.findById("bank") as Field;
+    expect(field.domain).toBeDefined();
+  });
 });
