@@ -653,7 +653,7 @@ describe("A Form", () => {
 
   it("Should be able to parse a button states - matched condition => visible button", () => {
     const arch =
-      '<form><group><button name="button" states="draft,pending,complete" /></group></form>';
+      '<form><button name="button" states="draft,pending,complete" /></form>';
     const values = { state: "other_state" };
     const fields = {
       button: {
@@ -3100,12 +3100,13 @@ describe("A Form", () => {
     form.parse(arch, {
       values: {
         state: "test",
+        tipo_pago: [1, "Demo payment type"],
       },
     });
     const field = form.findById("bank") as Field;
     expect(field.readOnly).toBeTruthy();
   });
-  it.only("Should be able to parse readonly attributes mixed with state - false", () => {
+  it("Should be able to parse readonly attributes mixed with state - false", () => {
     const arch = `<form>
         <field name="bank" attrs="{'readonly':[('tipo_pago.code','=','RECIBO_CSB')]}"/>
         </form>`;

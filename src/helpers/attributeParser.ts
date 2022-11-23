@@ -107,9 +107,11 @@ const parseAttributes = ({
     const evaluatedEntries: boolean[] = entries.map((entry: any) => {
       return evaluateCondition({ entry, values, fields });
     });
-    newAttributes[attrField] = evaluatedEntries.every(
-      (i: boolean) => i === true
-    );
+    const attrIsTrue = evaluatedEntries.every((i: boolean) => i === true);
+
+    if (attrIsTrue) {
+      newAttributes[attrField] = true;
+    }
   }
 
   return newAttributes;
@@ -135,29 +137,4 @@ const evaluateAttributes = ({
   return { ...tagAttributes, ...newTagAttributes, attrs: undefined };
 };
 
-const mergeAttributes = ({
-  tagAttributes,
-  stateAttributes,
-}: {
-  tagAttributes: any;
-  stateAttributes: any;
-}) => {
-  const finalObject: { [key: string]: any } = {};
-
-  for (const attr of Object.keys(tagAttributes)) {
-    if (
-      typeof stateAttributes[attr] == "boolean" ||
-      typeof tagAttributes[attr] == "boolean"
-    ) {
-      finalObject[attr] = !!tagAttributes[attr] || !!stateAttributes[attr];
-    } else if (stateAttributes[attr] !== undefined) {
-      finalObject[attr] = stateAttributes[attr];
-    } else if (tagAttributes[attr] !== undefined) {
-      finalObject[attr] = tagAttributes[attr];
-    }
-  }
-
-  return finalObject as any;
-};
-
-export { evaluateAttributes, replaceEntities, mergeAttributes };
+export { evaluateAttributes, replaceEntities };
