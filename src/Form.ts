@@ -190,7 +190,6 @@ class Form {
             fieldName: tagAttributes.name,
             values,
             fields: this._fields,
-            tagAttributes,
           });
         }
 
