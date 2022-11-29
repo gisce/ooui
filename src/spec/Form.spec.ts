@@ -915,11 +915,15 @@ describe("A Form", () => {
       potencia: {
         type: "float",
       },
+      field_other: {
+        type: "many2one",
+      },
     };
     const xmlViewForm = `<?xml version="1.0"?>
     <form string="Form1">
       <field name="field_id" colspan="4" nolabel="1" />
       <field name="field_char" on_change="on_change_partner_address_id(partner_address_id, 'foo', context)" colspan="4" nolabel="1"  />
+      <field name="field_other" on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], False, parent.date_order, product_packaging, parent.fiscal_position, True)" />
     </form>`;
     const form = new Form(fields);
     form.parse(xmlViewForm, {
@@ -941,6 +945,19 @@ describe("A Form", () => {
     );
     expect(form.onChangeFields!["field_char"].args[1]).toBe("'foo'");
     expect(form.onChangeFields!["field_char"].args[2]).toBe("context");
+
+    const fieldOther = form.findById("field_other") as Field;
+    expect(fieldOther).toBeDefined();
+
+    expect(form.onChangeFields!["field_other"].method).toBe(
+      "product_id_change"
+    );
+    expect(form.onChangeFields!["field_other"].args[0]).toBe(
+      "parent.pricelist_id"
+    );
+    expect(form.onChangeFields!["field_other"].args[8]).toBe(
+      "'lang' in context and context['lang']"
+    );
   });
 
   it("should be able to parse domain for the whole form", () => {
