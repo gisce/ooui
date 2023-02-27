@@ -3171,4 +3171,56 @@ describe("A Form", () => {
     const field = form.findById("bank") as Field;
     expect(field.domain).toBeDefined();
   });
+  it("Should parse a domain properly when domain in fields is [] and has value in XML", () => {
+    const arch = `<form>
+        <field name="bank" domain="[('partner_id', '=', pagador)]"/>
+        </form>`;
+    const fields = {
+      bank: {
+        context: "",
+        domain: [],
+        is_function: false,
+        readonly: true,
+        relation: "res.partner.bank",
+        size: 64,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [["readonly", false]],
+          validar: [["readonly", false]],
+        },
+        string: "Compte bancari",
+        type: "many2one",
+        views: {},
+      },
+      pagador: {
+        context: "",
+        domain: [],
+        is_function: false,
+        readonly: true,
+        relation: "res.partner",
+        select: true,
+        size: 40,
+        states: {
+          esborrany: [["readonly", false]],
+          modcontractual: [
+            ["readonly", false],
+            ["required", true],
+          ],
+          validar: [
+            ["readonly", false],
+            ["required", true],
+          ],
+        },
+        string: "Razón fiscal",
+        type: "many2one",
+        views: {},
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: {},
+    });
+    const field = form.findById("bank") as Field;
+    expect(field.domain).toBe("[('partner_id', '=', pagador)]");
+  });
 });
