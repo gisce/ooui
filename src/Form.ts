@@ -221,9 +221,7 @@ class Form {
           this._fields[tagAttributes.name] &&
           this._fields[tagAttributes.name].domain &&
           this._fields[tagAttributes.name].domain !== "" &&
-          this._fields[tagAttributes.name].domain !== "[]" &&
-          Array.isArray(this._fields[tagAttributes.name].domain) &&
-          this._fields[tagAttributes.name].domain.length > 0
+          this._fields[tagAttributes.name].domain !== "[]"
         ) {
           domain = this._fields[tagAttributes.name].domain;
         }
