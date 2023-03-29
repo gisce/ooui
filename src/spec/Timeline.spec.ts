@@ -29,10 +29,12 @@ describe("A Timeline", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       name: "timeline_field",
-      widget_props: "{'titleField': 'tfield', 'summaryField': 'sfield'}"
+      widget_props: "{'titleField': 'tfield', 'summaryField': 'sfield', 'iconField': 'ifield', 'colorField': 'cfield'}"
     };
     const widget = widgetFactory.createWidget("timeline", props);
     expect(widget.summaryField).toBe('sfield');
     expect(widget.titleField).toBe('tfield');
+    expect(widget.iconField).toBe('ifield');
+    expect(widget.colorField).toBe('cfield');
   });
 });
