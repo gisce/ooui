@@ -27,6 +27,7 @@ import FiberGrid from "./FiberGrid";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Tags from "./Tags";
+import Tag from "./Tag";
 import Radio from "./Radio";
 import MultiCheckbox from "./MultiCheckbox";
 import Switch from "./Switch";
@@ -131,6 +132,9 @@ class WidgetFactory {
         break;
       case "tags":
         this._widgetClass = Tags;
+        break;
+      case "tag":
+        this._widgetClass = Tag;
         break;
       case "radio":
         this._widgetClass = Radio;
