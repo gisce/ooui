@@ -36,6 +36,7 @@ import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
 import DashboardItem from "./DashboardItem";
 import Tags from "./Tags";
+import Tag from "./Tag";
 import MultiCheckbox from "./MultiCheckbox";
 import Radio from "./Radio";
 import Switch from "./Switch";
@@ -109,6 +110,7 @@ export {
   graphProcessor,
   graphFieldUtils,
   Tags,
+  Tag,
   MultiCheckbox,
   Radio,
   Switch,
