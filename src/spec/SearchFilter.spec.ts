@@ -8,6 +8,7 @@ const searchFields = {
     "customer",
     "address",
     "payment_type_customer",
+    "codigo_contable",
     "vat",
     "payment_type_supplier",
     "date",
@@ -25,12 +26,123 @@ const searchFields = {
     "active",
     "supplier",
     "category_id",
+    "city",
+    "country",
   ],
 };
 
+const formXml = `<form string="Empresas">
+<group colspan="4" col="6">
+    <field name="energy_sector" select="2" invisible="1"/>
+<field name="name" select="1"/>
+    <group colspan="2" col="4">
+    <field name="ref" select="1"/>
+    <field name="ref2"/>
+</group>
+<field name="emails" invisible="1" select="1"/>
+<field name="customer" select="1"/>
+    <field domain="[('domain', '=', 'partner')]" name="title"/>
+    <field name="lang" select="2"/>
+    <field name="supplier" select="2"/>
+</group>
+<notebook colspan="4">
+    <page string="General">
+                                            <group string="Test" colspan="4" attrs="{'invisible': [('address', '=', 0)]}">
+                    <field name="name" select="1"/>
+                </group>
+
+        <field colspan="4" mode="form,tree,graph" name="address" nolabel="1" select="1">
+            </field>
+        <separator colspan="4" string="Categorías"/>
+        <field colspan="4" name="category_id" nolabel="1" select="2"/><button name="crear_com_a_participant" type="object" string="Dar de alta como participante"/>
+
+    </page>
+    <page string="Ventas &amp; Compras">
+        <separator string="Información general" colspan="4"/>
+        <field name="user_id" select="2"/>
+        <group colspan="2" col="4">
+    <group colspan="2" col="4">
+    <field name="active" select="2"/>
+    <button name="deactivate_partner" string="Desactivar" type="object" icon="gtk-cancel"/>
+</group>
+<button name="deactivate_partner" string="Desactivar" type="object" icon="gtk-cancel"/>
+</group>
+<field name="website" widget="url"/>
+        <field name="date" select="2"/>
+        <field name="parent_id"/>
+        <field name="representante_id"/>
+<field name="comercial"/>
+<newline/>
+    <group colspan="2" col="2">
+<separator string="Propiedades de stock" colspan="2"/>
+<field name="property_stock_customer"/>
+<field name="property_stock_supplier"/>
+</group>
+<newline/>
+<group col="2" colspan="2" name="sale_list">
+    <separator string="Propiedades de venta" colspan="2"/>
+    <field name="property_product_pricelist"/>
+</group>
+<group colspan="2" col="2">
+    <separator string="Propiedades de compra" colspan="2"/>
+    <field name="property_product_pricelist_purchase"/>
+</group>
+<separator string="Gestión ATR" colspan="4"/>
+    <field name="property_switching_xml_encoding"/>
+</page>
+    <page string="Privacy">
+    <group colspan="4" col="4">
+    <separator string="Gestión SIPS" colspan="4"/>
+    <button string="Solicitar no cesión" type="action" icon="gtk-no" name="1621" colspan="1" readonly="0"/>
+</group>
+</page>
+    <page string="Historial">
+        <field colspan="4" name="events" nolabel="1" widget="timeline" widget_props="{'titleField':'date','summaryField':'name'}" readonly="1"/>
+    </page>
+    <page string="Notas">
+        <field colspan="4" name="comment" nolabel="1"/>
+    </page>
+<page string="Contabilidad" position="inside">
+<group col="2" colspan="2">
+    <separator string="Propiedades de contabilidad del cliente" colspan="2"/>
+    <field name="property_account_receivable"/>
+    <field name="payment_type_customer" select="1" widget="selection"/>
+<field name="property_account_debtor"/>
+<field name="codigo_contable" select="1"/>
+<field name="property_account_position"/>
+    <field name="vat" on_change="vat_change(vat)" select="1"/>
+<field name="vat_subjected"/>
+<field name="property_payment_term"/>
+</group>
+<group col="2" colspan="2">
+    <separator string="Propiedades de contabilidad del proveedor" colspan="2"/>
+    <field name="property_account_payable"/><field name="payment_type_supplier" select="1"/>
+
+</group>
+<group col="2" colspan="2">
+    <separator string="Haber del cliente" colspan="2"/>
+    <field name="credit" select="2"/>
+    <field name="total_debt"/>
+<field name="has_debt" invisible="1" select="2"/>
+<field name="credit_limit" select="2"/>
+</group>
+<group col="2" colspan="2">
+    <separator string="Debe del proveedor" colspan="2"/>
+    <field name="debit" select="2"/>
+</group>
+<field colspan="4" context="address=address" name="bank_ids" nolabel="1" select="2">
+    </field>
+</page>
+<page string="Oficina Virtual" position="after">
+    <field name="ov_users_ids" nolabel="1" colspan="4"/>
+</page>
+</notebook>
+</form>`;
+
 const fields = {
   active: {
-    string: "Active",
+    is_function: false,
+    string: "Activo",
     type: "boolean",
     views: {},
   },
@@ -38,596 +150,92 @@ const fields = {
     context: "",
     domain: [],
     inv_field: "partner_id",
+    is_function: false,
     relation: "res.partner.address",
-    string: "Contacts",
+    string: "Contactos",
     type: "one2many",
-    views: {
-      form: {
-        arch:
-          '<form string="Partner Contacts">\n                                    <notebook>\n                                        <page string="General">\n                                            <field name="name" select="2" required="True"/>\n                                            <field domain="[(\'domain\', \'=\', \'contact\')]" name="title" string="Type"/>\n                                            <field name="function"/>\n                                            <field name="type" select="2"/>\n                                            <separator string="Street" colspan="4"/>\n                                            <field name="street" select="2" colspan="4" width="200"/>\n                                            <group colspan="2" col="4">\n                        <field name="tv" select="2"/>\n                        <newline/>\n                        <field name="nv" colspan="4"/>\n                    </group>\n                    <group colspan="2" col="8">\n                        <field name="pnp"/>\n                        <field name="es"/>\n                        <field name="pt"/>\n                        <field name="pu"/>\n                        <field name="bq" colspan="1"/>\n                        <field name="aclarador" colspan="5"/>\n                    </group>\n                <field name="street2"/>\n                                            <newline/>\n                                            <field name="zip" select="2"/>\n                                            <field name="apartat_correus"/>\n                    <newline/>\n                <newline/>\n                                            <field name="id_municipi" on_change="onchange_municipi_id(id_municipi,context)"/>\n                    <field name="id_poblacio" domain="[(\'municipi_id\',\'=\',id_municipi)]"/>\n                <field name="state_id" select="2"/>\n                                            <field completion="1" name="country_id" select="2"/>\n                                            <newline/>\n                                            <separator string="Catastre" colspan="4"/>\n                    <field name="ref_catastral"/>\n                <separator string="Comunication channels" colspan="4"/>\n                                            <field name="phone"/>\n                                            <field name="fax"/>\n                                            <newline/>\n                                            <field name="mobile"/>\n                                            <field name="email" select="2" widget="email"/>\n                                        </page>\n                                        <page string="Notes">\n                                            <field name="notes" nolabel="1" colspan="4"/>\n                                        </page>\n                                    </notebook>\n                                </form>\n                                ',
-        fields: {
-          aclarador: {
-            size: 256,
-            string: "Aclarador",
-            type: "char",
-            views: {},
-          },
-          apartat_correus: {
-            size: 5,
-            string: "Apartat de Correus",
-            type: "char",
-            views: {},
-          },
-          bq: {
-            size: 4,
-            string: "Bloc",
-            type: "char",
-            views: {},
-          },
-          country_id: {
-            context: "",
-            domain: [],
-            relation: "res.country",
-            size: 64,
-            string: "Country",
-            type: "many2one",
-            views: {},
-          },
-          email: {
-            size: 240,
-            string: "E-Mail",
-            type: "char",
-            views: {},
-          },
-          es: {
-            size: 10,
-            string: "Escala",
-            type: "char",
-            views: {},
-          },
-          fax: {
-            size: 64,
-            string: "Fax",
-            type: "char",
-            views: {},
-          },
-          function: {
-            context: "",
-            domain: [],
-            relation: "res.partner.function",
-            size: 64,
-            string: "Function",
-            type: "many2one",
-            views: {},
-          },
-          id_municipi: {
-            context: "",
-            domain: [],
-            relation: "res.municipi",
-            size: 64,
-            string: "Municipi",
-            type: "many2one",
-            views: {},
-          },
-          id_poblacio: {
-            context: "",
-            domain: [],
-            relation: "res.poblacio",
-            size: 64,
-            string: "Població",
-            type: "many2one",
-            views: {},
-          },
-          mobile: {
-            size: 64,
-            string: "Mobile",
-            type: "char",
-            views: {},
-          },
-          name: {
-            size: 128,
-            string: "Contact Name",
-            type: "char",
-            views: {},
-          },
-          notes: {
-            string: "Notes",
-            type: "text",
-            views: {},
-          },
-          nv: {
-            size: 256,
-            string: "Carrer",
-            type: "char",
-            views: {},
-          },
-          phone: {
-            size: 64,
-            string: "Phone",
-            type: "char",
-            views: {},
-          },
-          pnp: {
-            size: 10,
-            string: "Número",
-            type: "char",
-            views: {},
-          },
-          pt: {
-            size: 10,
-            string: "Planta",
-            type: "char",
-            views: {},
-          },
-          pu: {
-            size: 10,
-            string: "Porta",
-            type: "char",
-            views: {},
-          },
-          ref_catastral: {
-            size: 20,
-            string: "Ref Catastral (c)",
-            type: "char",
-            views: {},
-          },
-          state_id: {
-            context: "",
-            domain: "[('country_id','=',country_id)]",
-            relation: "res.country.state",
-            size: 64,
-            string: "Fed. State",
-            type: "many2one",
-            views: {},
-          },
-          street: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "Street",
-            type: "char",
-            views: {},
-          },
-          street2: {
-            size: 128,
-            string: "Street2",
-            type: "char",
-            views: {},
-          },
-          title: {
-            selection: [
-              ["Ms.", "Madam"],
-              ["Mss", "Miss"],
-              ["M.", "Sir"],
-              ["", ""],
-            ],
-            size: 32,
-            string: "Title",
-            type: "selection",
-            views: {},
-          },
-          tv: {
-            context: "",
-            domain: [],
-            relation: "res.tipovia",
-            size: 64,
-            string: "Tipus Via",
-            type: "many2one",
-            views: {},
-          },
-          type: {
-            help:
-              "Used to select automatically the right address according to the context in sales and purchases documents.",
-            selection: [
-              ["default", "Default"],
-              ["invoice", "Invoice"],
-              ["delivery", "Delivery"],
-              ["contact", "Contact"],
-              ["other", "Other"],
-              ["ov", "Oficina Virtual"],
-            ],
-            string: "Address Type",
-            type: "selection",
-            views: {},
-          },
-          zip: {
-            change_default: true,
-            size: 24,
-            string: "Zip",
-            type: "char",
-            views: {},
-          },
-        },
-      },
-      tree: {
-        arch:
-          '<tree string="Partner Contacts">\n                                    <field name="name"/>\n                                    <field name="street"/>\n                    <field name="type"/>\n                <field name="zip"/>\n                                    <field name="city"/>\n                                    <field name="country_id"/>\n                                    <field name="phone"/>\n                                    <field name="email"/>\n                                </tree>\n                            ',
-        fields: {
-          city: {
-            size: 128,
-            string: "City",
-            type: "char",
-            views: {},
-          },
-          country_id: {
-            context: "",
-            domain: [],
-            relation: "res.country",
-            size: 64,
-            string: "Country",
-            type: "many2one",
-            views: {},
-          },
-          email: {
-            size: 240,
-            string: "E-Mail",
-            type: "char",
-            views: {},
-          },
-          name: {
-            size: 128,
-            string: "Contact Name",
-            type: "char",
-            views: {},
-          },
-          phone: {
-            size: 64,
-            string: "Phone",
-            type: "char",
-            views: {},
-          },
-          street: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "Street",
-            type: "char",
-            views: {},
-          },
-          type: {
-            help:
-              "Used to select automatically the right address according to the context in sales and purchases documents.",
-            selection: [
-              ["default", "Default"],
-              ["invoice", "Invoice"],
-              ["delivery", "Delivery"],
-              ["contact", "Contact"],
-              ["other", "Other"],
-              ["ov", "Oficina Virtual"],
-            ],
-            string: "Address Type",
-            type: "selection",
-            views: {},
-          },
-          zip: {
-            change_default: true,
-            size: 24,
-            string: "Zip",
-            type: "char",
-            views: {},
-          },
-        },
-      },
-    },
+    views: {},
   },
   bank_ids: {
     context: "",
     domain: [],
     inv_field: "partner_id",
+    is_function: false,
     relation: "res.partner.bank",
-    string: "Banks",
+    string: "Bancos",
     type: "one2many",
-    views: {
-      form: {
-        arch:
-          '<form string="Bank account">\n                            <field name="state" select="2"/>\n                            <newline/>\n                            <field name="acc_number" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n                <field name="acc_country_id" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n            <newline/>\n                    <field name="iban" on_change="onchange_iban(iban, context)"/>\n            <newline/>\n                    <field name="printable_iban"/>\n                    <newline/>\n                <newline/>\n                            <field name="bank"/>\n                            <newline/>\n                            <field name="sequence"/>\n                            <field name="default_bank"/>\n            <field colspan="4" name="name" select="2"/>\n                            <separator colspan="4" string="Bank account owner"/>\n                            <field colspan="4" name="owner_name" select="2" invisible="1"/>\n                    <field colspan="4" name="owner_id" required="0"/>\n                <field colspan="4" name="street" invisible="1"/>\n                    <field colspan="4" name="owner_address_id" domain="[(\'partner_id\', \'=\', owner_id)]"/>\n                <newline/>\n                            <field name="zip" invisible="1"/>\n                <field name="city" invisible="1"/>\n                <newline/>\n                            <field invisible="1" name="country_id" select="2"/>\n                <field name="state_id" select="2" invisible="1"/>\n                </form>\n                        ',
-        fields: {
-          acc_country_id: {
-            context: "",
-            domain: [],
-            help:
-              "If the country of the bank is Spain, it validates the bank code. It only reads the digit characters of the bank code:\n- If the number of digits is 18, computes the two digits of control.\n- If the number of digits is 20, computes the two digits of control and ignores the current ones.\n- If the number of digits is different from 18 or 20, it leaves the bank code unaltered.\nThe result is shown in the '1234 5678 06 1234567890' format.",
-            relation: "res.country",
-            required: true,
-            size: 64,
-            string: "Bank country",
-            type: "many2one",
-            views: {},
-          },
-          acc_number: {
-            size: 64,
-            states: {
-              bank: [
-                ["readonly", false],
-                ["required", true],
-              ],
-              iban: [
-                ["readonly", true],
-                ["required", false],
-              ],
-            },
-            string: "Account Number",
-            type: "char",
-            views: {},
-          },
-          bank: {
-            context: "",
-            domain: [],
-            relation: "res.bank",
-            size: 64,
-            string: "Bank",
-            type: "many2one",
-            views: {},
-          },
-          city: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "City",
-            type: "char",
-            views: {},
-          },
-          country_id: {
-            context: "",
-            digits: [16, 2],
-            domain: [],
-            readonly: 1,
-            relation: "res.country",
-            states: {
-              bank: [
-                ["readonly", true],
-                ["required", false],
-              ],
-              iban: [
-                ["readonly", false],
-                ["required", false],
-              ],
-            },
-            string: "Country",
-            type: "many2one",
-            views: {},
-          },
-          default_bank: {
-            string: "Default",
-            type: "boolean",
-            views: {},
-          },
-          iban: {
-            help: "International Bank Account Number",
-            readonly: true,
-            size: 34,
-            states: {
-              iban: [
-                ["readonly", false],
-                ["required", true],
-              ],
-            },
-            string: "IBAN",
-            type: "char",
-            views: {},
-          },
-          name: {
-            size: 128,
-            string: "Description",
-            type: "char",
-            views: {},
-          },
-          owner_address_id: {
-            context: "",
-            domain: [],
-            relation: "res.partner.address",
-            select: true,
-            size: 64,
-            string: "Owner Address",
-            type: "many2one",
-            views: {},
-          },
-          owner_id: {
-            context: "",
-            domain: [],
-            help:
-              "If no owner is selected, the related partner will be used as owner",
-            relation: "res.partner",
-            required: true,
-            select: true,
-            size: 64,
-            string: "Owner",
-            type: "many2one",
-            views: {},
-          },
-          owner_name: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "Account Owner",
-            type: "char",
-            views: {},
-          },
-          printable_iban: {
-            digits: [16, 2],
-            help: "Space formated International Bank Account Number",
-            readonly: 1,
-            size: 42,
-            string: "Printable IBAN",
-            type: "char",
-            views: {},
-          },
-          sequence: {
-            string: "Sequence",
-            type: "integer",
-            views: {},
-          },
-          state: {
-            change_default: true,
-            required: true,
-            selection: [
-              ["bank", "Bank account"],
-              ["iban", "IBAN Account"],
-            ],
-            string: "Bank Type",
-            type: "selection",
-            views: {},
-          },
-          state_id: {
-            context: "",
-            digits: [16, 2],
-            domain: [],
-            readonly: 1,
-            relation: "res.country.state",
-            string: "State",
-            type: "many2one",
-            views: {},
-          },
-          street: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "Street",
-            type: "char",
-            views: {},
-          },
-          zip: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 24,
-            states: {
-              iban: [
-                ["readonly", false],
-                ["required", false],
-              ],
-            },
-            string: "Zip",
-            type: "char",
-            views: {},
-          },
-        },
-      },
-      tree: {
-        arch:
-          '<tree string="Bank Details">\n                            <field name="state"/>\n                            <field name="bank"/>\n                            <field name="owner_name"/>\n                            <field name="acc_number"/>\n                        <field name="iban"/>\n                <field name="default_bank"/>\n            </tree>\n                    ',
-        fields: {
-          acc_number: {
-            size: 64,
-            states: {
-              bank: [
-                ["readonly", false],
-                ["required", true],
-              ],
-              iban: [
-                ["readonly", true],
-                ["required", false],
-              ],
-            },
-            string: "Account Number",
-            type: "char",
-            views: {},
-          },
-          bank: {
-            context: "",
-            domain: [],
-            relation: "res.bank",
-            size: 64,
-            string: "Bank",
-            type: "many2one",
-            views: {},
-          },
-          default_bank: {
-            string: "Default",
-            type: "boolean",
-            views: {},
-          },
-          iban: {
-            help: "International Bank Account Number",
-            readonly: true,
-            size: 34,
-            states: {
-              iban: [
-                ["readonly", false],
-                ["required", true],
-              ],
-            },
-            string: "IBAN",
-            type: "char",
-            views: {},
-          },
-          owner_name: {
-            digits: [16, 2],
-            readonly: 1,
-            size: 128,
-            string: "Account Owner",
-            type: "char",
-            views: {},
-          },
-          state: {
-            change_default: true,
-            required: true,
-            selection: [
-              ["bank", "Bank account"],
-              ["iban", "IBAN Account"],
-            ],
-            string: "Bank Type",
-            type: "selection",
-            views: {},
-          },
-        },
-      },
-    },
   },
   category_id: {
     context: "",
     domain: [],
+    is_function: false,
     relation: "res.partner.category",
-    string: "Categories",
+    string: "Categorías",
     type: "many2many",
     views: {},
   },
+  codigo_contable: {
+    is_function: false,
+    size: 5,
+    string: "Código contable",
+    type: "char",
+    views: {},
+  },
   comercial: {
+    is_function: false,
     select: true,
     size: 128,
-    string: "Trade name",
+    string: "Nombre comercial",
     type: "char",
     views: {},
   },
   comment: {
-    string: "Notes",
+    is_function: false,
+    string: "Notas",
     type: "text",
     views: {},
   },
   credit: {
     digits: [16, 2],
-    help: "Total amount this customer owes you.",
+    help: "Importe total que este cliente le debe.",
+    is_function: true,
     readonly: 1,
-    string: "Total Receivable",
+    string: "Total a cobrar",
     type: "float",
     views: {},
   },
   credit_limit: {
-    string: "Credit Limit",
+    is_function: false,
+    string: "Crédito concedido",
     type: "float",
     views: {},
   },
   customer: {
-    help: "Check this box if the partner is a customer.",
-    string: "Customer",
+    help: "Marque esta opción si la empresa es un cliente.",
+    is_function: false,
+    string: "Cliente",
     type: "boolean",
     views: {},
   },
   date: {
+    is_function: false,
     select: 1,
-    string: "Date",
+    string: "Fecha",
     type: "date",
     views: {},
   },
   debit: {
     digits: [16, 2],
-    help: "Total amount you have to pay to this supplier.",
+    help: "Importe total que debe pagar a este proveedor.",
+    is_function: true,
     readonly: 1,
-    string: "Total Payable",
+    string: "Total a pagar",
     type: "float",
     views: {},
   },
   emails: {
     digits: [16, 2],
+    is_function: true,
     readonly: 1,
     string: "Emails",
     type: "text",
@@ -635,14 +243,15 @@ const fields = {
   },
   energy_sector: {
     digits: [16, 2],
+    is_function: true,
     readonly: 1,
     selection: [
       ["electric", "Electric"],
       ["gas", "Gas"],
       ["elegas", "Electric & Gas"],
-      ["undefined", "Indefinit"],
+      ["undefined", "Indefinido"],
     ],
-    string: "Sector d'energía",
+    string: "Sector de energía",
     type: "selection",
     views: {},
   },
@@ -650,21 +259,23 @@ const fields = {
     context: "",
     domain: [],
     inv_field: "partner_id",
+    is_function: false,
     relation: "res.partner.event",
-    string: "Events",
+    string: "Eventos",
     type: "one2many",
     views: {},
   },
   has_debt: {
     digits: [16, 2],
+    is_function: true,
     readonly: 1,
-    string: "Has debt",
+    string: "Tiene deuda",
     type: "boolean",
     views: {},
   },
   lang: {
-    help:
-      "If the selected language is loaded in the system, all documents related to this partner will be printed in this language. If not, it will be english.",
+    help: "Si el idioma seleccionado está instalado en el sistema, todos los documentos relacionados con esta empresa serán mostrados en este idioma. Si no, serán mostrados en inglés.",
+    is_function: false,
     selection: [
       ["en_US", "English"],
       ["ca_ES", "Catalan / Català"],
@@ -672,56 +283,59 @@ const fields = {
       ["", ""],
     ],
     size: 5,
-    string: "Language",
+    string: "Idioma",
     type: "selection",
     views: {},
   },
   name: {
+    is_function: false,
     required: true,
     select: true,
     size: 128,
-    string: "Name",
+    string: "Nombre",
     type: "char",
     views: {},
   },
   ov_users_ids: {
-    context: {
-      active_test: false,
-    },
+    context: { active_test: false },
     domain: [],
     inv_field: "partner_id",
+    is_function: false,
     relation: "ov.users",
-    string: "Usuaris Oficina Virtual",
+    string: "Usuarios Oficina Virtual",
     type: "one2many",
     views: {},
   },
   parent_id: {
     context: "",
     domain: [],
+    is_function: false,
     relation: "res.partner",
     select: 2,
     size: 64,
-    string: "Main Company",
+    string: "Empresa principal",
     type: "many2one",
     views: {},
   },
   payment_type_customer: {
     context: "",
     domain: [],
-    help: "Payment type of the customer",
+    help: "Tipo de pago como cliente.",
+    is_function: false,
     relation: "payment.type",
     size: 64,
-    string: "Customer payment type",
+    string: "Tipo de pago de cliente",
     type: "many2one",
     views: {},
   },
   payment_type_supplier: {
     context: "",
     domain: [],
-    help: "Payment type of the supplier",
+    help: "Tipo de pago como proveedor.",
+    is_function: false,
     relation: "payment.type",
     size: 64,
-    string: "Supplier payment type",
+    string: "Tipo de pago de proveedor",
     type: "many2one",
     views: {},
   },
@@ -729,11 +343,11 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'receivable')]",
-    help:
-      "This account will be used as the debtor account for the current partner",
+    help: "Esta cuenta se utilizará como la cuenta de deudor de la empresa actual",
+    is_function: true,
     relation: "account.account",
     required: true,
-    string: "Account Debtor",
+    string: "Cuenta deudor",
     type: "many2one",
     views: {},
   },
@@ -741,11 +355,11 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'payable')]",
-    help:
-      "This account will be used instead of the default one as the payable account for the current partner",
+    help: "Este cuenta se utilizará en lugar de la cuenta por defecto como la cuenta a pagar para la empresa actual.",
+    is_function: true,
     relation: "account.account",
     required: true,
-    string: "Account Payable",
+    string: "Cuenta a pagar",
     type: "many2one",
     views: {},
   },
@@ -753,10 +367,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "The fiscal position will determine taxes and the accounts used for the the partner.",
+    help: "La posición fiscal determinará los impuestos y las cuentas utilizadas para la empresa.",
+    is_function: true,
     relation: "account.fiscal.position",
-    string: "Fiscal Position",
+    string: "Posición fiscal",
     type: "many2one",
     views: {},
   },
@@ -764,11 +378,11 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'receivable')]",
-    help:
-      "This account will be used instead of the default one as the receivable account for the current partner",
+    help: "Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta a cobrar para la empresa actual.",
+    is_function: true,
     relation: "account.account",
     required: true,
-    string: "Account Receivable",
+    string: "Cuenta a cobrar",
     type: "many2one",
     views: {},
   },
@@ -776,10 +390,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This payment term will be used instead of the default one for the current partner",
+    help: "Este plazo de pago se utilizará en lugar del plazo por defecto para la empresa actual.",
+    is_function: true,
     relation: "account.payment.term",
-    string: "Payment Term",
+    string: "Plazo de pago",
     type: "many2one",
     views: {},
   },
@@ -787,10 +401,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["type", "=", "sale"]],
-    help:
-      "This pricelist will be used, instead of the default one,                     for sales to the current partner",
+    help: "Esta tarifa será usada en lugar de la tarifa por defecto para las ventas a la empresa actual.",
+    is_function: true,
     relation: "product.pricelist",
-    string: "Sale Pricelist",
+    string: "Tarifa de venta",
     type: "many2one",
     views: {},
   },
@@ -798,10 +412,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["type", "=", "purchase"]],
-    help:
-      "This pricelist will be used, instead of the default one, for purchases from the current partner",
+    help: "Esta tarifa será utilizada en lugar de la por defecto para las compras de la empresa actual",
+    is_function: true,
     relation: "product.pricelist",
-    string: "Purchase Pricelist",
+    string: "Tarifa de compra",
     type: "many2one",
     views: {},
   },
@@ -809,10 +423,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner",
+    help: "Esta ubicación de stock será utilizada, en lugar de la ubicación por defecto, como la ubicación de destino para enviar mercancías a esta empresa",
+    is_function: true,
     relation: "stock.location",
-    string: "Customer Location",
+    string: "Ubicación del cliente",
     type: "many2one",
     views: {},
   },
@@ -820,10 +434,10 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner",
+    help: "Esta ubicación de stock será utilizada, en lugar de la ubicación por defecto, como la ubicación de origen para recibir mercancías desde esta empresa",
+    is_function: true,
     relation: "stock.location",
-    string: "Supplier Location",
+    string: "Ubicación del proveedor",
     type: "many2one",
     views: {},
   },
@@ -831,8 +445,8 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["name", "!=", false]],
-    help:
-      "Encoding XML amb el qual es generaran els XML's de switching per aquesta empresa",
+    help: "Encoding XML con el cual se generarán los XML's de switching ara esta empresa",
+    is_function: true,
     relation: "giscedata.switching.xml.encoding",
     required: true,
     string: "Encoding XML switching",
@@ -840,13 +454,15 @@ const fields = {
     views: {},
   },
   ref: {
+    is_function: false,
     select: true,
     size: 64,
-    string: "Code",
+    string: "Código",
     type: "char",
     views: {},
   },
   ref2: {
+    is_function: false,
     size: 6,
     string: "Ref2",
     type: "char",
@@ -855,6 +471,7 @@ const fields = {
   representante_id: {
     context: "",
     domain: [],
+    is_function: false,
     relation: "res.partner",
     size: 64,
     string: "Representante",
@@ -862,76 +479,96 @@ const fields = {
     views: {},
   },
   supplier: {
-    help:
-      "Check this box if the partner is a supplier. If it's not checked, purchase people will not see it when encoding a purchase order.",
-    string: "Supplier",
+    help: "Marque esta opción si la empresa es un proveedor. Si no está marcada no será visible al introducir un pedido de compra.",
+    is_function: false,
+    string: "Proveedor",
     type: "boolean",
     views: {},
   },
   title: {
+    is_function: false,
     selection: [
-      ["Corp.", "Corp."],
-      ["ltd", "Ltd"],
+      ["S.A.", "S.A."],
+      ["ltd", "S.L."],
       ["", ""],
     ],
     size: 32,
-    string: "Title",
+    string: "Título",
     type: "selection",
     views: {},
   },
   total_debt: {
     digits: [16, 2],
-    help: "Total amount this customer debts you.",
+    help: "Cantidad total que este cliente le debe.",
+    is_function: true,
     readonly: 1,
-    string: "Total Debt",
+    string: "Deuda Total",
     type: "float",
     views: {},
   },
   user_id: {
     context: "",
     domain: [],
-    help:
-      "The internal user that is in charge of communicating with this partner if any.",
+    help: "﻿El usuario interno que se encarga de comunicarse con esta empresa si hay.",
+    is_function: false,
     relation: "res.users",
     size: 64,
-    string: "Dedicated Salesman",
+    string: "Comercial dedicado",
     type: "many2one",
     views: {},
   },
   vat: {
-    help:
-      "Value Added Tax number. Check the box if the partner is subjected to the VAT. Used by the VAT legal statement.",
+    help: "Número CIF/NIF. Marque esta caja si la empresa está sujeta al IVA. Se utiliza para la declaración legal del IVA.",
+    is_function: false,
     select: true,
     size: 32,
-    string: "VAT",
+    string: "CIF/NIF",
     type: "char",
     views: {},
   },
   vat_subjected: {
-    help:
-      "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement.",
-    string: "VAT Legal Statement",
+    help: "Marque esta casilla si el partner está sujeto al NIF. Se utilizará para la declaración legal del NIF.",
+    is_function: false,
+    string: "Declaración Legal del NIF",
     type: "boolean",
     views: {},
   },
   website: {
-    size: 64,
-    string: "Website",
+    is_function: false,
+    size: 2048,
+    string: "Sitio web",
     type: "char",
+    views: {},
+  },
+  city: {
+    digits: [16, 2],
+    is_function: true,
+    string: "Ciudad",
+    type: "char",
+    views: {},
+  },
+  country: {
+    context: "",
+    digits: [16, 2],
+    domain: [],
+    is_function: true,
+    relation: "res.country",
+    string: "País",
+    type: "many2one",
     views: {},
   },
 };
 
 describe("A SearchFilter", () => {
   it("should parse search fields correctly", () => {
-    const searchFilter = new SearchFilter(searchFields, fields);
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
 
     expect(searchFilter.fields).toBeDefined();
     expect(searchFilter.simpleSearchContainer.rows.length).toBe(3);
     expect(searchFilter.simpleSearchContainer.rows[0].length).toBe(4);
     expect(searchFilter.simpleSearchContainer.rows[1].length).toBe(4);
-    expect(searchFilter.simpleSearchContainer.rows[2].length).toBe(2);
+    expect(searchFilter.simpleSearchContainer.rows[2].length).toBe(3);
 
     expect(searchFilter.advancedSearchContainer.rows.length).toBe(6);
     expect(searchFilter.advancedSearchContainer.rows[0].length).toBe(4);
@@ -939,7 +576,7 @@ describe("A SearchFilter", () => {
     expect(searchFilter.advancedSearchContainer.rows[2].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[3].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[4].length).toBe(4);
-    expect(searchFilter.advancedSearchContainer.rows[5].length).toBe(1);
+    expect(searchFilter.advancedSearchContainer.rows[5].length).toBe(4);
 
     const nameWidget = searchFilter.findById("name");
     expect(nameWidget).toBeDefined();
@@ -947,9 +584,16 @@ describe("A SearchFilter", () => {
     const debitWidget = searchFilter.findById("debit");
     expect(debitWidget).toBeDefined();
     expect(debitWidget!.constructor.name).toBe("Float");
-    const debitWidgetInSimpleSearch = searchFilter.simpleSearchContainer.findById(
-      "debit"
-    );
+    const debitWidgetInSimpleSearch =
+      searchFilter.simpleSearchContainer.findById("debit");
     expect(debitWidgetInSimpleSearch).toBeNull();
+  });
+  it("should parse a search field which has a custom widget defined in form xml", () => {
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
+    searchFilter.parse();
+
+    const nameWidget = searchFilter.findById("payment_type_customer");
+    expect(nameWidget).toBeDefined();
+    expect(nameWidget!.constructor.name).toBe("Selection");
   });
 });
