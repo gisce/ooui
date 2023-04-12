@@ -561,7 +561,7 @@ const fields = {
 
 describe("A SearchFilter", () => {
   it("should parse search fields correctly", () => {
-    const searchFilter = new SearchFilter(searchFields, fields);
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
 
     expect(searchFilter.fields).toBeDefined();
@@ -589,7 +589,7 @@ describe("A SearchFilter", () => {
     expect(debitWidgetInSimpleSearch).toBeNull();
   });
   it("should parse a search field which has a custom widget defined in form xml", () => {
-    const searchFilter = new SearchFilter(searchFields, fields);
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
 
     const nameWidget = searchFilter.findById("payment_type_customer");
