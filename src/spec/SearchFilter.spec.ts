@@ -43,8 +43,7 @@ const fields = {
     type: "one2many",
     views: {
       form: {
-        arch:
-          '<form string="Partner Contacts">\n                                    <notebook>\n                                        <page string="General">\n                                            <field name="name" select="2" required="True"/>\n                                            <field domain="[(\'domain\', \'=\', \'contact\')]" name="title" string="Type"/>\n                                            <field name="function"/>\n                                            <field name="type" select="2"/>\n                                            <separator string="Street" colspan="4"/>\n                                            <field name="street" select="2" colspan="4" width="200"/>\n                                            <group colspan="2" col="4">\n                        <field name="tv" select="2"/>\n                        <newline/>\n                        <field name="nv" colspan="4"/>\n                    </group>\n                    <group colspan="2" col="8">\n                        <field name="pnp"/>\n                        <field name="es"/>\n                        <field name="pt"/>\n                        <field name="pu"/>\n                        <field name="bq" colspan="1"/>\n                        <field name="aclarador" colspan="5"/>\n                    </group>\n                <field name="street2"/>\n                                            <newline/>\n                                            <field name="zip" select="2"/>\n                                            <field name="apartat_correus"/>\n                    <newline/>\n                <newline/>\n                                            <field name="id_municipi" on_change="onchange_municipi_id(id_municipi,context)"/>\n                    <field name="id_poblacio" domain="[(\'municipi_id\',\'=\',id_municipi)]"/>\n                <field name="state_id" select="2"/>\n                                            <field completion="1" name="country_id" select="2"/>\n                                            <newline/>\n                                            <separator string="Catastre" colspan="4"/>\n                    <field name="ref_catastral"/>\n                <separator string="Comunication channels" colspan="4"/>\n                                            <field name="phone"/>\n                                            <field name="fax"/>\n                                            <newline/>\n                                            <field name="mobile"/>\n                                            <field name="email" select="2" widget="email"/>\n                                        </page>\n                                        <page string="Notes">\n                                            <field name="notes" nolabel="1" colspan="4"/>\n                                        </page>\n                                    </notebook>\n                                </form>\n                                ',
+        arch: '<form string="Partner Contacts">\n                                    <notebook>\n                                        <page string="General">\n                                            <field name="name" select="2" required="True"/>\n                                            <field domain="[(\'domain\', \'=\', \'contact\')]" name="title" string="Type"/>\n                                   <field name="payment_type_customer" widget="selection"/>\n            <field name="function"/>\n                                            <field name="type" select="2"/>\n                                            <separator string="Street" colspan="4"/>\n                                            <field name="street" select="2" colspan="4" width="200"/>\n                                            <group colspan="2" col="4">\n                        <field name="tv" select="2"/>\n                        <newline/>\n                        <field name="nv" colspan="4"/>\n                    </group>\n                    <group colspan="2" col="8">\n                        <field name="pnp"/>\n                        <field name="es"/>\n                        <field name="pt"/>\n                        <field name="pu"/>\n                        <field name="bq" colspan="1"/>\n                        <field name="aclarador" colspan="5"/>\n                    </group>\n                <field name="street2"/>\n                                            <newline/>\n                                            <field name="zip" select="2"/>\n                                            <field name="apartat_correus"/>\n                    <newline/>\n                <newline/>\n                                            <field name="id_municipi" on_change="onchange_municipi_id(id_municipi,context)"/>\n                    <field name="id_poblacio" domain="[(\'municipi_id\',\'=\',id_municipi)]"/>\n                <field name="state_id" select="2"/>\n                                            <field completion="1" name="country_id" select="2"/>\n                                            <newline/>\n                                            <separator string="Catastre" colspan="4"/>\n                    <field name="ref_catastral"/>\n                <separator string="Comunication channels" colspan="4"/>\n                                            <field name="phone"/>\n                                            <field name="fax"/>\n                                            <newline/>\n                                            <field name="mobile"/>\n                                            <field name="email" select="2" widget="email"/>\n                                        </page>\n                                        <page string="Notes">\n                                            <field name="notes" nolabel="1" colspan="4"/>\n                                        </page>\n                                    </notebook>\n                                </form>\n                                ',
         fields: {
           aclarador: {
             size: 256,
@@ -216,8 +215,7 @@ const fields = {
             views: {},
           },
           type: {
-            help:
-              "Used to select automatically the right address according to the context in sales and purchases documents.",
+            help: "Used to select automatically the right address according to the context in sales and purchases documents.",
             selection: [
               ["default", "Default"],
               ["invoice", "Invoice"],
@@ -240,8 +238,7 @@ const fields = {
         },
       },
       tree: {
-        arch:
-          '<tree string="Partner Contacts">\n                                    <field name="name"/>\n                                    <field name="street"/>\n                    <field name="type"/>\n                <field name="zip"/>\n                                    <field name="city"/>\n                                    <field name="country_id"/>\n                                    <field name="phone"/>\n                                    <field name="email"/>\n                                </tree>\n                            ',
+        arch: '<tree string="Partner Contacts">\n                                    <field name="name"/>\n                                    <field name="street"/>\n                    <field name="type"/>\n                <field name="zip"/>\n                                    <field name="city"/>\n                                    <field name="country_id"/>\n                                    <field name="phone"/>\n                                    <field name="email"/>\n                                </tree>\n                            ',
         fields: {
           city: {
             size: 128,
@@ -285,8 +282,7 @@ const fields = {
             views: {},
           },
           type: {
-            help:
-              "Used to select automatically the right address according to the context in sales and purchases documents.",
+            help: "Used to select automatically the right address according to the context in sales and purchases documents.",
             selection: [
               ["default", "Default"],
               ["invoice", "Invoice"],
@@ -319,14 +315,12 @@ const fields = {
     type: "one2many",
     views: {
       form: {
-        arch:
-          '<form string="Bank account">\n                            <field name="state" select="2"/>\n                            <newline/>\n                            <field name="acc_number" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n                <field name="acc_country_id" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n            <newline/>\n                    <field name="iban" on_change="onchange_iban(iban, context)"/>\n            <newline/>\n                    <field name="printable_iban"/>\n                    <newline/>\n                <newline/>\n                            <field name="bank"/>\n                            <newline/>\n                            <field name="sequence"/>\n                            <field name="default_bank"/>\n            <field colspan="4" name="name" select="2"/>\n                            <separator colspan="4" string="Bank account owner"/>\n                            <field colspan="4" name="owner_name" select="2" invisible="1"/>\n                    <field colspan="4" name="owner_id" required="0"/>\n                <field colspan="4" name="street" invisible="1"/>\n                    <field colspan="4" name="owner_address_id" domain="[(\'partner_id\', \'=\', owner_id)]"/>\n                <newline/>\n                            <field name="zip" invisible="1"/>\n                <field name="city" invisible="1"/>\n                <newline/>\n                            <field invisible="1" name="country_id" select="2"/>\n                <field name="state_id" select="2" invisible="1"/>\n                </form>\n                        ',
+        arch: '<form string="Bank account">\n                            <field name="state" select="2"/>\n                            <newline/>\n                            <field name="acc_number" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n                <field name="acc_country_id" on_change="onchange_banco(acc_number, acc_country_id, context)"/>\n            <newline/>\n                    <field name="iban" on_change="onchange_iban(iban, context)"/>\n            <newline/>\n                    <field name="printable_iban"/>\n                    <newline/>\n                <newline/>\n                            <field name="bank"/>\n                            <newline/>\n                            <field name="sequence"/>\n                            <field name="default_bank"/>\n            <field colspan="4" name="name" select="2"/>\n                            <separator colspan="4" string="Bank account owner"/>\n                            <field colspan="4" name="owner_name" select="2" invisible="1"/>\n                    <field colspan="4" name="owner_id" required="0"/>\n                <field colspan="4" name="street" invisible="1"/>\n                    <field colspan="4" name="owner_address_id" domain="[(\'partner_id\', \'=\', owner_id)]"/>\n                <newline/>\n                            <field name="zip" invisible="1"/>\n                <field name="city" invisible="1"/>\n                <newline/>\n                            <field invisible="1" name="country_id" select="2"/>\n                <field name="state_id" select="2" invisible="1"/>\n                </form>\n                        ',
         fields: {
           acc_country_id: {
             context: "",
             domain: [],
-            help:
-              "If the country of the bank is Spain, it validates the bank code. It only reads the digit characters of the bank code:\n- If the number of digits is 18, computes the two digits of control.\n- If the number of digits is 20, computes the two digits of control and ignores the current ones.\n- If the number of digits is different from 18 or 20, it leaves the bank code unaltered.\nThe result is shown in the '1234 5678 06 1234567890' format.",
+            help: "If the country of the bank is Spain, it validates the bank code. It only reads the digit characters of the bank code:\n- If the number of digits is 18, computes the two digits of control.\n- If the number of digits is 20, computes the two digits of control and ignores the current ones.\n- If the number of digits is different from 18 or 20, it leaves the bank code unaltered.\nThe result is shown in the '1234 5678 06 1234567890' format.",
             relation: "res.country",
             required: true,
             size: 64,
@@ -425,8 +419,7 @@ const fields = {
           owner_id: {
             context: "",
             domain: [],
-            help:
-              "If no owner is selected, the related partner will be used as owner",
+            help: "If no owner is selected, the related partner will be used as owner",
             relation: "res.partner",
             required: true,
             select: true,
@@ -503,8 +496,7 @@ const fields = {
         },
       },
       tree: {
-        arch:
-          '<tree string="Bank Details">\n                            <field name="state"/>\n                            <field name="bank"/>\n                            <field name="owner_name"/>\n                            <field name="acc_number"/>\n                        <field name="iban"/>\n                <field name="default_bank"/>\n            </tree>\n                    ',
+        arch: '<tree string="Bank Details">\n                            <field name="state"/>\n                            <field name="bank"/>\n                            <field name="owner_name"/>\n                            <field name="acc_number"/>\n                        <field name="iban"/>\n                <field name="default_bank"/>\n            </tree>\n                    ',
         fields: {
           acc_number: {
             size: 64,
@@ -663,8 +655,7 @@ const fields = {
     views: {},
   },
   lang: {
-    help:
-      "If the selected language is loaded in the system, all documents related to this partner will be printed in this language. If not, it will be english.",
+    help: "If the selected language is loaded in the system, all documents related to this partner will be printed in this language. If not, it will be english.",
     selection: [
       ["en_US", "English"],
       ["ca_ES", "Catalan / Català"],
@@ -729,8 +720,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'receivable')]",
-    help:
-      "This account will be used as the debtor account for the current partner",
+    help: "This account will be used as the debtor account for the current partner",
     relation: "account.account",
     required: true,
     string: "Account Debtor",
@@ -741,8 +731,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'payable')]",
-    help:
-      "This account will be used instead of the default one as the payable account for the current partner",
+    help: "This account will be used instead of the default one as the payable account for the current partner",
     relation: "account.account",
     required: true,
     string: "Account Payable",
@@ -753,8 +742,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "The fiscal position will determine taxes and the accounts used for the the partner.",
+    help: "The fiscal position will determine taxes and the accounts used for the the partner.",
     relation: "account.fiscal.position",
     string: "Fiscal Position",
     type: "many2one",
@@ -764,8 +752,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: "[('type', '=', 'receivable')]",
-    help:
-      "This account will be used instead of the default one as the receivable account for the current partner",
+    help: "This account will be used instead of the default one as the receivable account for the current partner",
     relation: "account.account",
     required: true,
     string: "Account Receivable",
@@ -776,8 +763,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This payment term will be used instead of the default one for the current partner",
+    help: "This payment term will be used instead of the default one for the current partner",
     relation: "account.payment.term",
     string: "Payment Term",
     type: "many2one",
@@ -787,8 +773,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["type", "=", "sale"]],
-    help:
-      "This pricelist will be used, instead of the default one,                     for sales to the current partner",
+    help: "This pricelist will be used, instead of the default one,                     for sales to the current partner",
     relation: "product.pricelist",
     string: "Sale Pricelist",
     type: "many2one",
@@ -798,8 +783,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["type", "=", "purchase"]],
-    help:
-      "This pricelist will be used, instead of the default one, for purchases from the current partner",
+    help: "This pricelist will be used, instead of the default one, for purchases from the current partner",
     relation: "product.pricelist",
     string: "Purchase Pricelist",
     type: "many2one",
@@ -809,8 +793,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner",
+    help: "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner",
     relation: "stock.location",
     string: "Customer Location",
     type: "many2one",
@@ -820,8 +803,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [],
-    help:
-      "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner",
+    help: "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner",
     relation: "stock.location",
     string: "Supplier Location",
     type: "many2one",
@@ -831,8 +813,7 @@ const fields = {
     context: "",
     digits: [16, 2],
     domain: [["name", "!=", false]],
-    help:
-      "Encoding XML amb el qual es generaran els XML's de switching per aquesta empresa",
+    help: "Encoding XML amb el qual es generaran els XML's de switching per aquesta empresa",
     relation: "giscedata.switching.xml.encoding",
     required: true,
     string: "Encoding XML switching",
@@ -862,8 +843,7 @@ const fields = {
     views: {},
   },
   supplier: {
-    help:
-      "Check this box if the partner is a supplier. If it's not checked, purchase people will not see it when encoding a purchase order.",
+    help: "Check this box if the partner is a supplier. If it's not checked, purchase people will not see it when encoding a purchase order.",
     string: "Supplier",
     type: "boolean",
     views: {},
@@ -890,8 +870,7 @@ const fields = {
   user_id: {
     context: "",
     domain: [],
-    help:
-      "The internal user that is in charge of communicating with this partner if any.",
+    help: "The internal user that is in charge of communicating with this partner if any.",
     relation: "res.users",
     size: 64,
     string: "Dedicated Salesman",
@@ -899,8 +878,7 @@ const fields = {
     views: {},
   },
   vat: {
-    help:
-      "Value Added Tax number. Check the box if the partner is subjected to the VAT. Used by the VAT legal statement.",
+    help: "Value Added Tax number. Check the box if the partner is subjected to the VAT. Used by the VAT legal statement.",
     select: true,
     size: 32,
     string: "VAT",
@@ -908,8 +886,7 @@ const fields = {
     views: {},
   },
   vat_subjected: {
-    help:
-      "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement.",
+    help: "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement.",
     string: "VAT Legal Statement",
     type: "boolean",
     views: {},
@@ -947,9 +924,16 @@ describe("A SearchFilter", () => {
     const debitWidget = searchFilter.findById("debit");
     expect(debitWidget).toBeDefined();
     expect(debitWidget!.constructor.name).toBe("Float");
-    const debitWidgetInSimpleSearch = searchFilter.simpleSearchContainer.findById(
-      "debit"
-    );
+    const debitWidgetInSimpleSearch =
+      searchFilter.simpleSearchContainer.findById("debit");
     expect(debitWidgetInSimpleSearch).toBeNull();
+  });
+  it("should parse a search field which has a custom widget defined in form xml", () => {
+    const searchFilter = new SearchFilter(searchFields, fields);
+    searchFilter.parse();
+
+    const nameWidget = searchFilter.findById("payment_type_customer");
+    expect(nameWidget).toBeDefined();
+    expect(nameWidget!.constructor.name).toBe("Selection");
   });
 });
