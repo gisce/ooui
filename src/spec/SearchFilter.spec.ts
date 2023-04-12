@@ -106,7 +106,7 @@ const formXml = `<form string="Empresas">
 <group col="2" colspan="2">
     <separator string="Propiedades de contabilidad del cliente" colspan="2"/>
     <field name="property_account_receivable"/>
-    <field name="payment_type_customer" select="1"/>
+    <field name="payment_type_customer" select="1" widget="selection"/>
 <field name="property_account_debtor"/>
 <field name="codigo_contable" select="1"/>
 <field name="property_account_position"/>
@@ -1143,5 +1143,13 @@ describe("A SearchFilter", () => {
     const debitWidgetInSimpleSearch =
       searchFilter.simpleSearchContainer.findById("debit");
     expect(debitWidgetInSimpleSearch).toBeNull();
+  });
+  it("should parse a search field which has a custom widget defined in form xml", () => {
+    const searchFilter = new SearchFilter(searchFields, fields);
+    searchFilter.parse();
+
+    const nameWidget = searchFilter.findById("payment_type_customer");
+    expect(nameWidget).toBeDefined();
+    expect(nameWidget!.constructor.name).toBe("Selection");
   });
 });
