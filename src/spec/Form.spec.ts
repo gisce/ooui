@@ -3171,4 +3171,25 @@ describe("A Form", () => {
     const field = form.findById("bank") as Field;
     expect(field.domain).toBeDefined();
   });
+
+  it("Should be able to parse domain in XML with domain as [] in fields", () => {
+    const arch = `<form>
+    <field name="llista_preu" domain="[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]"/>
+        </form>`;
+    const fields = {
+      llista_preu: {
+        type: "many2one",
+        domain: [],
+      },
+    };
+    const form = new Form(fields);
+    form.parse(arch, {
+      values: {},
+    });
+    const field = form.findById("llista_preu") as Field;
+    expect(field.domain).toBeDefined();
+    expect(field.domain).toBe(
+      "[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]"
+    );
+  });
 });
