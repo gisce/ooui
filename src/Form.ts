@@ -209,20 +209,11 @@ class Form {
 
         let domain: string | undefined = undefined;
 
-        if (
-          tagAttributes["domain"] &&
-          tagAttributes["domain"] !== "" &&
-          tagAttributes["domain"] !== "[]"
-        ) {
+        if (checkIfDomainHasValue(tagAttributes["domain"])) {
           domain = tagAttributes["domain"];
         }
 
-        if (
-          this._fields[tagAttributes.name] &&
-          this._fields[tagAttributes.name].domain &&
-          this._fields[tagAttributes.name].domain !== "" &&
-          this._fields[tagAttributes.name].domain !== "[]"
-        ) {
+        if (checkIfDomainHasValue(this._fields[tagAttributes.name]?.domain)) {
           domain = this._fields[tagAttributes.name].domain;
         }
 
@@ -265,4 +256,15 @@ class Form {
   }
 }
 
+function checkIfDomainHasValue(domain: any) {
+  if (!domain) {
+    return false;
+  }
+  if (Array.isArray(domain) && domain.length > 0) {
+    return true;
+  } else if (typeof domain === "string" && domain !== "" && domain !== "[]") {
+    return true;
+  }
+  return false;
+}
 export default Form;
