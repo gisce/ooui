@@ -11,4 +11,13 @@ describe("A Separator", () => {
 
     expect(widget.label).toBe("Text");
   });
+  it("can have an icon property", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      string: "Text",
+      icon: "home"
+    };
+    const widget = widgetFactory.createWidget("separator", props);
+    expect(widget.icon).toEqual("home");
+  });
 });
