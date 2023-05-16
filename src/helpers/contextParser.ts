@@ -5,13 +5,26 @@ export const parseContext = ({
   values,
   fields,
 }: {
-  context?: string;
+  context?: any;
   values?: any;
   fields?: any;
 }) => {
   // TODO: remove try/catch when we know for sure that all the incoming contexts formats are expected
   try {
     if (!context) return undefined;
+
+    if (isObject(context)) {
+      return context;
+    }
+
+    if (typeof context !== "string") {
+      return context;
+    }
+
+    const parsedContextInJson = tryParseJSON(context);
+    if (parsedContextInJson !== null) {
+      return parsedContextInJson;
+    }
 
     if (context.trim().length === 0) {
       return undefined;
@@ -65,3 +78,20 @@ export const parseContext = ({
     return undefined;
   }
 };
+
+function tryParseJSON(str: string): any | null {
+  try {
+    const parsedJSON = JSON.parse(str);
+    return parsedJSON;
+  } catch (error) {
+    return null;
+  }
+}
+
+function isObject(variable: any): boolean {
+  return (
+    typeof variable === "object" &&
+    variable !== null &&
+    typeof variable !== "string"
+  );
+}
