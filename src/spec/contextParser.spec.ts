@@ -80,5 +80,53 @@ describe("A Context Parser", () => {
       expect(parsedContext!["active_id"]).toBeDefined();
       expect(parsedContext!["active_id"]).toBe(3);
     });
+
+    it("should properly parse with double quotes", () => {
+      const str = '{"active_id": 3}';
+
+      const parsedContext = parseContext({ context: str });
+
+      expect(parsedContext!["active_id"]).toBeDefined();
+      expect(parsedContext!["active_id"]).toBe(3);
+    });
+
+    it("should properly return a object when context is a object", () => {
+      const ctx = {
+        person: {
+          name: "John Doe",
+          age: 30,
+          address: {
+            street: "123 Main St",
+            city: "Exampleville",
+            country: "Exampleland",
+          },
+        },
+      };
+
+      const parsedContext = parseContext({ context: ctx });
+
+      expect(parsedContext!["person"]).toBeDefined();
+      expect(parsedContext!["person"].name).toBe("John Doe");
+      expect(JSON.stringify(parsedContext)).toBe(JSON.stringify(ctx));
+    });
+  });
+
+  it("should properly return a parsed object when context is a string json", () => {
+    const ctx = {
+      person: {
+        name: "John Doe",
+        age: 30,
+        address: {
+          street: "123 Main St",
+          city: "Exampleville",
+          country: "Exampleland",
+        },
+      },
+    };
+
+    const parsedContext = parseContext({ context: JSON.stringify(ctx) });
+    expect(parsedContext!["person"]).toBeDefined();
+    expect(parsedContext!["person"].name).toBe("John Doe");
+    expect(JSON.stringify(parsedContext)).toBe(JSON.stringify(ctx));
   });
 });

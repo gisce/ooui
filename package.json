@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "0.19.2-rc.0",
+  "version": "0.19.2-rc.1",
   "main": "./dist/ooui.umd.js",
   "module": "./dist/ooui.es.js",
   "types": "./dist/index.d.ts",
