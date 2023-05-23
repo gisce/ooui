@@ -75,15 +75,15 @@ describe("A Label", () => {
         widget_props: "{}"
       };
       const widget = widgetFactory.createWidget("label", props);
-      expect(widget.labelSize).toBe("text");
+      expect(widget.labelSize).toBe(undefined);
     });
     it("should have allow size to h1...h5", () => {
       const widgetFactory = new WidgetFactory();
-      ['h1', 'h2', 'h3', 'h4', 'h5'].map((level) => {
+      [1, 2, 3, 4, 5].map((level) => {
         const props = {
           name: "field_label",
           string: "Default",
-          widget_props: `{'label_size': '${level}'}`
+          widget_props: `{'label_size': ${level}}`
         };
         const widget = widgetFactory.createWidget("label", props);
         expect(widget.labelSize).toBe(level);

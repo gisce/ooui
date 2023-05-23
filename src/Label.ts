@@ -2,7 +2,7 @@ import Field from "./Field";
 
 
 type LabelType = "secondary" | "success" | "warning" | "danger" | "default";
-type LabelSize = "h1" | "h2" | "h3" | "h4" | "h5" | "text";
+type LabelSize = 1 | 2 | 3 | 4 | 5 | undefined;
 
 class Label extends Field {
   /**
@@ -41,7 +41,7 @@ class Label extends Field {
   /**
    * Label size
    */
-   _labelSize: LabelSize = "text";
+   _labelSize: LabelSize = undefined;
    get labelSize(): LabelSize {
      return this._labelSize;
    }
