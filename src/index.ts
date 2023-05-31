@@ -16,6 +16,7 @@ import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
 import Many2many from "./Many2many";
+import Markdown from "./Markdown";
 import One2many from "./One2many";
 import SearchFilter from "./SearchFilter";
 import Text from "./Text";
@@ -112,6 +113,7 @@ export {
   Tags,
   Tag,
   MultiCheckbox,
+  Markdown,
   Radio,
   Switch,
   Steps,

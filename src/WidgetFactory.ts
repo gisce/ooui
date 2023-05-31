@@ -8,6 +8,7 @@ import Char from "./Char";
 import Text from "./Text";
 import Selection from "./Selection";
 import Many2one from "./Many2one";
+import Markdown from "./Markdown";
 import Boolean from "./Boolean";
 import Integer from "./Integer";
 import Widget from "./Widget";
@@ -95,6 +96,9 @@ class WidgetFactory {
         break;
       case "many2many":
         this._widgetClass = Many2many;
+        break;
+      case "markdown":
+        this._widgetClass = Markdown;
         break;
       case "one2many":
       case "one2many_list":
