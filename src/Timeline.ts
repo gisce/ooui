@@ -23,6 +23,14 @@ class Timeline extends One2many {
     this._summaryField = value;
   }
 
+  get iconField(): string {
+    return this.parsedWidgetProps.iconField;
+  }
+
+  get colorField(): string {
+    return this.parsedWidgetProps.colorField;
+  }
+
   constructor(props: any) {
     super(props);
     this._titleField = "";

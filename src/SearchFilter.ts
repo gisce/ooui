@@ -3,6 +3,20 @@ import Container from "./Container";
 import Widget from "./Widget";
 import Form from "./Form";
 
+export const SearchFieldTypes: any = {
+  text: "text",
+  many2one: "many2one",
+  char: "char",
+  boolean: "boolean",
+  selection: "selection",
+  float: "float",
+  float_time: "float_time",
+  progressbar: "progressbar",
+  integer: "integer",
+  date: "date",
+  datetime: "datetime",
+};
+
 class SearchFilter {
   /**
    * Object containing the specific fields for primary and secondary search fields
@@ -88,7 +102,10 @@ class SearchFilter {
         colspan: 2,
       };
       const { type } = fieldAttributes;
-      const widgetType = form.findById(searchField)?.type ?? type;
+      let widgetType = form.findById(searchField)?.type ?? type;
+      if (SearchFieldTypes[widgetType] === undefined) {
+        widgetType = type;
+      }
       return widgetFactory.createWidget(widgetType!, fieldAttributes);
     });
   }
