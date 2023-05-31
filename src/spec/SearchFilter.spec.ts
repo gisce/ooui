@@ -8,6 +8,7 @@ const searchFields = {
     "customer",
     "address",
     "payment_type_customer",
+    "payment_type_customer_switch",
     "codigo_contable",
     "vat",
     "payment_type_supplier",
@@ -107,6 +108,7 @@ const formXml = `<form string="Empresas">
     <separator string="Propiedades de contabilidad del cliente" colspan="2"/>
     <field name="property_account_receivable"/>
     <field name="payment_type_customer" select="1" widget="selection"/>
+    <field name="payment_type_customer_switch" select="1" widget="switch"/>
 <field name="property_account_debtor"/>
 <field name="codigo_contable" select="1"/>
 <field name="property_account_position"/>
@@ -316,6 +318,9 @@ const fields = {
     string: "Empresa principal",
     type: "many2one",
     views: {},
+  },
+  payment_type_customer_switch: {
+    type: "boolean",
   },
   payment_type_customer: {
     context: "",
@@ -595,5 +600,13 @@ describe("A SearchFilter", () => {
     const nameWidget = searchFilter.findById("payment_type_customer");
     expect(nameWidget).toBeDefined();
     expect(nameWidget!.constructor.name).toBe("Selection");
+  });
+  it.only("should parse a search field which has a custom widget defined in form xml but it's not a default one so it should fallback", () => {
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
+    searchFilter.parse();
+
+    const nameWidget = searchFilter.findById("payment_type_customer_switch");
+    expect(nameWidget).toBeDefined();
+    expect(nameWidget!.constructor.name).toBe("Boolean");
   });
 });

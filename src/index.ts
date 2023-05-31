@@ -18,7 +18,7 @@ import DateTime from "./DateTime";
 import Many2many from "./Many2many";
 import Markdown from "./Markdown";
 import One2many from "./One2many";
-import SearchFilter from "./SearchFilter";
+import SearchFilter, { SearchFieldTypes } from "./SearchFilter";
 import Text from "./Text";
 import Label from "./Label";
 import Notebook from "./Notebook";
@@ -118,4 +118,5 @@ export {
   Switch,
   Steps,
   CodeEditor,
+  SearchFieldTypes,
 };
