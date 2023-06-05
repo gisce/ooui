@@ -9,15 +9,17 @@ class ButtonGroup extends ContainerWidget {
   }
 
   get defaultButton(): Button | undefined {
-    return this.buttons.find(button => button.id === this.defaultName);
+    const btn = this.buttons.find(button => button.id === this.defaultName);
+    return btn ? btn : this.buttons[0];
   }
 
   get secondaryButtons(): Button[] {
-    return this.buttons.filter(button => button.id !== this.defaultName);
+    const btns = this.buttons.filter(button => button.id !== this.defaultButton?.id);
+    return btns;
   }
 
   get buttons(): Button[] {
-    return this._container.rows[0] as Button[];
+    return this._container.rows[0].filter((b) => !b.invisible) as Button[];
   }
 
   constructor(props: any) {
