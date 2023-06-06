@@ -34,6 +34,7 @@ import MultiCheckbox from "./MultiCheckbox";
 import Switch from "./Switch";
 import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
+import Avatar from "./Avatar";
 
 class WidgetFactory {
   /**
@@ -139,6 +140,9 @@ class WidgetFactory {
         break;
       case "tag":
         this._widgetClass = Tag;
+        break;
+      case "avatar":
+        this._widgetClass = Avatar;
         break;
       case "radio":
         this._widgetClass = Radio;

@@ -1,3 +1,4 @@
+import Avatar from "./Avatar";
 import Form from "./Form";
 import Tree from "./Tree";
 import Char from "./Char";
@@ -61,6 +62,7 @@ import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";
 
 export {
+  Avatar,
   Char,
   Selection,
   Many2one,
