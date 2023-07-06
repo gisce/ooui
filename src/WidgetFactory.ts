@@ -35,6 +35,7 @@ import Switch from "./Switch";
 import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
 import Avatar from "./Avatar";
+import Time from "./Time";
 
 class WidgetFactory {
   /**
@@ -159,6 +160,9 @@ class WidgetFactory {
       case "codeeditor":
         this._widgetClass = CodeEditor;
         break;
+      case "time":
+        this._widgetClass = Time;
+        break
 
       default:
         break;

@@ -1,7 +1,8 @@
 import WidgetFactory from "../WidgetFactory";
 import {
     Char, Button, NewLine, Tags, MultiCheckbox,
-    Radio, Switch, Steps, CodeEditor, ButtonGroup
+    Radio, Switch, Steps, CodeEditor, ButtonGroup,
+    Time
 } from "..";
 
 
@@ -93,5 +94,13 @@ describe('A WidgetFactory', () => {
         const widget = widgetFactory.createWidget("buttonGroup", props);
         expect(widget).toBeInstanceOf(ButtonGroup);
         expect(widget.type).toBe("buttonGroup");
+    });
+
+    it('should be able to retrieve time type', () => {
+        const widgetFactory = new WidgetFactory();
+        const props = {};
+        const widget = widgetFactory.createWidget("time", props);
+        expect(widget).toBeInstanceOf(Time);
+        expect(widget.type).toBe("time");
     });
 });

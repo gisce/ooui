@@ -44,6 +44,7 @@ import Radio from "./Radio";
 import Switch from "./Switch";
 import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
+import Time from "./Time";
 
 import {
   Graph,
@@ -121,4 +122,5 @@ export {
   Steps,
   CodeEditor,
   SearchFieldTypes,
+  Time,
 };
