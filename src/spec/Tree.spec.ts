@@ -3,7 +3,7 @@ import Char from "../Char";
 import FloatTime from "../FloatTime";
 
 const XML_VIEW_TREE = `<?xml version="1.0"?>
-<tree string="Partners" colors="red:debt_amount&gt;0 &amp; city!=''">
+<tree string="Partners" colors="red:debt_amount&gt;0 &amp; city!=''" status="red:debt_amount&gt;0;green:debt_amount==0">
   <field name="name"/>
   <field name="title"/>
   <field name="ref"/>
@@ -87,6 +87,8 @@ describe("A Tree", () => {
     expect(nameWidget.label).toBe("Name");
     expect(tree.colors).toBeDefined();
     expect(tree.colors).toBe("red:debt_amount>0 & city!=''")
+    expect(tree.status).toBeDefined();
+    expect(tree.status).toBe("red:debt_amount>0;green:debt_amount==0")
   });
   it("Must throw an error if a field isn't present in field definitions", () => {
     const parseInvalidTree = () => {
