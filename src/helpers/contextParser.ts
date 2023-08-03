@@ -79,6 +79,61 @@ export const parseContext = ({
   }
 };
 
+export const parseContextFields = (context:string): string[] => {
+  const fields: string[] = [];
+  try {
+    if (!context) return fields;
+
+    if (isObject(context)) {
+      return fields;
+    }
+
+    if (typeof context !== "string") {
+      return fields;
+    }
+
+    const parsedContextInJson = tryParseJSON(context);
+    if (parsedContextInJson !== null) {
+      return parsedContextInJson;
+    }
+
+    if (context.trim().length === 0) {
+      return fields;
+    }
+
+    // TODO: maybe this can be accomplished more performant and elegant with regex
+    const singleQuotesReplace = context.replace(/\"/g, "'");
+    const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
+    var replaceTrue = strNoWhitespaces.replace(/True/g, "true");
+    var replaceFalse = replaceTrue.replace(/False/g, "false");
+    const strNoClauLeft = replaceFalse.replace(/\{/g, "");
+    const strNoClauRight = strNoClauLeft.replace(/\}/g, "");
+
+    const entryValues = strNoClauRight.split(",");
+    const valuesSplitted = entryValues.map((entry) => {
+      return entry.split(":");
+    });
+
+    const parsedContext: any = {};
+
+    valuesSplitted.forEach((entry) => {
+      const fieldName = entry[1];
+
+      if (
+        entry[1].indexOf("'") === -1 &&
+        entry[1] !== "true" &&
+        entry[1] !== "false"
+      ) {
+        fields.push(entry[1].replace(/'/g, ""))
+        }
+    });
+
+    return fields;
+  } catch (e) {
+  }
+  return fields;
+}
+
 function tryParseJSON(str: string): any | null {
   try {
     const parsedJSON = JSON.parse(str);

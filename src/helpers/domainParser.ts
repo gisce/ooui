@@ -36,4 +36,15 @@ const transformDomainForChildWidget = ({
   return transformedDomain;
 };
 
+export const parseDomainFields = (domain: string | boolean): string[] => {
+  console.log("Domain parse", domain);
+  if (typeof domain != 'string') {
+    return [];
+  }
+  return domain.replace(/[()\[\]]/g, "")
+    .split(',')
+    .map(i => i.trim())
+    .filter(i => i.indexOf("'") === -1)
+}
+
 export { transformDomainForChildWidget };
