@@ -1,3 +1,4 @@
+import Avatar from "./Avatar";
 import Form from "./Form";
 import Tree from "./Tree";
 import Char from "./Char";
@@ -43,6 +44,7 @@ import Radio from "./Radio";
 import Switch from "./Switch";
 import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
+import Time from "./Time";
 
 import {
   Graph,
@@ -61,6 +63,7 @@ import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";
 
 export {
+  Avatar,
   Char,
   Selection,
   Many2one,
@@ -119,4 +122,5 @@ export {
   Steps,
   CodeEditor,
   SearchFieldTypes,
+  Time,
 };

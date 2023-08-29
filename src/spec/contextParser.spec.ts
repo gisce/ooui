@@ -129,4 +129,10 @@ describe("A Context Parser", () => {
     expect(parsedContext!["person"].name).toBe("John Doe");
     expect(JSON.stringify(parsedContext)).toBe(JSON.stringify(ctx));
   });
+
+  it.only("should parse context with simple single quotes in a string", () => {
+    const string = "{'contract_id': 1, 'contract_ids': [1, 3]}";
+    const parsedContext = parseContext({ context: string });
+    expect(parsedContext!["contract_id"]).toBe(1);
+  });
 });

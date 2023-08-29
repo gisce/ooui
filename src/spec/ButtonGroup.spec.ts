@@ -40,4 +40,32 @@ describe("A ButtonsGroup widget", () => {
     });
 
   });
+  describe("Working with invisible buttons", () => {
+    it("Only should return visible buttons", () => {
+      const btn1 = new Button({name: "btn1", type: "object", icon: "gtk-execute", string: "Button 1"});
+      const btn2 = new Button({name: "btn2", type: "object", icon: "gtk-execute", string: "Button 2", invisible: true});
+      const btn3 = new Button({name: "btn3", type: "object", icon: "gtk-execute", string: "Button 3"});
+      const buttonGroup = new ButtonGroup({name: "btnGroup", default: "btn1"});
+      buttonGroup.container.rows[0].push(...[btn1, btn2, btn3]);
+      expect(buttonGroup.buttons).toHaveLength(2);
+    });
+    it("Only should return visible secondary buttons", () => {
+      const btn1 = new Button({name: "btn1", type: "object", icon: "gtk-execute", string: "Button 1"});
+      const btn2 = new Button({name: "btn2", type: "object", icon: "gtk-execute", string: "Button 2", invisible: true});
+      const btn3 = new Button({name: "btn3", type: "object", icon: "gtk-execute", string: "Button 3"});
+      const buttonGroup = new ButtonGroup({name: "btnGroup", default: "btn1"});
+      buttonGroup.container.rows[0].push(...[btn1, btn2, btn3]);
+      expect(buttonGroup.secondaryButtons).toHaveLength(1);
+    });
+    it("Should return the first secondary button if default button is invisible", () => {
+      const btn1 = new Button({name: "btn1", type: "object", icon: "gtk-execute", string: "Button 1", invisible: true});
+      const btn2 = new Button({name: "btn2", type: "object", icon: "gtk-execute", string: "Button 2"});
+      const btn3 = new Button({name: "btn3", type: "object", icon: "gtk-execute", string: "Button 3"});
+      const buttonGroup = new ButtonGroup({name: "btnGroup", default: "btn1"});
+      buttonGroup.container.rows[0].push(...[btn1, btn2, btn3]);
+      expect(buttonGroup.buttons).toHaveLength(2);
+      expect(buttonGroup.defaultButton).toBe(btn2);
+      expect(buttonGroup.secondaryButtons).toHaveLength(1);
+    })
+  })
 });

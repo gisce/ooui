@@ -41,6 +41,11 @@ class Tree {
     return this._colors;
   }
 
+  _status: string | null = null;
+  get status(): string | null {
+    return this._status;
+  }
+
   /**
    * Editable value
    */
@@ -62,6 +67,10 @@ class Tree {
     this._colors = view.attributes.colors || null;
     if (this._colors) {
       this._colors = replaceEntities(this._colors);
+    }
+    this._status = view.attributes.status || null;
+    if (this._status) {
+      this._status = replaceEntities(this._status);
     }
     this._editable = view.attributes.editable || null;
     const widgetFactory = new WidgetFactory();
