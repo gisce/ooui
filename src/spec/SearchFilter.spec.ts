@@ -32,6 +32,115 @@ const searchFields = {
   ],
 };
 
+const formXml = `<form string="Empresas">
+<group colspan="4" col="6">
+    <field name="energy_sector" select="2" invisible="1"/>
+<field name="name" select="1"/>
+    <group colspan="2" col="4">
+    <field name="ref" select="1"/>
+    <field name="ref2"/>
+</group>
+<field name="emails" invisible="1" select="1"/>
+<field name="customer" select="1"/>
+    <field domain="[('domain', '=', 'partner')]" name="title"/>
+    <field name="lang" select="2"/>
+    <field name="supplier" select="2"/>
+</group>
+<notebook colspan="4">
+    <page string="General">
+                                            <group string="Test" colspan="4" attrs="{'invisible': [('address', '=', 0)]}">
+                    <field name="name" select="1"/>
+                </group>
+
+        <field colspan="4" mode="form,tree,graph" name="address" nolabel="1" select="1">
+            </field>
+        <separator colspan="4" string="Categorías"/>
+        <field colspan="4" name="category_id" nolabel="1" select="2"/><button name="crear_com_a_participant" type="object" string="Dar de alta como participante"/>
+
+    </page>
+    <page string="Ventas &amp; Compras">
+        <separator string="Información general" colspan="4"/>
+        <field name="user_id" select="2"/>
+        <group colspan="2" col="4">
+    <group colspan="2" col="4">
+    <field name="active" select="2"/>
+    <button name="deactivate_partner" string="Desactivar" type="object" icon="gtk-cancel"/>
+</group>
+<button name="deactivate_partner" string="Desactivar" type="object" icon="gtk-cancel"/>
+</group>
+<field name="website" widget="url"/>
+        <field name="date" select="2"/>
+        <field name="parent_id"/>
+        <field name="representante_id"/>
+<field name="comercial"/>
+<newline/>
+    <group colspan="2" col="2">
+<separator string="Propiedades de stock" colspan="2"/>
+<field name="property_stock_customer"/>
+<field name="property_stock_supplier"/>
+</group>
+<newline/>
+<group col="2" colspan="2" name="sale_list">
+    <separator string="Propiedades de venta" colspan="2"/>
+    <field name="property_product_pricelist"/>
+</group>
+<group colspan="2" col="2">
+    <separator string="Propiedades de compra" colspan="2"/>
+    <field name="property_product_pricelist_purchase"/>
+</group>
+<separator string="Gestión ATR" colspan="4"/>
+    <field name="property_switching_xml_encoding"/>
+</page>
+    <page string="Privacy">
+    <group colspan="4" col="4">
+    <separator string="Gestión SIPS" colspan="4"/>
+    <button string="Solicitar no cesión" type="action" icon="gtk-no" name="1621" colspan="1" readonly="0"/>
+</group>
+</page>
+    <page string="Historial">
+        <field colspan="4" name="events" nolabel="1" widget="timeline" widget_props="{'titleField':'date','summaryField':'name'}" readonly="1"/>
+    </page>
+    <page string="Notas">
+        <field colspan="4" name="comment" nolabel="1"/>
+    </page>
+<page string="Contabilidad" position="inside">
+<group col="2" colspan="2">
+    <separator string="Propiedades de contabilidad del cliente" colspan="2"/>
+    <field name="property_account_receivable"/>
+    <field name="payment_type_customer" select="1" widget="selection"/>
+    <field name="payment_type_customer_switch" select="1" widget="switch"/>
+<field name="property_account_debtor"/>
+<field name="codigo_contable" select="1"/>
+<field name="property_account_position"/>
+    <field name="vat" on_change="vat_change(vat)" select="1"/>
+<field name="vat_subjected"/>
+<field name="property_payment_term"/>
+</group>
+<group col="2" colspan="2">
+    <separator string="Propiedades de contabilidad del proveedor" colspan="2"/>
+    <field name="property_account_payable"/><field name="payment_type_supplier" select="1"/>
+
+</group>
+<group col="2" colspan="2">
+    <separator string="Haber del cliente" colspan="2"/>
+    <field name="credit" select="2"/>
+    <field name="total_debt"/>
+<field name="has_debt" invisible="1" select="2"/>
+<field name="credit_limit" select="2"/>
+</group>
+<group col="2" colspan="2">
+    <separator string="Debe del proveedor" colspan="2"/>
+    <field name="debit" select="2"/>
+</group>
+<field colspan="4" context="address=address" name="bank_ids" nolabel="1" select="2">
+    </field>
+</page>
+<page string="Oficina Virtual" position="after">
+    <field name="ov_users_ids" nolabel="1" colspan="4"/>
+</page>
+</notebook>
+</form>`;
+
 const fields = {
   active: {
     is_function: false,
@@ -212,7 +321,6 @@ const fields = {
   },
   payment_type_customer_switch: {
     type: "boolean",
-    widget: "switch",
   },
   payment_type_customer: {
     context: "",
@@ -223,7 +331,6 @@ const fields = {
     size: 64,
     string: "Tipo de pago de cliente",
     type: "many2one",
-    widget: "selection",
     views: {},
   },
   payment_type_supplier: {
@@ -459,24 +566,22 @@ const fields = {
 
 describe("A SearchFilter", () => {
   it("should parse search fields correctly", () => {
-    const searchFilter = new SearchFilter(searchFields, fields);
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
 
     expect(searchFilter.fields).toBeDefined();
     expect(searchFilter.simpleSearchContainer.rows.length).toBe(3);
-
     expect(searchFilter.simpleSearchContainer.rows[0].length).toBe(4);
     expect(searchFilter.simpleSearchContainer.rows[1].length).toBe(4);
-    expect(searchFilter.simpleSearchContainer.rows[2].length).toBe(4);
+    expect(searchFilter.simpleSearchContainer.rows[2].length).toBe(3);
 
-    expect(searchFilter.advancedSearchContainer.rows.length).toBe(7);
+    expect(searchFilter.advancedSearchContainer.rows.length).toBe(6);
     expect(searchFilter.advancedSearchContainer.rows[0].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[1].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[2].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[3].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[4].length).toBe(4);
     expect(searchFilter.advancedSearchContainer.rows[5].length).toBe(4);
-    expect(searchFilter.advancedSearchContainer.rows[6].length).toBe(1);
 
     const nameWidget = searchFilter.findById("name");
     expect(nameWidget).toBeDefined();
@@ -488,38 +593,16 @@ describe("A SearchFilter", () => {
       searchFilter.simpleSearchContainer.findById("debit");
     expect(debitWidgetInSimpleSearch).toBeNull();
   });
-  it("should parse fields with a specific widget property", () => {
-    const searchFilter = new SearchFilter(
-      {
-        primary: ["polissa_company_search"],
-        secondary: [],
-      },
-      {
-        polissa_company_search: {
-          context: "",
-          digits: [16, 2],
-          domain: [],
-          is_function: true,
-          readonly: 1,
-          relation: "res.company",
-          selection: [
-            [false, ""],
-            [1, "GISCE-TI"],
-          ],
-          string: "Buscar per Companyia",
-          type: "many2one",
-          views: {},
-          widget: "selection",
-        },
-      }
-    );
+  it("should parse a search field which has a custom widget defined in form xml", () => {
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
-    const widget = searchFilter.findById("polissa_company_search");
-    expect(widget).toBeDefined();
-    expect(widget!.constructor.name).toBe("Selection");
+
+    const nameWidget = searchFilter.findById("payment_type_customer");
+    expect(nameWidget).toBeDefined();
+    expect(nameWidget!.constructor.name).toBe("Selection");
   });
-  it("should parse a search field which has a custom widget defined in fields widget prop but it's not a default one so it should fallback", () => {
-    const searchFilter = new SearchFilter(searchFields, fields);
+  it.only("should parse a search field which has a custom widget defined in form xml but it's not a default one so it should fallback", () => {
+    const searchFilter = new SearchFilter(searchFields, fields, formXml);
     searchFilter.parse();
 
     const nameWidget = searchFilter.findById("payment_type_customer_switch");
