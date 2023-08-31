@@ -44,36 +44,19 @@ class SearchFilter {
     return this._advancedSearchContainer;
   }
 
-  /**
-   * String containing the XML for the related form
-   */
-  _formXml: string;
-  get formXml() {
-    return this._formXml;
-  }
-
-  constructor(
-    searchFields: Object,
-    fields: Object,
-    formXml: string,
-    columns: number = 8
-  ) {
+  constructor(searchFields: Object, fields: Object, columns: number = 8) {
     this._searchFields = searchFields;
     this._fields = fields;
-    this._formXml = formXml;
     this._simpleSearchContainer = new Container(columns);
     this._advancedSearchContainer = new Container(columns);
   }
 
   parse() {
     const widgetFactory = new WidgetFactory();
-    const form = new Form(this.fields);
-    form.parse(this.formXml);
 
     const simpleSearchWidgets = this.parseFields(
       this.searchFields.primary,
-      widgetFactory,
-      form
+      widgetFactory
     );
     simpleSearchWidgets.forEach((widget) => {
       this.simpleSearchContainer.addWidget(widget, { addLabel: false });
@@ -82,27 +65,22 @@ class SearchFilter {
 
     const advancedSearchWidgets = this.parseFields(
       this.searchFields.secondary,
-      widgetFactory,
-      form
+      widgetFactory
     );
     advancedSearchWidgets.forEach((widget) => {
       this.advancedSearchContainer.addWidget(widget, { addLabel: false });
     });
   }
 
-  parseFields(
-    searchFields: string[],
-    widgetFactory: WidgetFactory,
-    form: Form
-  ) {
+  parseFields(searchFields: string[], widgetFactory: WidgetFactory) {
     return searchFields.map((searchField) => {
       const fieldAttributes = {
         ...this.fields[searchField],
         name: searchField,
         colspan: 2,
       };
-      const { type } = fieldAttributes;
-      let widgetType = form.findById(searchField)?.type ?? type;
+      const { type, widget } = fieldAttributes;
+      let widgetType = widget ?? type;
       if (SearchFieldTypes[widgetType] === undefined) {
         widgetType = type;
       }
