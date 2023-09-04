@@ -81,7 +81,7 @@ export const parseContext = ({
 
 function tryParseJSON(str: string): any | null {
   try {
-    const parsedJSON = JSON.parse(str);
+    const parsedJSON = JSON.parse(str.replace(/'/g, '"'));
     return parsedJSON;
   } catch (error) {
     return null;
