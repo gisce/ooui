@@ -37,7 +37,6 @@ const transformDomainForChildWidget = ({
 };
 
 export const parseDomainFields = (domain: string | boolean): string[] => {
-  console.log("Domain parse", domain);
   if (typeof domain != 'string') {
     return [];
   }
