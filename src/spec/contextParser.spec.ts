@@ -129,7 +129,7 @@ describe("A Context Parser", () => {
     expect(parsedContext!["person"].name).toBe("John Doe");
     expect(JSON.stringify(parsedContext)).toBe(JSON.stringify(ctx));
   });
-  it.only("should parse context with simple single quotes in a string", () => {
+  it("should parse context with simple single quotes in a string", () => {
     const string = "{'contract_id': 1, 'contract_ids': [1, 3]}";
     const parsedContext = parseContext({ context: string });
     expect(parsedContext!["contract_id"]).toBe(1);
@@ -144,6 +144,11 @@ describe("A Context Parser", () => {
         'tensio_o2m',
         'tensio_normalitzada'
       ])
+    });
+    test("If context is all json an empty list of fields must be returned", () => {
+      const context: string = "{'from_model': 'res.partner'}";
+      const fields = parseContextFields(context);
+      expect(fields).toEqual([])
     });
   });
 });

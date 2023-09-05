@@ -94,7 +94,7 @@ export const parseContextFields = (context:string): string[] => {
 
     const parsedContextInJson = tryParseJSON(context);
     if (parsedContextInJson !== null) {
-      return parsedContextInJson;
+      return [];
     }
 
     if (context.trim().length === 0) {
