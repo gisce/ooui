@@ -12,13 +12,12 @@
     "sourceMap": true /* Generates corresponding '.map' file. */,
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "noEmit": false, /* Do not emit outputs. */
-    "strict": false /* Enable all strict type-checking options. */,
+    "strict": true /* Enable all strict type-checking options. */,
     "strictBindCallApply": false /* Enable strict 'bind', 'call', and 'apply' methods on functions. */,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
-    "useUnknownInCatchVariables": false,
-    "noImplicitAny": false
+    "useUnknownInCatchVariables": false
   },
   "include": [
     "./src/**/*"
