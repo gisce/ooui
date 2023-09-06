@@ -1,4 +1,4 @@
-import { transformDomainForChildWidget } from "../helpers/domainParser";
+import { transformDomainForChildWidget, parseDomainFields } from "../helpers/domainParser";
 
 describe("A Domain Parser", () => {
   it("should properly transform domain for inner widgets", () => {
@@ -37,4 +37,15 @@ describe("A Domain Parser", () => {
     expect(domainForStageId![0][1]).toBe("ilike");
     expect(domainForStageId![0][2]).toBe("backlog");
   });
+});
+
+describe("Getting evaluable fields for context", () => {
+  test("Should return evaluable fields", () => {
+    const domain: string = "['|', ('a', '=', 'foo'), ('niu', '=', nau), ('state', 'in', ('open', 'draft'))]";
+    const fields = parseDomainFields(domain);
+    expect(fields).toEqual(['nau'])
+  })
+  test("If domain is false fields must be an empty list", () => {
+    expect(parseDomainFields(false)).toEqual([])
+  })
 });

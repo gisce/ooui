@@ -31,8 +31,8 @@ import ButtonGroup from "./ButtonGroup";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
-import { parseContext } from "./helpers/contextParser";
-import { transformDomainForChildWidget } from "./helpers/domainParser";
+import { parseContext, parseContextFields } from "./helpers/contextParser";
+import { transformDomainForChildWidget, parseDomainFields } from "./helpers/domainParser";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";
@@ -96,7 +96,9 @@ export {
   Binary,
   Image,
   parseContext,
+  parseContextFields,
   transformDomainForChildWidget,
+  parseDomainFields,
   Timeline,
   Indicator,
   Dashboard,
