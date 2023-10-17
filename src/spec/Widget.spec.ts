@@ -20,10 +20,10 @@ describe('A Widget', () => {
         expect(widget.colspan).toBe(3);
     });
 
-    it('should be readOnly false by default', () => {
+    it('should be undefined  by default', () => {
         const widget = new WidgetImpl();
 
-        expect(widget.readOnly).toBe(false);
+        expect(widget.readOnly).toBeUndefined();
     });
 
     it('colspan should be of type Number', () => {
