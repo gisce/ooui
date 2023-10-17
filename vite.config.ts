@@ -1,5 +1,5 @@
 import * as path from "path";
-import { defineConfig } from "vite";
+import { PluginOption, defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import rollupNodePolyFill from "rollup-plugin-node-polyfills";
@@ -21,7 +21,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    peerDepsExternal(),
+    peerDepsExternal({ includeDependencies: true }) as PluginOption,
     dts({
       insertTypesEntry: true,
     }),
@@ -32,11 +32,10 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "ooui",
-      formats: ["es", "umd"],
+      formats: ["es"],
       fileName: (format) => `ooui.${format}.js`,
     },
     rollupOptions: {
-      external: ["moment", "html-entities"],
       plugins: [rollupNodePolyFill() as any],
     },
   },
