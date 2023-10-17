@@ -8,6 +8,7 @@ class Timeline extends One2many {
   get titleField(): string {
     return this._titleField;
   }
+
   set titleField(value: string) {
     this._titleField = value;
   }
@@ -19,6 +20,7 @@ class Timeline extends One2many {
   get summaryField(): string {
     return this._summaryField;
   }
+
   set summaryField(value: string) {
     this._summaryField = value;
   }

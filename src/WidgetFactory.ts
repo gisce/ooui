@@ -162,7 +162,7 @@ class WidgetFactory {
         break;
       case "time":
         this._widgetClass = Time;
-        break
+        break;
 
       default:
         break;

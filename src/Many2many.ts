@@ -11,6 +11,7 @@ class Many2many extends Field {
   get size(): number {
     return this._size;
   }
+
   set size(value: number) {
     this._size = value;
   }
@@ -22,6 +23,7 @@ class Many2many extends Field {
   get relation(): string {
     return this._relation;
   }
+
   set relation(value: string) {
     this._relation = value;
   }
@@ -29,13 +31,14 @@ class Many2many extends Field {
   /**
    * Must expand widget
    */
-   _mustExpand: boolean = false;
-   get mustExpand(): boolean {
-     return this._mustExpand;
-   }
-   set mustExpand(value: boolean) {
-     this._mustExpand = value;
-   }
+  _mustExpand: boolean = false;
+  get mustExpand(): boolean {
+    return this._mustExpand;
+  }
+
+  set mustExpand(value: boolean) {
+    this._mustExpand = value;
+  }
 
   constructor(props: any) {
     super(props);

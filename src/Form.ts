@@ -49,6 +49,7 @@ class Form {
   get readOnly(): boolean {
     return this._readOnly;
   }
+
   set readOnly(value: boolean) {
     this._readOnly = value;
   }
@@ -60,6 +61,7 @@ class Form {
   get context(): any {
     return this._context;
   }
+
   set context(value: any) {
     this._context = value;
   }
@@ -71,6 +73,7 @@ class Form {
   get onChangeFields(): any {
     return this._onChangeFields;
   }
+
   set onChangeFields(value: any) {
     this._onChangeFields = value;
   }
@@ -98,6 +101,7 @@ class Form {
   get keyIdx(): number {
     return this._keyIdx;
   }
+
   set keyIdx(value: number) {
     this._keyIdx = value;
   }
@@ -109,6 +113,7 @@ class Form {
   get invisibleFields(): string[] {
     return this._invisibleFields;
   }
+
   set invisibleFields(value: string[]) {
     this._invisibleFields = value;
   }
@@ -128,8 +133,8 @@ class Form {
       this._string = replaceEntities(this._string);
     }
     this._readOnly = readOnly;
-    this._context = values["id"]
-      ? { active_id: values["id"], active_ids: [values["id"]] }
+    this._context = values.id
+      ? { active_id: values.id, active_ids: [values.id] }
       : {};
     this._invisibleFields = [];
     this.parseNode({
@@ -162,7 +167,7 @@ class Form {
           } else if (name) {
             if (!this._fields[name]) {
               throw new Error(
-                `Field ${name} doesn't exist in fields defintion`
+                `Field ${name} doesn't exist in fields defintion`,
               );
             }
             widgetType = this._fields[name].type;
@@ -195,22 +200,22 @@ class Form {
 
         const widgetContext = parseContext({
           context:
-            tagAttributes["context"] ||
-            this._fields[tagAttributes.name]?.["context"],
+            tagAttributes.context ||
+            this._fields[tagAttributes.name]?.context,
           values,
           fields: this._fields,
         });
 
-        if (tagAttributes["on_change"]) {
+        if (tagAttributes.on_change) {
           this._onChangeFields[tagAttributes.name] = parseOnChange(
-            tagAttributes["on_change"]
+            tagAttributes.on_change,
           );
         }
 
-        let domain: string | undefined = undefined;
+        let domain: string | undefined;
 
-        if (checkIfDomainHasValue(tagAttributes["domain"])) {
-          domain = tagAttributes["domain"];
+        if (checkIfDomainHasValue(tagAttributes.domain)) {
+          domain = tagAttributes.domain;
         }
 
         if (checkIfDomainHasValue(this._fields[tagAttributes.name]?.domain)) {

@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A Label", () => {
   it("should have an id corresponding to field name", () => {
@@ -60,7 +60,7 @@ describe("A Label", () => {
       const props = {
         name: "field_label",
         string: "Default",
-        widget_props: "{'label_type': 'warning'}"
+        widget_props: "{'label_type': 'warning'}",
       };
       const widget = widgetFactory.createWidget("label", props);
       expect(widget.labelType).toBe("warning");
@@ -73,7 +73,7 @@ describe("A Label", () => {
       const props = {
         name: "field_label",
         string: "Default",
-        widget_props: "{}"
+        widget_props: "{}",
       };
       const widget = widgetFactory.createWidget("label", props);
       expect(widget.labelSize).toBe(undefined);
@@ -84,11 +84,11 @@ describe("A Label", () => {
         const props = {
           name: "field_label",
           string: "Default",
-          widget_props: `{'label_size': ${level}}`
+          widget_props: `{'label_size': ${level}}`,
         };
         const widget = widgetFactory.createWidget("label", props);
         expect(widget.labelSize).toBe(level);
-      })
+      });
     });
   });
 });

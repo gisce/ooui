@@ -56,7 +56,7 @@ class SearchFilter {
 
     const simpleSearchWidgets = this.parseFields(
       this.searchFields.primary,
-      widgetFactory
+      widgetFactory,
     );
     simpleSearchWidgets.forEach((widget) => {
       this.simpleSearchContainer.addWidget(widget, { addLabel: false });
@@ -65,7 +65,7 @@ class SearchFilter {
 
     const advancedSearchWidgets = this.parseFields(
       this.searchFields.secondary,
-      widgetFactory
+      widgetFactory,
     );
     advancedSearchWidgets.forEach((widget) => {
       this.advancedSearchContainer.addWidget(widget, { addLabel: false });
@@ -84,7 +84,7 @@ class SearchFilter {
       if (SearchFieldTypes[widgetType] === undefined) {
         widgetType = type;
       }
-      return widgetFactory.createWidget(widgetType!, fieldAttributes);
+      return widgetFactory.createWidget(widgetType, fieldAttributes);
     });
   }
 

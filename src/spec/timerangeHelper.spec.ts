@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import {
   checkDatesConsecutive,
   adjustXValuesForTimeRage,
@@ -17,21 +17,21 @@ describe("a timerangeHelper", () => {
       it("should return false with two non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01", "2020-01-05"],
-          "days"
+          "days",
         );
         expect(consecutive).toBeFalsy();
       });
       it("should return true with two consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01", "2020-01-02"],
-          "days"
+          "days",
         );
         expect(consecutive).toBeTruthy();
       });
       it("should return false with three non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01", "2020-01-02", "2020-07-02"],
-          "days"
+          "days",
         );
         expect(consecutive).toBeFalsy();
       });
@@ -40,28 +40,28 @@ describe("a timerangeHelper", () => {
       it("should return true with only one date", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01 18:00"],
-          "hours"
+          "hours",
         );
         expect(consecutive).toBeTruthy();
       });
       it("should return false with two non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01 18:00", "2020-01-05 05:00"],
-          "hours"
+          "hours",
         );
         expect(consecutive).toBeFalsy();
       });
       it("should return true with two consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01 18:00", "2020-01-01 19:00"],
-          "hours"
+          "hours",
         );
         expect(consecutive).toBeTruthy();
       });
       it("should return false with three non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01-01 01:00", "2020-01-01 04:00", "2020-01-02 01:00"],
-          "hours"
+          "hours",
         );
         expect(consecutive).toBeFalsy();
       });
@@ -74,21 +74,21 @@ describe("a timerangeHelper", () => {
       it("should return false with two non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01", "2020-03"],
-          "weeks"
+          "weeks",
         );
         expect(consecutive).toBeFalsy();
       });
       it("should return true with two consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-24", "2020-25"],
-          "weeks"
+          "weeks",
         );
         expect(consecutive).toBeTruthy();
       });
       it("should return false with three non consecutive dates", () => {
         const consecutive = checkDatesConsecutive(
           ["2020-01", "2020-02", "2020-04"],
-          "weeks"
+          "weeks",
         );
         expect(consecutive).toBeFalsy();
       });

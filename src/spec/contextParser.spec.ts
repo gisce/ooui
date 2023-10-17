@@ -1,5 +1,5 @@
 import { parseContext, parseContextFields } from "../helpers/contextParser";
-import { it, expect, describe, test } from 'vitest';
+import { it, expect, describe, test } from "vitest";
 
 describe("A Context Parser", () => {
   describe("in parseContext method", () => {
@@ -74,7 +74,7 @@ describe("A Context Parser", () => {
     });
 
     it("should properly parse with double quotes", () => {
-      const str = "{\"active_id\": 3}";
+      const str = '{"active_id": 3}';
 
       const parsedContext = parseContext({ context: str });
 
@@ -137,19 +137,20 @@ describe("A Context Parser", () => {
   });
   describe("Getting evaluable fields from context", () => {
     test("If not context is empty evaluable fields should be empty", () => {
-      const context: string = "{'power': potencia, 'tarifa_id': tarifa, 'o2m': tensio_o2m, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}";
+      const context: string =
+        "{'power': potencia, 'tarifa_id': tarifa, 'o2m': tensio_o2m, 'tensio_id': tensio_normalitzada, 'model': 'giscedata.polissa', 'field': 'potencia'}";
       const fields = parseContextFields(context);
       expect(fields).toEqual([
-        'potencia',
-        'tarifa',
-        'tensio_o2m',
-        'tensio_normalitzada'
-      ])
+        "potencia",
+        "tarifa",
+        "tensio_o2m",
+        "tensio_normalitzada",
+      ]);
     });
     test("If context is all json an empty list of fields must be returned", () => {
       const context: string = "{'from_model': 'res.partner'}";
       const fields = parseContextFields(context);
-      expect(fields).toEqual([])
+      expect(fields).toEqual([]);
     });
   });
 });

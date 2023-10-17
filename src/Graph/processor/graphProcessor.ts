@@ -2,9 +2,7 @@ import { GraphChart, GraphYAxis, Operator } from "..";
 import { getValueAndLabelForField } from "./fieldUtils";
 import { processTimerangeData } from "./timerangeHelper";
 
-export type GroupedValues = {
-  [key: string]: { label: string; entries: { [key: string]: any }[] };
-};
+export type GroupedValues = Record<string, { label: string; entries: Array<Record<string, any>> }>;
 
 export const labelsForOperator = {
   count: "count",
@@ -27,8 +25,8 @@ export const processGraphData = ({
   options,
 }: {
   ooui: GraphChart;
-  values: { [key: string]: any }[];
-  fields: { [key: string]: any };
+  values: Array<Record<string, any>>;
+  fields: Record<string, any>;
   options?: ProcessGraphDataOpts;
 }) => {
   // First we group all the results by the x field. This way we will have one or more items in an array for every occurrence of ooui.x.name
@@ -39,7 +37,7 @@ export const processGraphData = ({
     fields,
   });
 
-  const data: { [key: string]: any }[] = [];
+  const data: Array<Record<string, any>> = [];
 
   // We iterate through the y axis items found in the ooui object
   ooui.y.forEach((yField) => {
@@ -118,10 +116,10 @@ export const processGraphData = ({
 
   // We sort the data by x
   const sortedData = data.sort((a, b) => {
-    if (a["x"] < b["x"]) {
+    if (a.x < b.x) {
       return -1;
     }
-    if (a["x"] > b["x"]) {
+    if (a.x > b.x) {
       return 1;
     }
     return 0;
@@ -155,7 +153,7 @@ export const processGraphData = ({
     });
   } else if (adjustedStackedData.some((entry) => entry.x === false)) {
     adjustedUninformedData = adjustedUninformedData.filter(
-      (entry) => entry.x !== false
+      (entry) => entry.x !== false,
     );
   }
 
@@ -165,7 +163,7 @@ export const processGraphData = ({
   if (ooui.timerange) {
     finalData = processTimerangeData({
       values: finalData,
-      timerange: ooui.timerange!,
+      timerange: ooui.timerange,
     });
   } else if (ooui.type == "pie") {
     finalData = adjustedUninformedData.sort((a, b) => b.value - a.value);
@@ -183,16 +181,16 @@ export function getValuesForYField({
   fieldName,
   fields,
 }: {
-  entries: { [key: string]: any }[];
+  entries: Array<Record<string, any>>;
   fieldName: string;
-  fields: { [key: string]: any };
+  fields: Record<string, any>;
 }) {
   return entries
     .map((obj) => {
       return getValueAndLabelForField({
-        fieldName: fieldName,
+        fieldName,
         values: obj,
-        fields: fields,
+        fields,
       });
     })
     .map(({ value, label }) => {
@@ -215,21 +213,21 @@ export function getValueForOperator({
       return roundNumber(
         values.reduce(function (previousValue: any, currentValue: any) {
           return previousValue + currentValue;
-        })
+        }),
       );
     }
     case "-": {
       return roundNumber(
         values.reduce(function (previousValue: any, currentValue: any) {
           return previousValue - currentValue;
-        })
+        }),
       );
     }
     case "*": {
       return roundNumber(
         values.reduce(function (previousValue: any, currentValue: any) {
           return previousValue * currentValue;
-        })
+        }),
       );
     }
     case "avg": {
@@ -256,8 +254,8 @@ export function getValuesGroupedByField({
   values,
 }: {
   fieldName: string;
-  values: { [key: string]: any }[];
-  fields: { [key: string]: any };
+  values: Array<Record<string, any>>;
+  fields: Record<string, any>;
 }) {
   const groupedValues: GroupedValues = {};
 
@@ -292,7 +290,7 @@ export function getYAxisFieldname({
   fields,
 }: {
   yAxis: GraphYAxis;
-  fields: { [key: string]: any };
+  fields: Record<string, any>;
 }) {
   const fieldProps = fields[yAxis.name];
 

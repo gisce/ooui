@@ -32,7 +32,10 @@ import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
 import { parseContext, parseContextFields } from "./helpers/contextParser";
-import { transformDomainForChildWidget, parseDomainFields } from "./helpers/domainParser";
+import {
+  transformDomainForChildWidget,
+  parseDomainFields,
+} from "./helpers/domainParser";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
 import Dashboard from "./Dashboard";

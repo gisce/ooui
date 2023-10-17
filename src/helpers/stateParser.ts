@@ -21,7 +21,7 @@ const evaluateStates = ({
   const evaluatedStates: any = {};
 
   for (const stateCondition of Object.keys(fieldStatesConfig)) {
-    if (values["state"] === stateCondition) {
+    if (values.state === stateCondition) {
       const configAttrValues = fieldStatesConfig[stateCondition];
 
       for (const entryConfig of configAttrValues) {
@@ -36,7 +36,7 @@ const evaluateStates = ({
 
   for (const evaluatedState of Object.keys(evaluatedStates)) {
     const values = evaluatedStates[evaluatedState];
-    newTagStateAttrs[evaluatedState] = values.some((i: boolean) => i === true);
+    newTagStateAttrs[evaluatedState] = values.some((i: boolean) => i);
   }
 
   return newTagStateAttrs;

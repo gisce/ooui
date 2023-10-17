@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A CodeEditor widget", () => {
   it("should have an id corresponding to field name", () => {
@@ -33,6 +33,4 @@ describe("A CodeEditor widget", () => {
 
     expect(widget.lang).toBe("xml");
   });
-
-
 });

@@ -1,8 +1,7 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Radio widget", () => {
-
   it("should have default direction to 'horizontal'", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
@@ -23,6 +22,4 @@ describe("A Radio widget", () => {
 
     expect(widget.direction).toBe("vertical");
   });
-
-
 });

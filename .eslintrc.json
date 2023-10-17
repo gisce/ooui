@@ -3,10 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "standard-with-typescript",
-    "prettier"
-  ],
+  "extends": ["standard-with-typescript", "prettier"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -26,10 +23,5 @@
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/naming-convention": "off"
   },
-  "ignorePatterns": [
-    "node_modules",
-    "dist",
-    "**/*.test.*",
-    "**/*.spec.*"
-  ]
+  "ignorePatterns": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
 }

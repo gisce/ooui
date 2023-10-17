@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A MultiCheckbox widget", () => {
   it("should have an id corresponding to field name", () => {
@@ -49,7 +49,7 @@ describe("A MultiCheckbox widget", () => {
       const widgetFactory = new WidgetFactory();
       const props = {
         name: "one2many1",
-        widget_props: "{'columns': 6}"
+        widget_props: "{'columns': 6}",
       };
       const widget = widgetFactory.createWidget("multicheckbox", props);
 

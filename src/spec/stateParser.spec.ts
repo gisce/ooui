@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import { evaluateStates, evaluateButtonStates } from "../helpers/stateParser";
 
 describe("An States Parser", () => {
@@ -81,8 +81,7 @@ describe("An States Parser", () => {
     it("should properly parse a multiple state field - close", () => {
       const fields = {
         date_due: {
-          help:
-            "If you use payment terms, the due date will be computed automatically at the generation of accounting entries. If you keep the payment term and the due date empty, it means direct payment. The payment term may compute several due dates, for example 50% now, 50% in one month.",
+          help: "If you use payment terms, the due date will be computed automatically at the generation of accounting entries. If you keep the payment term and the due date empty, it means direct payment. The payment term may compute several due dates, for example 50% now, 50% in one month.",
           states: {
             close: [["readonly", true]],
             open: [["readonly", true]],
@@ -108,8 +107,7 @@ describe("An States Parser", () => {
     it("should properly parse a multiple state field - no match", () => {
       const fields = {
         date_due: {
-          help:
-            "If you use payment terms, the due date will be computed automatically at the generation of accounting entries. If you keep the payment term and the due date empty, it means direct payment. The payment term may compute several due dates, for example 50% now, 50% in one month.",
+          help: "If you use payment terms, the due date will be computed automatically at the generation of accounting entries. If you keep the payment term and the due date empty, it means direct payment. The payment term may compute several due dates, for example 50% now, 50% in one month.",
           states: {
             close: [["readonly", true]],
             open: [["readonly", true]],

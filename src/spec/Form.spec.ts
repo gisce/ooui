@@ -8,7 +8,7 @@ import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
 import ButtonGroup from "../ButtonGroup";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -482,7 +482,7 @@ describe("A Form", () => {
     };
 
     expect(parseInvalidForm).toThrow(
-      "Field example doesn't exist in fields defintion"
+      "Field example doesn't exist in fields defintion",
     );
   });
 
@@ -938,11 +938,11 @@ describe("A Form", () => {
 
     expect(form.onChangeFields).toBeDefined();
     expect(form.onChangeFields!["field_char"].method).toBe(
-      "on_change_partner_address_id"
+      "on_change_partner_address_id",
     );
     expect(form.onChangeFields!["field_char"].args).toBeDefined();
     expect(form.onChangeFields!["field_char"].args[0]).toBe(
-      "partner_address_id"
+      "partner_address_id",
     );
     expect(form.onChangeFields!["field_char"].args[1]).toBe("'foo'");
     expect(form.onChangeFields!["field_char"].args[2]).toBe("context");
@@ -951,13 +951,13 @@ describe("A Form", () => {
     expect(fieldOther).toBeDefined();
 
     expect(form.onChangeFields!["field_other"].method).toBe(
-      "product_id_change"
+      "product_id_change",
     );
     expect(form.onChangeFields!["field_other"].args[0]).toBe(
-      "parent.pricelist_id"
+      "parent.pricelist_id",
     );
     expect(form.onChangeFields!["field_other"].args[8]).toBe(
-      "'lang' in context and context['lang']"
+      "'lang' in context and context['lang']",
     );
   });
 
@@ -3190,7 +3190,7 @@ describe("A Form", () => {
     const field = form.findById("llista_preu") as Field;
     expect(field.domain).toBeDefined();
     expect(field.domain).toBe(
-      "[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]"
+      "[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]",
     );
   });
 });

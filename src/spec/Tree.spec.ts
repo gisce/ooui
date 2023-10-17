@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import Tree from "../Tree";
 import Char from "../Char";
 import FloatTime from "../FloatTime";
@@ -32,8 +32,7 @@ const FIELDS = {
     views: {},
   },
   lang: {
-    help:
-      "If the selected language is loaded in the system, all documents related to this partner will be printed in this language. If not, it will be english.",
+    help: "If the selected language is loaded in the system, all documents related to this partner will be printed in this language. If not, it will be english.",
     selection: [
       ["en_US", "English"],
       ["ca_ES", "Catalan / Català"],
@@ -63,7 +62,7 @@ const FIELDS = {
   debt_amount: {
     type: "integer",
     string: "Debt amount",
-    views: {}
+    views: {},
   },
   title: {
     selection: [
@@ -87,9 +86,9 @@ describe("A Tree", () => {
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.label).toBe("Name");
     expect(tree.colors).toBeDefined();
-    expect(tree.colors).toBe("red:debt_amount>0 & city!=''")
+    expect(tree.colors).toBe("red:debt_amount>0 & city!=''");
     expect(tree.status).toBeDefined();
-    expect(tree.status).toBe("red:debt_amount>0;green:debt_amount==0")
+    expect(tree.status).toBe("red:debt_amount>0;green:debt_amount==0");
   });
   it("Must throw an error if a field isn't present in field definitions", () => {
     const parseInvalidTree = () => {
@@ -98,7 +97,7 @@ describe("A Tree", () => {
     };
 
     expect(parseInvalidTree).toThrow(
-      "Field name doesn't exist in fields defintion"
+      "Field name doesn't exist in fields defintion",
     );
   });
 
@@ -161,7 +160,7 @@ describe("A Tree", () => {
       },
     });
     tree.parse(
-      `<tree string="Partners" colors="red:type=='updated'"><field name="name"/></tree>`
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name"/></tree>`,
     );
     expect(tree.colors!).toBe("red:type=='updated'");
   });
@@ -178,7 +177,7 @@ describe("A Tree", () => {
       },
     });
     tree.parse(
-      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" /></tree>`
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" /></tree>`,
     );
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.sum).toBe("Name");
@@ -186,64 +185,61 @@ describe("A Tree", () => {
 
   it("Must priorize widget attributes", () => {
     const tree = new Tree({
-      "date": {
-        "string": "Data",
-        "type": "datetime",
-        "views": {}
+      date: {
+        string: "Data",
+        type: "datetime",
+        views: {},
       },
-      "hours": {
-        "string": "Temps dedicat",
-        "type": "float",
-        "views": {}
+      hours: {
+        string: "Temps dedicat",
+        type: "float",
+        views: {},
       },
-      "name": {
-        "size": 512,
-        "string": "Resum del treball",
-        "type": "char",
-        "views": {}
+      name: {
+        size: 512,
+        string: "Resum del treball",
+        type: "char",
+        views: {},
       },
-      "project_id": {
-        "context": "",
-        "digits": [
-          16,
-          2
-        ],
-        "domain": [],
-        "readonly": true,
-        "relation": "project.project",
-        "string": "Projecte",
-        "type": "many2one",
-        "views": {}
+      project_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        readonly: true,
+        relation: "project.project",
+        string: "Projecte",
+        type: "many2one",
+        views: {},
       },
-      "task_id": {
-        "context": "",
-        "domain": [],
-        "relation": "project.task",
-        "required": true,
-        "size": 64,
-        "string": "Tasca",
-        "type": "many2one",
-        "views": {}
+      task_id: {
+        context: "",
+        domain: [],
+        relation: "project.task",
+        required: true,
+        size: 64,
+        string: "Tasca",
+        type: "many2one",
+        views: {},
       },
-      "type_id": {
-        "context": "",
-        "domain": [],
-        "relation": "project.task.work.type",
-        "size": 64,
-        "string": "Tipus",
-        "type": "many2one",
-        "views": {}
+      type_id: {
+        context: "",
+        domain: [],
+        relation: "project.task.work.type",
+        size: 64,
+        string: "Tipus",
+        type: "many2one",
+        views: {},
       },
-      "user_id": {
-        "context": "",
-        "domain": [],
-        "relation": "res.users",
-        "required": true,
-        "size": 64,
-        "string": "Realitzat per",
-        "type": "many2one",
-        "views": {}
-      }
+      user_id: {
+        context: "",
+        domain: [],
+        relation: "res.users",
+        required: true,
+        size: 64,
+        string: "Realitzat per",
+        type: "many2one",
+        views: {},
+      },
     });
     tree.parse(`<tree string="Treballs Realitzats">
     <field name="project_id"/>
@@ -253,11 +249,10 @@ describe("A Tree", () => {
     <field name="date"/>
     <field name="hours" widget="float_time" sum="Total hores efectives"/>
     <field name="user_id"/>
-</tree>`)
+</tree>`);
 
-  const nameWidget = tree.findById("hours");
-  expect(nameWidget).toBeInstanceOf(FloatTime);
-
+    const nameWidget = tree.findById("hours");
+    expect(nameWidget).toBeInstanceOf(FloatTime);
   });
 
   it("Must ignore invisible fields as columns", () => {
@@ -289,7 +284,7 @@ describe("A Tree", () => {
       },
     });
     tree.parse(
-      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`,
     );
 
     const nameWidget = tree.findById("name") as Char;
@@ -331,7 +326,7 @@ describe("A Tree", () => {
       },
     });
     tree.parse(
-      `<tree string="Partners" editable="top" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`
+      `<tree string="Partners" editable="top" colors="red:type=='updated'"><field name="name" sum="Name" invisible="1" /><field name="surnames" sum="Surnames" /><field name="city" sum="City" /></tree>`,
     );
 
     expect(tree.editable).toBe("top");

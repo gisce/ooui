@@ -11,6 +11,7 @@ class One2many extends Field {
   get size(): number {
     return this._size;
   }
+
   set size(value: number) {
     this._size = value;
   }
@@ -22,6 +23,7 @@ class One2many extends Field {
   get relation(): string {
     return this._relation;
   }
+
   set relation(value: string) {
     this._relation = value;
   }
@@ -33,7 +35,8 @@ class One2many extends Field {
   get inv_field(): string | undefined {
     return this._inv_field;
   }
-  set inv_field(value: string | undefined) {
+
+  set inv_field(value: string | undefined) {
     this._inv_field = value;
   }
 
@@ -44,6 +47,7 @@ class One2many extends Field {
   get views(): any {
     return this._views;
   }
+
   set views(value: any) {
     this._views = value;
   }
@@ -51,11 +55,12 @@ class One2many extends Field {
   /**
    * Mode
    */
-  _mode: Array<string> = [];
-  get mode(): Array<string> {
+  _mode: string[] = [];
+  get mode(): string[] {
     return this._mode;
   }
-  set mode(value: Array<string>) {
+
+  set mode(value: string[]) {
     this._mode = value;
   }
 
@@ -66,6 +71,7 @@ class One2many extends Field {
   get mustExpand(): boolean {
     return this._mustExpand;
   }
+
   set mustExpand(value: boolean) {
     this._mustExpand = value;
   }

@@ -4,7 +4,6 @@ import Field from "./Field";
  * Float input
  */
 class Float extends Field {
-
   /**
    * Integer digits
    *
@@ -14,6 +13,7 @@ class Float extends Field {
   get integerDigits(): number {
     return this._integerDigits;
   }
+
   set integerDigits(value: number) {
     this._integerDigits = value;
   }
@@ -27,6 +27,7 @@ class Float extends Field {
   get decimalDigits(): number {
     return this._decimalDigits;
   }
+
   set decimalDigits(value: number) {
     this._decimalDigits = value;
   }

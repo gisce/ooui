@@ -1,6 +1,5 @@
 import Field from "./Field";
 
-
 type LabelType = "secondary" | "success" | "warning" | "danger" | "default";
 type LabelSize = 1 | 2 | 3 | 4 | 5 | undefined;
 
@@ -12,6 +11,7 @@ class Label extends Field {
   get text(): string {
     return this._text;
   }
+
   set text(value: string) {
     this._text = value;
   }
@@ -23,6 +23,7 @@ class Label extends Field {
   get align(): string {
     return this._align;
   }
+
   set align(value: string) {
     this._align = value;
   }
@@ -34,6 +35,7 @@ class Label extends Field {
   get labelType(): LabelType {
     return this._labelType;
   }
+
   set labelType(value: LabelType) {
     this._labelType = value;
   }
@@ -41,14 +43,14 @@ class Label extends Field {
   /**
    * Label size
    */
-   _labelSize: LabelSize = undefined;
-   get labelSize(): LabelSize {
-     return this._labelSize;
-   }
-   set labelSize(value: LabelSize) {
-     this._labelSize = value;
-   }
+  _labelSize: LabelSize = undefined;
+  get labelSize(): LabelSize {
+    return this._labelSize;
+  }
 
+  set labelSize(value: LabelSize) {
+    this._labelSize = value;
+  }
 
   /**
    * Id of the field that this label goes with. Null if it's an independent label
@@ -57,6 +59,7 @@ class Label extends Field {
   get fieldForLabel(): string | null {
     return this._fieldForLabel;
   }
+
   set fieldForLabel(value: string | null) {
     this._fieldForLabel = value;
   }

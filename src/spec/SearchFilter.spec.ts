@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import SearchFilter from "../SearchFilter";
 
 const searchFields = {
@@ -512,7 +512,7 @@ describe("A SearchFilter", () => {
           views: {},
           widget: "selection",
         },
-      }
+      },
     );
     searchFilter.parse();
     const widget = searchFilter.findById("polissa_company_search");

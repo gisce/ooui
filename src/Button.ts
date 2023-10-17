@@ -9,6 +9,7 @@ class Button extends Field {
   get buttonType() {
     return this._buttonType;
   }
+
   set buttonType(value) {
     this._buttonType = value;
   }
@@ -20,6 +21,7 @@ class Button extends Field {
   get caption(): string {
     return this._caption;
   }
+
   set caption(value: string) {
     this._caption = value;
   }
@@ -31,6 +33,7 @@ class Button extends Field {
   get icon(): string | undefined {
     return this._icon;
   }
+
   set icon(value: string | undefined) {
     this._icon = value;
   }
@@ -42,6 +45,7 @@ class Button extends Field {
   get confirmMessage(): string {
     return this._confirmMessage;
   }
+
   set confirm(value: string) {
     this._confirmMessage = value;
   }
@@ -50,6 +54,7 @@ class Button extends Field {
   get primary(): boolean {
     return this._primary;
   }
+
   set primary(value: boolean) {
     this._primary = value;
   }
@@ -58,6 +63,7 @@ class Button extends Field {
   get danger(): boolean {
     return this._danger;
   }
+
   set danger(value: boolean) {
     this._danger = value;
   }
@@ -91,13 +97,13 @@ class Button extends Field {
       if (props.primary) {
         const primary = props.primary;
         if (primary === "1" || primary === 1 || primary === true) {
-          this._primary = true
+          this._primary = true;
         }
       }
       if (props.danger) {
         const danger = props.danger;
         if (danger === "1" || danger === 1 || danger === true) {
-          this._danger = true
+          this._danger = true;
         }
       }
     }

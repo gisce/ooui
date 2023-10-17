@@ -1,5 +1,5 @@
 import Dashboard from "../Dashboard";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A Dashboard", () => {
   it("should parse a basic XML with three actions", () => {
@@ -19,10 +19,10 @@ describe("A Dashboard", () => {
     expect(dashboard.items[1].action_id).toBe("1496");
     expect(dashboard.items[2].action_id).toBe("1321");
     expect(dashboard.items[0].position).toBe(
-      "{ x: 0, y: 0, w: 1, h: 2, static: true }"
+      "{ x: 0, y: 0, w: 1, h: 2, static: true }",
     );
     expect(dashboard.items[1].position).toBe(
-      "{ x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 }"
+      "{ x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 }",
     );
     expect(dashboard.items[2].position).toBe("{ x: 4, y: 0, w: 1, h: 2 }");
   });

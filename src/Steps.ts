@@ -4,7 +4,6 @@ import Field from "./Field";
  * A many2one relationship field
  */
 class Steps extends Field {
-
   /**
    * Relation
    */
@@ -12,6 +11,7 @@ class Steps extends Field {
   get relation(): string {
     return this._relation;
   }
+
   set relation(value: string) {
     this._relation = value;
   }
@@ -20,6 +20,7 @@ class Steps extends Field {
   get errorField(): string | null {
     return this._errorField;
   }
+
   set errorField(value: string | null) {
     this._errorField = value;
   }
@@ -28,12 +29,11 @@ class Steps extends Field {
     super(props);
 
     if (props) {
-      
       if (props.relation) {
         this._relation = props.relation;
       }
 
-      if (this.parsedWidgetProps.hasOwnProperty('error_field')) {
+      if (this.parsedWidgetProps.hasOwnProperty("error_field")) {
         this._errorField = this.parsedWidgetProps.error_field;
       }
     }

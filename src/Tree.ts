@@ -2,7 +2,7 @@ import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
 import { replaceEntities } from "./helpers/attributeParser";
 import { ParsedNode, parseBoolAttribute } from "./helpers/nodeParser";
-import * as txml from 'txml';
+import * as txml from "txml";
 
 type EditableTreeOptions = "top" | " bottom" | null;
 
@@ -15,8 +15,8 @@ class Tree {
     return this._fields;
   }
 
-  _columns: Array<any> = [];
-  get columns(): Array<any> {
+  _columns: any[] = [];
+  get columns(): any[] {
     return this._columns;
   }
 
@@ -59,7 +59,9 @@ class Tree {
   }
 
   parse(xml: string) {
-    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "tree")[0];
+    const view = txml
+      .parse(xml)
+      .filter((el: ParsedNode) => el.tagName === "tree")[0];
     this._string = view.attributes.string || null;
     if (this._string) {
       this._string = replaceEntities(this._string);
@@ -78,8 +80,8 @@ class Tree {
       const { tagName, attributes } = field;
       let widgetType = null;
       if (tagName === "field") {
-        const { name, widget} = attributes;
-        let mergedAttrs = attributes
+        const { name, widget } = attributes;
+        let mergedAttrs = attributes;
         if (name) {
           if (!this._fields[name]) {
             throw new Error(`Field ${name} doesn't exist in fields defintion`);
@@ -90,8 +92,8 @@ class Tree {
             ((Array.isArray(fieldDef?.domain) &&
               fieldDef?.domain.length === 0) ||
               fieldDef?.domain === false) &&
-              attributes["domain"] &&
-              attributes["domain"].length > 0
+            attributes.domain &&
+            attributes.domain.length > 0
           ) {
             delete fieldDef.domain;
           }
@@ -109,7 +111,7 @@ class Tree {
           this._columns.push(widget);
         }
       }
-    })
+    });
   }
 
   /**

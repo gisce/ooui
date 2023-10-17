@@ -1,5 +1,5 @@
 import DashboardItem from "./DashboardItem";
-import * as txml from 'txml';
+import * as txml from "txml";
 import { ParsedNode } from "./helpers/nodeParser";
 
 class Dashboard {
@@ -14,7 +14,9 @@ class Dashboard {
   }
 
   constructor(xml: string) {
-    const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "dashboard")[0];
+    const view = txml
+      .parse(xml)
+      .filter((el: ParsedNode) => el.tagName === "dashboard")[0];
     this._string = view.attributes.string || null;
 
     const { children } = view;

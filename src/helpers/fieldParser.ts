@@ -18,7 +18,7 @@ export function getValueForField({
       return values?.[fieldName];
     }
 
-    if (fieldName.indexOf("'") !== -1) {
+    if (fieldName.includes("'")) {
       return fieldName;
     } else {
       return parseInt(fieldName);

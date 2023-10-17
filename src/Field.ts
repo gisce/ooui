@@ -11,6 +11,7 @@ class Field extends Widget {
   get id(): string {
     return this._id;
   }
+
   set id(value: string) {
     this._id = value;
   }
@@ -22,6 +23,7 @@ class Field extends Widget {
   get label(): string {
     return this._label;
   }
+
   set label(value: string) {
     this._label = value;
   }
@@ -36,6 +38,7 @@ class Field extends Widget {
   get nolabel(): boolean {
     return this._nolabel;
   }
+
   set nolabel(value: boolean) {
     this._nolabel = value;
   }
@@ -49,6 +52,7 @@ class Field extends Widget {
   get required(): boolean {
     return this._required;
   }
+
   set required(value: boolean) {
     this._required = value;
   }
@@ -60,6 +64,7 @@ class Field extends Widget {
   get tooltip(): string | undefined {
     return this._tooltip;
   }
+
   set tooltip(value: string | undefined) {
     this._tooltip = value;
   }
@@ -71,6 +76,7 @@ class Field extends Widget {
   get activated(): boolean {
     return this._activated;
   }
+
   set activated(value: boolean) {
     this._activated = value;
   }
@@ -82,17 +88,19 @@ class Field extends Widget {
   get sum(): string | undefined {
     return this._sum;
   }
+
   set sum(value: string | undefined) {
     this._sum = value;
   }
 
   /**
-  * Values and keys
-  */
+   * Values and keys
+   */
   _selectionValues: Map<string, string> = new Map([]);
   get selectionValues(): Map<string, string> {
     return this._selectionValues;
   }
+
   set selectionValues(value: Map<string, string>) {
     this._selectionValues = value;
   }

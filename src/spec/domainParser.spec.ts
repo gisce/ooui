@@ -1,5 +1,8 @@
-import { transformDomainForChildWidget, parseDomainFields } from "../helpers/domainParser";
-import { it, expect, describe, test } from 'vitest';
+import {
+  transformDomainForChildWidget,
+  parseDomainFields,
+} from "../helpers/domainParser";
+import { it, expect, describe, test } from "vitest";
 
 describe("A Domain Parser", () => {
   it("should properly transform domain for inner widgets", () => {
@@ -42,11 +45,12 @@ describe("A Domain Parser", () => {
 
 describe("Getting evaluable fields for context", () => {
   test("Should return evaluable fields", () => {
-    const domain: string = "['|', ('a', '=', 'foo'), ('niu', '=', nau), ('state', 'in', ('open', 'draft'))]";
+    const domain: string =
+      "['|', ('a', '=', 'foo'), ('niu', '=', nau), ('state', 'in', ('open', 'draft'))]";
     const fields = parseDomainFields(domain);
-    expect(fields).toEqual(['nau'])
-  })
+    expect(fields).toEqual(["nau"]);
+  });
   test("If domain is false fields must be an empty list", () => {
-    expect(parseDomainFields(false)).toEqual([])
-  })
+    expect(parseDomainFields(false)).toEqual([]);
+  });
 });

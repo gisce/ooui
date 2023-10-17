@@ -12,6 +12,7 @@ class ContainerWidget extends Widget {
   get id(): string {
     return this._id;
   }
+
   set id(value: string) {
     this._id = value;
   }
@@ -20,6 +21,7 @@ class ContainerWidget extends Widget {
   static get defaultColspan(): number {
     return ContainerWidget._defaultColspan;
   }
+
   static set defaultColspan(value: number) {
     ContainerWidget._defaultColspan = value;
   }
@@ -31,6 +33,7 @@ class ContainerWidget extends Widget {
   get container(): Container {
     return this._container;
   }
+
   set container(value: Container) {
     this._container = value;
   }
@@ -38,6 +41,7 @@ class ContainerWidget extends Widget {
   get colspan(): number {
     return this._container.colspan;
   }
+
   set colspan(value: number) {
     this._container.colspan = +value;
   }
@@ -49,6 +53,7 @@ class ContainerWidget extends Widget {
   get mustExpand(): boolean {
     return this._mustExpand;
   }
+
   set mustExpand(value: boolean) {
     this._mustExpand = value;
   }
@@ -60,6 +65,7 @@ class ContainerWidget extends Widget {
   get label(): string {
     return this._label;
   }
+
   set label(value: string) {
     this._label = value;
   }
@@ -71,7 +77,7 @@ class ContainerWidget extends Widget {
       props && props.col,
       ContainerWidget._defaultColspan,
       this.readOnly,
-      props && props.key
+      props && props.key,
     );
 
     if (props) {

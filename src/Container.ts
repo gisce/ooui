@@ -15,6 +15,7 @@ class Container {
   get columns(): number {
     return this._columns;
   }
+
   set columns(value: number) {
     this._columns = value;
   }
@@ -26,6 +27,7 @@ class Container {
   get colspan(): number {
     return this._colspan;
   }
+
   set colspan(value: number) {
     this._colspan = value;
   }
@@ -37,6 +39,7 @@ class Container {
   get rows(): Widget[][] {
     return this._rows;
   }
+
   set rows(value: Widget[][]) {
     this._rows = value;
   }
@@ -53,6 +56,7 @@ class Container {
   get readOnly(): boolean {
     return this._readOnly;
   }
+
   set readOnly(value: boolean) {
     this._readOnly = value;
   }
@@ -64,6 +68,7 @@ class Container {
   get key(): string | undefined {
     return this._key;
   }
+
   set key(value: string | undefined) {
     this._key = value;
   }
@@ -72,7 +77,7 @@ class Container {
     columns: number = 4,
     colspan: number = 6,
     readOnly: boolean = false,
-    key: string | undefined = undefined
+    key: string | undefined = undefined,
   ) {
     this._columns = columns;
     this._colspan = colspan;
@@ -141,7 +146,7 @@ class Container {
       (accumulator: number, currentWidget: Widget) => {
         return accumulator + currentWidget.colspan;
       },
-      0
+      0,
     );
 
     if (widgetsColspan > this.freePosition()) {

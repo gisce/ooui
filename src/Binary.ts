@@ -11,6 +11,7 @@ class Binary extends Field {
   get filenameField(): string {
     return this._filenameField;
   }
+
   set filenameField(value: string) {
     this._filenameField = value;
   }

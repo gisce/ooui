@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Selection", () => {

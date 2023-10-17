@@ -11,6 +11,7 @@ class Selection extends Field {
   get size(): number {
     return this._size;
   }
+
   set size(value: number) {
     this._size = value;
   }

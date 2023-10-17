@@ -1,20 +1,21 @@
 import Button from "./Button";
-import ContainerWidget  from "./ContainerWidget";
+import ContainerWidget from "./ContainerWidget";
 
 class ButtonGroup extends ContainerWidget {
-
   _defaultName: string = "";
   get defaultName(): string {
     return this._defaultName;
   }
 
   get defaultButton(): Button | undefined {
-    const btn = this.buttons.find(button => button.id === this.defaultName);
-    return btn ? btn : this.buttons[0];
+    const btn = this.buttons.find((button) => button.id === this.defaultName);
+    return btn || this.buttons[0];
   }
 
   get secondaryButtons(): Button[] {
-    const btns = this.buttons.filter(button => button.id !== this.defaultButton?.id);
+    const btns = this.buttons.filter(
+      (button) => button.id !== this.defaultButton?.id,
+    );
     return btns;
   }
 

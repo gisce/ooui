@@ -1,7 +1,7 @@
 import Group from "../Group";
 import WidgetImpl from "./fixtures/WidgetImpl";
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A Group", () => {
   it("should be constructed with 4 columns and a colspan of 4", () => {
@@ -31,11 +31,11 @@ describe("A Group", () => {
     group4.container.addWidget(new WidgetImpl({ name: "5" }));
     expect(group4.container.rows.length).toBe(2);
   });
-    it("can have an icon property", () => {
+  it("can have an icon property", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       string: "General",
-      icon: "home"
+      icon: "home",
     };
     const widget = widgetFactory.createWidget("group", props);
     expect(widget.icon).toEqual("home");

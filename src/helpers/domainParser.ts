@@ -11,7 +11,7 @@ const transformDomainForChildWidget = ({
     if (!Array.isArray(domainEntry)) {
       return;
     }
-    
+
     const [fieldName, operator, value] = domainEntry;
 
     let rootFieldName;
@@ -21,7 +21,7 @@ const transformDomainForChildWidget = ({
       rootFieldName = fieldName.substr(0, fieldName.indexOf("."));
       targetFieldName = fieldName.substr(
         fieldName.indexOf(".") + 1,
-        fieldName.length - 1
+        fieldName.length - 1,
       );
     } else {
       rootFieldName = fieldName;
@@ -37,13 +37,14 @@ const transformDomainForChildWidget = ({
 };
 
 export const parseDomainFields = (domain: string | boolean): string[] => {
-  if (typeof domain != 'string') {
+  if (typeof domain !== "string") {
     return [];
   }
-  return domain.replace(/[()\[\]]/g, "")
-    .split(',')
-    .map(i => i.trim())
-    .filter(i => i.indexOf("'") === -1)
-}
+  return domain
+    .replace(/[()\[\]]/g, "")
+    .split(",")
+    .map((i) => i.trim())
+    .filter((i) => !i.includes("'"));
+};
 
 export { transformDomainForChildWidget };

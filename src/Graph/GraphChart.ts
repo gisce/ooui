@@ -13,6 +13,7 @@ export class GraphChart extends Graph {
   get y(): GraphYAxis[] {
     return this._y;
   }
+
   constructor(type: GraphType, element: ParsedNode) {
     super(element);
 

@@ -37,7 +37,7 @@ export const parseXYAxis = (nodes: ParsedNode[]): XYAxis => {
             operator: operator as Operator,
             label,
             stacked,
-          })
+          }),
         );
       }
     }

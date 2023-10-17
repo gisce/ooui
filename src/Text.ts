@@ -12,6 +12,7 @@ class Text extends Field {
   get placeholder(): string {
     return this._placeholder;
   }
+
   set placeholder(value: string) {
     this._placeholder = value;
   }
@@ -23,6 +24,7 @@ class Text extends Field {
   get mustExpand(): boolean {
     return this._mustExpand;
   }
+
   set mustExpand(value: boolean) {
     this._mustExpand = value;
   }
@@ -34,6 +36,7 @@ class Text extends Field {
   get height(): number | undefined {
     return this._height;
   }
+
   set height(value: number | undefined) {
     this._height = value;
   }
@@ -42,6 +45,7 @@ class Text extends Field {
   get translatable(): boolean {
     return this._translatable;
   }
+
   set translatable(value: boolean) {
     this._translatable = value;
   }
@@ -68,7 +72,7 @@ class Text extends Field {
 
       if (props.translate) {
         this.translatable =
-          props.translate === "True" || props.translate === true ? true : false;
+          !!(props.translate === "True" || props.translate === true);
       }
     }
   }

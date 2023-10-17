@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Tag widget", () => {
@@ -31,7 +31,7 @@ describe("A Tag widget", () => {
       };
       const widget = widgetFactory.createWidget("tag", props);
 
-      expect(widget.colors).toStrictEqual({draft: 'blue', open: 'red'});
+      expect(widget.colors).toStrictEqual({ draft: "blue", open: "red" });
     });
     it("should parse colors property and can be an string 'auto'", () => {
       const widgetFactory = new WidgetFactory();

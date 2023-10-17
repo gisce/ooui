@@ -11,6 +11,7 @@ class Many2one extends Field {
   get size(): number {
     return this._size;
   }
+
   set size(value: number) {
     this._size = value;
   }
@@ -22,6 +23,7 @@ class Many2one extends Field {
   get relation(): string {
     return this._relation;
   }
+
   set relation(value: string) {
     this._relation = value;
   }

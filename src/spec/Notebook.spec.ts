@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A Notebook", () => {
   it("should have tabs position default to top", () => {
@@ -9,18 +9,18 @@ describe("A Notebook", () => {
     };
 
     const widget = widgetFactory.createWidget("notebook", props);
-    expect(widget.tabPosition).toBe("top")
+    expect(widget.tabPosition).toBe("top");
   });
   it("should allow position to bottom, left, right", () => {
     const widgetFactory = new WidgetFactory();
-    ["bottom", "left", "rigth"].map(pos => {
+    ["bottom", "left", "rigth"].map((pos) => {
       const props = {
         string: "Page 1",
-        tabpos: pos
+        tabpos: pos,
       };
 
       const widget = widgetFactory.createWidget("notebook", props);
-      expect(widget.tabPosition).toBe(pos)
-    })
+      expect(widget.tabPosition).toBe(pos);
+    });
   });
 });

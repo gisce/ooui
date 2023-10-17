@@ -2,9 +2,9 @@ import { GraphIndicator } from "./GraphIndicator";
 import { GraphIndicatorField } from "./GraphIndicatorField";
 import { GraphChart } from "./GraphChart";
 import { ParsedNode } from "../helpers/nodeParser";
-import * as txml from 'txml';
+import * as txml from "txml";
 
-const GraphTypes: { [key: string]: any } = {
+const GraphTypes: Record<string, any> = {
   indicator: GraphIndicator,
   indicatorField: GraphIndicatorField,
   line: GraphChart,
@@ -13,7 +13,9 @@ const GraphTypes: { [key: string]: any } = {
 };
 
 export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
-  const view = txml.parse(xml).filter((el: ParsedNode) => el.tagName === "graph")[0];
+  const view = txml
+    .parse(xml)
+    .filter((el: ParsedNode) => el.tagName === "graph")[0];
   const type = view.attributes.type;
 
   if (!type) {

@@ -8,6 +8,7 @@ class Notebook extends ContainerWidget {
   static get defaultColspan(): number {
     return Notebook._defaultColspan;
   }
+
   static set defaultColspan(value: number) {
     Notebook._defaultColspan = value;
   }
@@ -16,14 +17,15 @@ class Notebook extends ContainerWidget {
   get tabPosition(): TabPosition {
     return this._tabPosition;
   }
+
   set tabPosition(value: TabPosition) {
     this._tabPosition = value;
   }
 
   _pages: Page[] = [];
   get pages(): Page[] {
-    // @ts-ignore
-    return [].concat.apply([], this._container.rows!) as Page[];
+    // @ts-expect-error
+    return [].concat.apply([], this._container.rows) as Page[];
   }
 
   constructor(props: any) {

@@ -11,6 +11,7 @@ class Char extends Field {
   get placeholder(): string {
     return this._placeholder;
   }
+
   set placeholder(value: string) {
     this._placeholder = value;
   }
@@ -22,6 +23,7 @@ class Char extends Field {
   get size(): number | undefined {
     return this._size;
   }
+
   set size(value: number | undefined) {
     this._size = value;
   }
@@ -30,6 +32,7 @@ class Char extends Field {
   get isPassword(): boolean {
     return this._isPassword;
   }
+
   set isPassword(value: boolean) {
     this._isPassword = value;
   }
@@ -38,6 +41,7 @@ class Char extends Field {
   get translatable(): boolean {
     return this._translatable;
   }
+
   set translatable(value: boolean) {
     this._translatable = value;
   }
@@ -51,12 +55,12 @@ class Char extends Field {
       }
 
       if (props.password) {
-        this.isPassword = props.password === "True" ? true : false;
+        this.isPassword = props.password === "True";
       }
 
       if (props.translate) {
         this.translatable =
-          props.translate === "True" || props.translate === true ? true : false;
+          !!(props.translate === "True" || props.translate === true);
       }
     }
   }

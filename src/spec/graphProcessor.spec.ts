@@ -5,7 +5,7 @@ import {
   processGraphData,
 } from "../Graph/processor/graphProcessor";
 import { GraphChart, parseGraph } from "../Graph";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("in getValuesGroupedByField method", () => {
   it("should properly group a lectura values for field 'name' - char", () => {
@@ -111,7 +111,7 @@ describe("in processGraphData method", () => {
       <field name="llista_preu" operator="count" axis="y"/>
     </graph>
     `,
-      "polissa"
+      "polissa",
     );
     expect(data).toBeTruthy();
 
@@ -124,32 +124,32 @@ describe("in processGraphData method", () => {
         (d) =>
           d.x === "TARIFAS ELECTRICIDAD (EUR)" &&
           d.value === 8 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeTruthy();
     expect(
       data.find(
         (d) =>
           d.x === "Adeu (CHF)" &&
           d.value === 4 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeTruthy();
     expect(
       data.find(
         (d) =>
           d.x === "Hola bipartit (EUR)" &&
           d.value === 5 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeTruthy();
     expect(
       data.find(
         (d) =>
           d.x === "Mucha potencia (EUR)" &&
           d.value === 1 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeTruthy();
 
     expect(
@@ -157,8 +157,8 @@ describe("in processGraphData method", () => {
         (d) =>
           d.x === "Hola (EUR)" &&
           d.value === 13 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeTruthy();
 
     expect(
@@ -166,8 +166,8 @@ describe("in processGraphData method", () => {
         (d) =>
           d.x === false &&
           d.value === 2 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeUndefined();
 
     expect(
@@ -175,8 +175,8 @@ describe("in processGraphData method", () => {
         (d) =>
           d.x === "random" &&
           d.value === 15 &&
-          d.type === "Tarifa Comercialitzadora"
-      )
+          d.type === "Tarifa Comercialitzadora",
+      ),
     ).toBeUndefined();
   });
 
@@ -188,7 +188,7 @@ describe("in processGraphData method", () => {
       <field name="data_alta" operator="count" axis="y"/>
   </graph>
     `,
-      "polissa"
+      "polissa",
     );
 
     expect(isGroup).toBe(false);
@@ -207,7 +207,7 @@ describe("in processGraphData method", () => {
       <field name="consum" operator="+" label="periode" axis="y"/>
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(true);
@@ -222,7 +222,7 @@ describe("in processGraphData method", () => {
     expect(obj2).toBeTruthy();
     expect(obj2.length).toBe(3);
     expect(obj2.map((e) => e.type).toString()).toBe(
-      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
+      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)",
     );
   });
 
@@ -234,7 +234,7 @@ describe("in processGraphData method", () => {
       <field name="consum" operator="+" label="periode" stacked="periode" axis="y"/>
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(true);
@@ -249,7 +249,7 @@ describe("in processGraphData method", () => {
     expect(obj2).toBeTruthy();
     expect(obj2.length).toBe(3);
     expect(obj2.map((e) => e.type).toString()).toBe(
-      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)"
+      "2.0A (P1),2.0DHA (P1),2.0DHA (P2)",
     );
   });
 
@@ -262,7 +262,7 @@ describe("in processGraphData method", () => {
       <field name="ajust" operator="+" axis="y"/>
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(false);
@@ -298,7 +298,7 @@ describe("in processGraphData method", () => {
       <field name="ajust_exporta" operator="+" axis="y" stacked="sortida" />
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(true);
@@ -307,28 +307,28 @@ describe("in processGraphData method", () => {
     expect(data.length).toBe(48);
 
     const obj1 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Consum - entrada"
+      (d) => d.x === "2015-10-31" && d.type == "Consum - entrada",
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
     expect(obj1!.stacked).toBe("entrada");
 
     const obj2 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Ajust - entrada"
+      (d) => d.x === "2015-10-31" && d.type == "Ajust - entrada",
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(15);
     expect(obj2!.stacked).toBe("entrada");
 
     const obj3 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Generació - sortida"
+      (d) => d.x === "2015-10-31" && d.type == "Generació - sortida",
     );
     expect(obj3!).toBeTruthy();
     expect(obj3!.value).toBe(0);
     expect(obj3!.stacked).toBe("sortida");
 
     const obj4 = data.find(
-      (d) => d.x === "2015-10-31" && d.type == "Ajust Exporta - sortida"
+      (d) => d.x === "2015-10-31" && d.type == "Ajust Exporta - sortida",
     );
     expect(obj4!).toBeTruthy();
     expect(obj4!.value).toBe(0);
@@ -344,7 +344,7 @@ describe("in processGraphData method", () => {
       <field name="generacio" operator="+" label="periode" axis="y" stacked="sortida" />
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(true);
@@ -353,14 +353,14 @@ describe("in processGraphData method", () => {
     expect(data.length).toBe(30);
 
     const obj1 = data.find(
-      (d) => d.x === "2015-10-31" && d.stacked == "entrada"
+      (d) => d.x === "2015-10-31" && d.stacked == "entrada",
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
     expect(obj1!.type).toBe("2.0A (P1) - entrada");
 
     const obj2 = data.find(
-      (d) => d.x === "2015-10-31" && d.stacked == "sortida"
+      (d) => d.x === "2015-10-31" && d.stacked == "sortida",
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(0);
@@ -376,7 +376,7 @@ describe("in processGraphData method", () => {
       <field name="generacio" operator="+" axis="y" stacked="sortida" />
     </graph>
     `,
-      "lectura"
+      "lectura",
     );
 
     expect(isGroup).toBe(true);
@@ -385,14 +385,14 @@ describe("in processGraphData method", () => {
     expect(data.length).toBe(27);
 
     const obj1 = data.find(
-      (d) => d.x === "2015-10-31" && d.stacked == "entrada"
+      (d) => d.x === "2015-10-31" && d.stacked == "entrada",
     );
     expect(obj1!).toBeTruthy();
     expect(obj1!.value).toBe(0);
     expect(obj1!.type).toBe("2.0A (P1) - entrada");
 
     const obj2 = data.find(
-      (d) => d.x === "2015-10-31" && d.stacked == "sortida"
+      (d) => d.x === "2015-10-31" && d.stacked == "sortida",
     );
     expect(obj2!).toBeTruthy();
     expect(obj2!.value).toBe(0);
@@ -407,7 +407,7 @@ describe("in processGraphData method", () => {
       <field name="data_alta" operator="count" axis="y"/>
   </graph>
     `,
-      "polissa"
+      "polissa",
     );
 
     expect(isGroup).toBe(false);

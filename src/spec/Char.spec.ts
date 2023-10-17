@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 
 describe("A Char", () => {
   it("should have an id corresponding to field name", () => {
@@ -77,5 +77,4 @@ describe("A Char", () => {
 
     expect(widget.tooltip).toBe("This is a help field");
   });
-
 });

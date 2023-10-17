@@ -1,4 +1,4 @@
-import { it, expect, describe } from 'vitest';
+import { it, expect, describe } from "vitest";
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Separator", () => {
@@ -16,7 +16,7 @@ describe("A Separator", () => {
     const widgetFactory = new WidgetFactory();
     const props = {
       string: "Text",
-      icon: "home"
+      icon: "home",
     };
     const widget = widgetFactory.createWidget("separator", props);
     expect(widget.icon).toEqual("home");

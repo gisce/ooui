@@ -26,8 +26,8 @@ export function getValueAndLabelForField({
   values,
   fieldName,
 }: {
-  fields: { [key: string]: any };
-  values: { [key: string]: any };
+  fields: Record<string, any>;
+  values: Record<string, any>;
   fieldName: string;
 }) {
   const xFieldData = fields[fieldName];
@@ -43,7 +43,7 @@ export function getValueAndLabelForField({
     }
     return { value: value[0], label: value[1] };
   } else if (xFieldData.type === "selection") {
-    const selectionValues: [number, string][] = xFieldData.selection;
+    const selectionValues: Array<[number, string]> = xFieldData.selection;
 
     const valuePair = selectionValues.find((selectionPair) => {
       return selectionPair[0] === value;

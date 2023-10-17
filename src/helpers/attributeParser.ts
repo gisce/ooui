@@ -5,7 +5,7 @@ const evaluateCondition = ({
   values,
   fields,
 }: {
-  entry: Array<any>;
+  entry: any[];
   values: any;
   fields: any;
 }) => {
@@ -53,7 +53,7 @@ const evaluateCondition = ({
     fields[fieldName].type === "boolean" &&
     (expectedValue === 0 || expectedValue === 1)
   ) {
-    filteredExpectedValue = expectedValue === 0 ? false : true;
+    filteredExpectedValue = expectedValue !== 0;
   }
 
   switch (operator.toLowerCase()) {
@@ -107,7 +107,7 @@ const parseAttributes = ({
     const evaluatedEntries: boolean[] = entries.map((entry: any) => {
       return evaluateCondition({ entry, values, fields });
     });
-    const attrIsTrue = evaluatedEntries.every((i: boolean) => i === true);
+    const attrIsTrue = evaluatedEntries.every((i: boolean) => i);
 
     if (attrIsTrue) {
       newAttributes[attrField] = true;

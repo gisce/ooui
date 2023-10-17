@@ -33,8 +33,8 @@ export const parseContext = ({
     // TODO: maybe this can be accomplished more performant and elegant with regex
     const singleQuotesReplace = context.replace(/\"/g, "'");
     const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
-    var replaceTrue = strNoWhitespaces.replace(/True/g, "true");
-    var replaceFalse = replaceTrue.replace(/False/g, "false");
+    const replaceTrue = strNoWhitespaces.replace(/True/g, "true");
+    const replaceFalse = replaceTrue.replace(/False/g, "false");
     const strNoClauLeft = replaceFalse.replace(/\{/g, "");
     const strNoClauRight = strNoClauLeft.replace(/\}/g, "");
 
@@ -49,7 +49,7 @@ export const parseContext = ({
       const fieldName = entry[1];
 
       if (
-        entry[1].indexOf("'") === -1 &&
+        !entry[1].includes("'") &&
         entry[1] !== "true" &&
         entry[1] !== "false"
       ) {
@@ -67,7 +67,7 @@ export const parseContext = ({
         } else {
           parsedContext[entry[0].replace(/'/g, "")] = entry[1].replace(
             /'/g,
-            ""
+            "",
           );
         }
       }
@@ -79,7 +79,7 @@ export const parseContext = ({
   }
 };
 
-export const parseContextFields = (context:string): string[] => {
+export const parseContextFields = (context: string): string[] => {
   const fields: string[] = [];
   try {
     if (!context) return fields;
@@ -104,8 +104,8 @@ export const parseContextFields = (context:string): string[] => {
     // TODO: maybe this can be accomplished more performant and elegant with regex
     const singleQuotesReplace = context.replace(/\"/g, "'");
     const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
-    var replaceTrue = strNoWhitespaces.replace(/True/g, "true");
-    var replaceFalse = replaceTrue.replace(/False/g, "false");
+    const replaceTrue = strNoWhitespaces.replace(/True/g, "true");
+    const replaceFalse = replaceTrue.replace(/False/g, "false");
     const strNoClauLeft = replaceFalse.replace(/\{/g, "");
     const strNoClauRight = strNoClauLeft.replace(/\}/g, "");
 
@@ -120,19 +120,18 @@ export const parseContextFields = (context:string): string[] => {
       const fieldName = entry[1];
 
       if (
-        entry[1].indexOf("'") === -1 &&
+        !entry[1].includes("'") &&
         entry[1] !== "true" &&
         entry[1] !== "false"
       ) {
-        fields.push(entry[1].replace(/'/g, ""))
-        }
+        fields.push(entry[1].replace(/'/g, ""));
+      }
     });
 
     return fields;
-  } catch (e) {
-  }
+  } catch (e) {}
   return fields;
-}
+};
 
 function tryParseJSON(str: string): any | null {
   try {

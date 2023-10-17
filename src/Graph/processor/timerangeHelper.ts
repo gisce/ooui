@@ -30,7 +30,7 @@ export function fillGapsInTimerangeData({
   timerange: string;
 }) {
   let finalValues: any[] = [];
-  const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
+  const uniqueValues: Record<string, any> = getUniqueValuesGroupedBy({
     values,
     groupBy: "type-stacked",
   });
@@ -65,17 +65,17 @@ export function fillGapsInTimerangeData({
               type: value.type,
               stacked: value.stacked,
             };
-          })
+          }),
         );
       }
     }
   });
 
   const sortedData = finalValues.sort((a, b) => {
-    if (a["x"] < b["x"]) {
+    if (a.x < b.x) {
       return -1;
     }
-    if (a["x"] > b["x"]) {
+    if (a.x > b.x) {
       return 1;
     }
     return 0;
@@ -111,8 +111,8 @@ export function getMissingConsecutiveDates({
     const date2 = sortedDates[i + 1];
 
     if (!checkDatesConsecutive([date1, date2], units)) {
-      let iDate = moment(date1, getFormatForUnits(units)).add(1, units);
-      let fDate = moment(date2, getFormatForUnits(units));
+      const iDate = moment(date1, getFormatForUnits(units)).add(1, units);
+      const fDate = moment(date2, getFormatForUnits(units));
 
       while (iDate.isBefore(fDate)) {
         missingDates.push(iDate.format(getFormatForUnits(units)));
@@ -135,9 +135,9 @@ export function combineValuesForTimerange({
     values,
     timerange,
   });
-  let finalValues: any[] = [];
+  const finalValues: any[] = [];
   // group by x, type and stacked
-  const uniqueValues: { [key: string]: any } = getUniqueValuesGroupedBy({
+  const uniqueValues: Record<string, any> = getUniqueValuesGroupedBy({
     values: adjustedValues,
     groupBy: "all",
   });
@@ -173,7 +173,7 @@ export function adjustXValuesForTimeRage({
       ...value,
       x: convertDateToTimeRangeAdjusted({
         date: value.x,
-        timerange: timerange,
+        timerange,
       }),
     };
   });
@@ -219,7 +219,7 @@ export function getDateFormat(date: string) {
 
 export function checkDatesConsecutive(
   dates: string[],
-  unit: "hours" | "days" | "weeks" | "months" | "years"
+  unit: "hours" | "days" | "weeks" | "months" | "years",
 ) {
   let consecutive = false;
   const format = getFormatForUnits(unit);
@@ -253,7 +253,7 @@ export function getUniqueValuesGroupedBy({
   values: any[];
   groupBy: "all" | "type-stacked";
 }) {
-  const uniqueValues: { [key: string]: any } = {};
+  const uniqueValues: Record<string, any> = {};
   values.forEach((value) => {
     const x = value.x;
     const type = value.type;

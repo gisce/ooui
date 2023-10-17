@@ -11,6 +11,7 @@ class MultiCheckbox extends Field {
   get size(): number {
     return this._size;
   }
+
   set size(value: number) {
     this._size = value;
   }
@@ -22,6 +23,7 @@ class MultiCheckbox extends Field {
   get relation(): string {
     return this._relation;
   }
+
   set relation(value: string) {
     this._relation = value;
   }
@@ -33,10 +35,10 @@ class MultiCheckbox extends Field {
   get inv_field(): string | undefined {
     return this._inv_field;
   }
-  set inv_field(value: string | undefined) {
+
+  set inv_field(value: string | undefined) {
     this._inv_field = value;
   }
-
 
   /**
    * field to define the value to show
@@ -45,6 +47,7 @@ class MultiCheckbox extends Field {
   get field(): string {
     return this._field;
   }
+
   set field(value: string) {
     this._field = value;
   }
@@ -53,6 +56,7 @@ class MultiCheckbox extends Field {
   get columns(): number {
     return this._columns;
   }
+
   set columns(value: number) {
     this._columns = value;
   }
@@ -72,8 +76,8 @@ class MultiCheckbox extends Field {
       if (props.inv_field) {
         this._inv_field = props.inv_field;
       }
-      if (this.parsedWidgetProps.hasOwnProperty('field')) {
-        this._field = this.parsedWidgetProps.field
+      if (this.parsedWidgetProps.hasOwnProperty("field")) {
+        this._field = this.parsedWidgetProps.field;
       }
       if (this.parsedWidgetProps.columns) {
         this._columns = this.parsedWidgetProps.columns;

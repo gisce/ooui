@@ -6,6 +6,7 @@ abstract class Widget {
   static get defaultColspan() {
     return Widget._defaultColspan;
   }
+
   static set defaultColspan(value) {
     Widget._defaultColspan = value;
   }
@@ -17,6 +18,7 @@ abstract class Widget {
   get readOnly(): boolean {
     return this._readOnly;
   }
+
   set readOnly(value: boolean) {
     this._readOnly = value;
   }
@@ -28,6 +30,7 @@ abstract class Widget {
   get colspan(): number {
     return this._colspan;
   }
+
   set colspan(value: number) {
     this._colspan = +value;
   }
@@ -39,6 +42,7 @@ abstract class Widget {
   get invisible(): boolean {
     return this._invisible;
   }
+
   set invisible(value: boolean) {
     this._invisible = value;
   }
@@ -50,6 +54,7 @@ abstract class Widget {
   get type(): string {
     return this._type;
   }
+
   set type(value: string) {
     this._type = value;
   }
@@ -61,6 +66,7 @@ abstract class Widget {
   get context(): any {
     return this._context;
   }
+
   set context(value: any) {
     this._context = value;
   }
@@ -72,6 +78,7 @@ abstract class Widget {
   get domain(): string | undefined {
     return this._domain;
   }
+
   set domain(value: string | undefined) {
     this._domain = value;
   }
@@ -83,6 +90,7 @@ abstract class Widget {
   get key(): string | undefined {
     return this._key;
   }
+
   set key(value: string | undefined) {
     this._key = value;
   }
@@ -91,6 +99,7 @@ abstract class Widget {
   get parsedWidgetProps(): any {
     return this._parsedWidgetProps;
   }
+
   set parsedWidgetProps(value: any) {
     this._parsedWidgetProps = value;
   }
@@ -138,7 +147,7 @@ abstract class Widget {
       if (props.widget_props) {
         try {
           this._parsedWidgetProps = JSON.parse(
-            props.widget_props.replace(/'/g, '"')
+            props.widget_props.replace(/'/g, '"'),
           );
         } catch (err) {
           throw new Error("Error parsing widget_props");
