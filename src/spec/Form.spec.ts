@@ -3192,4 +3192,16 @@ describe("A Form", () => {
       "[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]"
     );
   });
+  it("Should be able to parse a specifically enabled button even though in the form is disabled", () => {
+    const arch = `<form>
+      <button name="example_button" string="Example" type="object" readonly="0" />
+    </form>`;
+    const form = new Form({});
+    form.parse(arch, {
+      readOnly: true,
+      values: {},
+    });
+    const buttonWidget = form.findById("example_button") as Button;
+    expect(buttonWidget.readOnly).toBeFalsy();
+  });
 });
