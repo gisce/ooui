@@ -200,8 +200,7 @@ class Form {
 
         const widgetContext = parseContext({
           context:
-            tagAttributes.context ||
-            this._fields[tagAttributes.name]?.context,
+            tagAttributes.context || this._fields[tagAttributes.name]?.context,
           values,
           fields: this._fields,
         });

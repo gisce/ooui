@@ -67,7 +67,7 @@ export const parseContext = ({
         } else {
           parsedContext[entry[0].replace(/'/g, "")] = entry[1].replace(
             /'/g,
-            ""
+            "",
           );
         }
       }

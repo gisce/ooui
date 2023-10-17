@@ -65,7 +65,7 @@ export function fillGapsInTimerangeData({
               type: value.type,
               stacked: value.stacked,
             };
-          })
+          }),
         );
       }
     }
@@ -219,7 +219,7 @@ export function getDateFormat(date: string) {
 
 export function checkDatesConsecutive(
   dates: string[],
-  unit: "hours" | "days" | "weeks" | "months" | "years"
+  unit: "hours" | "days" | "weeks" | "months" | "years",
 ) {
   let consecutive = false;
   const format = getFormatForUnits(unit);

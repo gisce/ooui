@@ -24,7 +24,6 @@ class Notebook extends ContainerWidget {
 
   _pages: Page[] = [];
   get pages(): Page[] {
-    // @ts-expect-error
     return [].concat.apply([], this._container.rows) as Page[];
   }
 

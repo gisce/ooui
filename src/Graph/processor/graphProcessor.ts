@@ -2,7 +2,10 @@ import { GraphChart, GraphYAxis, Operator } from "..";
 import { getValueAndLabelForField } from "./fieldUtils";
 import { processTimerangeData } from "./timerangeHelper";
 
-export type GroupedValues = Record<string, { label: string; entries: Array<Record<string, any>> }>;
+export type GroupedValues = Record<
+  string,
+  { label: string; entries: Array<Record<string, any>> }
+>;
 
 export const labelsForOperator = {
   count: "count",

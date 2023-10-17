@@ -59,8 +59,9 @@ class Char extends Field {
       }
 
       if (props.translate) {
-        this.translatable =
-          !!(props.translate === "True" || props.translate === true);
+        this.translatable = !!(
+          props.translate === "True" || props.translate === true
+        );
       }
     }
   }
