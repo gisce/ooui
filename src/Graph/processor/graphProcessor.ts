@@ -211,27 +211,27 @@ export function getValueForOperator({
     }
     case "+": {
       return roundNumber(
-        values.reduce(function (previousValue: any, currentValue: any) {
+        values.reduce(function (previousValue: number, currentValue: number) {
           return previousValue + currentValue;
         }),
       );
     }
     case "-": {
       return roundNumber(
-        values.reduce(function (previousValue: any, currentValue: any) {
+        values.reduce(function (previousValue: number, currentValue: number) {
           return previousValue - currentValue;
         }),
       );
     }
     case "*": {
       return roundNumber(
-        values.reduce(function (previousValue: any, currentValue: any) {
+        values.reduce(function (previousValue: number, currentValue: number) {
           return previousValue * currentValue;
         }),
       );
     }
     case "avg": {
-      const sum = values.reduce((a: any, b: any) => a + b, 0);
+      const sum = values.reduce((a: number, b: number) => a + b, 0);
       const avg = sum / values.length || 0;
       return roundNumber(avg);
     }
@@ -294,7 +294,7 @@ export function getYAxisFieldname({
 }) {
   const fieldProps = fields[yAxis.name];
 
-  if (fieldProps && fieldProps.string) {
+  if (fieldProps?.string) {
     // return `${fieldProps.string} (${labelsForOperator[yAxis.operator]})`;
     return fieldProps.string;
   }

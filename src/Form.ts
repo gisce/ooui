@@ -167,7 +167,7 @@ class Form {
           } else if (name) {
             if (!this._fields[name]) {
               throw new Error(
-                `Field ${name} doesn't exist in fields defintion`,
+                `Field ${name as string} doesn't exist in fields defintion`,
               );
             }
             widgetType = this._fields[name].type;

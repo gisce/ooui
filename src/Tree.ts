@@ -1,7 +1,7 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
 import { replaceEntities } from "./helpers/attributeParser";
-import { ParsedNode, parseBoolAttribute } from "./helpers/nodeParser";
+import { ParsedNode } from "./helpers/nodeParser";
 import * as txml from "txml";
 
 type EditableTreeOptions = "top" | " bottom" | null;
@@ -123,6 +123,7 @@ class Tree {
       if (item.findById) {
         return item.findById(id);
       }
+      return false;
     });
   }
 }

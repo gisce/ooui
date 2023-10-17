@@ -46,7 +46,7 @@ class Button extends Field {
     return this._confirmMessage;
   }
 
-  set confirm(value: string) {
+  set confirmMessage(value: string) {
     this._confirmMessage = value;
   }
 

@@ -22,11 +22,11 @@ export const parseGraph = (xml: string): GraphIndicator | GraphChart => {
     throw new Error(`${type} is not a valid graph`);
   }
 
-  const graphModel = GraphTypes[type];
+  const GraphModel = GraphTypes[type];
 
-  if (!graphModel) {
+  if (!GraphModel) {
     throw new Error(`${type} not found as a GraphModel`);
   }
 
-  return new graphModel(type, view);
+  return new GraphModel(type, view);
 };

@@ -1,5 +1,4 @@
 import ContainerWidget from "./ContainerWidget";
-import { replaceEntities } from "./helpers/attributeParser";
 
 class Group extends ContainerWidget {
   _icon: string | null = null;

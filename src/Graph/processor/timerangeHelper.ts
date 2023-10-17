@@ -65,7 +65,7 @@ export function fillGapsInTimerangeData({
               type: value.type,
               stacked: value.stacked,
             };
-          }),
+          })
         );
       }
     }
@@ -219,7 +219,7 @@ export function getDateFormat(date: string) {
 
 export function checkDatesConsecutive(
   dates: string[],
-  unit: "hours" | "days" | "weeks" | "months" | "years",
+  unit: "hours" | "days" | "weeks" | "months" | "years"
 ) {
   let consecutive = false;
   const format = getFormatForUnits(unit);
@@ -270,10 +270,6 @@ export function getUniqueValuesGroupedBy({
 
 export function getFormatForUnits(units: string) {
   switch (units) {
-    default:
-    case "hours": {
-      return "YYYY-MM-DD HH:mm";
-    }
     case "days": {
       return "YYYY-MM-DD";
     }
@@ -285,6 +281,10 @@ export function getFormatForUnits(units: string) {
     }
     case "years": {
       return "YYYY";
+    }
+    case "hours":
+    default: {
+      return "YYYY-MM-DD HH:mm";
     }
   }
 }

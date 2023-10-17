@@ -77,7 +77,7 @@ class Container {
     columns: number = 4,
     colspan: number = 6,
     readOnly: boolean = false,
-    key: string | undefined = undefined,
+    key: string | undefined = undefined
   ) {
     this._columns = columns;
     this._colspan = colspan;
@@ -132,7 +132,7 @@ class Container {
         invisible: widget.invisible,
         help: widget.tooltip,
         fieldForLabel: widget.id,
-        key: widget.key + "-label",
+        key: `${widget.key!}-label`,
       });
       label.type = "label";
 
@@ -146,7 +146,7 @@ class Container {
       (accumulator: number, currentWidget: Widget) => {
         return accumulator + currentWidget.colspan;
       },
-      0,
+      0
     );
 
     if (widgetsColspan > this.freePosition()) {
@@ -163,14 +163,14 @@ class Container {
    */
   findById(id: string): Widget | null {
     let r: Widget | null = null;
-    if (this._rows && this._rows.length) {
+    if (this._rows?.length) {
       this._rows.forEach((row) => {
         if (r) {
           // Item has been found.
           return;
         }
 
-        if (row && row.length) {
+        if (row?.length) {
           row.forEach((item) => {
             if (r) {
               // Item has been found.

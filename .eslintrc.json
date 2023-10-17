@@ -21,7 +21,17 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/naming-convention": "off"
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-useless-constructor": "warn",
+    "@typescript-eslint/restrict-template-expressions": "warn",
+    "no-prototype-builtins": "off",
+    "eqeqeq": "off"
   },
-  "ignorePatterns": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "src/spec/"
+  ]
 }

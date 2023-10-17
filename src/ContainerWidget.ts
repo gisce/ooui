@@ -74,10 +74,10 @@ class ContainerWidget extends Widget {
     super(props);
 
     this._container = new Container(
-      props && props.col,
+      props?.col,
       ContainerWidget._defaultColspan,
       this.readOnly,
-      props && props.key,
+      props?.key,
     );
 
     if (props) {

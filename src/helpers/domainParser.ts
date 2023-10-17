@@ -20,7 +20,7 @@ const transformDomainForChildWidget = ({
     if (fieldName.indexOf(".") !== -1) {
       rootFieldName = fieldName.substr(0, fieldName.indexOf("."));
       targetFieldName = fieldName.substr(
-        fieldName.indexOf(".") + 1,
+        fieldName.indexOf(".") as number + 1,
         fieldName.length - 1,
       );
     } else {
@@ -41,7 +41,7 @@ export const parseDomainFields = (domain: string | boolean): string[] => {
     return [];
   }
   return domain
-    .replace(/[()\[\]]/g, "")
+    .replace(/[()[\]]/g, "")
     .split(",")
     .map((i) => i.trim())
     .filter((i) => !i.includes("'"));

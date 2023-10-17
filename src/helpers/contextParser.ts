@@ -31,7 +31,7 @@ export const parseContext = ({
     }
 
     // TODO: maybe this can be accomplished more performant and elegant with regex
-    const singleQuotesReplace = context.replace(/\"/g, "'");
+    const singleQuotesReplace = context.replace(/"/g, "'");
     const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
     const replaceTrue = strNoWhitespaces.replace(/True/g, "true");
     const replaceFalse = replaceTrue.replace(/False/g, "false");
@@ -67,7 +67,7 @@ export const parseContext = ({
         } else {
           parsedContext[entry[0].replace(/'/g, "")] = entry[1].replace(
             /'/g,
-            "",
+            ""
           );
         }
       }
@@ -102,7 +102,7 @@ export const parseContextFields = (context: string): string[] => {
     }
 
     // TODO: maybe this can be accomplished more performant and elegant with regex
-    const singleQuotesReplace = context.replace(/\"/g, "'");
+    const singleQuotesReplace = context.replace(/"/g, "'");
     const strNoWhitespaces = singleQuotesReplace.replace(/\s/g, "");
     const replaceTrue = strNoWhitespaces.replace(/True/g, "true");
     const replaceFalse = replaceTrue.replace(/False/g, "false");
@@ -114,11 +114,7 @@ export const parseContextFields = (context: string): string[] => {
       return entry.split(":");
     });
 
-    const parsedContext: any = {};
-
     valuesSplitted.forEach((entry) => {
-      const fieldName = entry[1];
-
       if (
         !entry[1].includes("'") &&
         entry[1] !== "true" &&

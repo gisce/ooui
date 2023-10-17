@@ -160,11 +160,10 @@ class Field extends Widget {
    * @param {string} id id (name) to find
    */
   findById(id: string): Field | null {
-    let r: Field | null = null;
     if (this._id === id) {
-      r = this;
+      return this;
     }
-    return r;
+    return null;
   }
 }
 

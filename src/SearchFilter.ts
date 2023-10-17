@@ -1,7 +1,6 @@
 import WidgetFactory from "./WidgetFactory";
 import Container from "./Container";
 import Widget from "./Widget";
-import Form from "./Form";
 
 export const SearchFieldTypes: any = {
   text: "text",
