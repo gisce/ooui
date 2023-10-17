@@ -1,4 +1,5 @@
 import { parseContext, parseContextFields } from "../helpers/contextParser";
+import { it, expect, describe, test } from 'vitest';
 
 describe("A Context Parser", () => {
   describe("in parseContext method", () => {

@@ -1,6 +1,7 @@
 import Group from "../Group";
 import WidgetImpl from "./fixtures/WidgetImpl";
 import WidgetFactory from "../WidgetFactory";
+import { it, expect, describe } from 'vitest';
 
 describe("A Group", () => {
   it("should be constructed with 4 columns and a colspan of 4", () => {

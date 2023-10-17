@@ -1,4 +1,5 @@
 import Dashboard from "../Dashboard";
+import { it, expect, describe } from 'vitest';
 
 describe("A Dashboard", () => {
   it("should parse a basic XML with three actions", () => {

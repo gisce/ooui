@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest';
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Page", () => {

@@ -1,4 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
+import { it, expect, describe } from 'vitest';
 
 describe("A Many2one", () => {
   it("should have an id corresponding to field name", () => {

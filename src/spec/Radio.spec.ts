@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest';
 import WidgetFactory from "../WidgetFactory";
 
 describe("A Radio widget", () => {
@@ -11,7 +12,7 @@ describe("A Radio widget", () => {
 
     expect(widget.direction).toBe("horizontal");
   });
- 
+
   it("should properly set field", () => {
     const widgetFactory = new WidgetFactory();
     const props = {

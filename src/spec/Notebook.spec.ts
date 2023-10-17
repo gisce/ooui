@@ -1,4 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
+import { it, expect, describe } from 'vitest';
 
 describe("A Notebook", () => {
   it("should have tabs position default to top", () => {
@@ -17,7 +18,7 @@ describe("A Notebook", () => {
         string: "Page 1",
         tabpos: pos
       };
-  
+
       const widget = widgetFactory.createWidget("notebook", props);
       expect(widget.tabPosition).toBe(pos)
     })

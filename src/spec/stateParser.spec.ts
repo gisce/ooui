@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest';
 import { evaluateStates, evaluateButtonStates } from "../helpers/stateParser";
 
 describe("An States Parser", () => {

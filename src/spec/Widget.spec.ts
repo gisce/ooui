@@ -1,10 +1,11 @@
+import { it, expect, describe } from 'vitest';
 import Widget from "../Widget";
 import WidgetImpl from "./fixtures/WidgetImpl";
 
 describe('A Widget', () => {
     it('should be constructed with a colspan by default', () => {
         const widget = new WidgetImpl();
-        
+
         expect(widget.colspan).toBe(Widget.defaultColspan);
     });
 
@@ -60,7 +61,7 @@ describe('A Widget', () => {
         const widget = new WidgetImpl();
 
         widget.colspan = "3";
-        
+
         expect(typeof widget.colspan).toBe("number");
         expect(widget.colspan).toBe(3);
     });

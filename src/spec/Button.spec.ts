@@ -1,4 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
+import { it, expect, describe } from 'vitest';
 
 describe("A Button", () => {
   it("should have an id corresponding to field name", () => {

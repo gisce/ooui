@@ -1,4 +1,5 @@
 import { transformDomainForChildWidget, parseDomainFields } from "../helpers/domainParser";
+import { it, expect, describe, test } from 'vitest';
 
 describe("A Domain Parser", () => {
   it("should properly transform domain for inner widgets", () => {

@@ -1,5 +1,6 @@
 import Container from "../Container";
 import WidgetImpl from "./fixtures/WidgetImpl";
+import { it, expect, describe } from 'vitest';
 
 describe("A container", () => {
   it("should have 4 columns as default", () => {

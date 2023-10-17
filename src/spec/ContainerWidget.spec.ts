@@ -1,9 +1,10 @@
 import ContainerWidget from "../ContainerWidget";
+import { it, expect, describe } from 'vitest';
 
 describe('A ContainerWidget', () => {
     it('should be constructed with a colspan by default', () => {
         const widget = new ContainerWidget();
-        
+
         expect(widget.colspan).toBeGreaterThan(0);
         expect(widget.colspan).toBe(ContainerWidget.defaultColspan);
     });
@@ -27,7 +28,7 @@ describe('A ContainerWidget', () => {
         const widget = new ContainerWidget();
 
         widget.colspan = "3";
-        
+
         expect(typeof widget.colspan).toBe("number");
         expect(widget.colspan).toBe(3);
     });

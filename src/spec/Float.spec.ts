@@ -1,5 +1,6 @@
 import WidgetFactory from "../WidgetFactory";
 import Float from "../Float";
+import { it, expect, describe } from 'vitest';
 
 describe("A Float", () => {
   it("should have 16,2 as integers/decimals digits", () => {

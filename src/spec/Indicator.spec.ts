@@ -1,5 +1,6 @@
 import WidgetFactory from "../WidgetFactory";
 import Indicator from "../Indicator";
+import { it, expect, describe } from 'vitest';
 
 describe("An Indicator", () => {
   it("should create a Indicator widget from factory", () => {

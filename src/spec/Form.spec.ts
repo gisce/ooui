@@ -8,6 +8,7 @@ import Field from "../Field";
 import Reference from "../Reference";
 import Button from "../Button";
 import ButtonGroup from "../ButtonGroup";
+import { it, expect, describe } from 'vitest';
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">

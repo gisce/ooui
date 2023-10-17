@@ -5,6 +5,7 @@ import {
   processGraphData,
 } from "../Graph/processor/graphProcessor";
 import { GraphChart, parseGraph } from "../Graph";
+import { it, expect, describe } from 'vitest';
 
 describe("in getValuesGroupedByField method", () => {
   it("should properly group a lectura values for field 'name' - char", () => {

@@ -6,6 +6,7 @@ import {
   GraphIndicatorField,
   GraphYAxis,
 } from "..";
+import { it, expect, describe } from 'vitest';
 
 describe("A Graph", () => {
   it("should parse a basic XML title and type indicator", () => {

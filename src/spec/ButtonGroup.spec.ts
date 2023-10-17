@@ -1,6 +1,7 @@
 import ButtonGroup from "../ButtonGroup";
 import WidgetFactory from "../WidgetFactory";
 import Button from "../Button";
+import { it, expect, describe, beforeAll } from 'vitest';
 
 describe("A ButtonsGroup widget", () => {
   it("should have an id corresponding to button name", () => {

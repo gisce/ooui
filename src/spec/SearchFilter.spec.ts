@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest';
 import SearchFilter from "../SearchFilter";
 
 const searchFields = {

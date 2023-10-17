@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest';
 import { evaluateAttributes } from "../helpers/attributeParser";
 
 const fields = {
