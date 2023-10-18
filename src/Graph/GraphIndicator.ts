@@ -41,7 +41,7 @@ export class GraphIndicator extends Graph {
       this._icon = replaceEntities(this._icon);
     }
     this._suffix = element.attributes.suffix || null;
-    this._totalDomain = element.attributes.totalDomain || null;
+    this._totalDomain = replaceEntities(element.attributes.totalDomain) || null;
     this._showPercent = parseBoolAttribute(element.attributes.showPercent);
   }
 }
