@@ -9,6 +9,7 @@ import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
 import * as txml from "txml";
 import Field from "./Field";
+import Button from "./Button";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -182,6 +183,7 @@ class Form {
           tagAttributes,
           values,
           fields: this._fields,
+          widgetType: tagName,
         });
         let evaluatedStateAttributes;
 
@@ -245,8 +247,15 @@ class Form {
           });
         }
 
-        // If the form is set to readonly, reflect it to its children
-        widget.readOnly = widget.readOnly || this.readOnly;
+        // If the widget is a button and has a readonly attribute specified
+        // reflect it to the widget independently of the form readonly attribute
+        if (widget instanceof Button && widget.readOnly !== undefined) {
+          // widget.readOnly = widget.readOnly;
+        } else {
+          // If the form is set to readonly, reflect it to its children
+          widget.readOnly = widget.readOnly || this.readOnly;
+        }
+
         container.addWidget(widget);
       });
   }

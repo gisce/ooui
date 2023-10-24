@@ -3193,4 +3193,45 @@ describe("A Form", () => {
       "[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale')]",
     );
   });
+  it("Should be able to parse a specifically enabled button even though in the form is disabled", () => {
+    const arch = `<form>
+      <button name="example_button" string="Example" type="object" readonly="0" />
+    </form>`;
+    const form = new Form({});
+    form.parse(arch, {
+      readOnly: true,
+      values: {},
+    });
+    const buttonWidget = form.findById("example_button") as Button;
+    expect(buttonWidget.readOnly).toBeFalsy();
+  });
+  it("Should be able to parse a specifically enabled button even though in the form is disabled, with attrs", () => {
+    const arch = `<form>
+      <button name="example_button" string="Example" type="object" attrs="{'readonly':[('state','!=','actiu')]}" />
+    </form>`;
+    const form = new Form({
+      state: {
+        selection: [
+          ["esborrany", "Esborrany"],
+          ["actiu", "Actiu"],
+          ["pendent", "Pendent d'activació"],
+          ["baixa", "Baixa"],
+          ["baixa2", "Baixa per modificació"],
+          ["baixa3", "Baixa per renovació"],
+          ["baixa4", "Baixa per nova pòlissa"],
+        ],
+        string: "Estat",
+        type: "selection",
+        views: {},
+      },
+    });
+    form.parse(arch, {
+      readOnly: true,
+      values: {
+        state: "actiu",
+      },
+    });
+    const buttonWidget = form.findById("example_button") as Button;
+    expect(buttonWidget.readOnly).toBeFalsy();
+  });
 });
