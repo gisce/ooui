@@ -103,7 +103,7 @@ abstract class Widget {
       if (props.colspan) {
         this._colspan = +props.colspan;
       }
-      if (props.readonly) {
+      if (props.readonly !== undefined) {
         if (
           props.readonly === "1" ||
           props.readonly === 1 ||

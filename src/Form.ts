@@ -178,6 +178,7 @@ class Form {
           tagAttributes,
           values,
           fields: this._fields,
+          widgetType: tagName,
         });
         let evaluatedStateAttributes;
 
