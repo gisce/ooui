@@ -334,29 +334,54 @@ describe("A Form", () => {
     }
   });
 
-  it("should be able to parse a field with tooltip", () => {
-    const fields = {
-      char1: {
-        size: 128,
-        string: "Name",
-        type: "char",
-        help: "tooltip string",
-      },
-    };
-    const xmlViewForm = `<?xml version="1.0"?>
-    <form string="Form1">
-        <group name="group">
-            <field colspan="1" name="char1" />
-        </group>
-    </form>`;
-    const form = new Form(fields);
-    form.parse(xmlViewForm);
+  describe("If field has a help message", () => {
+    it("should be able to parse a field with tooltip", () => {
+      const fields = {
+        char1: {
+          size: 128,
+          string: "Name",
+          type: "char",
+          help: "tooltip string",
+        },
+      };
+      const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Form1">
+          <group name="group">
+              <field colspan="1" name="char1" />
+          </group>
+      </form>`;
+      const form = new Form(fields);
+      form.parse(xmlViewForm);
 
-    const field = form.findById("char1") as Char;
-    expect(field).not.toBeNull();
-    expect(field.tooltip).toBe("tooltip string");
-  });
+      const field = form.findById("char1") as Char;
+      expect(field).not.toBeNull();
+      expect(field.tooltip).toBe("tooltip string");
+      expect(field.tooltipInline).toBeFalsy();
+    });
+    it("should be inline if attribute help_inline is set", () => {
+      const fields = {
+        char1: {
+          size: 128,
+          string: "Name",
+          type: "char",
+          help: "tooltip string",
+        },
+      };
+      const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Form1">
+          <group name="group">
+              <field colspan="1" name="char1" help_inline="1"/>
+          </group>
+      </form>`;
+      const form = new Form(fields);
+      form.parse(xmlViewForm);
 
+      const field = form.findById("char1") as Char;
+      expect(field).not.toBeNull();
+      expect(field.tooltip).toBe("tooltip string");
+      expect(field.tooltipInline).toBeTruthy();
+    });
+  })
   it("should properly parse a password field", () => {
     const arch =
       '<form><group><field name="password" password="True" readonly="0"/></group></form>';
