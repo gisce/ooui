@@ -1,5 +1,10 @@
 import { decode } from "html-entities";
 
+export const isTrue = (value: string | boolean | number = false) => {
+  value = JSON.parse(value.toString().toLowerCase());
+  return +value > 0;
+};
+
 const evaluateCondition = ({
   entry,
   values,

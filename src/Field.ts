@@ -1,5 +1,5 @@
 import Widget from "./Widget";
-import { replaceEntities } from "./helpers/attributeParser";
+import { replaceEntities, isTrue } from "./helpers/attributeParser";
 
 class Field extends Widget {
   /**
@@ -67,6 +67,18 @@ class Field extends Widget {
 
   set tooltip(value: string | undefined) {
     this._tooltip = value;
+  }
+
+  /**
+   * Tooltip inline
+   */
+  _tooltipInline: boolean = false;
+  get tooltipInline(): boolean {
+    return this._tooltipInline;
+  }
+
+  set tooltipInline(value: boolean) {
+    this._tooltipInline = value;
   }
 
   /**
@@ -151,6 +163,10 @@ class Field extends Widget {
 
       if (props.selection) {
         this._selectionValues = new Map(props.selection);
+      }
+
+      if (props.help_inline) {
+        this.tooltipInline = isTrue(props.help_inline);
       }
     }
   }
