@@ -1,4 +1,4 @@
-import { evaluateAttributes } from "../helpers/attributeParser";
+import { evaluateAttributes, isTrue } from "../helpers/attributeParser";
 
 const fields = {
   force_potencia_adscrita: {
@@ -210,5 +210,40 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
+  });
+  describe("isTrue method", () => {
+    it("should return true when value is 'True'", () => {
+      expect(isTrue('True')).toBeTruthy();
+    })
+    it("should return true when value is 'true'", () => {
+      expect(isTrue('true')).toBeTruthy();
+    })
+    it("should return true when value is true", () => {
+      expect(isTrue(true)).toBeTruthy();
+    })
+    it("should return true when value is '1'", () => {
+      expect(isTrue('1')).toBeTruthy();
+    })
+    it("should return true when value is 1", () => {
+      expect(isTrue(1)).toBeTruthy();
+    })
+    it("should return false when value is 'False'", () => {
+      expect(isTrue('False')).toBeFalsy();
+    })
+    it("should return false when value is 'false'", () => {
+      expect(isTrue('false')).toBeFalsy();
+    })
+    it("should return false when value is false", () => {
+      expect(isTrue(false)).toBeFalsy();
+    })
+    it("should return false when value is '0'", () => {
+      expect(isTrue('0')).toBeFalsy();
+    })
+    it("should return false when value is 0", () => {
+      expect(isTrue(0)).toBeFalsy();
+    })
+    it("should return false when value is undefined", () => {
+      expect(isTrue(undefined)).toBeFalsy();
+    })
   });
 });
