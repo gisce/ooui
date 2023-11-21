@@ -144,7 +144,7 @@ export const parseJsonAttributes = ({
   attrs: string;
   values: any;
 }) => {
-  const jsonAttributes = JSON.parse(attrs) as JsonAttributes;
+  const jsonAttributes = JSON.parse(attrs.replace(/'/g, '"')) as JsonAttributes;
   const finalAttributes: Record<string, boolean> = {};
 
   for (const attrField of Object.keys(jsonAttributes)) {
