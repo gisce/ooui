@@ -1,4 +1,10 @@
 import { decode } from "html-entities";
+import {
+  Condition,
+  evaluateCondition as evaluateConscheckCondition,
+} from "@gisce/conscheck";
+
+type JsonAttributes = Record<string, Condition>;
 
 export const isTrue = (value: string | boolean | number = false) => {
   value = JSON.parse(value.toString().toLowerCase());
@@ -131,6 +137,26 @@ const parseAttributes = ({
   return newAttributes;
 };
 
+export const parseJsonAttributes = ({
+  attrs,
+  values,
+}: {
+  attrs: string;
+  values: any;
+}) => {
+  const jsonAttributes = JSON.parse(attrs) as JsonAttributes;
+  const finalAttributes: Record<string, boolean> = {};
+
+  for (const attrField of Object.keys(jsonAttributes)) {
+    finalAttributes[attrField] = evaluateConscheckCondition(
+      values,
+      jsonAttributes[attrField],
+    );
+  }
+
+  return finalAttributes;
+};
+
 const evaluateAttributes = ({
   tagAttributes,
   values,
@@ -142,16 +168,28 @@ const evaluateAttributes = ({
   fields: any;
   widgetType?: string;
 }) => {
-  const newTagAttributes = tagAttributes.attrs
-    ? parseAttributes({
-        attrs: tagAttributes.attrs,
-        values,
-        fields,
-        widgetType,
-      })
-    : {};
+  let newTagAttributes = {};
 
-  return { ...tagAttributes, ...newTagAttributes, attrs: undefined };
+  if (tagAttributes.json_attrs) {
+    newTagAttributes = parseJsonAttributes({
+      attrs: tagAttributes.attrs,
+      values,
+    });
+  } else if (tagAttributes.attrs) {
+    newTagAttributes = parseAttributes({
+      attrs: tagAttributes.attrs,
+      values,
+      fields,
+      widgetType,
+    });
+  }
+
+  return {
+    ...tagAttributes,
+    ...newTagAttributes,
+    attrs: undefined,
+    json_attrs: undefined,
+  };
 };
 
 export { evaluateAttributes, replaceEntities };

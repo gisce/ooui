@@ -1,5 +1,9 @@
 import { it, expect, describe } from "vitest";
-import { evaluateAttributes, isTrue } from "../helpers/attributeParser";
+import {
+  evaluateAttributes,
+  isTrue,
+  parseJsonAttributes,
+} from "../helpers/attributeParser";
 
 const fields = {
   force_potencia_adscrita: {
@@ -245,6 +249,16 @@ describe("An Attribute Parser", () => {
     });
     it("should return false when value is undefined", () => {
       expect(isTrue(undefined)).toBeFalsy();
+    });
+  });
+  describe("in parseJsonAttributes method", () => {
+    it("should properly parse a simple invisible attribute", () => {
+      const stringJson =
+        '{"invisible":{"condition":"OR","rules":[{"field":"age","operator":"<","value":18},{"field":"citizenship","operator":"=","value":false}]}}';
+      const sampleObject = { age: 17, citizenship: false };
+      expect(
+        parseJsonAttributes({ attrs: stringJson, values: sampleObject }),
+      ).toStrictEqual({ invisible: true });
     });
   });
 });
