@@ -144,17 +144,24 @@ export const parseJsonAttributes = ({
   attrs: string;
   values: any;
 }) => {
-  const jsonAttributes = JSON.parse(attrs.replace(/'/g, '"')) as JsonAttributes;
-  const finalAttributes: Record<string, boolean> = {};
+  try {
+    const jsonAttributes = JSON.parse(
+      attrs.replace(/'/g, '"'),
+    ) as JsonAttributes;
+    const finalAttributes: Record<string, boolean> = {};
 
-  for (const attrField of Object.keys(jsonAttributes)) {
-    finalAttributes[attrField] = evaluateConscheckCondition(
-      values,
-      jsonAttributes[attrField],
-    );
+    for (const attrField of Object.keys(jsonAttributes)) {
+      finalAttributes[attrField] = evaluateConscheckCondition(
+        values,
+        jsonAttributes[attrField],
+      );
+    }
+
+    return finalAttributes;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error parsing json_attrs. Original string: " + attrs);
   }
-
-  return finalAttributes;
 };
 
 const evaluateAttributes = ({
