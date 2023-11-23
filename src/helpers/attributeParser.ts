@@ -160,7 +160,7 @@ export const parseJsonAttributes = ({
     return finalAttributes;
   } catch (error) {
     console.error(error);
-    throw new Error("Error parsing json_attrs. Original string: " + attrs);
+    throw new Error("Error parsing new json_attrs. Original string: " + attrs);
   }
 };
 
