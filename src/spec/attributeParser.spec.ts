@@ -260,5 +260,21 @@ describe("An Attribute Parser", () => {
         parseJsonAttributes({ attrs: stringJson, values: sampleObject }),
       ).toStrictEqual({ invisible: true });
     });
+    it("should properly parse attributes with special entities and singlequotes", () => {
+      const stringJson =
+        "{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: &quot;installed&quot;}], &quot;condition&quot;: &quot;AND&quot;}}";
+      expect(
+        parseJsonAttributes({
+          attrs: stringJson,
+          values: { state: "installed" },
+        }),
+      ).toStrictEqual({ invisible: false });
+      expect(
+        parseJsonAttributes({
+          attrs: stringJson,
+          values: { state: "pending" },
+        }),
+      ).toStrictEqual({ invisible: true });
+    });
   });
 });

@@ -145,11 +145,11 @@ export const parseJsonAttributes = ({
   values: any;
 }) => {
   try {
+    const attrsWithReplacedEntities = replaceEntities(attrs);
     const jsonAttributes = JSON.parse(
-      attrs.replace(/'/g, '"'),
+      attrsWithReplacedEntities.replace(/'/g, '"'),
     ) as JsonAttributes;
     const finalAttributes: Record<string, boolean> = {};
-
     for (const attrField of Object.keys(jsonAttributes)) {
       finalAttributes[attrField] = evaluateConscheckCondition(
         values,
