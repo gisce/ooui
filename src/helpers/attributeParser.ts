@@ -179,7 +179,7 @@ const evaluateAttributes = ({
 
   if (tagAttributes.json_attrs) {
     newTagAttributes = parseJsonAttributes({
-      attrs: tagAttributes.json_attrs,
+      attrs: replaceEntities(tagAttributes.json_attrs),
       values,
     });
   } else if (tagAttributes.attrs) {

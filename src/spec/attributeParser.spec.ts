@@ -260,5 +260,19 @@ describe("An Attribute Parser", () => {
         parseJsonAttributes({ attrs: stringJson, values: sampleObject }),
       ).toStrictEqual({ invisible: true });
     });
+    it("should properly parse a simple invisible attribute if is encoded with html entities", () => {
+      const sampleObject = { age: 17, citizenship: false };
+      const tagAttributes = {
+        json_attrs:
+          "{&quot;invisible&quot;:{&quot;condition&quot;:&quot;OR&quot;,&quot;rules&quot;:[{&quot;field&quot;:&quot;age&quot;,&quot;operator&quot;:&quot;<&quot;,&quot;value&quot;:18},{&quot;field&quot;:&quot;citizenship&quot;,&quot;operator&quot;:&quot;=&quot;,&quot;value&quot;:false}]}}",
+      };
+      const values = sampleObject;
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
+    });
   });
 });
