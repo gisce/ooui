@@ -431,12 +431,8 @@ describe("An Attribute Parser", () => {
     });
     it("should properly parse a many2one attribute with false value", () => {
       const tagAttributes = {
-        json_attrs: {
-          invisible: {
-            condition: "AND",
-            rules: [{ field: "autoconsum_id", operator: "=", value: false }],
-          },
-        },
+        json_attrs:
+          '{"invisible":{"condition":"AND","rules":[{"field":"autoconsum_id","operator":"=","value":false}]}}',
       };
       const values = { autoconsum_id: false };
       const evaluatedAttrs = evaluateAttributes({
@@ -448,12 +444,8 @@ describe("An Attribute Parser", () => {
     });
     it("should properly parse a many2one attribute with undefined value", () => {
       const tagAttributes = {
-        json_attrs: {
-          invisible: {
-            condition: "AND",
-            rules: [{ field: "autoconsum_id", operator: "=", value: false }],
-          },
-        },
+        json_attrs:
+          '{"invisible":{"condition":"AND","rules":[{"field":"autoconsum_id","operator":"=","value":false}]}}',
       };
       const values = { autoconsum_id: undefined };
       const evaluatedAttrs = evaluateAttributes({
