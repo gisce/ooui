@@ -292,7 +292,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    it.only("should properly parse a simple attribute with == operator and numeric value", () => {
+    it("should properly parse a simple attribute with == operator and numeric value", () => {
       const tagAttributes = {
         json_attrs: `{"invisible": {"condition": "AND", "rules": [{"field": "check_total", "operator": "==", "value": 0.0}]}}`,
       };
