@@ -3259,4 +3259,33 @@ describe("A Form", () => {
     const buttonWidget = form.findById("example_button") as Button;
     expect(buttonWidget.readOnly).toBeFalsy();
   });
+  it("Should be able to parse a specifically enabled button even though in the form is disabled, with json_attrs", () => {
+    const arch = `<form>
+      <button name="example_button" string="Example" type="object" json_attrs="{'readonly': {'condition': 'AND', 'rules': [{'field': 'state', 'operator': '!=', 'value': 'actiu'}]}}" />
+    </form>`;
+    const form = new Form({
+      state: {
+        selection: [
+          ["esborrany", "Esborrany"],
+          ["actiu", "Actiu"],
+          ["pendent", "Pendent d'activació"],
+          ["baixa", "Baixa"],
+          ["baixa2", "Baixa per modificació"],
+          ["baixa3", "Baixa per renovació"],
+          ["baixa4", "Baixa per nova pòlissa"],
+        ],
+        string: "Estat",
+        type: "selection",
+        views: {},
+      },
+    });
+    form.parse(arch, {
+      readOnly: true,
+      values: {
+        state: "actiu",
+      },
+    });
+    const buttonWidget = form.findById("example_button") as Button;
+    expect(buttonWidget.readOnly).toBeFalsy();
+  });
 });

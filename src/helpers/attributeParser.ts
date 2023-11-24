@@ -145,11 +145,11 @@ export const parseJsonAttributes = ({
   values: any;
 }) => {
   try {
+    const attrsWithReplacedEntities = replaceEntities(attrs);
     const jsonAttributes = JSON.parse(
-      attrs.replace(/'/g, '"'),
+      attrsWithReplacedEntities.replace(/'/g, '"'),
     ) as JsonAttributes;
     const finalAttributes: Record<string, boolean> = {};
-
     for (const attrField of Object.keys(jsonAttributes)) {
       finalAttributes[attrField] = evaluateConscheckCondition(
         values,
@@ -160,7 +160,13 @@ export const parseJsonAttributes = ({
     return finalAttributes;
   } catch (error) {
     console.error(error);
-    throw new Error("Error parsing new json_attrs. Original string: " + attrs);
+    if (error instanceof SyntaxError) {
+      throw new Error(
+        "Error parsing new json_attrs. Original string: " + attrs,
+      );
+    } else {
+      throw error;
+    }
   }
 };
 
@@ -169,21 +175,18 @@ const evaluateAttributes = ({
   values,
   fields,
   widgetType,
+  fallbackMode = true,
 }: {
   tagAttributes: any;
   values: any;
   fields: any;
   widgetType?: string;
+  fallbackMode?: boolean;
 }) => {
-  let newTagAttributes = {};
-
-  if (tagAttributes.json_attrs) {
-    newTagAttributes = parseJsonAttributes({
-      attrs: replaceEntities(tagAttributes.json_attrs),
-      values,
-    });
-  } else if (tagAttributes.attrs) {
-    newTagAttributes = parseAttributes({
+  let finalTagAttributes = {};
+  let oldTagAttributes = {};
+  if (tagAttributes.attrs) {
+    oldTagAttributes = parseAttributes({
       attrs: tagAttributes.attrs,
       values,
       fields,
@@ -191,9 +194,26 @@ const evaluateAttributes = ({
     });
   }
 
+  if (tagAttributes.json_attrs) {
+    try {
+      finalTagAttributes = parseJsonAttributes({
+        attrs: replaceEntities(tagAttributes.json_attrs),
+        values,
+      });
+    } catch (error) {
+      if (fallbackMode && tagAttributes.attrs) {
+        finalTagAttributes = oldTagAttributes;
+      } else {
+        throw error;
+      }
+    }
+  } else if (tagAttributes.attrs) {
+    finalTagAttributes = oldTagAttributes;
+  }
+
   return {
     ...tagAttributes,
-    ...newTagAttributes,
+    ...finalTagAttributes,
     attrs: undefined,
     json_attrs: undefined,
   };
