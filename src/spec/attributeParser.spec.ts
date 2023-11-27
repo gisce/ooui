@@ -257,7 +257,14 @@ describe("An Attribute Parser", () => {
         '{"invisible":{"condition":"OR","rules":[{"field":"age","operator":"<","value":18},{"field":"citizenship","operator":"=","value":false}]}}';
       const sampleObject = { age: 17, citizenship: false };
       expect(
-        parseJsonAttributes({ attrs: stringJson, values: sampleObject }),
+        parseJsonAttributes({
+          attrs: stringJson,
+          values: sampleObject,
+          fields: {
+            age: { type: "integer" },
+            citizenship: { type: "boolean" },
+          },
+        }),
       ).toStrictEqual({ invisible: true });
     });
     it("should properly parse attributes with special entities and singlequotes", () => {
@@ -267,12 +274,18 @@ describe("An Attribute Parser", () => {
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "installed" },
+          fields: {
+            state: { type: "char" },
+          },
         }),
       ).toStrictEqual({ invisible: false });
       expect(
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "pending" },
+          fields: {
+            state: { type: "char" },
+          },
         }),
       ).toStrictEqual({ invisible: true });
     });
@@ -427,8 +440,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    // TODO: This test is failing
-    it.skip("should properly parse a boolean attribute without value (default true)", () => {
+    it("should properly parse a boolean attribute without value (default true)", () => {
       const tagAttributes = {
         json_attrs: `{"invisible": {"condition": "AND", "rules": [{"field": "change_adm", "operator": "=", "value": false}]}}`,
       };
@@ -455,8 +467,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    // TODO: This test is failing
-    it.skip("should properly parse a many2one attribute with undefined value", () => {
+    it("should properly parse a many2one attribute with undefined value", () => {
       const tagAttributes = {
         json_attrs:
           '{"invisible":{"condition":"AND","rules":[{"field":"autoconsum_id","operator":"=","value":false}]}}',
