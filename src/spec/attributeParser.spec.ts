@@ -268,24 +268,36 @@ describe("An Attribute Parser", () => {
       ).toStrictEqual({ invisible: true });
     });
     it("should properly parse attributes with special entities and singlequotes", () => {
+      const fields = {
+        state: {
+          selection: [
+            ["esborrany", "Esborrany"],
+            ["actiu", "Actiu"],
+            ["pending", "Pendent d'activació"],
+            ["baixa", "Baixa"],
+            ["installed", "instalat"],
+            ["baixa3", "Baixa per renovació"],
+            ["baixa4", "Baixa per nova pòlissa"],
+          ],
+          string: "Estat",
+          type: "selection",
+          views: {},
+        },
+      };
       const stringJson =
         "{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: &quot;installed&quot;}], &quot;condition&quot;: &quot;AND&quot;}}";
       expect(
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "installed" },
-          fields: {
-            state: { type: "char" },
-          },
+          fields,
         }),
       ).toStrictEqual({ invisible: false });
       expect(
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "pending" },
-          fields: {
-            state: { type: "char" },
-          },
+          fields,
         }),
       ).toStrictEqual({ invisible: true });
     });
