@@ -1,6 +1,8 @@
 import { decode } from "html-entities";
 import {
   Condition,
+  FieldComparisonParams,
+  FieldComparisonResult,
   evaluateCondition as evaluateConscheckCondition,
 } from "@gisce/conscheck";
 
@@ -20,72 +22,45 @@ const evaluateCondition = ({
   values: any;
   fields: any;
 }) => {
-  const [fieldName, operator, expectedValue] = entry;
+  let [fieldName, operator, expectedValue] = entry;
+  let valueInObject = values[fieldName];
 
-  if (fields[fieldName] === undefined) {
-    return false;
+  const comparisonResult = evaluateFieldComparison({
+    fieldName,
+    valueInObject,
+    expectedValue,
+    fields,
+  });
+
+  if (comparisonResult.directOutcome !== undefined) {
+    return comparisonResult.directOutcome;
   }
-
-  if (
-    values[fieldName] === undefined &&
-    fields[fieldName].type !== "boolean" &&
-    fields[fieldName].type !== "many2one"
-  ) {
-    return false;
+  if (comparisonResult.modifiedValueInObject !== null) {
+    valueInObject = comparisonResult.modifiedValueInObject;
   }
-
-  let filteredExpectedValue = expectedValue;
-
-  let value =
-    fields[fieldName].type === "boolean"
-      ? !!values[fieldName]
-      : values[fieldName];
-
-  if (
-    fields[fieldName].type === "many2one" &&
-    expectedValue === false &&
-    values[fieldName] === undefined
-  ) {
-    filteredExpectedValue = undefined;
-  } else {
-    value = value === undefined ? false : value;
-    value = value === null ? false : value;
-  }
-
-  if (
-    fields[fieldName].type === "many2one" &&
-    Array.isArray(value) &&
-    value[0] === undefined
-  ) {
-    value = false;
-  }
-
-  if (
-    fields[fieldName].type === "boolean" &&
-    (expectedValue === 0 || expectedValue === 1)
-  ) {
-    filteredExpectedValue = expectedValue !== 0;
+  if (comparisonResult.modifiedExpectedValue !== null) {
+    expectedValue = comparisonResult.modifiedExpectedValue;
   }
 
   switch (operator.toLowerCase()) {
     case "=":
     case "==":
-      return value == filteredExpectedValue;
+      return valueInObject == expectedValue;
     case "<>":
     case "!=":
-      return value != filteredExpectedValue;
+      return valueInObject != expectedValue;
     case ">":
-      return value > filteredExpectedValue;
+      return valueInObject > expectedValue;
     case ">=":
-      return value >= filteredExpectedValue;
+      return valueInObject >= expectedValue;
     case "<":
-      return value < filteredExpectedValue;
+      return valueInObject < expectedValue;
     case "<=":
-      return value <= filteredExpectedValue;
+      return valueInObject <= expectedValue;
     case "in":
-      return filteredExpectedValue.includes(value);
+      return expectedValue.includes(valueInObject);
     case "not in":
-      return !filteredExpectedValue.includes(value);
+      return !expectedValue.includes(valueInObject);
     default:
       return false;
   }
@@ -93,6 +68,76 @@ const evaluateCondition = ({
 
 const replaceEntities = (string: string): string => {
   return decode(string, { level: "xml" });
+};
+
+const evaluateFieldComparison = ({
+  fieldName,
+  valueInObject,
+  expectedValue,
+  fields = {},
+}: FieldComparisonParams & { fields: any }): FieldComparisonResult => {
+  const result: FieldComparisonResult = {
+    modifiedValueInObject: valueInObject,
+    modifiedExpectedValue: null,
+    directOutcome: undefined,
+  };
+
+  if (fields[fieldName] === undefined) {
+    return {
+      modifiedValueInObject: null,
+      modifiedExpectedValue: null,
+      directOutcome: false,
+    };
+  }
+
+  if (
+    valueInObject === undefined &&
+    fields[fieldName].type !== "boolean" &&
+    fields[fieldName].type !== "many2one"
+  ) {
+    return {
+      modifiedValueInObject: null,
+      modifiedExpectedValue: null,
+      directOutcome: false,
+    };
+  }
+
+  result.modifiedValueInObject =
+    fields[fieldName].type === "boolean" ? !!valueInObject : valueInObject;
+
+  if (
+    fields[fieldName].type === "many2one" &&
+    expectedValue === false &&
+    valueInObject === undefined
+  ) {
+    result.modifiedExpectedValue = undefined;
+  } else {
+    result.modifiedValueInObject =
+      result.modifiedValueInObject === undefined
+        ? false
+        : result.modifiedValueInObject;
+    result.modifiedValueInObject =
+      result.modifiedValueInObject === null
+        ? false
+        : result.modifiedValueInObject;
+  }
+
+  if (
+    fields[fieldName].type === "many2one" &&
+    Array.isArray(result.modifiedValueInObject) &&
+    result.modifiedValueInObject[0] === undefined
+  ) {
+    result.modifiedValueInObject = false;
+  }
+
+  if (
+    fields[fieldName].type === "boolean" &&
+    (expectedValue === 0 || expectedValue === 1)
+  ) {
+    result.modifiedExpectedValue = expectedValue !== 0;
+  }
+
+  return result;
 };
 
 const parseAttributes = ({
@@ -140,9 +185,11 @@ const parseAttributes = ({
 export const parseJsonAttributes = ({
   attrs,
   values,
+  fields,
 }: {
   attrs: string;
   values: any;
+  fields: any;
 }) => {
   try {
     const attrsWithReplacedEntities = replaceEntities(attrs);
@@ -151,10 +198,22 @@ export const parseJsonAttributes = ({
     ) as JsonAttributes;
     const finalAttributes: Record<string, boolean> = {};
     for (const attrField of Object.keys(jsonAttributes)) {
-      finalAttributes[attrField] = evaluateConscheckCondition(
-        values,
-        jsonAttributes[attrField],
-      );
+      finalAttributes[attrField] = evaluateConscheckCondition({
+        object: values,
+        condition: jsonAttributes[attrField],
+        evaluateFieldComparison: ({
+          fieldName,
+          valueInObject,
+          expectedValue,
+        }: FieldComparisonParams) => {
+          return evaluateFieldComparison({
+            fieldName,
+            valueInObject,
+            expectedValue,
+            fields,
+          });
+        },
+      });
     }
 
     return finalAttributes;
@@ -199,6 +258,7 @@ const evaluateAttributes = ({
       finalTagAttributes = parseJsonAttributes({
         attrs: tagAttributes.json_attrs,
         values,
+        fields,
       });
     } catch (error) {
       if (fallbackMode && tagAttributes.attrs) {

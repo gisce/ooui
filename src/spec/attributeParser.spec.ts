@@ -257,22 +257,47 @@ describe("An Attribute Parser", () => {
         '{"invisible":{"condition":"OR","rules":[{"field":"age","operator":"<","value":18},{"field":"citizenship","operator":"=","value":false}]}}';
       const sampleObject = { age: 17, citizenship: false };
       expect(
-        parseJsonAttributes({ attrs: stringJson, values: sampleObject }),
+        parseJsonAttributes({
+          attrs: stringJson,
+          values: sampleObject,
+          fields: {
+            age: { type: "integer" },
+            citizenship: { type: "boolean" },
+          },
+        }),
       ).toStrictEqual({ invisible: true });
     });
     it("should properly parse attributes with special entities and singlequotes", () => {
+      const fields = {
+        state: {
+          selection: [
+            ["esborrany", "Esborrany"],
+            ["actiu", "Actiu"],
+            ["pending", "Pendent d'activació"],
+            ["baixa", "Baixa"],
+            ["installed", "instalat"],
+            ["baixa3", "Baixa per renovació"],
+            ["baixa4", "Baixa per nova pòlissa"],
+          ],
+          string: "Estat",
+          type: "selection",
+          views: {},
+        },
+      };
       const stringJson =
         "{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: &quot;installed&quot;}], &quot;condition&quot;: &quot;AND&quot;}}";
       expect(
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "installed" },
+          fields,
         }),
       ).toStrictEqual({ invisible: false });
       expect(
         parseJsonAttributes({
           attrs: stringJson,
           values: { state: "pending" },
+          fields,
         }),
       ).toStrictEqual({ invisible: true });
     });
@@ -427,8 +452,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    // TODO: This test is failing
-    it.skip("should properly parse a boolean attribute without value (default true)", () => {
+    it("should properly parse a boolean attribute without value (default true)", () => {
       const tagAttributes = {
         json_attrs: `{"invisible": {"condition": "AND", "rules": [{"field": "change_adm", "operator": "=", "value": false}]}}`,
       };
@@ -455,8 +479,7 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
-    // TODO: This test is failing
-    it.skip("should properly parse a many2one attribute with undefined value", () => {
+    it("should properly parse a many2one attribute with undefined value", () => {
       const tagAttributes = {
         json_attrs:
           '{"invisible":{"condition":"AND","rules":[{"field":"autoconsum_id","operator":"=","value":false}]}}',
