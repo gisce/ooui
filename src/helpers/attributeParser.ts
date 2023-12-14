@@ -93,10 +93,12 @@ const parseAttributes = ({
   attrs,
   values,
   fields,
+  widgetType,
 }: {
   attrs: string;
   values: any;
   fields: any;
+  widgetType?: string;
 }) => {
   const leftP = attrs.replace(/\(/g, "[");
   const rightP = leftP.replace(/\)/g, "]");
@@ -116,6 +118,13 @@ const parseAttributes = ({
 
     if (attrIsTrue) {
       newAttributes[attrField] = true;
+    } else if (
+      attrField === "readonly" &&
+      !attrIsTrue &&
+      widgetType === "button"
+    ) {
+      // Buttons with readonly false will have to override the default readonly
+      newAttributes[attrField] = false;
     }
   }
 
@@ -126,16 +135,19 @@ const evaluateAttributes = ({
   tagAttributes,
   values,
   fields,
+  widgetType,
 }: {
   tagAttributes: any;
   values: any;
   fields: any;
+  widgetType?: string;
 }) => {
   const newTagAttributes = tagAttributes.attrs
     ? parseAttributes({
         attrs: tagAttributes.attrs,
         values,
         fields,
+        widgetType,
       })
     : {};
 

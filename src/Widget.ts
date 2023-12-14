@@ -11,13 +11,13 @@ abstract class Widget {
   }
 
   /**
-   * Determines if widget is read only (default is false)
+   * Determines if widget is read only (default is undefined)
    */
-  _readOnly: boolean;
-  get readOnly(): boolean {
+  _readOnly: boolean | undefined;
+  get readOnly(): boolean | undefined {
     return this._readOnly;
   }
-  set readOnly(value: boolean) {
+  set readOnly(value: boolean | undefined) {
     this._readOnly = value;
   }
 
@@ -97,20 +97,25 @@ abstract class Widget {
 
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
-    this._readOnly = false;
     this._invisible = false;
 
     if (props) {
       if (props.colspan) {
         this._colspan = +props.colspan;
       }
-      if (props.readonly) {
+      if (props.readonly !== undefined) {
         if (
           props.readonly === "1" ||
           props.readonly === 1 ||
           props.readonly === true
         ) {
           this._readOnly = true;
+        } else if (
+          props.readonly === "0" ||
+          props.readonly === 0 ||
+          props.readonly === false
+        ) {
+          this._readOnly = false;
         }
       }
       if (props.invisible) {
