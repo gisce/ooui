@@ -20,14 +20,6 @@ const evaluateCondition = ({
     return false;
   }
 
-  if (
-    values[fieldName] === undefined &&
-    fields[fieldName].type !== "boolean" &&
-    fields[fieldName].type !== "many2one"
-  ) {
-    return false;
-  }
-
   let filteredExpectedValue = expectedValue;
 
   let value =
