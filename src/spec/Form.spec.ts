@@ -3267,7 +3267,7 @@ describe("A Form", () => {
     </form>`;
     const form = new Form({
       formulari: {
-        type: "char",
+        type: "selection",
       },
       at_prefix: { type: "char" },
       bt_prefix: { type: "char" },
