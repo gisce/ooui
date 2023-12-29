@@ -93,7 +93,8 @@ const evaluateFieldComparison = ({
   if (
     valueInObject === undefined &&
     fields[fieldName].type !== "boolean" &&
-    fields[fieldName].type !== "many2one"
+    fields[fieldName].type !== "many2one" &&
+    fields[fieldName].type !== "selection"
   ) {
     return {
       modifiedValueInObject: null,

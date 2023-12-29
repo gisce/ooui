@@ -3288,4 +3288,22 @@ describe("A Form", () => {
     const buttonWidget = form.findById("example_button") as Button;
     expect(buttonWidget.readOnly).toBeFalsy();
   });
+  it("Should be able to set an invisible group when attrs have a field that has not value", () => {
+    const arch = `<form>
+    <group name="group" colspan="4" col="4" attrs="{'invisible':[('formulari','!=','b1')]}">
+      <field name="at_prefix" />
+      <field name="bt_prefix" />
+    </group>
+    </form>`;
+    const form = new Form({
+      formulari: {
+        type: "selection",
+      },
+      at_prefix: { type: "char" },
+      bt_prefix: { type: "char" },
+    });
+    form.parse(arch);
+    const groupWidget = form.findById("group") as Group;
+    expect(groupWidget.invisible).toBeTruthy();
+  });
 });
