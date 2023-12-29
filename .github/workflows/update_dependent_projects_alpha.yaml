@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  LIBRARY_NAME: "gisce/ooui.js"
+  LIBRARY_NAME: "gisce/ooui"
 
 jobs:
   update-dependents:
