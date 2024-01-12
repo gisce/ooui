@@ -158,7 +158,7 @@ class Field extends Widget {
       }
 
       if (props.sum) {
-        this._sum = props.sum;
+        this._sum = replaceEntities(props.sum);
       }
 
       if (props.selection) {
