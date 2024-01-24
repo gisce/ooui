@@ -331,4 +331,23 @@ describe("A Tree", () => {
 
     expect(tree.editable).toBe("top");
   });
+
+  it("Parse sum property string parsing html entities", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Pot&#232;ncia contractada (kW)",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Pot&#232;ncia contractada (kW)" /></tree>`,
+    );
+
+    const nameWidget = tree.findById("name") as Char;
+    expect(nameWidget.sum).toBe("Potència contractada (kW)");
+  });
 });

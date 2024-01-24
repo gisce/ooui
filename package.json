@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "1.0.0-alpha.24",
+  "version": "2.0.1",
   "engines": {
     "node": "20.5.0"
   },
@@ -71,9 +71,9 @@
   },
   "release": {
     "branches": [
-      "master",
+      "v2",
       {
-        "name": "develop",
+        "name": "v2-develop",
         "prerelease": "rc"
       },
       {

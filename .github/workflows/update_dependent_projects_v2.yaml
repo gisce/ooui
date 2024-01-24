@@ -1,4 +1,4 @@
-name: Update dependent projects (alpha)
+name: Update dependent projects (v2)
 
 on:
   release:
@@ -23,13 +23,13 @@ jobs:
       matrix:
         include:
           - project: "gisce/react-ooui"
-            branch: "alpha"
+            branch: "v2"
     steps:
       - name: Set environment variables and check condition
         run: |
           TAG_NAME="${{ github.event.release.tag_name || github.event.inputs.tag_name }}"
           PRERELEASE="${{ github.event.release.prerelease || github.event.inputs.prerelease }}"
-          if [ "$PRERELEASE" == "true" ] && [[ "$TAG_NAME" != *'-rc.'* ]] && [[ "$TAG_NAME" == *'-alpha.'* ]]; then
+          if [ "$PRERELEASE" != "true" ] && [[ "$TAG_NAME" == *'v2'* ]]; then
             SHOULD_RUN="true"
           else
             SHOULD_RUN="false"
