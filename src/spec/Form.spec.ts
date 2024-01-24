@@ -9,6 +9,7 @@ import Reference from "../Reference";
 import Button from "../Button";
 import ButtonGroup from "../ButtonGroup";
 import { it, expect, describe } from "vitest";
+import One2many from "../One2many";
 
 const XML_VIEW_FORM = `<?xml version="1.0"?>
 <form string="Partner Address">
@@ -3305,5 +3306,21 @@ describe("A Form", () => {
     form.parse(arch);
     const groupWidget = form.findById("group") as Group;
     expect(groupWidget.invisible).toBeTruthy();
+  });
+  it("Should be able to parse a o2m with height ", () => {
+    const arch = `<form>
+    <group name="group" colspan="4" col="4" attrs="{'invisible':[('formulari','!=','b1')]}">
+      <field name="o2m" height="50" />
+    </group>
+    </form>`;
+    const form = new Form({
+      formulari: {
+        type: "selection",
+      },
+      o2m: { type: "one2many" },
+    });
+    form.parse(arch);
+    const o2mField = form.findById("o2m") as One2many;
+    expect(o2mField.height).toBe(50);
   });
 });

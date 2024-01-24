@@ -76,6 +76,18 @@ class One2many extends Field {
     this._mustExpand = value;
   }
 
+  /**
+   * Height
+   */
+  _height?: number;
+  get height(): number | undefined {
+    return this._height;
+  }
+
+  set height(value: number) {
+    this._height = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -104,6 +116,14 @@ class One2many extends Field {
 
       if (props.inv_field) {
         this._inv_field = props.inv_field;
+      }
+
+      if (props.height) {
+        try {
+          this._height = parseInt(props.height);
+        } catch (e) {
+          this._height = undefined;
+        }
       }
     }
   }
