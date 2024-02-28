@@ -3323,4 +3323,92 @@ describe("A Form", () => {
     const o2mField = form.findById("o2m") as One2many;
     expect(o2mField.height).toBe(50);
   });
+  it("Should be able to parse a notebook tab with readonly attrs ", () => {
+    const arch = `<?xml version="1.0"?>
+    <form string="Partner Address">
+        <notebook name="llibreta">
+            <page string="General" attrs="{'readonly': [('state', '=', 'resum')]}">
+                <field colspan="4" name="partner_id" select="1"/>
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form({
+      ...FIELDS,
+      state: {
+        readonly: true,
+        required: true,
+        selection: [
+          ["esborrany", "Borrador"],
+          ["validar", "Validar"],
+          ["pendent", "Pendiente"],
+          ["activa", "Activa"],
+          ["cancelada", "Cancelada"],
+          ["contracte", "Activación Contrato"],
+          ["novapolissa", "Creación nuevo contrato"],
+          ["modcontractual", "Modificación Contractual"],
+          ["impagament", "Impago"],
+          ["tall", "Corte"],
+          ["baixa", "Baja"],
+          ["facturacio", "Facturación"],
+        ],
+        string: "Estado",
+        type: "selection",
+        views: {},
+      },
+    });
+    form.parse(arch, {
+      values: {
+        state: "resum",
+      },
+    });
+    const notebook = form.container.rows[0][0] as Notebook;
+    expect(notebook).toBeInstanceOf(Notebook);
+    const page = notebook.container.rows[0][0] as Page;
+    expect(page).toBeInstanceOf(Page);
+    expect(page.readOnly).toBeTruthy();
+  });
+  it("Should be able to parse a notebook tab with no readonly attrs ", () => {
+    const arch = `<?xml version="1.0"?>
+    <form string="Partner Address">
+        <notebook name="llibreta">
+            <page string="General" attrs="{'readonly': [('state', '=', 'resum')]}">
+                <field colspan="4" name="partner_id" select="1"/>
+            </page>
+        </notebook>
+    </form>`;
+    const form = new Form({
+      ...FIELDS,
+      state: {
+        readonly: true,
+        required: true,
+        selection: [
+          ["esborrany", "Borrador"],
+          ["validar", "Validar"],
+          ["pendent", "Pendiente"],
+          ["activa", "Activa"],
+          ["cancelada", "Cancelada"],
+          ["contracte", "Activación Contrato"],
+          ["novapolissa", "Creación nuevo contrato"],
+          ["modcontractual", "Modificación Contractual"],
+          ["impagament", "Impago"],
+          ["tall", "Corte"],
+          ["baixa", "Baja"],
+          ["facturacio", "Facturación"],
+        ],
+        string: "Estado",
+        type: "selection",
+        views: {},
+      },
+    });
+    form.parse(arch, {
+      values: {
+        state: "baixa",
+      },
+    });
+    const notebook = form.container.rows[0][0] as Notebook;
+    expect(notebook).toBeInstanceOf(Notebook);
+    const page = notebook.container.rows[0][0] as Page;
+    expect(page).toBeInstanceOf(Page);
+    expect(page.readOnly).toBeFalsy();
+  });
 });
