@@ -10,6 +10,7 @@ import { parseOnChange } from "./helpers/onChangeParser";
 import * as txml from "txml";
 import Field from "./Field";
 import Button from "./Button";
+import Page from "./Page";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -232,6 +233,10 @@ class Form {
           domain,
           key: `${this._keyIdx}`,
         };
+
+        if (container instanceof Page && container.readOnly) {
+          widgetProps.readonly = true;
+        }
 
         const widget = widgetFactory.createWidget(widgetType, widgetProps);
 
