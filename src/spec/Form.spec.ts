@@ -3411,4 +3411,2338 @@ describe("A Form", () => {
     expect(page).toBeInstanceOf(Page);
     expect(page.readOnly).toBeFalsy();
   });
+  it("Should be able to parse a notebook tab with readonly attrs inside few containers ", () => {
+    const arch = `<form string="Casos">
+    <group col="7" colspan="4">
+        <field name="create_uid" select="2"/>
+<field colspan="4" name="section_id"/>
+        <field colspan="2" name="name" select="1"/><field name="polissa_id" select="1" colspan="2"/>
+
+    </group>
+    <field name="date" select="1"/>
+    <field name="date_deadline" select="2"/>
+    <newline/>
+    <notebook colspan="2">
+        <page name="notebook-parent-page" string="Oferta/Oportunitat" attrs="{'readonly':[('state', 'in', ('cancel', 'done'))]}" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;in&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: [&quot;cancel&quot;, &quot;done&quot;]}], &quot;condition&quot;: &quot;AND&quot;}}">
+    <notebook name="notebook-test">
+        <page name="notebook-child-page" string="Sobre el Punto de Suministro">
+            <group colspan="8" col="8">
+                <group col="16" colspan="4" name="comer_lead">
+                    <field name="comercialitzadora" colspan="16"/>
+                    <field name="comer_origen" colspan="16"/>
+                </group><group col="16" colspan="4" string="Proceso de Alta">
+        <field name="atr_proces_name" colspan="6"/>
+        <label colspan="9" string="Si se selecciona un proceso, se generara un caso ATR cuando se genere el contrato"/>
+        <newline/>
+        <group col="4" colspan="16" string="Configuracion">
+            <field name="change_atr"/>
+            <field name="change_adm"/>
+        </group>
+    <group colspan="16" col="16" string="Oficina Virtual">
+        <field name="create_ov_user" colspan="2"/>
+        <label string="Si la firma digital esta habilitada se va a crear siempre el usuario despu&#233;s de la firma independientemente de este campo" colspan="13"/>
+    </group>
+<field name="digital_sign" colspan="2"/>
+    <group colspan="13" col="2" attrs="{'readonly': [('digital_sign', '=', False)]}" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;digital_sign&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+        <field name="delivery_type" colspan="2"/>
+        <field name="digital_email" colspan="4"/>
+        <field name="digital_provider" colspan="2"/>
+    </group>
+</group>
+
+            </group>
+            <separator string="Datos del Punto de Suministro" colspan="8"/>
+            <group colspan="8" col="8">
+                <group string="CUPS" col="8" colspan="4">
+                    <field name="cups" colspan="6" on_change="onchange_generic('cups', cups)"/>
+                </group>
+                <group string="Distribuidora" col="2" colspan="4">
+                    <field name="codigoEmpresaDistribuidora" on_change="onchange_generic('codigoEmpresaDistribuidora', codigoEmpresaDistribuidora)" colspan="16"/>
+                    <field name="nombreEmpresaDistribuidora" colspan="16"/>
+                    <field name="distribuidora_vat" on_change="onchange_generic('distribuidora_vat', distribuidora_vat)" colspan="16"/>
+                </group>
+            </group>
+            <group string="Direcci&#243;n de suministro" col="8" colspan="8">
+                <field name="tipus_vivenda" colspan="16"/>
+                <field name="cups_zip" colspan="2"/>
+                <field name="cups_id_municipi" on_change="onchange_generic('cups_id_municipi', cups_id_municipi)"/>
+                <field name="cups_id_poblacio" domain="[('municipi_id.id', '=', cups_id_municipi)]" on_change="onchange_generic('cups_id_poblacio', cups_id_poblacio)"/>
+                <field name="cups_tv" colspan="1"/>
+                <field name="cups_nv" colspan="6"/>
+                <field name="cups_pnp"/>
+                <field name="cups_bq"/>
+                <field name="cups_es"/>
+                <field name="cups_pt"/>
+                <field name="cups_pu"/>
+                <field name="cups_cpo"/>
+                <field name="cups_cpa"/>
+                <field name="cups_apartat_correus"/>
+                <field name="cups_aclarador"/>
+                <field name="cups_ref_catastral"/>
+                <group colspan="8" col="8" string="Acciones">
+                    <label string=" " colspan="2"/>
+                    <button string="Copiar desde direccion del Titular" name="copy_address_from_titular" icon="gtk-execute" type="object" colspan="4" readonly="0"/>
+                    <label string=" " colspan="2"/>
+                </group>
+            </group>
+        </page>
+
+        <page string="Sobre el Cliente">
+            <separator string="Datos sobre el Titular" colspan="8"/>
+            <group colspan="8" col="8">
+                <group string="Titular" col="4" colspan="5">
+                    <field name="titular_vat" on_change="onchange_generic('titular_vat', titular_vat)"/>
+                    <field name="titular_es_empresa" invisible="1"/>
+                    <field name="titular_nom" colspan="8"/>
+                    <group attrs="{'invisible': [('titular_es_empresa', '=', True)]}" colspan="8" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;titular_es_empresa&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}">
+                        <field name="titular_cognom1"/>
+                        <field name="titular_cognom2"/>
+                    </group>
+                    <group attrs="{'invisible': [('titular_es_empresa', '=', False)]}" colspan="8" name="Persona firmant" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;titular_es_empresa&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+                        <field name="persona_firmant_vat"/>
+                        <field name="persona_nom"/>
+                    </group>
+                </group>
+                <group string="Contacto" col="8" colspan="3">
+                    <field name="titular_email" colspan="8"/>
+                    <newline/>
+                    <field name="titular_phone" colspan="4"/>
+                    <field name="titular_mobile" colspan="4"/>
+                    <newline/>
+                    <field name="lang"/>
+                    <group colspan="8" col="8">
+                        <field name="allow_contact"/>
+                        <field name="contact_time_range" colspan="5"/>
+                    </group>
+                </group>
+            </group>
+            <group string="Direccion" col="8" colspan="8">
+                <field name="titular_zip"/>
+                <field name="titular_id_municipi" on_change="onchange_generic('titular_id_municipi', titular_id_municipi)"/>
+                <field name="titular_id_poblacio" domain="[('municipi_id.id', '=', titular_id_municipi)]" on_change="onchange_generic('titular_id_poblacio', titular_id_poblacio)"/>
+                <field name="titular_tv" colspan="1"/>
+                <field name="titular_nv" colspan="6"/>
+                <field name="titular_pnp"/>
+                <field name="titular_bq"/>
+                <field name="titular_es"/>
+                <field name="titular_pt"/>
+                <field name="titular_pu"/>
+                <field name="titular_cpo"/>
+                <field name="titular_cpa"/>
+                <field name="titular_apartat_correus"/>
+                <field name="titular_aclarador"/>
+                <group colspan="8" col="8" string="Acciones">
+                    <label string=" " colspan="2"/>
+                    <button string="Copiar desde direccion del CUPS" name="copy_address_from_cups" icon="gtk-execute" type="object" colspan="4" readonly="0"/>
+                    <label string=" " colspan="2"/>
+                </group>
+            </group>
+            <group string="Direccion de Contacto Alternativa" col="8" colspan="8">
+            <group col="8" colspan="8">
+                <field name="use_cont_address" colspan="8"/>
+            </group>
+            <group attrs="{'invisible': [('use_cont_address', '=', False)]}" col="8" colspan="8" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;use_cont_address&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+                <field name="cont_titular_nom" colspan="8"/>
+                <field name="cont_titular_zip"/>
+                <field name="cont_titular_id_municipi" on_change="onchange_generic('cont_titular_id_municipi', cont_titular_id_municipi)"/>
+                <field name="cont_titular_id_poblacio" domain="[('municipi_id.id', '=', cont_titular_id_municipi)]" on_change="onchange_generic('cont_titular_id_poblacio', cont_titular_id_poblacio)"/>
+                <field name="cont_titular_tv" colspan="1"/>
+                <field name="cont_titular_nv" colspan="6"/>
+                <field name="cont_titular_pnp"/>
+                <field name="cont_titular_bq"/>
+                <field name="cont_titular_es"/>
+                <field name="cont_titular_pt"/>
+                <field name="cont_titular_pu"/>
+                <field name="cont_titular_cpo"/>
+                <field name="cont_titular_cpa"/>
+                <field name="cont_titular_apartat_correus"/>
+                <field name="cont_titular_aclarador"/>
+                <separator string=" " colspan="8"/>
+                <field name="cont_titular_email" colspan="8"/>
+                <newline/>
+                <field name="cont_titular_phone"/>
+                <field name="cont_titular_mobile"/>
+            </group>
+            </group>
+        </page>
+
+        <page string="Sobre el Contrato">
+            <separator string="Datos del Contrato" colspan="8"/>
+            <group colspan="16" col="6">
+            <group col="1" colspan="4">
+                <group string="Datos T&#233;cnicos" col="16">
+                    <field name="tarifa" on_change="onchange_generic('tarifa', tarifa)" colspan="16"/>
+                    <field name="tensio_normalitzada" colspan="16"/>
+                    <field name="facturacio_potencia" colspan="16"/>
+                </group>
+                <group col="4">
+                    <field name="llista_preu" domain="[('tarifes_atr_compatibles', '=', tarifa), ('type', '=', 'sale'), ('ofertable','=',True)]"/><button name="1681" string="Anexo de Precios" type="action" icon="gtk-print" readonly="0"/>
+
+                </group>
+                <group string="Datos Administrativos" col="8">
+                    <field name="contract_number" readonly="1"/>
+                    <field name="cnae" colspan="8"/>
+                    <field name="autoconsumo" colspan="4" on_change="onchange_generic('autoconsumo', autoconsumo, 'cups', cups)"/>
+                    <field name="data_alta_prevista" colspan="4"/>
+                    <field name="activacio_cicle"/>
+<field name="contract_type" colspan="4"/>
+                    <group attrs="{'invisible': [('contract_type', 'not in', ['09'])]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;not in&quot;, &quot;field&quot;: &quot;contract_type&quot;, &quot;value&quot;: [&quot;09&quot;]}], &quot;condition&quot;: &quot;AND&quot;}}">
+                        <field name="expected_consumption" colspan="2"/>
+                        <button string="Calcular" name="2814" type="action" readonly="0"/>
+                    </group>
+                    <group colspan="3" attrs="{'invisible': [('contract_type', 'not in', ['02', '09'])]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;not in&quot;, &quot;field&quot;: &quot;contract_type&quot;, &quot;value&quot;: [&quot;02&quot;, &quot;09&quot;]}], &quot;condition&quot;: &quot;AND&quot;}}">
+                        <field name="data_baixa"/>
+                    </group>
+                </group>
+            </group>
+            <group string="Potencias Contratadas (kW)" col="16" colspan="2">
+                <field name="potenciasContratadasEnKWP1" string="P1 (*)" colspan="16"/>
+                <field name="potenciasContratadasEnKWP2" string="P2 (*)" colspan="16"/>
+                <field name="potenciasContratadasEnKWP3" string="P3 (*)" colspan="16"/>
+                <field name="potenciasContratadasEnKWP4" string="P4" colspan="16"/>
+                <field name="potenciasContratadasEnKWP5" string="P5" colspan="16"/>
+                <field name="potenciasContratadasEnKWP6" string="P6" colspan="16"/>
+            </group>
+            <group string="Condiciones del contrato" col="16" colspan="16">
+        <field name="condicions_generals_id" colspan="16"/>
+    </group>
+<group string="Consumos" col="16" colspan="16">
+                <field name="consum_anual" colspan="5"/>
+                <field name="consum_anual_previst" colspan="5"/>
+            </group><group string="Comercial" col="4" colspan="16">
+        <field name="comercial_id" colspan="16" select="2"/><field name="comissio" colspan="16"/>
+<newline/>
+
+    </group>
+
+            </group>
+        </page>
+        <page string="Sobre el Autoconsumo" attrs="{'invisible': [('autoconsumo', 'in', ['00', '01', '2A', '2B', '2G',False])]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;in&quot;, &quot;field&quot;: &quot;autoconsumo&quot;, &quot;value&quot;: [&quot;00&quot;, &quot;01&quot;, &quot;2A&quot;, &quot;2B&quot;, &quot;2G&quot;, false]}], &quot;condition&quot;: &quot;AND&quot;}}">
+            <notebook>
+                <page string="Autoconsumo y Generador">
+                    <separator string="Datos del Autoconsumo" colspan="8"/>
+                    <group string="Autoconsumo" col="2">
+                        <field name="cau"/>
+                        <field name="seccio_registre"/>
+                        <field name="subseccio"/>
+                        <field name="collectiu"/>
+                        <field name="tipus_cups"/>
+                    </group>
+                    <separator string="Datos del Generador" colspan="8"/>
+                    <group string="Generador" col="2">
+                        <field name="cil"/>
+                        <field name="tec_generador"/>
+                        <field name="pot_instalada_gen"/>
+                        <field name="tipus_installacio"/>
+                        <field name="ssaa"/>
+                        <field name="ref_cadastre"/>
+                    </group>
+                </page>
+                <page string="Titular del Generador">
+                    <separator string="Datos del Titular del Generador" colspan="8"/>
+                    <separator string="Datos del Titular" colspan="8"/>
+                    <group string="Titular" col="4" colspan="4">
+                        <field name="gen_titular_vat"/>
+                        <field name="gen_titular_es_empresa" invisible="1"/>
+                        <field name="gen_titular_nom" colspan="8"/>
+                        <group attrs="{'invisible': [('gen_titular_es_empresa', '=', True)]}" colspan="8" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;gen_titular_es_empresa&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}">
+                            <field name="gen_titular_cognom1"/>
+                            <field name="gen_titular_cognom2"/>
+                        </group>
+                        <group attrs="{'invisible': [('gen_titular_es_empresa', '=', False)]}" colspan="8" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;gen_titular_es_empresa&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+                            <field name="gen_persona_firmant_vat"/>
+                            <field name="gen_persona_nom"/>
+                        </group>
+                    </group>
+                    <separator string="Datos de Contacto" colspan="8"/>
+                    <group string="Contacto" col="8" colspan="4">
+                        <field name="gen_titular_email" colspan="8"/>
+                        <newline/>
+                        <field name="gen_titular_phone"/>
+                        <field name="gen_titular_mobile"/>
+                        <newline/>
+                        <group colspan="8" col="8" string="Acciones">
+                            <label string=" " colspan="2"/>
+                            <button string="Copiar datos desde Titular" name="copy_base_attr_gen_from_titular" icon="gtk-execute" type="object" colspan="4" readonly="0"/>
+                            <label string=" " colspan="2"/>
+                        </group>
+                    </group>
+                    <separator string="Datos de la Direcci&#243;n" colspan="8"/>
+                    <group string="Direcci&#243;n" col="8" colspan="8">
+                        <field name="gen_titular_zip"/>
+                        <field name="gen_titular_id_municipi"/>
+                        <field name="gen_titular_id_poblacio" domain="[('municipi_id.id', '=', gen_titular_id_municipi)]"/>
+                        <field name="gen_titular_tv" colspan="1"/>
+                        <field name="gen_titular_nv" colspan="6"/>
+                        <field name="gen_titular_pnp"/>
+                        <field name="gen_titular_bq"/>
+                        <field name="gen_titular_es"/>
+                        <field name="gen_titular_pt"/>
+                        <field name="gen_titular_pu"/>
+                        <field name="gen_titular_cpo"/>
+                        <field name="gen_titular_cpa"/>
+                        <field name="gen_titular_apartat_correus"/>
+                        <field name="gen_titular_aclarador"/>
+                        <group colspan="8" col="8" string="Acciones">
+                            <label string=" " colspan="2"/>
+                            <button string="Copiar datos desde direccion del Titular" name="copy_address_gen_from_titular" icon="gtk-execute" type="object" colspan="4" readonly="0"/>
+                            <label string=" " colspan="2"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </page>
+
+        <page string="Sobre el Pago">
+            <separator string="Datos sobre la Facturaci&#243;n y el Pago" colspan="8"/>
+            <group string="Datos de Facturaci&#243;n" colspan="8" col="4">
+                <field name="facturacio" colspan="4"/>
+                <field name="enviament" colspan="4"/>
+            </group>
+            <group string="Forma de Pago" col="2" colspan="8">
+                <field name="payment_mode_id"/>
+                <field name="iban_other_owner"/>
+                <group colspan="2" col="2" attrs="{'invisible':[('iban_other_owner','!=',True)]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;iban_other_owner&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}">
+                    <field name="iban_owner_name" attrs="{'required':[('iban_other_owner','=',True)]}" json_attrs="{&quot;required&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;iban_other_owner&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                    <field name="iban_owner_vat" attrs="{'required':[('iban_other_owner','=',True)]}" json_attrs="{&quot;required&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;iban_other_owner&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                    <field name="iban_owner_email" attrs="{'required':[('iban_other_owner','=',True)]}" json_attrs="{&quot;required&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;iban_other_owner&quot;, &quot;value&quot;: true}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                </group>
+                <field name="iban" on_change="onchange_generic('iban', iban)"/><group colspan="2">
+        <field name="mandate_id" readonly="1"/>
+        <button type="object" name="generate_mandate" string="Generar Mandato" icon="gtk-new" readonly="0"/>
+    </group>
+
+            </group>
+        </page>
+
+        <page string="SIPS" col="16">
+        <separator string="Descarga de SIPS" colspan="16"/>
+        <group string="Acciones" colspan="4" col="2">
+            <button string="Descargar informacion sobre el PS del SIPS" type="object" name="download_sips_ps" colspan="2" readonly="0"/>
+            <button string="Descargar informacion sobre consumos del SIPS" type="object" name="download_sips_consums" colspan="2" readonly="0"/>
+            <button string="Descargar consumos en CSV/XLS" type="action" name="1707" colspan="2" readonly="0"/>
+            <separator string="" colspan="16"/>
+            <button string="Actualizar datos de la Oferta/Oportunidad a partir de los datos descargados del SIPS" type="object" name="update_from_sips" colspan="2" readonly="0"/>
+        </group>
+        <group string="Datos sobre el PS" colspan="12" col="1" expand="1">
+<field name="sips_id" mode="form,tree" nolabel="1" expand="1"/>
+        </group>
+        <group string="Datos sobre consumos" col="1" colspan="16" expand="1">
+            <field name="sips_consums_ids" widget="one2many_list" nolabel="1" expand="1"/>
+        </group>
+    </page>
+<page string="Validaciones">
+            <field name="stage_validation_ids" nolabel="1"/>
+            <group colspan="4" col="4">
+                <button string="Marcar todas OK" icon="gtk-ok" type="object" name="force_validation" readonly="0"/>
+            </group>
+        </page>
+
+    </notebook>
+    </page>
+<page string="General">
+            <group col="8" colspan="4">
+                <field name="task_project_id" colspan="4"/>
+    <field colspan="4" name="partner_id" on_change="onchange_partner_id(partner_id, email_from)" select="1"/>
+                <field colspan="3" name="partner_address_id" on_change="onchange_partner_address_id(partner_address_id, email_from)" select="2"/>
+                <field name="telephone_text" nolabel="1" colspan="1"/>
+<field name="task_id_and_stage" colspan="1"/>
+<newline/>
+                <field colspan="3" name="email_from" select="2"/>
+                <button name="remind_partner" states="open,pending" string="Enviar recordatorio" type="object" readonly="0"/>
+                <field name="user_id" select="1" domain="[('id','!=', 0)]"/>
+                <button name="autoassign" string="Asignamelo" type="object" readonly="0"/>
+                <button name="remind_user" states="open,pending" string="Enviar recordatorio" type="object" readonly="0"/><field name="time_tracking_id" colspan="1"/>
+<newline/>
+
+            </group>
+                <separator colspan="4"/>
+            <group expand="1">
+            <field name="categ_ids" widget="tags" widget_props="{'field': 'name'}" nolabel="1" colspan="4"/>
+    <field name="history_line" colspan="2" mode="tree,form" nolabel="1">
+        </field>
+<group col="2" colspan="2" expand="1">
+                <field name="canal_id"/>
+                <button colspan="2" name="add_reply" states="open" string="Adjuntar &#250;ltimo correo para responder" type="object" readonly="0"/>
+                <field colspan="2" name="description" nolabel="1" select="2"/>
+                <buttonGroup name="sendGroup" default="case_log_reply" colspan="1">
+<button name="case_log_reply" primary="1" icon="send" states="open" string="Enviar sense adjunts" type="object" readonly="0"/>
+<button name="case_log" states="open" string="Historizar" type="object" colspan="2" readonly="0"/>
+<button name="case_log_remind_partner" states="open" string="Remind Partner &amp; Historize" type="object" colspan="1" readonly="0"/>
+</buttonGroup>
+</group>
+</group>
+        </page>
+        <page string="Informaci&#243;n extra">
+            <field name="id" select="1"/>
+            <field name="active" select="2"/>
+            <field name="priority"/>
+            <field colspan="4" name="email_cc"/>
+            <field name="categ_id" on_change="onchange_categ_id(categ_id)" select="2" widget="selection"/>
+            <field name="som" select="2"/>
+            <separator colspan="4" string="Fechas"/>
+            <field name="create_date"/>
+            <field name="date_pending"/>
+            <field name="date_closed"/>
+            <field name="date_action_last"/>
+            <field name="date_action_next"/>
+            <separator colspan="4" string="Estimaciones"/>
+            <field name="planned_revenue"/>
+            <field name="planned_cost"/>
+            <field name="probability"/>
+            <separator colspan="4" string="Referencias"/>
+            <field colspan="4" name="ref"/>
+            <field colspan="4" name="ref2"/>
+        </page>
+        <page string="Historial">
+            <field colspan="4" name="log_ids" nolabel="1">
+        </field>
+</page>
+    <page string="Task">
+        <field name="create_task"/>
+        <field name="task_id"/>
+        <field name="workdones_ids" context="{'default_task_id': task_id}" attrs="{'invisible': [('task_id', '=', False)]}" nolabel="1" colspan="4" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;task_id&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+            </field>
+    </page>
+</notebook>
+    <group colspan="4">
+        <field name="state" select="1"/>
+        <button name="case_close" states="open,draft,pending" string="Cerrado" type="object" readonly="0"/>
+        <button name="case_open" states="draft,pending" string="Abierto" type="object" readonly="0"/>
+        <button name="case_cancel" states="draft,open,pending" string="Cancelar" type="object" readonly="0"/>
+        <button name="case_pending" states="draft,open" string="Pendiente" type="object" readonly="0"/>
+        <button name="case_escalate" states="open,draft,pending" string="Escalado" type="object" readonly="0"/>
+        <button name="case_reset" states="done,cancel" string="Cambiar a borrador" type="object" readonly="0"/>
+    </group><group col="8" colspan="4">
+        <field name="stage_id" select="1" colspan="2"/><button name="stage_previous" string="Previous Stage" type="object" icon="gtk-go-back" readonly="0"/>
+<button name="stage_next" string="Next Stage" type="object" icon="gtk-go-forward" readonly="0"/>
+
+    </group>
+
+</form>`;
+    const form = new Form({
+      activacio_cicle: {
+        is_function: false,
+        selection: [
+          ["A", "La activación se debe producir cuanto antes"],
+          ["L", "La activación se debe producir con próxima lectura del ciclo"],
+          ["F", "La activación se producirá según la fecha fija solicitada"],
+        ],
+        string: "Cicle activació",
+        type: "selection",
+        views: {},
+      },
+      active: {
+        is_function: false,
+        string: "Activo",
+        type: "boolean",
+        views: {},
+      },
+      allow_contact: {
+        is_function: false,
+        string: "Aceptación contactar con el cliente",
+        type: "boolean",
+        views: {},
+      },
+      atr_proces_name: {
+        help: "Si se selecciona un proceso, se generara un caso ATR cuando se genere el contrato",
+        is_function: false,
+        selection: [
+          ["", ""],
+          ["A3", "A3"],
+          ["C1", "C1"],
+          ["C2", "C2"],
+        ],
+        string: "Proceso de alta (*)",
+        type: "selection",
+        views: {},
+      },
+      autoconsumo: {
+        is_function: false,
+        selection: [
+          ["00", "[00] - Sin Autoconsumo"],
+          ["31", "[31] - Sin Excedentes Individual – Consumo"],
+          ["32", "[32] - Sin Excedentes Colectivo – Consumo"],
+          [
+            "33",
+            "[33] - Sin Excedentes Colectivo con acuerdo de compensación – Consumo",
+          ],
+          ["41", "[41] - Con excedentes y compensación Individual - Consumo"],
+          ["42", "[42] - Con excedentes y compensación Colectivo– Consumo"],
+          [
+            "43",
+            "[43] - Con excedentes y compensación Colectivo a través de red– Consumo",
+          ],
+          [
+            "51",
+            "[51] - Con excedentes sin compensación Individual sin cto de SSAA en Red Interior– Consumo",
+          ],
+          [
+            "52",
+            "[52] - Con excedentes sin compensación Colectivo sin cto de SSAA en Red Interior– Consumo",
+          ],
+          [
+            "53",
+            "[53] - Con excedentes sin compensación Individual con cto SSAA en Red Interior– Consumo",
+          ],
+          [
+            "54",
+            "[54] - Con excedentes sin compensación individual con cto SSAA en Red Interior– SSAA",
+          ],
+          [
+            "55",
+            "[55] - Con excedentes sin compensación Colectivo/en Red Interior– Consumo",
+          ],
+          [
+            "56",
+            "[56] - Con excedentes sin compensación Colectivo/en Red Interior - SSAA",
+          ],
+          [
+            "57",
+            "[57] - Con excedentes sin compensación Colectivo sin cto de SSAA (despreciable) en red interior – Consumo",
+          ],
+          [
+            "58",
+            "[58] - Con excedentes sin compensación Colectivo sin cto de SSAA a través de red - Consumo",
+          ],
+          [
+            "61",
+            "[61] - Con excedentes sin compensación Individual con cto SSAA a través de red – Consumo",
+          ],
+          [
+            "62",
+            "[62] - Con excedentes sin compensación individual con cto SSAA a través de red – SSAA",
+          ],
+          [
+            "63",
+            "[63] - Con excedentes sin compensación Colectivo a través de red – Consumo",
+          ],
+          [
+            "64",
+            "[64] - Con excedentes sin compensación Colectivo a través de red - SSAA",
+          ],
+          [
+            "71",
+            "[71] - Con excedentes sin compensación Individual con cto SSAA a través de red y red interior – Consumo",
+          ],
+          [
+            "72",
+            "[72] - Con excedentes sin compensación individual con cto SSAA a través de red y red interior – SSAA",
+          ],
+          [
+            "73",
+            "[73] - Con excedentes sin compensación Colectivo con cto de SSAA  a través de red y red interior – Consumo",
+          ],
+          [
+            "74",
+            "[74] - Con excedentes sin compensación Colectivo con cto de SSAA a través de red y red interior - SSAA",
+          ],
+        ],
+        string: "Autoconsumo (*)",
+        type: "selection",
+        views: {},
+      },
+      canal_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.partner.canal",
+        size: 64,
+        string: "Canal",
+        type: "many2one",
+        views: {},
+      },
+      categ_id: {
+        context: "",
+        domain: "[('section_id','=',section_id)]",
+        is_function: false,
+        relation: "crm.case.categ",
+        selection: [
+          [false, ""],
+          [3, "Consulta"],
+          [1, "Incidència"],
+          [2, "iojkokj"],
+          [4, "Modificació"],
+        ],
+        size: 64,
+        string: "Categoría",
+        type: "many2one",
+        views: {},
+        widget: "selection",
+      },
+      categ_ids: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "crm.case.categ",
+        string: "Categorías",
+        type: "many2many",
+        views: {},
+        widget: "tags",
+      },
+      cau: {
+        is_function: false,
+        size: 26,
+        string: "CAU",
+        type: "char",
+        views: {},
+      },
+      change_adm: {
+        is_function: false,
+        string: "Cambio Titular",
+        type: "boolean",
+        views: {},
+      },
+      change_atr: {
+        is_function: false,
+        string: "Cambio Tarifa/Potencia",
+        type: "boolean",
+        views: {},
+      },
+      cil: {
+        is_function: false,
+        size: 25,
+        string: "CIL",
+        type: "char",
+        views: {},
+      },
+      cnae: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscemisc.cnae",
+        size: 64,
+        string: "CNAE (*)",
+        type: "many2one",
+        views: {},
+      },
+      codigoEmpresaDistribuidora: {
+        is_function: false,
+        size: 4,
+        string: "Código distribuidora (*)",
+        type: "char",
+        views: {},
+      },
+      collectiu: {
+        is_function: false,
+        string: "Colectivo",
+        type: "boolean",
+        views: {},
+      },
+      comer_origen: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscedata.crm.lead.comer",
+        size: 64,
+        string: "Comercializadora actual",
+        type: "many2one",
+        views: {},
+      },
+      comercial_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "hr.employee",
+        size: 64,
+        string: "Comercial",
+        type: "many2one",
+        views: {},
+      },
+      comercialitzadora: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.partner",
+        size: 64,
+        string: "Comercializadora (*)",
+        type: "many2one",
+        views: {},
+      },
+      comissio: {
+        is_function: false,
+        selection: [
+          ["giscedata.polissa.comissio.kw", "Comissió per Kw Facturats"],
+          ["giscedata.polissa.comissio.unica", "Comissió Única"],
+        ],
+        size: 256,
+        string: "Comissión Asignada",
+        type: "reference",
+        views: {},
+      },
+      condicions_generals_id: {
+        change_default: true,
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscedata.polissa.condicions.generals",
+        size: 64,
+        string: "Condiciones generales (*)",
+        type: "many2one",
+        views: {},
+      },
+      consum_anual: {
+        is_function: false,
+        string: "Consumo Anual (kWh)",
+        type: "integer",
+        views: {},
+      },
+      consum_anual_previst: {
+        is_function: false,
+        string: "Consumo Anual Previsto",
+        type: "integer",
+        views: {},
+      },
+      cont_titular_aclarador: {
+        is_function: false,
+        size: 256,
+        string: "Aclarador",
+        type: "char",
+        views: {},
+      },
+      cont_titular_apartat_correus: {
+        is_function: false,
+        size: 5,
+        string: "Apartado de Correos",
+        type: "char",
+        views: {},
+      },
+      cont_titular_bq: {
+        is_function: false,
+        size: 4,
+        string: "Bloque",
+        type: "char",
+        views: {},
+      },
+      cont_titular_cpa: {
+        is_function: false,
+        size: 10,
+        string: "Parcela",
+        type: "char",
+        views: {},
+      },
+      cont_titular_cpo: {
+        is_function: false,
+        size: 10,
+        string: "Polígono",
+        type: "char",
+        views: {},
+      },
+      cont_titular_email: {
+        is_function: false,
+        size: 240,
+        string: "Email",
+        type: "char",
+        views: {},
+      },
+      cont_titular_es: {
+        is_function: false,
+        size: 10,
+        string: "Escalera",
+        type: "char",
+        views: {},
+      },
+      cont_titular_id_municipi: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.municipi",
+        size: 64,
+        string: "Municipio",
+        type: "many2one",
+        views: {},
+      },
+      cont_titular_id_poblacio: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.poblacio",
+        size: 64,
+        string: "Población",
+        type: "many2one",
+        views: {},
+      },
+      cont_titular_mobile: {
+        is_function: false,
+        size: 64,
+        string: "Móvil",
+        type: "char",
+        views: {},
+      },
+      cont_titular_nom: {
+        is_function: false,
+        size: 40,
+        string: "Nombre Persona de Contacto",
+        type: "char",
+        views: {},
+      },
+      cont_titular_nv: {
+        is_function: false,
+        size: 256,
+        string: "Calle",
+        type: "char",
+        views: {},
+      },
+      cont_titular_phone: {
+        is_function: false,
+        size: 64,
+        string: "Teléfono",
+        type: "char",
+        views: {},
+      },
+      cont_titular_pnp: {
+        is_function: false,
+        size: 10,
+        string: "Número",
+        type: "char",
+        views: {},
+      },
+      cont_titular_pt: {
+        is_function: false,
+        size: 10,
+        string: "Planta",
+        type: "char",
+        views: {},
+      },
+      cont_titular_pu: {
+        is_function: false,
+        size: 10,
+        string: "Puerta",
+        type: "char",
+        views: {},
+      },
+      cont_titular_tv: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.tipovia",
+        size: 64,
+        string: "Tipo Vía",
+        type: "many2one",
+        views: {},
+      },
+      cont_titular_zip: {
+        change_default: true,
+        is_function: false,
+        size: 24,
+        string: "Código Postal",
+        type: "char",
+        views: {},
+      },
+      contact_time_range: {
+        is_function: false,
+        size: 256,
+        string: "Franja horaria contacto",
+        type: "char",
+        views: {},
+      },
+      contract_number: {
+        is_function: false,
+        size: 64,
+        string: "Contract number",
+        type: "char",
+        views: {},
+      },
+      contract_type: {
+        is_function: false,
+        selection: [
+          ["01", "Anual"],
+          ["02", "Eventual medido"],
+          ["03", "Temporada"],
+          ["05", "Suministro a instalaciones RECORE"],
+          ["07", "Suministro de Obras"],
+          ["08", "Suministro de Socorro"],
+          ["09", "Eventual a tanto alzado"],
+          ["10", "Pruebas"],
+          ["11", "Duplicado"],
+          ["12", "De reserva"],
+        ],
+        string: "Tipo contrato (*)",
+        type: "selection",
+        views: {},
+      },
+      create_date: {
+        is_function: false,
+        readonly: true,
+        string: "Creado",
+        type: "datetime",
+        views: {},
+      },
+      create_ov_user: {
+        help: "Si la firma digital esta habilitada se va a crear siempre l'usuario después de la firma independientemente de este campo",
+        is_function: false,
+        string: "Crear Usuario Oficina Virtual",
+        type: "boolean",
+        views: {},
+      },
+      create_task: {
+        is_function: false,
+        string: "Create a task",
+        type: "boolean",
+        views: {},
+      },
+      create_uid: {
+        context: "",
+        domain: [],
+        is_function: false,
+        readonly: true,
+        relation: "res.users",
+        size: 64,
+        string: "Usuario",
+        type: "many2one",
+        views: {},
+      },
+      cups: {
+        is_function: false,
+        size: 22,
+        string: "CUPS (*)",
+        type: "char",
+        views: {},
+      },
+      cups_aclarador: {
+        is_function: false,
+        size: 256,
+        string: "Aclarador",
+        type: "char",
+        views: {},
+      },
+      cups_apartat_correus: {
+        is_function: false,
+        size: 5,
+        string: "Apartado de Correos",
+        type: "char",
+        views: {},
+      },
+      cups_bq: {
+        is_function: false,
+        size: 4,
+        string: "Bloque",
+        type: "char",
+        views: {},
+      },
+      cups_cpa: {
+        is_function: false,
+        size: 10,
+        string: "Parcela",
+        type: "char",
+        views: {},
+      },
+      cups_cpo: {
+        is_function: false,
+        size: 10,
+        string: "Polígono",
+        type: "char",
+        views: {},
+      },
+      cups_es: {
+        is_function: false,
+        size: 10,
+        string: "Escalera",
+        type: "char",
+        views: {},
+      },
+      cups_id_municipi: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.municipi",
+        size: 64,
+        string: "Municipio (*)",
+        type: "many2one",
+        views: {},
+      },
+      cups_id_poblacio: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.poblacio",
+        size: 64,
+        string: "Poblacion PS",
+        type: "many2one",
+        views: {},
+      },
+      cups_nv: {
+        is_function: false,
+        size: 256,
+        string: "Calle",
+        type: "char",
+        views: {},
+      },
+      cups_pnp: {
+        is_function: false,
+        size: 10,
+        string: "Número",
+        type: "char",
+        views: {},
+      },
+      cups_pt: {
+        is_function: false,
+        size: 10,
+        string: "Planta",
+        type: "char",
+        views: {},
+      },
+      cups_pu: {
+        is_function: false,
+        size: 10,
+        string: "Puerta",
+        type: "char",
+        views: {},
+      },
+      cups_ref_catastral: {
+        is_function: false,
+        select: 2,
+        size: 20,
+        string: "Ref Cadastral (cups)",
+        type: "char",
+        views: {},
+      },
+      cups_tv: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.tipovia",
+        size: 64,
+        string: "Tipo Vía",
+        type: "many2one",
+        views: {},
+      },
+      cups_zip: {
+        is_function: false,
+        size: 5,
+        string: "Código postal PS",
+        type: "char",
+        views: {},
+      },
+      data_alta_prevista: {
+        is_function: false,
+        string: "Fecha de alta prevista (*)",
+        type: "date",
+        views: {},
+      },
+      data_baixa: {
+        is_function: false,
+        string: "Fecha de Baja prevista",
+        type: "date",
+        views: {},
+      },
+      date: {
+        is_function: false,
+        string: "Fecha",
+        type: "datetime",
+        views: {},
+      },
+      date_action_last: {
+        is_function: false,
+        readonly: 1,
+        string: "Última acción",
+        type: "datetime",
+        views: {},
+      },
+      date_action_next: {
+        is_function: false,
+        readonly: 1,
+        string: "Próxima acción",
+        type: "datetime",
+        views: {},
+      },
+      date_closed: {
+        is_function: false,
+        readonly: true,
+        string: "Cerrado",
+        type: "datetime",
+        views: {},
+      },
+      date_deadline: {
+        is_function: false,
+        string: "Fecha límite",
+        type: "datetime",
+        views: {},
+      },
+      date_pending: {
+        help: "Date on wich this CRM's state changed to Pending",
+        is_function: false,
+        string: "Pending Date",
+        type: "datetime",
+        views: {},
+      },
+      delivery_type: {
+        is_function: false,
+        selection: [
+          ["url", "Código QR"],
+          ["email", "Email"],
+        ],
+        string: "Forma de envío",
+        type: "selection",
+        views: {},
+      },
+      description: {
+        is_function: false,
+        string: "Su acción",
+        type: "text",
+        views: {},
+      },
+      digital_email: {
+        is_function: false,
+        size: 240,
+        string: "E-Mail Firma Digital (*)",
+        type: "char",
+        views: {},
+      },
+      digital_provider: {
+        is_function: false,
+        selection: [["signaturit", "Signaturit"]],
+        string: "Proveedor",
+        type: "selection",
+        views: {},
+      },
+      digital_sign: {
+        is_function: false,
+        string: "Firma digital",
+        type: "boolean",
+        views: {},
+      },
+      distribuidora_vat: {
+        is_function: false,
+        size: 11,
+        string: "Nº de Documento distribuidora (*)",
+        type: "char",
+        views: {},
+      },
+      email_cc: {
+        is_function: false,
+        size: 252,
+        string: "Observadores emails (CC)",
+        type: "char",
+        views: {},
+      },
+      email_from: {
+        is_function: false,
+        size: 128,
+        string: "Email empresa",
+        type: "char",
+        views: {},
+      },
+      enviament: {
+        is_function: false,
+        selection: [
+          ["postal", "Correo postal"],
+          ["email", "E-mail"],
+          ["postal+email", "Correo postal y e-mail"],
+        ],
+        string: "Enviar factura vía (*)",
+        type: "selection",
+        views: {},
+      },
+      expected_consumption: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Consumo Pactado",
+        type: "float",
+        views: {},
+      },
+      facturacio: {
+        is_function: false,
+        selection: [
+          [1, "Mensual"],
+          [2, "Bimestral"],
+        ],
+        string: "Periodicidad facturación (*)",
+        type: "selection",
+        views: {},
+      },
+      facturacio_potencia: {
+        is_function: false,
+        selection: [
+          ["max", "Maxímetro"],
+          ["icp", "ICP"],
+          ["recarrec", "Recargo NO_ICP"],
+        ],
+        string: "Facturación Potencia (*)",
+        type: "selection",
+        views: {},
+      },
+      gen_persona_firmant_vat: {
+        is_function: false,
+        size: 11,
+        string: "NIF Firmante",
+        type: "char",
+        views: {},
+      },
+      gen_persona_nom: {
+        is_function: false,
+        size: 80,
+        string: "Nombre Firmante",
+        type: "char",
+        views: {},
+      },
+      gen_titular_aclarador: {
+        is_function: false,
+        size: 256,
+        string: "Aclarador",
+        type: "char",
+        views: {},
+      },
+      gen_titular_apartat_correus: {
+        is_function: false,
+        size: 5,
+        string: "Apartado de Correos",
+        type: "char",
+        views: {},
+      },
+      gen_titular_bq: {
+        is_function: false,
+        size: 4,
+        string: "Bloque",
+        type: "char",
+        views: {},
+      },
+      gen_titular_cognom1: {
+        is_function: false,
+        size: 30,
+        string: "Apellido 1",
+        type: "char",
+        views: {},
+      },
+      gen_titular_cognom2: {
+        is_function: false,
+        size: 30,
+        string: "Apellido 2",
+        type: "char",
+        views: {},
+      },
+      gen_titular_cpa: {
+        is_function: false,
+        size: 10,
+        string: "Parcela",
+        type: "char",
+        views: {},
+      },
+      gen_titular_cpo: {
+        is_function: false,
+        size: 10,
+        string: "Poligono",
+        type: "char",
+        views: {},
+      },
+      gen_titular_email: {
+        is_function: false,
+        size: 240,
+        string: "Email",
+        type: "char",
+        views: {},
+      },
+      gen_titular_es: {
+        is_function: false,
+        size: 10,
+        string: "Escalera",
+        type: "char",
+        views: {},
+      },
+      gen_titular_es_empresa: {
+        digits: [16, 2],
+        is_function: true,
+        readonly: 1,
+        string: "Es Empresa",
+        type: "boolean",
+        views: {},
+      },
+      gen_titular_id_municipi: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.municipi",
+        size: 64,
+        string: "Municipio",
+        type: "many2one",
+        views: {},
+      },
+      gen_titular_id_poblacio: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.poblacio",
+        size: 64,
+        string: "Población",
+        type: "many2one",
+        views: {},
+      },
+      gen_titular_mobile: {
+        is_function: false,
+        size: 64,
+        string: "Mobil",
+        type: "char",
+        views: {},
+      },
+      gen_titular_nom: {
+        is_function: false,
+        size: 256,
+        string: "Nombre Cliente / Razón Social",
+        type: "char",
+        views: {},
+      },
+      gen_titular_nv: {
+        is_function: false,
+        size: 256,
+        string: "Calle",
+        type: "char",
+        views: {},
+      },
+      gen_titular_phone: {
+        is_function: false,
+        size: 64,
+        string: "Telefono",
+        type: "char",
+        views: {},
+      },
+      gen_titular_pnp: {
+        is_function: false,
+        size: 10,
+        string: "Número",
+        type: "char",
+        views: {},
+      },
+      gen_titular_pt: {
+        is_function: false,
+        size: 10,
+        string: "Planta",
+        type: "char",
+        views: {},
+      },
+      gen_titular_pu: {
+        is_function: false,
+        size: 10,
+        string: "Puerta",
+        type: "char",
+        views: {},
+      },
+      gen_titular_tv: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.tipovia",
+        size: 64,
+        string: "Tipo Via",
+        type: "many2one",
+        views: {},
+      },
+      gen_titular_vat: {
+        is_function: false,
+        size: 11,
+        string: "Nº de Documento",
+        type: "char",
+        views: {},
+      },
+      gen_titular_zip: {
+        change_default: true,
+        is_function: false,
+        size: 24,
+        string: "Codigo Postal",
+        type: "char",
+        views: {},
+      },
+      history_line: {
+        context: "",
+        domain: [],
+        inv_field: "case_id",
+        is_function: false,
+        readonly: 1,
+        relation: "crm.case.history",
+        string: "Comunicación",
+        type: "one2many",
+        views: {
+          form: {
+            arch: '<form string="Historial de comunicaci&#xF3;n">\n                            <group col="6" colspan="4">\n                                <field name="date" select="1"/>\n                                <field name="email" select="1"/>\n                                <field name="canal_id" select="2"/>\n                                <field name="user_id" select="2"/>\n                            </group>\n                            <newline/>\n                            <field name="time_tracking_id"/>\n                            <newline/>\n                            <field colspan="4" name="description" nolabel="1" select="2"/>\n                        </form>\n                        ',
+            fields: {
+              canal_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "res.partner.canal",
+                size: 64,
+                string: "Canal",
+                type: "many2one",
+                views: {},
+              },
+              date: {
+                is_function: false,
+                string: "Fecha",
+                type: "datetime",
+                views: {},
+              },
+              description: {
+                is_function: false,
+                string: "Descripción",
+                type: "text",
+                views: {},
+              },
+              email: {
+                is_function: false,
+                size: 84,
+                string: "Email",
+                type: "char",
+                views: {},
+              },
+              time_tracking_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "crm.time.tracking",
+                select: true,
+                size: 64,
+                string: "Imputación de tiempo",
+                type: "many2one",
+                views: {},
+              },
+              user_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                readonly: true,
+                relation: "res.users",
+                size: 64,
+                string: "Usuario responsable",
+                type: "many2one",
+                views: {},
+              },
+            },
+          },
+          tree: {
+            arch: '<tree string="Historial de comunicaci&#xF3;n">\n                            <field name="note"/>\n                        </tree>\n                    ',
+            fields: {
+              note: {
+                digits: [16, 2],
+                is_function: true,
+                readonly: 1,
+                string: "Descripción",
+                type: "text",
+                views: {},
+              },
+            },
+          },
+        },
+      },
+      iban: {
+        is_function: false,
+        size: 34,
+        string: "Cuenta IBAN (*)",
+        type: "char",
+        views: {},
+      },
+      iban_other_owner: {
+        help: "El titular del IBAN es distinto al titular del contrato",
+        is_function: false,
+        string: "Otro titular IBAN",
+        type: "boolean",
+        views: {},
+      },
+      iban_owner_email: {
+        is_function: false,
+        size: 256,
+        string: "Email titular IBAN",
+        type: "char",
+        views: {},
+      },
+      iban_owner_name: {
+        is_function: false,
+        size: 256,
+        string: "Nombre titular IBAN",
+        type: "char",
+        views: {},
+      },
+      iban_owner_vat: {
+        is_function: false,
+        size: 11,
+        string: "NIF titular IBAN",
+        type: "char",
+        views: {},
+      },
+      id: {
+        readonly: true,
+        string: "ID",
+        type: "integer",
+      },
+      lang: {
+        is_function: false,
+        selection: [
+          ["en_US", "English"],
+          ["ca_ES", "Catalan / Català"],
+          ["es_ES", "Spanish / Español"],
+          ["", ""],
+        ],
+        size: 5,
+        string: "Idioma",
+        type: "selection",
+        views: {},
+      },
+      llista_preu: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "product.pricelist",
+        size: 64,
+        string: "Tarifa de venta (*)",
+        type: "many2one",
+        views: {},
+      },
+      log_ids: {
+        context: "",
+        domain: [],
+        inv_field: "case_id",
+        is_function: false,
+        readonly: 1,
+        relation: "crm.case.log",
+        string: "Historial del registro",
+        type: "one2many",
+        views: {
+          form: {
+            arch: '<form string="Acciones">\n                            <separator colspan="4" string="Información de la acción"/>\n                            <field colspan="4" name="name"/>\n                            <field name="date" select="2"/>\n                            <field name="user_id" select="2"/>\n                            <field name="som" select="2"/>\n                            <field name="canal_id"/>\n                            <field name="time_tracking_id"/>\n                            <field name="time_spent"/>\n                        </form>\n                    ',
+            fields: {
+              canal_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "res.partner.canal",
+                size: 64,
+                string: "Canal",
+                type: "many2one",
+                views: {},
+              },
+              date: {
+                is_function: false,
+                string: "Fecha",
+                type: "datetime",
+                views: {},
+              },
+              name: {
+                is_function: false,
+                size: 64,
+                string: "Action",
+                type: "char",
+                views: {},
+              },
+              som: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "res.partner.som",
+                size: 64,
+                string: "Grado de satisfacción",
+                type: "many2one",
+                views: {},
+              },
+              time_spent: {
+                digits: [16, 2],
+                help: "Días hábiles gastados en el estado actual que se imputaran",
+                is_function: true,
+                readonly: 1,
+                string: "Duración días",
+                type: "float",
+                views: {},
+              },
+              time_tracking_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "crm.time.tracking",
+                select: true,
+                size: 64,
+                string: "Imputación de tiempo",
+                type: "many2one",
+                views: {},
+              },
+              user_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                readonly: true,
+                relation: "res.users",
+                size: 64,
+                string: "Usuario responsable",
+                type: "many2one",
+                views: {},
+              },
+            },
+          },
+        },
+      },
+      mandate_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "payment.mandate",
+        size: 64,
+        string: "Mandato",
+        type: "many2one",
+        views: {},
+      },
+      name: {
+        is_function: false,
+        required: true,
+        size: 128,
+        string: "Descripción",
+        type: "char",
+        views: {},
+      },
+      nombreEmpresaDistribuidora: {
+        is_function: false,
+        size: 60,
+        string: "Empresa distribuidora (*)",
+        type: "char",
+        views: {},
+      },
+      partner_address_id: {
+        context: "",
+        domain: "[('partner_id','=',partner_id)]",
+        is_function: false,
+        relation: "res.partner.address",
+        size: 64,
+        string: "Contacto empresa",
+        type: "many2one",
+        views: {},
+      },
+      partner_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.partner",
+        size: 64,
+        string: "Empresa",
+        type: "many2one",
+        views: {},
+      },
+      payment_mode_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "payment.mode",
+        size: 64,
+        string: "Grupo de pago (*)",
+        type: "many2one",
+        views: {},
+      },
+      persona_firmant_vat: {
+        is_function: false,
+        size: 11,
+        string: "NIF Firmante",
+        type: "char",
+        views: {},
+      },
+      persona_nom: {
+        is_function: false,
+        size: 80,
+        string: "Nombre Firmante",
+        type: "char",
+        views: {},
+      },
+      planned_cost: {
+        is_function: false,
+        string: "Costos previstos",
+        type: "float",
+        views: {},
+      },
+      planned_revenue: {
+        is_function: false,
+        string: "Ingresos previstos",
+        type: "float",
+        views: {},
+      },
+      polissa_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscedata.polissa",
+        size: 64,
+        string: "Contrato",
+        type: "many2one",
+        views: {},
+      },
+      pot_instalada_gen: {
+        digits: [10, 3],
+        is_function: false,
+        string: "Potencia generación",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP1: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P1 (*)",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP2: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P2 (*)",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP3: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P3 (*)",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP4: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P4 (*)",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP5: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P5 (*)",
+        type: "float",
+        views: {},
+      },
+      potenciasContratadasEnKWP6: {
+        digits: [15, 3],
+        is_function: false,
+        string: "Potencia contratada P6 (*)",
+        type: "float",
+        views: {},
+      },
+      priority: {
+        is_function: false,
+        selection: [
+          ["5", "Muy bajo"],
+          ["4", "Bajo"],
+          ["3", "Normal"],
+          ["2", "Alto"],
+          ["1", "Muy alto"],
+        ],
+        string: "Prioridad",
+        type: "selection",
+        views: {},
+      },
+      probability: {
+        is_function: false,
+        string: "Probabilidad (%)",
+        type: "float",
+        views: {},
+      },
+      ref: {
+        is_function: false,
+        select: true,
+        selection: [
+          ["giscemisc.informes.scheduler.store", "Informe Scheduler Store"],
+          ["crm.case", "Caso"],
+          ["giscedata.facturacio.factura", "Factura"],
+          ["giscedata.atc", "ATC"],
+          ["stock.production.lot", "Lote de producción"],
+          ["giscedata.polissa", "Pòlissa"],
+          ["giscedata.signatura.process", "Firma"],
+          ["giscedata.cups.ps", "CUPS"],
+          ["account.invoice", "Factura"],
+          ["purchase.order", "Pedido de compra"],
+          ["product.product", "Producto"],
+          ["giscedata.crm.lead", "Oferta/Oportunidad"],
+          ["giscegas.polissa", "Contrato"],
+          ["project.task", "Tarea del proyecto"],
+          ["giscedata.polissa", "Póliza"],
+          ["giscedata.atc", "Atención al Cliente"],
+          ["giscedata.facturacio.factura", "Factura Energia"],
+          ["sale.order", "Pedido de venta"],
+          ["giscedata.switching", "Caso ATR"],
+          ["project.project", "Proyecto"],
+        ],
+        size: 128,
+        string: "Referencia",
+        type: "reference",
+        views: {},
+      },
+      ref2: {
+        is_function: false,
+        selection: [
+          ["giscemisc.informes.scheduler.store", "Informe Scheduler Store"],
+          ["crm.case", "Caso"],
+          ["giscedata.facturacio.factura", "Factura"],
+          ["giscedata.atc", "ATC"],
+          ["stock.production.lot", "Lote de producción"],
+          ["giscedata.polissa", "Pòlissa"],
+          ["giscedata.signatura.process", "Firma"],
+          ["giscedata.cups.ps", "CUPS"],
+          ["account.invoice", "Factura"],
+          ["purchase.order", "Pedido de compra"],
+          ["product.product", "Producto"],
+          ["giscedata.crm.lead", "Oferta/Oportunidad"],
+          ["giscegas.polissa", "Contrato"],
+          ["project.task", "Tarea del proyecto"],
+          ["giscedata.polissa", "Póliza"],
+          ["giscedata.atc", "Atención al Cliente"],
+          ["giscedata.facturacio.factura", "Factura Energia"],
+          ["sale.order", "Pedido de venta"],
+          ["giscedata.switching", "Caso ATR"],
+          ["project.project", "Proyecto"],
+        ],
+        size: 128,
+        string: "Referencia 2",
+        type: "reference",
+        views: {},
+      },
+      ref_cadastre: {
+        is_function: false,
+        size: 20,
+        string: "Ref. Catastral",
+        type: "char",
+        views: {},
+      },
+      seccio_registre: {
+        is_function: false,
+        selection: [
+          ["1", "Sin excedentes"],
+          ["2", "Con excedentes"],
+        ],
+        string: "Sección registro",
+        type: "selection",
+        views: {},
+      },
+      section_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "crm.case.section",
+        required: true,
+        select: true,
+        size: 64,
+        string: "Sección",
+        type: "many2one",
+        views: {},
+      },
+      sips_consums_ids: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        is_function: true,
+        readonly: 1,
+        relation: "giscedata.cnmc.sips.consums.comer.ps",
+        string: "Informacio del SIPS sobre consums",
+        type: "many2many",
+        views: {},
+        widget: "one2many_list",
+      },
+      sips_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        is_function: true,
+        readonly: 1,
+        relation: "giscedata.cnmc.sips.comer.ps",
+        string: "Informacio del SIPS sobre el PS",
+        type: "one2many",
+        views: {},
+      },
+      som: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.partner.som",
+        size: 64,
+        string: "Grado de satisfacción",
+        type: "many2one",
+        views: {},
+      },
+      ssaa: {
+        is_function: false,
+        selection: [
+          ["S", "Sí"],
+          ["N", "No"],
+        ],
+        string: "SSAA",
+        type: "selection",
+        views: {},
+      },
+      stage_id: {
+        context: "",
+        domain: "[('section_ids', '=', section_id)]",
+        is_function: false,
+        relation: "crm.case.stage",
+        size: 64,
+        string: "Fase",
+        type: "many2one",
+        views: {},
+      },
+      stage_validation_ids: {
+        context: "",
+        domain: [],
+        inv_field: "crm_lead_id",
+        is_function: false,
+        relation: "crm.stage.validation",
+        string: "Validaciones",
+        type: "one2many",
+        views: {},
+      },
+      state: {
+        is_function: false,
+        selection: [
+          ["draft", "Borrador"],
+          ["open", "Abierto"],
+          ["cancel", "Cancelar"],
+          ["done", "Cerrado"],
+          ["pending", "Pendiente"],
+        ],
+        size: 16,
+        string: "Status",
+        type: "selection",
+        views: {},
+      },
+      subseccio: {
+        is_function: false,
+        selection: [
+          ["a0", "Con excedentes y mecanismo de compensación simplificado"],
+          [
+            "b1",
+            "Con excedentes sin mecanismo de compensación y un único contrato de suministro",
+          ],
+          [
+            "b2",
+            "Con excedentes sin mecanismo de compensación y varios contratos de suministro",
+          ],
+          ["", ""],
+        ],
+        string: "Subsección",
+        type: "selection",
+        views: {},
+      },
+      tarifa: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscedata.polissa.tarifa",
+        size: 64,
+        string: "Tarifa ATR (*)",
+        type: "many2one",
+        views: {},
+      },
+      task_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "project.task",
+        size: 64,
+        string: "Case Task",
+        type: "many2one",
+        views: {},
+      },
+      task_id_and_stage: {
+        digits: [16, 2],
+        is_function: true,
+        readonly: 1,
+        string: "Id i Estat Tasca",
+        type: "char",
+        views: {},
+      },
+      task_project_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        is_function: true,
+        relation: "project.project",
+        string: "Projecte",
+        type: "many2one",
+        views: {},
+      },
+      tec_generador: {
+        is_function: false,
+        selection: [
+          [
+            "a11",
+            "[A11] - Cogeneraciones que utilicen como combustible el gas natural, siempre que éste suponga al menos el 95 por ciento de la energía primaria utilizada, o al menos el 65 por ciento de la energía primaria utilizada cuando el resto provenga de biomasa o biogás de los grupos b.6, b.7 y b.8; siendo los porcentajes de la energía primaria utilizada citados medidos por el poder calorífico inferior.",
+          ],
+          [
+            "a12",
+            "[A12] - Cogeneraciones que utilicen como combustible principal derivados de petróleo o carbón, siempre que suponga al menos el 95 por ciento de la energía primaria utilizada, medida por el poder calorífico inferior",
+          ],
+          [
+            "a13",
+            "[A13] - Resto de cogeneraciones que utilicen gas natural o derivados de petróleo o carbón, y no cumplan con los límites de consumo establecidos para los subgrupos a.1.1 ó a.1.2.",
+          ],
+          [
+            "a20",
+            "[A20] - Instalaciones que incluyan una central que utilice energías residuales procedentes de cualquier instalación, máquina o proceso industrial cuya finalidad no sea la producción de energía eléctrica.",
+          ],
+          [
+            "b11",
+            "[B11] - Instalaciones que únicamente utilicen la radiación solar como energía primaria mediante la tecnología fotovoltaica.",
+          ],
+          [
+            "b12",
+            "[B12] - Instalaciones que únicamente utilicen procesos térmicos para la transformación de la energía solar, como energía primaria, en electricidad.",
+          ],
+          ["b21", "[B21] - Instalaciones eólicas ubicadas en tierra."],
+          [
+            "b22",
+            "[B22] - Instalaciones eólicas ubicadas en espacios marinos, que incluyen tanto las aguas interiores como el mar territorial.",
+          ],
+          [
+            "b30",
+            "[B30] - Instalaciones que únicamente utilicen como energía primaria la geotérmica, hidrotérmica, aerotérmica, la de las olas, la de las mareas, la de las rocas calientes y secas, la oceanotérmica y la energía de las corrientes marinas.",
+          ],
+          [
+            "b41",
+            "[B41] - Centrales hidroeléctricas cuyas instalaciones hidráulicas (presa o azud, toma, canal y otras) hayan sido construidas exclusivamente para uso hidroeléctrico. Potencia instalada NO Superior a 10 MW",
+          ],
+          [
+            "b42",
+            "[B42] - Centrales hidroeléctricas que hayan sido construidas en infraestructuras existentes (presas, canales o conducciones) o dedicadas a otros usos distintos al hidroeléctrico. Potencia instalada NO Superior a 10 MW",
+          ],
+          [
+            "b51",
+            "[B51] - Centrales hidroeléctricas cuyas instalaciones hidráulicas (presa o azud, toma, canal y otras) hayan sido construidas exclusivamente para uso hidroeléctrico. Potencia instalada Superior a 10 MW",
+          ],
+          [
+            "b52",
+            "[B52] - Centrales hidroeléctricas que hayan sido construidas en infraestructuras existentes (presa, canales o conducciones) o dedicadas a otros usos distintos al hidroeléctrico. Potencia instalada a Superior a 10 MW",
+          ],
+          [
+            "b60",
+            "[B60] - Centrales de generación eléctrica o de cogeneración que utilicen como combustible principal biomasa procedente de cultivos energéticos, de actividades agrícolas, ganaderas o de jardinerías, de aprovechamientos forestales y otras operaciones silvícolas en las masas forestales y espacios verdes, en los términos que figuran en el anexo I. Se entenderá como combustible principal aquel combustible que suponga, como mínimo, el 90 por ciento de la energía primaria utilizada, medida por el poder calorífico inferior.",
+          ],
+          [
+            "b71",
+            "[B71] - Instalaciones que empleen como combustible principal el biogás de vertederos controlados. Estas instalaciones podrán abastecerse con hasta un 50 por ciento de energía primaria procedente de biogás generado en digestores.",
+          ],
+          [
+            "b72",
+            "[B72] - Instalaciones que empleen como combustible principal biolíquidos o el biogás generado en digestores procedente de cultivos energéticos o de restos agrícolas, de deyecciones ganaderas, de residuos biodegradables de instalaciones industriales, de residuos domiciliarios o similares, de lodos de depuración de aguas residuales u otros para los cuales sea de aplicación el proceso de digestión anaerobia, tanto individualmente como en co-digestión. Estas instalaciones podrán abastecerse con hasta un 50 por ciento de energía primaria procedente de biogás de vertederos controlados.",
+          ],
+          [
+            "b80",
+            "[B80] - Centrales de generación eléctrica o de cogeneración que utilicen como combustible principal biomasa procedente de instalaciones industriales del sector agrícola o forestal en los términos que figuran en el anexo I. Se entenderá como combustible principal aquel combustible que suponga, como mínimo, el 90 por ciento de la energía primaria utilizada, medida por el poder calorífico inferior.",
+          ],
+          [
+            "c10",
+            "[C10] - Centrales que utilicen como combustible principal residuos domésticos y similares.",
+          ],
+          [
+            "c20",
+            "[C20] - Centrales que utilicen como combustible principal otros residuos no contemplados en el grupo c.1, combustibles de los grupos b.6, b.7 y b.8 cuando no cumplan con los límites de consumo establecidos para los citados grupos, licores negros y las centrales que a la entrada en vigor de este real decreto estuvieran inscritas en la categoría c) grupo c.3 prevista en el artículo 2.1 del Real Decreto 661/2007, de 25 de mayo, por el que se regula la actividad de producción de energía eléctrica en régimen especial.",
+          ],
+          [
+            "c30",
+            "[C30] - Centrales que a la entrada en vigor de este real decreto estuvieran acogidas a la categoría c) grupo c.4 prevista en el artículo 2.1 del Real Decreto 661/2007, de 25 de mayo, utilizando como combustible productos de explotaciones mineras de calidades no comerciales para la generación eléctrica por su elevado contenido en azufre o cenizas, representando los residuos más del 25 por ciento de la energía primaria utilizada.",
+          ],
+        ],
+        string: "Tipo generación",
+        type: "selection",
+        views: {},
+      },
+      telephone_text: {
+        digits: [16, 2],
+        is_function: true,
+        readonly: 1,
+        size: 32,
+        string: "Teléfonos",
+        type: "char",
+        views: {},
+      },
+      tensio_normalitzada: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "giscedata.tensions.tensio",
+        size: 64,
+        string: "Tensión normalizada (*)",
+        type: "many2one",
+        views: {},
+      },
+      time_tracking_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "crm.time.tracking",
+        size: 64,
+        string: "Imputación de tiempo",
+        type: "many2one",
+        views: {},
+      },
+      tipus_cups: {
+        is_function: false,
+        selection: [
+          ["01", "Consumo"],
+          ["02", "Servicios Auxiliares"],
+        ],
+        string: "Tipo de CUPS",
+        type: "selection",
+        views: {},
+      },
+      tipus_installacio: {
+        is_function: false,
+        selection: [
+          ["01", "Red interior"],
+          ["02", "Red interior da varios consumidores (instalación de enlace)"],
+          ["03", "Próxima a través de red"],
+        ],
+        string: "Tipo instalación",
+        type: "selection",
+        views: {},
+      },
+      tipus_vivenda: {
+        is_function: false,
+        selection: [
+          ["habitual", "Habitual"],
+          ["no_habitual", "No habitual"],
+        ],
+        string: "Tipo vivienda (*)",
+        type: "selection",
+        views: {},
+      },
+      titular_aclarador: {
+        is_function: false,
+        size: 256,
+        string: "Aclarador",
+        type: "char",
+        views: {},
+      },
+      titular_apartat_correus: {
+        is_function: false,
+        size: 5,
+        string: "Apartado de Correos",
+        type: "char",
+        views: {},
+      },
+      titular_bq: {
+        is_function: false,
+        size: 4,
+        string: "Bloque",
+        type: "char",
+        views: {},
+      },
+      titular_cognom1: {
+        is_function: false,
+        size: 30,
+        string: "Apellido 1 (*)",
+        type: "char",
+        views: {},
+      },
+      titular_cognom2: {
+        is_function: false,
+        size: 30,
+        string: "Apellido 2",
+        type: "char",
+        views: {},
+      },
+      titular_cpa: {
+        is_function: false,
+        size: 10,
+        string: "Parcela",
+        type: "char",
+        views: {},
+      },
+      titular_cpo: {
+        is_function: false,
+        size: 10,
+        string: "Polígono",
+        type: "char",
+        views: {},
+      },
+      titular_email: {
+        is_function: false,
+        size: 240,
+        string: "Email (*)",
+        type: "char",
+        views: {},
+      },
+      titular_es: {
+        is_function: false,
+        size: 10,
+        string: "Escalera",
+        type: "char",
+        views: {},
+      },
+      titular_es_empresa: {
+        digits: [16, 2],
+        is_function: true,
+        readonly: 1,
+        string: "Es Empresa",
+        type: "boolean",
+        views: {},
+      },
+      titular_id_municipi: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.municipi",
+        size: 64,
+        string: "Municipio",
+        type: "many2one",
+        views: {},
+      },
+      titular_id_poblacio: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.poblacio",
+        size: 64,
+        string: "Población",
+        type: "many2one",
+        views: {},
+      },
+      titular_mobile: {
+        is_function: false,
+        size: 64,
+        string: "Móvil (*)",
+        type: "char",
+        views: {},
+      },
+      titular_nom: {
+        is_function: false,
+        size: 256,
+        string: "Nombre Cliente / Razón Social (*)",
+        type: "char",
+        views: {},
+      },
+      titular_nv: {
+        is_function: false,
+        size: 256,
+        string: "Calle",
+        type: "char",
+        views: {},
+      },
+      titular_phone: {
+        is_function: false,
+        size: 64,
+        string: "Teléfono (*)",
+        type: "char",
+        views: {},
+      },
+      titular_pnp: {
+        is_function: false,
+        size: 10,
+        string: "Número",
+        type: "char",
+        views: {},
+      },
+      titular_pt: {
+        is_function: false,
+        size: 10,
+        string: "Planta",
+        type: "char",
+        views: {},
+      },
+      titular_pu: {
+        is_function: false,
+        size: 10,
+        string: "Puerta",
+        type: "char",
+        views: {},
+      },
+      titular_tv: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.tipovia",
+        size: 64,
+        string: "Tipo Vía",
+        type: "many2one",
+        views: {},
+      },
+      titular_vat: {
+        is_function: false,
+        size: 11,
+        string: "Nº de Documento (*)",
+        type: "char",
+        views: {},
+      },
+      titular_zip: {
+        change_default: true,
+        is_function: false,
+        size: 24,
+        string: "Código Postal",
+        type: "char",
+        views: {},
+      },
+      use_cont_address: {
+        is_function: false,
+        string: "Direccion de contacto distinta a la del cliente (*)",
+        type: "boolean",
+        views: {},
+      },
+      user_id: {
+        context: "",
+        domain: [],
+        is_function: false,
+        relation: "res.users",
+        size: 64,
+        string: "Responsable",
+        type: "many2one",
+        views: {},
+      },
+      workdones_ids: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        is_function: true,
+        relation: "project.task.work",
+        string: "desconocido",
+        type: "one2many",
+        views: {
+          tree: {
+            arch: '<tree editable="top">\n                                <field name="date"/>\n                                <field name="type_id"/>\n                                <field name="hours" sum="Time spent" widget="float_time"/>\n                                <field name="user_id"/>\n                                <field name="name"/>\t\t\t\t    \n                            </tree>\n                        ',
+            fields: {
+              date: {
+                is_function: false,
+                string: "Fecha",
+                type: "datetime",
+                views: {},
+              },
+              hours: {
+                is_function: false,
+                string: "Tiempo dedicado",
+                type: "float",
+                views: {},
+                widget: "float_time",
+              },
+              name: {
+                is_function: false,
+                size: 512,
+                string: "Resumen del trabajo",
+                type: "char",
+                views: {},
+              },
+              type_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "project.task.work.type",
+                size: 64,
+                string: "Tipo",
+                type: "many2one",
+                views: {},
+              },
+              user_id: {
+                context: "",
+                domain: [],
+                is_function: false,
+                relation: "res.users",
+                required: true,
+                size: 64,
+                string: "Realizado por",
+                type: "many2one",
+                views: {},
+              },
+            },
+          },
+        },
+      },
+    });
+    form.parse(arch, {
+      values: {
+        state: "done",
+      },
+    });
+    const parentPage = form.findById("notebook-parent-page") as Page;
+    const notebookTest = form.findById("notebook-test") as Page;
+    const notebookChildPage = form.findById("notebook-child-page") as Page;
+    expect(parentPage).toBeDefined();
+    expect(notebookTest).toBeDefined();
+    expect(parentPage.readOnly).toBeTruthy();
+    expect(notebookTest.readOnly).toBeTruthy();
+    expect(notebookChildPage).toBeDefined();
+    expect(notebookChildPage.readOnly).toBeTruthy();
+  });
 });
