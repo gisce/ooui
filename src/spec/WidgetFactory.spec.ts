@@ -12,6 +12,7 @@ import {
   CodeEditor,
   ButtonGroup,
   Time,
+  HTMLPreview,
 } from "..";
 
 describe("A WidgetFactory", () => {
@@ -110,5 +111,12 @@ describe("A WidgetFactory", () => {
     const widget = widgetFactory.createWidget("time", props);
     expect(widget).toBeInstanceOf(Time);
     expect(widget.type).toBe("time");
+  });
+  it("should be able to HtmlPreview time type", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {};
+    const widget = widgetFactory.createWidget("html_preview", props);
+    expect(widget).toBeInstanceOf(HTMLPreview);
+    expect(widget.type).toBe("html_preview");
   });
 });
