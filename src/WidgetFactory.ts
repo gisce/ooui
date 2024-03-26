@@ -14,6 +14,7 @@ import Integer from "./Integer";
 import Widget from "./Widget";
 import Float from "./Float";
 import FloatTime from "./FloatTime";
+import HTMLPreview from "./HTMLPreview";
 import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
@@ -162,6 +163,9 @@ class WidgetFactory {
         break;
       case "time":
         this._widgetClass = Time;
+        break;
+      case "html_preview":
+        this._widgetClass = HTMLPreview;
         break;
 
       default:

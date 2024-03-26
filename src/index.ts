@@ -48,6 +48,7 @@ import Switch from "./Switch";
 import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
 import Time from "./Time";
+import HTMLPreview from "./HTMLPreview";
 
 import {
   Graph,
@@ -80,6 +81,7 @@ export {
   Integer,
   Float,
   FloatTime,
+  HTMLPreview,
   Date,
   DateTime,
   Many2many,
