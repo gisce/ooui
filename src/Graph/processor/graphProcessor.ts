@@ -167,6 +167,7 @@ export const processGraphData = ({
     finalData = processTimerangeData({
       values: finalData,
       timerange: ooui.timerange,
+      interval: ooui.interval,
     });
   } else if (ooui.type == "pie") {
     finalData = adjustedUninformedData.sort((a, b) => b.value - a.value);
