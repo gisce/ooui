@@ -4,9 +4,11 @@ import { getValueForOperator } from "./graphProcessor";
 export function processTimerangeData({
   values,
   timerange,
+  interval = 1,
 }: {
   values: any[];
   timerange: string;
+  interval?: number;
 }) {
   const combinedValues = combineValuesForTimerange({
     values,
@@ -17,6 +19,7 @@ export function processTimerangeData({
   const filledValues = fillGapsInTimerangeData({
     values: combinedValues,
     timerange,
+    interval,
   });
 
   return filledValues;
@@ -25,9 +28,11 @@ export function processTimerangeData({
 export function fillGapsInTimerangeData({
   values,
   timerange,
+  interval = 1,
 }: {
   values: any[];
   timerange: string;
+  interval?: number;
 }) {
   let finalValues: any[] = [];
   const uniqueValues: Record<string, any> = getUniqueValuesGroupedBy({
@@ -56,6 +61,7 @@ export function fillGapsInTimerangeData({
         const missingDates = getMissingConsecutiveDates({
           dates: [date, nextDate],
           timerange,
+          interval,
         });
         finalValues = finalValues.concat(
           missingDates.map((stringDate) => {
