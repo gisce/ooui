@@ -569,6 +569,27 @@ describe("a timerangeHelper", () => {
       expect(missingDates.length).toBe(1);
       expect(missingDates[0]).toBe("2022-01");
     });
+    it("should allow to pass an interval to get missing dates", () => {
+      const dates = ["2024-01-01 00:00", "2024-01-01 01:00"];
+      const missingDates = getMissingConsecutiveDates({
+        dates,
+        timerange: "minute",
+        interval: 5,
+      });
+      expect(missingDates).toEqual([
+        "2024-01-01 00:05",
+        "2024-01-01 00:10",
+        "2024-01-01 00:15",
+        "2024-01-01 00:20",
+        "2024-01-01 00:25",
+        "2024-01-01 00:30",
+        "2024-01-01 00:35",
+        "2024-01-01 00:40",
+        "2024-01-01 00:45",
+        "2024-01-01 00:50",
+        "2024-01-01 00:55",
+      ]);
+    });
   });
   describe("in fillGapsInTimerangeData function", () => {
     it("should fill gaps in data for hour grouping", () => {

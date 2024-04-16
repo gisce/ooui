@@ -18,8 +18,16 @@ export class Graph {
     return this._timerange;
   }
 
+  _interval: number = 1;
+  get interval(): number {
+    return this._interval;
+  }
+
   constructor(element: ParsedNode) {
     this._string = element.attributes.string || null;
     this._timerange = element.attributes.timerange || null;
+    if (element.attributes.interval) {
+      this._interval = parseInt(element.attributes.interval);
+    }
   }
 }

@@ -66,4 +66,15 @@ describe("A Graph", () => {
     const graph = parseGraph(xml) as GraphChart;
     expect(graph.timerange).toBe("day");
   });
+  it("should parse a graph with interval parameter", () => {
+    const xml = `<?xml version="1.0"?>
+    <graph type="line" timerange="minute" interval="5">
+        <field name="data_alta" axis="x"/>
+        <field name="data_alta" operator="count" axis="y"/>
+    </graph>
+    `;
+
+    const graph = parseGraph(xml) as GraphChart;
+    expect(graph.interval).toBe(5);
+  });
 });

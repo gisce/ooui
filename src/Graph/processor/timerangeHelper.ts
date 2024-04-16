@@ -4,9 +4,11 @@ import { getValueForOperator } from "./graphProcessor";
 export function processTimerangeData({
   values,
   timerange,
+  interval = 1,
 }: {
   values: any[];
   timerange: string;
+  interval?: number;
 }) {
   const combinedValues = combineValuesForTimerange({
     values,
@@ -17,6 +19,7 @@ export function processTimerangeData({
   const filledValues = fillGapsInTimerangeData({
     values: combinedValues,
     timerange,
+    interval,
   });
 
   return filledValues;
@@ -25,9 +28,11 @@ export function processTimerangeData({
 export function fillGapsInTimerangeData({
   values,
   timerange,
+  interval = 1,
 }: {
   values: any[];
   timerange: string;
+  interval?: number;
 }) {
   let finalValues: any[] = [];
   const uniqueValues: Record<string, any> = getUniqueValuesGroupedBy({
@@ -56,6 +61,7 @@ export function fillGapsInTimerangeData({
         const missingDates = getMissingConsecutiveDates({
           dates: [date, nextDate],
           timerange,
+          interval,
         });
         finalValues = finalValues.concat(
           missingDates.map((stringDate) => {
@@ -86,9 +92,11 @@ export function fillGapsInTimerangeData({
 export function getMissingConsecutiveDates({
   dates,
   timerange,
+  interval = 1,
 }: {
   dates: string[];
   timerange: string;
+  interval?: number;
 }) {
   const missingDates: string[] = [];
   const units = `${timerange}s` as any;
@@ -111,12 +119,15 @@ export function getMissingConsecutiveDates({
     const date2 = sortedDates[i + 1];
 
     if (!checkDatesConsecutive([date1, date2], units)) {
-      const iDate = moment(date1, getFormatForUnits(units)).add(1, units);
+      const iDate = moment(date1, getFormatForUnits(units)).add(
+        interval,
+        units,
+      );
       const fDate = moment(date2, getFormatForUnits(units));
 
       while (iDate.isBefore(fDate)) {
         missingDates.push(iDate.format(getFormatForUnits(units)));
-        iDate.add(1, units);
+        iDate.add(interval, units);
       }
     }
   }
