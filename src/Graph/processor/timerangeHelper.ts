@@ -86,9 +86,11 @@ export function fillGapsInTimerangeData({
 export function getMissingConsecutiveDates({
   dates,
   timerange,
+  interval = 1,
 }: {
   dates: string[];
   timerange: string;
+  interval?: number;
 }) {
   const missingDates: string[] = [];
   const units = `${timerange}s` as any;
@@ -111,12 +113,15 @@ export function getMissingConsecutiveDates({
     const date2 = sortedDates[i + 1];
 
     if (!checkDatesConsecutive([date1, date2], units)) {
-      const iDate = moment(date1, getFormatForUnits(units)).add(1, units);
+      const iDate = moment(date1, getFormatForUnits(units)).add(
+        interval,
+        units,
+      );
       const fDate = moment(date2, getFormatForUnits(units));
 
       while (iDate.isBefore(fDate)) {
         missingDates.push(iDate.format(getFormatForUnits(units)));
-        iDate.add(1, units);
+        iDate.add(interval, units);
       }
     }
   }
