@@ -88,6 +88,18 @@ class One2many extends Field {
     this._height = value;
   }
 
+  /**
+   * Infinite mode
+   */
+  _infinite: boolean = false;
+  get infinite(): boolean {
+    return this._infinite;
+  }
+
+  set infinite(value: boolean) {
+    this._infinite = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -124,6 +136,14 @@ class One2many extends Field {
         } catch (e) {
           this._height = undefined;
         }
+      }
+
+      if (
+        props.infinite === "1" ||
+        props.infinite === 1 ||
+        props.infinite === true
+      ) {
+        this._infinite = true;
       }
     }
   }
