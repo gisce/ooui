@@ -138,12 +138,14 @@ class One2many extends Field {
         }
       }
 
-      if (
-        props.infinite === "1" ||
-        props.infinite === 1 ||
-        props.infinite === true
-      ) {
-        this._infinite = true;
+      if (props.widget_props) {
+        if (
+          this.parsedWidgetProps.infinite === "1" ||
+          this.parsedWidgetProps.infinite === 1 ||
+          this.parsedWidgetProps.infinite === true
+        ) {
+          this._infinite = true;
+        }
       }
     }
   }
