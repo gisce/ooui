@@ -3,6 +3,7 @@ import Widget from "./Widget";
 import { replaceEntities } from "./helpers/attributeParser";
 import { ParsedNode } from "./helpers/nodeParser";
 import * as txml from "txml";
+import { parseContext } from "./helpers/contextParser";
 
 type EditableTreeOptions = "top" | " bottom" | null;
 
@@ -54,6 +55,18 @@ class Tree {
     return this._editable;
   }
 
+  /**
+   * Context for each field in the form
+   */
+  _contextForFields: Record<string, any> = {};
+  get contextForFields(): Record<string, any> {
+    return this._contextForFields;
+  }
+
+  set contextForFields(value: Record<string, any>) {
+    this._contextForFields = value;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }
@@ -84,6 +97,7 @@ class Tree {
         let mergedAttrs = attributes;
         if (name) {
           if (!this._fields[name]) {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             throw new Error(`Field ${name} doesn't exist in fields defintion`);
           }
           const fieldDef = this._fields[name];
@@ -97,15 +111,23 @@ class Tree {
           ) {
             delete fieldDef.domain;
           }
+          const widgetContext = parseContext({
+            context: attributes.context || fieldDef.context,
+            values: {},
+            fields: this._fields,
+          });
           mergedAttrs = {
             ...fieldDef,
             ...attributes,
             fieldsWidgetType: fieldDef?.type,
+            context: widgetContext,
           };
+          this._contextForFields[name] = widgetContext;
         }
         if (widget) {
           widgetType = widget;
         }
+
         if (!mergedAttrs.invisible) {
           const widget = widgetFactory.createWidget(widgetType, mergedAttrs);
           this._columns.push(widget);

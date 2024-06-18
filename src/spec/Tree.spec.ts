@@ -11,7 +11,7 @@ const XML_VIEW_TREE = `<?xml version="1.0"?>
   <field name="debt_amount"/>
   <field name="city" select="2"/>
   <field name="country" select="2"/>
-  <field name="lang"/>
+  <field name="lang" context="{'active_test': False}"/>
 </tree>
 `;
 
@@ -349,5 +349,13 @@ describe("A Tree", () => {
 
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.sum).toBe("Potència contractada (kW)");
+  });
+  it("should get the context for all the fields of a tree", () => {
+    const tree = new Tree(FIELDS);
+    tree.parse(XML_VIEW_TREE);
+    expect(tree.contextForFields).toBeDefined();
+    expect(Object.keys(tree.contextForFields).length).toBeGreaterThan(0);
+    expect(tree.contextForFields.lang).toBeDefined();
+    expect(tree.contextForFields.lang).toEqual({ active_test: false });
   });
 });

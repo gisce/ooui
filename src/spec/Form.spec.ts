@@ -22,7 +22,7 @@ const XML_VIEW_FORM = `<?xml version="1.0"?>
             <field name="function"/>
             <field name="type" select="2"/>
             <separator string="Street" colspan="4"/>
-            <field name="street" select="2" colspan="4" width="200"/>
+            <field name="street" select="2" colspan="4" width="200" context="{'active_test': False}"/>
             <group colspan="2" col="4">
               <field name="tv" select="2"/>
               <newline/>
@@ -5744,5 +5744,13 @@ describe("A Form", () => {
     expect(notebookTest.readOnly).toBeTruthy();
     expect(notebookChildPage).toBeDefined();
     expect(notebookChildPage.readOnly).toBeTruthy();
+  });
+  it("Should be able to get all the context for all fields of a Form", () => {
+    const form = new Form(FIELDS);
+    form.parse(XML_VIEW_FORM);
+    expect(form.contextForFields).toBeDefined();
+    expect(Object.keys(form.contextForFields).length).toBeGreaterThan(0);
+    expect(form.contextForFields.street).toBeDefined();
+    expect(form.contextForFields.street).toEqual({ active_test: false });
   });
 });
