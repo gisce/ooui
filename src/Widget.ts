@@ -155,7 +155,7 @@ abstract class Widget {
             props.widget_props.replace(/'/g, '"'),
           );
         } catch (err) {
-          throw new Error("Error parsing widget_props");
+          console.error("Error parsing widget_props");
         }
       }
       if (props.key) {

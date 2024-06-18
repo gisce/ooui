@@ -10,6 +10,7 @@ import { parseOnChange } from "./helpers/onChangeParser";
 import * as txml from "txml";
 import Field from "./Field";
 import Button from "./Button";
+import { flattenContainer } from "./helpers/widgetHelper";
 
 export type FormParseOptions = {
   readOnly?: boolean;
@@ -119,6 +120,18 @@ class Form {
     this._invisibleFields = value;
   }
 
+  /**
+   * Context for each field in the form
+   */
+  _contextForFields: Record<string, any> = {};
+  get contextForFields(): Record<string, any> {
+    return this._contextForFields;
+  }
+
+  set contextForFields(value: Record<string, any>) {
+    this._contextForFields = value;
+  }
+
   constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
     this._container = new Container(columns, 6, false, "root");
@@ -143,6 +156,17 @@ class Form {
       container: this._container,
       values,
     });
+
+    // For each widget in the form, we get the context and put it in the contextForFields object
+    const allWidgets = flattenContainer(this._container._rows);
+
+    allWidgets.forEach((widget) => {
+      const unknownWidget = widget as any;
+      if (unknownWidget._id && unknownWidget._context) {
+        this._contextForFields[unknownWidget._id] = widget._context;
+      }
+    });
+    console.log(this._contextForFields);
   }
 
   parseNode({

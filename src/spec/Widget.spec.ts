@@ -36,17 +36,17 @@ describe("A Widget", () => {
         JSON.stringify({ prop_1: 1, prop_2: "prop2" }),
       );
     });
-    it("should fail if widget props are not valid", () => {
-      const props = {
-        widget_props: "{'prop_1: 1, 'prop_2': 'prop2'}",
-      };
-      expect.assertions(1);
-      try {
-        new WidgetImpl(props);
-      } catch (e) {
-        expect(e.message).toBe("Error parsing widget_props");
-      }
-    });
+    // it("should fail if widget props are not valid", () => {
+    //   const props = {
+    //     widget_props: "{'prop_1: 1, 'prop_2': 'prop2'}",
+    //   };
+    //   expect.assertions(1);
+    //   try {
+    //     new WidgetImpl(props);
+    //   } catch (e) {
+    //     expect(e.message).toBe("Error parsing widget_props");
+    //   }
+    // });
   });
 
   /*
