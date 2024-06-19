@@ -166,7 +166,6 @@ class Form {
         this._contextForFields[unknownWidget._id] = widget._context;
       }
     });
-    console.log(this._contextForFields);
   }
 
   parseNode({

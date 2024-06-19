@@ -49,6 +49,7 @@ import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
 import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
+import Alert from "./Alert";
 
 import {
   Graph,
@@ -130,4 +131,5 @@ export {
   CodeEditor,
   SearchFieldTypes,
   Time,
+  Alert,
 };

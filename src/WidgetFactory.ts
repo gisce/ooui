@@ -37,6 +37,7 @@ import Steps from "./Steps";
 import CodeEditor from "./CodeEditor";
 import Avatar from "./Avatar";
 import Time from "./Time";
+import Alert from "./Alert";
 
 class WidgetFactory {
   /**
@@ -166,6 +167,9 @@ class WidgetFactory {
         break;
       case "html_preview":
         this._widgetClass = HTMLPreview;
+        break;
+      case "alert":
+        this._widgetClass = Alert;
         break;
 
       default:
