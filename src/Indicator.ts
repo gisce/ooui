@@ -30,6 +30,18 @@ class Indicator extends Selection {
     this._suffix = value;
   }
 
+  /**
+   * Action id
+   */
+  _actionId: number = NaN;
+  get actionId(): number {
+    return this._actionId;
+  }
+
+  set actionId(value: number) {
+    this._actionId = value;
+  }
+
   constructor(props: any) {
     super(props);
     this._card = false;
@@ -39,6 +51,11 @@ class Indicator extends Selection {
       this._card = this._parsedWidgetProps.card || false;
       this._icon = this._parsedWidgetProps.icon || "";
       this._suffix = this._parsedWidgetProps.suffix || "";
+    }
+    if (props) {
+      if (props.action_id) {
+        this._actionId = parseInt(props.action_id);
+      }
     }
   }
 }
