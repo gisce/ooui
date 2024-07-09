@@ -33,12 +33,12 @@ class Indicator extends Selection {
   /**
    * Action id
    */
-  _actionId: number = NaN;
-  get actionId(): number {
+  _actionId: number | undefined = undefined;
+  get actionId(): number | undefined {
     return this._actionId;
   }
 
-  set actionId(value: number) {
+  set actionId(value: number | undefined) {
     this._actionId = value;
   }
 
