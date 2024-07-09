@@ -18,7 +18,6 @@ import HTMLPreview from "./HTMLPreview";
 import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
-import Many2many from "./Many2many";
 import One2many from "./One2many";
 import NewLine from "./NewLine";
 import Separator from "./Separator";
@@ -98,12 +97,10 @@ class WidgetFactory {
       case "progressbar":
         this._widgetClass = ProgressBar;
         break;
-      case "many2many":
-        this._widgetClass = Many2many;
-        break;
       case "markdown":
         this._widgetClass = Markdown;
         break;
+      case "many2many":
       case "one2many":
       case "one2many_list":
         this._widgetClass = One2many;
