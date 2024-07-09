@@ -16,7 +16,6 @@ import FloatTime from "./FloatTime";
 import ProgressBar from "./ProgressBar";
 import Date from "./Date";
 import DateTime from "./DateTime";
-import Many2many from "./Many2many";
 import Markdown from "./Markdown";
 import One2many from "./One2many";
 import SearchFilter, { SearchFieldTypes } from "./SearchFilter";
@@ -85,7 +84,6 @@ export {
   HTMLPreview,
   Date,
   DateTime,
-  Many2many,
   SearchFilter,
   Container,
   ContainerWidget,
