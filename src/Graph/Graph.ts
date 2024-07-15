@@ -1,7 +1,7 @@
 import { ParsedNode } from "../helpers/nodeParser";
 
 export type GraphType = "indicator" | "indicatorField" | "line" | "bar" | "pie";
-export type RangeType = "auto" | "full";
+export type RangeType = "auto" | "full" | "slider";
 
 export class Graph {
   _string: string | null = null;
@@ -37,7 +37,7 @@ export class Graph {
     }
     if (element.attributes.y_range) {
       const range = element.attributes.y_range;
-      if (range === "auto" || range === "full") {
+      if (range === "auto" || range === "full" || range === "slider") {
         this._y_range = range;
       }
     }
