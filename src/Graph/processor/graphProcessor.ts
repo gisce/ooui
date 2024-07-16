@@ -45,8 +45,7 @@ export const processGraphData = ({
     fields,
   });
 
-  const data: Array<Record<string, any>> = [];
-
+  const data: GraphValues[] = [];
   // We iterate through the y axis items found in the ooui object
   ooui.y.forEach((yField) => {
     // We iterate now for every single key of the grouped results by x
@@ -178,11 +177,24 @@ export const processGraphData = ({
     finalData = adjustedUninformedData.sort((a, b) => b.value - a.value);
   }
 
-  return {
+  const result = {
     data: finalData,
     isGroup: isStack || isGroup,
     isStack,
   };
+
+  if (ooui.type === "line" && ooui.y_range) {
+    result.yAxisProps = {
+      mode: ooui.y_range,
+    };
+    if (ooui.y_range === "auto") {
+      const { min, max } = getMinMax(finalData);
+      result.yAxisProps.min = min;
+      result.yAxisProps.max = max;
+    }
+  }
+
+  return result;
 };
 
 export function getValuesForYField({
@@ -320,8 +332,6 @@ export function getMinMax(values: GraphValues[], margin: number = 0.1) {
   const minValue = Math.min(...valueList);
   const maxValue = Math.max(...valueList);
   const calculatedMargin = (maxValue - minValue) * margin;
-
-  console.log(calculatedMargin);
 
   return {
     min: minValue - calculatedMargin,

@@ -200,6 +200,29 @@ describe("in processGraphData method", () => {
     expect(data.some((entry) => entry.x === false)).toBeFalsy();
   });
 
+  describe("when processing a line chart with y_range", () => {
+    describe("if y_range is auto", () => {
+      it("should return yAxisProps with mode auto, min and max values", () => {
+        const xml = `<?xml version="1.0"?>
+          <graph type="line" y_range="auto" timerange="day">
+            <field name="date" axis="x"/>
+            <field name="v" operator="+" axis="y"/>
+          </graph>`;
+        const parsedGraph = parseGraph(xml) as GraphChart;
+        const values = [
+          { date: "2024-01-01", v: 10 },
+          { date: "2024-01-02", v: 20 },
+          { date: "2024-01-03", v: 30 },
+        ];
+        const fields = { date: { type: "date" }, v: { type: "integer" } };
+        const result = processGraphData({ ooui: parsedGraph, values, fields });
+        expect(result.yAxisProps.mode).toBe("auto");
+        expect(result.yAxisProps.min).toBe(8);
+        expect(result.yAxisProps.max).toBe(32);
+      });
+    });
+  });
+
   it("should do basic test with one y axis with label", () => {
     const { data, isGroup, isStack } = getGraphData(
       `<?xml version="1.0"?>
