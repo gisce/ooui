@@ -26,6 +26,23 @@ export type ProcessGraphDataOpts = {
   uninformedString: string;
 };
 
+export type YAxisOpts = {
+  mode?: "auto" | "default" | "full" | "slider";
+  valueOpts?: MinMaxValues;
+};
+
+export type MinMaxValues = {
+  min: number;
+  max: number;
+};
+
+export type Result = {
+  data: any[];
+  isGroup: boolean;
+  isStack: boolean;
+  yAxisOpts?: YAxisOpts;
+};
+
 export const processGraphData = ({
   ooui,
   values,
@@ -177,7 +194,7 @@ export const processGraphData = ({
     finalData = adjustedUninformedData.sort((a, b) => b.value - a.value);
   }
 
-  const result = {
+  const result: Result = {
     data: finalData,
     isGroup: isStack || isGroup,
     isStack,
@@ -189,8 +206,7 @@ export const processGraphData = ({
     };
     if (ooui.y_range === "auto") {
       const { min, max } = getMinMax(finalData);
-      result.yAxisOpts.min = min;
-      result.yAxisOpts.max = max;
+      result.yAxisOpts.valueOpts = { min, max };
     }
   }
 

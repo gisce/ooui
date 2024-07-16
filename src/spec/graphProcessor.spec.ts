@@ -216,9 +216,10 @@ describe("in processGraphData method", () => {
         ];
         const fields = { date: { type: "date" }, v: { type: "integer" } };
         const result = processGraphData({ ooui: parsedGraph, values, fields });
-        expect(result.yAxisOpts.mode).toBe("auto");
-        expect(result.yAxisOpts.min).toBe(8);
-        expect(result.yAxisOpts.max).toBe(32);
+        expect(result.yAxisOpts).toBeDefined();
+        expect(result.yAxisOpts?.mode).toBe("auto");
+        expect(result.yAxisOpts?.valueOpts?.min).toBe(8);
+        expect(result.yAxisOpts?.valueOpts?.max).toBe(32);
       });
     });
   });
