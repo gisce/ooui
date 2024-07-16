@@ -3,6 +3,7 @@ import {
   getAllObjectsInGroupedValues,
   getValuesGroupedByField,
   processGraphData,
+  getMinMax,
 } from "../Graph/processor/graphProcessor";
 import { GraphChart, parseGraph } from "../Graph";
 import { it, expect, describe } from "vitest";
@@ -421,6 +422,76 @@ describe("in processGraphData method", () => {
     expect(obj1!.value).toBe(3);
 
     expect(data.some((entry) => entry.x === false)).toBeFalsy();
+  });
+});
+
+describe("in getMinMax method", () => {
+  it("should return correct min and max with default margin", () => {
+    const data = [{ value: 10 }, { value: 20 }, { value: 30 }];
+
+    const result = getMinMax(data);
+
+    // Calculant els valors esperats
+    const minValue = 10;
+    const maxValue = 30;
+    const margin = (maxValue - minValue) * 0.1;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should return correct min and max with custom margin", () => {
+    const data = [{ value: 10 }, { value: 20 }, { value: 30 }];
+
+    const result = getMinMax(data, 0.2);
+
+    // Calculant els valors esperats
+    const minValue = 10;
+    const maxValue = 30;
+    const margin = (maxValue - minValue) * 0.2;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should return correct min and max for single element", () => {
+    const data = [{ value: 10 }];
+
+    const result = getMinMax(data);
+
+    const expected = {
+      min: 10,
+      max: 10,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should handle negative values correctly", () => {
+    const data = [{ value: -10 }, { value: 0 }, { value: 10 }];
+
+    const result = getMinMax(data);
+
+    // Calculant els valors esperats
+    const minValue = -10;
+    const maxValue = 10;
+    const margin = (maxValue - minValue) * 0.1;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should throw an error for empty array", () => {
+    expect(() => getMinMax([])).toThrow("The values array cannot be empty.");
   });
 });
 

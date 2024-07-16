@@ -7,6 +7,11 @@ export type GroupedValues = Record<
   { label: string; entries: Array<Record<string, any>> }
 >;
 
+type GraphValues = {
+  value: number;
+  [key: string]: any;
+};
+
 export const labelsForOperator = {
   count: "count",
   "+": "sum",
@@ -305,4 +310,21 @@ export function getYAxisFieldname({
 
   // return yAxis.name + "_" + labelsForOperator[yAxis.operator];
   return yAxis.name;
+}
+
+export function getMinMax(values: GraphValues[], margin: number = 0.1) {
+  if (values.length === 0) {
+    throw new Error("The values array cannot be empty.");
+  }
+  const valueList = values.map((d) => d.value);
+  const minValue = Math.min(...valueList);
+  const maxValue = Math.max(...valueList);
+  const calculatedMargin = (maxValue - minValue) * margin;
+
+  console.log(calculatedMargin);
+
+  return {
+    min: minValue - calculatedMargin,
+    max: maxValue + calculatedMargin,
+  };
 }
