@@ -184,13 +184,13 @@ export const processGraphData = ({
   };
 
   if (ooui.type === "line" && ooui.y_range) {
-    result.yAxisProps = {
+    result.yAxisOpts = {
       mode: ooui.y_range,
     };
     if (ooui.y_range === "auto") {
       const { min, max } = getMinMax(finalData);
-      result.yAxisProps.min = min;
-      result.yAxisProps.max = max;
+      result.yAxisOpts.min = min;
+      result.yAxisOpts.max = max;
     }
   }
 

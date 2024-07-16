@@ -202,7 +202,7 @@ describe("in processGraphData method", () => {
 
   describe("when processing a line chart with y_range", () => {
     describe("if y_range is auto", () => {
-      it("should return yAxisProps with mode auto, min and max values", () => {
+      it("should return yAxisOpts with mode auto, min and max values", () => {
         const xml = `<?xml version="1.0"?>
           <graph type="line" y_range="auto" timerange="day">
             <field name="date" axis="x"/>
@@ -216,9 +216,9 @@ describe("in processGraphData method", () => {
         ];
         const fields = { date: { type: "date" }, v: { type: "integer" } };
         const result = processGraphData({ ooui: parsedGraph, values, fields });
-        expect(result.yAxisProps.mode).toBe("auto");
-        expect(result.yAxisProps.min).toBe(8);
-        expect(result.yAxisProps.max).toBe(32);
+        expect(result.yAxisOpts.mode).toBe("auto");
+        expect(result.yAxisOpts.min).toBe(8);
+        expect(result.yAxisOpts.max).toBe(32);
       });
     });
   });
