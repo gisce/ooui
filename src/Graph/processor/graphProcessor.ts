@@ -7,6 +7,11 @@ export type GroupedValues = Record<
   { label: string; entries: Array<Record<string, any>> }
 >;
 
+type GraphValues = {
+  value: number;
+  [key: string]: any;
+};
+
 export const labelsForOperator = {
   count: "count",
   "+": "sum",
@@ -19,6 +24,23 @@ export const labelsForOperator = {
 
 export type ProcessGraphDataOpts = {
   uninformedString: string;
+};
+
+export type YAxisOpts = {
+  mode?: "auto" | "default" | "full" | "slider";
+  valueOpts?: MinMaxValues;
+};
+
+export type MinMaxValues = {
+  min: number;
+  max: number;
+};
+
+export type Result = {
+  data: any[];
+  isGroup: boolean;
+  isStack: boolean;
+  yAxisOpts?: YAxisOpts;
 };
 
 export const processGraphData = ({
@@ -40,8 +62,7 @@ export const processGraphData = ({
     fields,
   });
 
-  const data: Array<Record<string, any>> = [];
-
+  const data: GraphValues[] = [];
   // We iterate through the y axis items found in the ooui object
   ooui.y.forEach((yField) => {
     // We iterate now for every single key of the grouped results by x
@@ -173,11 +194,23 @@ export const processGraphData = ({
     finalData = adjustedUninformedData.sort((a, b) => b.value - a.value);
   }
 
-  return {
+  const result: Result = {
     data: finalData,
     isGroup: isStack || isGroup,
     isStack,
   };
+
+  if (ooui.type === "line" && ooui.y_range) {
+    result.yAxisOpts = {
+      mode: ooui.y_range,
+    };
+    if (ooui.y_range === "auto") {
+      const { min, max } = getMinMax(finalData);
+      result.yAxisOpts.valueOpts = { min, max };
+    }
+  }
+
+  return result;
 };
 
 export function getValuesForYField({
@@ -305,4 +338,19 @@ export function getYAxisFieldname({
 
   // return yAxis.name + "_" + labelsForOperator[yAxis.operator];
   return yAxis.name;
+}
+
+export function getMinMax(values: GraphValues[], margin: number = 0.1) {
+  if (values.length === 0) {
+    throw new Error("The values array cannot be empty.");
+  }
+  const valueList = values.map((d) => d.value);
+  const minValue = Math.min(...valueList);
+  const maxValue = Math.max(...valueList);
+  const calculatedMargin = (maxValue - minValue) * margin;
+
+  return {
+    min: minValue - calculatedMargin,
+    max: maxValue + calculatedMargin,
+  };
 }

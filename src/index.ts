@@ -66,6 +66,8 @@ import type { GraphType, Operator } from "./Graph";
 import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";
 
+import type { YAxisOpts, MinMaxValues } from "./Graph/processor/graphProcessor";
+
 export {
   Avatar,
   Char,
@@ -130,4 +132,6 @@ export {
   SearchFieldTypes,
   Time,
   Alert,
+  YAxisOpts,
+  MinMaxValues,
 };
