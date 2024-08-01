@@ -30,7 +30,7 @@ class ButtonGroup extends ContainerWidget {
   }
 
   get buttons(): Button[] {
-    return this._container.rows[0].filter((b) => !b.invisible) as Button[];
+    return this._container.rows.flat().filter((b) => !b.invisible) as Button[];
   }
 
   constructor(props: any) {
