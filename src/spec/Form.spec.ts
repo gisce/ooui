@@ -788,6 +788,26 @@ describe("A Form", () => {
         expect(button).toBeInstanceOf(Button);
       });
     });
+    it.only("should be able to parse a ButtonGroup with colspan", () => {
+      const fields = {};
+      const xmlViewForm = `<?xml version="1.0"?>
+      <form string="Form1">
+        <buttonGroup name="aButtonGroup" default="main">
+          <button name="main" type="object" string="Main action" colspan="4" />
+          <button name="secondary" type="object" string="Secondary action" />
+        </buttonGroup>
+      </form>`;
+      const form = new Form(fields);
+      form.parse(xmlViewForm);
+
+      const buttonGroup = form.container.rows[0][0] as ButtonGroup;
+      expect(buttonGroup).toBeInstanceOf(ButtonGroup);
+      expect(buttonGroup.buttons).toHaveLength(2);
+      buttonGroup.buttons.forEach((button) => {
+        expect(button).toBeInstanceOf(Button);
+      });
+      expect(buttonGroup.colspan).toBe(4);
+    });
   });
 
   it("should be able to parse a Button by default to type workflow", () => {
