@@ -12,6 +12,16 @@ class ButtonGroup extends ContainerWidget {
     return btn || this.buttons[0];
   }
 
+  get colspan(): number {
+    return this.defaultButton?.colspan || 1;
+  }
+
+  set colspan(value: number) {
+    if (this.defaultButton) {
+      this.defaultButton.colspan = value;
+    }
+  }
+
   get secondaryButtons(): Button[] {
     const btns = this.buttons.filter(
       (button) => button.id !== this.defaultButton?.id,
@@ -20,7 +30,7 @@ class ButtonGroup extends ContainerWidget {
   }
 
   get buttons(): Button[] {
-    return this._container.rows[0].filter((b) => !b.invisible) as Button[];
+    return this._container.rows.flat().filter((b) => !b.invisible) as Button[];
   }
 
   constructor(props: any) {
