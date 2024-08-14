@@ -788,7 +788,7 @@ describe("A Form", () => {
         expect(button).toBeInstanceOf(Button);
       });
     });
-    it.only("should be able to parse a ButtonGroup with colspan", () => {
+    it("should be able to parse a ButtonGroup with colspan", () => {
       const fields = {};
       const xmlViewForm = `<?xml version="1.0"?>
       <form string="Form1">
