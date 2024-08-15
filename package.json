@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "2.10.0-alpha.2",
+  "version": "2.9.2",
   "engines": {
     "node": "20.5.0"
   },
@@ -103,7 +103,13 @@
           "failComment": false
         }
       ],
-      "@semantic-release/git"
+      "@semantic-release/git",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "echo ${nextRelease.type} > .release-type && echo ${nextRelease.gitTag} > .release-tag"
+        }
+      ]
     ]
   }
 }
