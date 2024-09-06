@@ -94,7 +94,8 @@ const evaluateFieldComparison = ({
     valueInObject === undefined &&
     fields[fieldName].type !== "boolean" &&
     fields[fieldName].type !== "many2one" &&
-    fields[fieldName].type !== "selection"
+    fields[fieldName].type !== "selection" &&
+    typeof expectedValue !== "boolean"
   ) {
     return {
       modifiedValueInObject: null,
