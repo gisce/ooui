@@ -5773,7 +5773,7 @@ describe("A Form", () => {
     expect(form.contextForFields.street).toBeDefined();
     expect(form.contextForFields.street).toEqual({ active_test: false });
   });
-  it.only("Should be able to parse attributes with an undefined char value and exist condition in attrs", () => {
+  it("Should be able to parse attributes with an undefined char value and exist condition in attrs", () => {
     const arch = `<form><group><alert colspan="4" name="alert1" alert_type="warning" title="Atenci&#243;n" text="Debes introducir un CUPS para iniciar tu oferta correctamente" attrs="{'invisible': [('cups', '!=', False)]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;cups&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}"/>
                 <alert colspan="2" name="alert2" alert_type="info" title="Atenci&#243;n" text="alert2" attrs="{'invisible': [('cups', '=', False)]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;cups&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}"/>
              </group><input type="char" name="cups" /></form>`;
