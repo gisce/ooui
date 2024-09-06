@@ -23,6 +23,7 @@ describe("A ButtonsGroup widget", () => {
         type: "object",
         icon: "gtk-execute",
         string: "Button 1",
+        colspan: 4,
       });
       const btn2 = new Button({
         name: "btn2",
@@ -52,6 +53,13 @@ describe("A ButtonsGroup widget", () => {
       expect(buttonGroup.secondaryButtons).toHaveLength(2);
       expect(buttonGroup.secondaryButtons[0].id).toBe("btn2");
       expect(buttonGroup.secondaryButtons[1].id).toBe("btn3");
+    });
+    it("should have the same colspan as the default button", () => {
+      expect(buttonGroup.colspan).toBe(4);
+    });
+    it("should set the same colspan to the default button", () => {
+      buttonGroup.colspan = 2;
+      expect(buttonGroup.defaultButton?.colspan).toBe(2);
     });
   });
   describe("Working with invisible buttons", () => {
