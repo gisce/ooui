@@ -104,6 +104,15 @@ abstract class Widget {
     this._parsedWidgetProps = value;
   }
 
+  _isFunction: boolean | undefined;
+  get isFunction(): boolean | undefined {
+    return this._isFunction;
+  }
+
+  set isFunction(value: boolean | undefined) {
+    this._isFunction = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._invisible = false;
@@ -160,6 +169,9 @@ abstract class Widget {
       }
       if (props.key) {
         this._key = props.key;
+      }
+      if (props.is_function) {
+        this._isFunction = props.is_function;
       }
     }
   }
