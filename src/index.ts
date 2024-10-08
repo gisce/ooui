@@ -49,6 +49,7 @@ import CodeEditor from "./CodeEditor";
 import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
+import Comments from "./Comments";
 
 import {
   Graph,
@@ -134,4 +135,5 @@ export {
   Alert,
   YAxisOpts,
   MinMaxValues,
+  Comments,
 };
