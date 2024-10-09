@@ -37,6 +37,7 @@ import CodeEditor from "./CodeEditor";
 import Avatar from "./Avatar";
 import Time from "./Time";
 import Alert from "./Alert";
+import Comments from "./Comments";
 
 class WidgetFactory {
   /**
@@ -167,6 +168,9 @@ class WidgetFactory {
         break;
       case "alert":
         this._widgetClass = Alert;
+        break;
+      case "comments_timeline":
+        this._widgetClass = Comments;
         break;
 
       default:

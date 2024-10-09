@@ -13,6 +13,7 @@ import {
   ButtonGroup,
   Time,
   HTMLPreview,
+  Comments,
 } from "..";
 
 describe("A WidgetFactory", () => {
@@ -118,5 +119,12 @@ describe("A WidgetFactory", () => {
     const widget = widgetFactory.createWidget("html_preview", props);
     expect(widget).toBeInstanceOf(HTMLPreview);
     expect(widget.type).toBe("html_preview");
+  });
+  it("should be albe to Comments type", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {};
+    const widget = widgetFactory.createWidget("comments_timeline", props);
+    expect(widget).toBeInstanceOf(Comments);
+    expect(widget.type).toBe("comments_timeline");
   });
 });
