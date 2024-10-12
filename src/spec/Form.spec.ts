@@ -5796,7 +5796,7 @@ describe("A Form", () => {
     expect(alert1.invisible).toBeFalsy();
     expect(alert2.invisible).toBeTruthy();
   });
-  it.only("Should not be able to view the Autoconsum tab since it's invisible due to tags and attrs", () => {
+  it("Should not be able to view the Autoconsum tab since it's invisible due to tags and attrs", () => {
     const xml = `
 <form string="polisses">
     <notebook
