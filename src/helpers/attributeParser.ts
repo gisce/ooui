@@ -274,8 +274,8 @@ const evaluateAttributes = ({
   }
 
   return {
-    ...tagAttributes,
     ...finalTagAttributes,
+    ...tagAttributes,
     attrs: undefined,
     json_attrs: undefined,
   };
