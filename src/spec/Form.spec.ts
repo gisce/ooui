@@ -5831,7 +5831,7 @@ describe("A Form", () => {
     expect(pageAutoconsum).toBeDefined();
     expect(pageAutoconsum.invisible).toBeTruthy();
   });
-  it("", () => {
+  it("Should be able to view a form with disabled and enabled buttons depending on the attrs", () => {
     const xml = `<form string="Generar Casos Gestió ATR">
                     <label string="Generar Cas Switching de la pólissa o pólisses. Es crearà un procés del tipus indicat amb pas 01 per cada pòlissa"/>
                     <separator colspan="4"/>
