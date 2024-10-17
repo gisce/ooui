@@ -5796,4 +5796,39 @@ describe("A Form", () => {
     expect(alert1.invisible).toBeFalsy();
     expect(alert2.invisible).toBeTruthy();
   });
+  //   it("Should not be able to view the Autoconsum tab since it's invisible due to tags and attrs", () => {
+  //     const xml = `
+  // <form string="polisses">
+  //     <notebook
+  //         colspan="6">
+  //         <page name="page-autoconsum" string="Autoconsum"
+  //             attrs="{'invisible':[('autoconsum_id', '=', False)]}" invisible="1"
+  //             json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;autoconsum_id&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+  //             <field name="autoconsum_id" />
+  //         </page>
+  //     </notebook>
+  // </form>
+  // `;
+  //     const form = new Form({
+  //       autoconsum_id: {
+  //         context: "",
+  //         digits: [16, 2],
+  //         domain: [],
+  //         is_function: true,
+  //         readonly: 1,
+  //         relation: "giscedata.autoconsum",
+  //         string: "Autoconsum",
+  //         type: "many2one",
+  //         views: {},
+  //       },
+  //     });
+  //     form.parse(xml, {
+  //       values: {
+  //         autoconsum_id: [1, "ES0318363477145938GEA000"],
+  //       },
+  //     });
+  //     const pageAutoconsum = form.findById("page-autoconsum") as Page;
+  //     expect(pageAutoconsum).toBeDefined();
+  //     expect(pageAutoconsum.invisible).toBeTruthy();
+  //   });
 });
