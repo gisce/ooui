@@ -5796,39 +5796,162 @@ describe("A Form", () => {
     expect(alert1.invisible).toBeFalsy();
     expect(alert2.invisible).toBeTruthy();
   });
-  //   it("Should not be able to view the Autoconsum tab since it's invisible due to tags and attrs", () => {
-  //     const xml = `
-  // <form string="polisses">
-  //     <notebook
-  //         colspan="6">
-  //         <page name="page-autoconsum" string="Autoconsum"
-  //             attrs="{'invisible':[('autoconsum_id', '=', False)]}" invisible="1"
-  //             json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;autoconsum_id&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
-  //             <field name="autoconsum_id" />
-  //         </page>
-  //     </notebook>
-  // </form>
-  // `;
-  //     const form = new Form({
-  //       autoconsum_id: {
-  //         context: "",
-  //         digits: [16, 2],
-  //         domain: [],
-  //         is_function: true,
-  //         readonly: 1,
-  //         relation: "giscedata.autoconsum",
-  //         string: "Autoconsum",
-  //         type: "many2one",
-  //         views: {},
-  //       },
-  //     });
-  //     form.parse(xml, {
-  //       values: {
-  //         autoconsum_id: [1, "ES0318363477145938GEA000"],
-  //       },
-  //     });
-  //     const pageAutoconsum = form.findById("page-autoconsum") as Page;
-  //     expect(pageAutoconsum).toBeDefined();
-  //     expect(pageAutoconsum.invisible).toBeTruthy();
-  //   });
+  it("Should not be able to view the Autoconsum tab since it's invisible due to tags and attrs", () => {
+    const xml = `
+<form string="polisses">
+    <notebook
+        colspan="6">
+        <page name="page-autoconsum" string="Autoconsum"
+            attrs="{'invisible':[('autoconsum_id', '=', False)]}" invisible="1"
+            json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;autoconsum_id&quot;, &quot;value&quot;: false}], &quot;condition&quot;: &quot;AND&quot;}}">
+            <field name="autoconsum_id" />
+        </page>
+    </notebook>
+</form>
+`;
+    const form = new Form({
+      autoconsum_id: {
+        context: "",
+        digits: [16, 2],
+        domain: [],
+        is_function: true,
+        readonly: 1,
+        relation: "giscedata.autoconsum",
+        string: "Autoconsum",
+        type: "many2one",
+        views: {},
+      },
+    });
+    form.parse(xml, {
+      values: {
+        autoconsum_id: [1, "ES0318363477145938GEA000"],
+      },
+    });
+    const pageAutoconsum = form.findById("page-autoconsum") as Page;
+    expect(pageAutoconsum).toBeDefined();
+    expect(pageAutoconsum.invisible).toBeTruthy();
+  });
+  it("", () => {
+    const xml = `<form string="Generar Casos Gestió ATR">
+                    <label string="Generar Cas Switching de la pólissa o pólisses. Es crearà un procés del tipus indicat amb pas 01 per cada pòlissa"/>
+                    <separator colspan="4"/>
+                    <field name="state" invisible="1"/>
+                    <field name="whereiam" invisible="1"/>
+                    <field name="multipol" invisible="1"/>
+                    <field name="te_esborranys" invisible="1"/>
+                    <field name="te_actius" invisible="1"/>
+                    <field name="te_autolectures" invisible="1"/>
+                    <field name="casos_generats" invisible="1"/>
+                    <field nolabel="1" name="info" height="100" width="640" readonly="1"/>
+                    <group colspan="4" attrs="{'invisible': [('state','!=','init')]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: &quot;init&quot;}], &quot;condition&quot;: &quot;AND&quot;}}">
+                        <separator colspan="4" string="Generar Casos"/>
+                        <!-- Comer cases -->
+                        <group attrs="{'invisible': [('whereiam','!=','comer')]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;whereiam&quot;, &quot;value&quot;: &quot;comer&quot;}], &quot;condition&quot;: &quot;AND&quot;}}">
+                            <button name="genera_casos_atr1" string="C1 - Canvi de comercialitzadora" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','=',0)]}" context="{'proces': 'C1'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr2" string="C2 - Canvi de comercialitzadora amb canvis" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','=',0)]}" context="{'proces': 'C2', 'allow_multipol': False}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr3" string="M1 - Modificació contractual" type="object" icon="gtk-execute" attrs="{'readonly': [('te_actius','=',0)]}" context="{'proces': 'M1', 'allow_multipol': False}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_actius&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr4" string="A3 - Alta de subministrament" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','=',0)]}" context="{'proces': 'A3'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr5" string="B1 - Baixa" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','!=',0)]}" context="{'proces': 'B1'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr6" string="R1 - Reclamació" type="object" icon="gtk-execute" context="{'proces': 'R1'}" colspan="4" readonly="0"/>
+                            <button name="genera_casos_atr7" string="W1 - Autolectures" type="object" icon="gtk-execute" attrs="{'readonly': [('te_autolectures','=',0)]}" context="{'proces': 'W1'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_autolectures&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr8" string="Segons dades del formulari" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','=',0)]}" context="{'proces': 'Cn'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                        </group>
+                        <!-- Distri cases -->
+                        <group attrs="{'invisible': [('whereiam','!=','distri')]}" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;whereiam&quot;, &quot;value&quot;: &quot;distri&quot;}], &quot;condition&quot;: &quot;AND&quot;}}">
+                            <button name="genera_casos_atr" string="D1 - Notificació de canvis" type="object" icon="gtk-execute" attrs="{'readonly': [('te_actius','=',0)]}" context="{'proces': 'D1'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;=&quot;, &quot;field&quot;: &quot;te_actius&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                            <button name="genera_casos_atr" string="T1 - Traspàs a COR" type="object" icon="gtk-execute" context="{'proces': 'T1'}" colspan="4" readonly="0"/>
+                            <button name="genera_casos_atr" string="B2 - Baixa unidireccional" type="object" icon="gtk-execute" attrs="{'readonly': [('te_esborranys','!=',0)]}" context="{'proces': 'B2'}" colspan="4" readonly="0" json_attrs="{&quot;readonly&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;te_esborranys&quot;, &quot;value&quot;: 0}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                        </group>
+                    </group>
+                    <group colspan="4">
+                    <button name="action_casos" string="Obrir Casos Generats" type="object" icon="gtk-execute" colspan="4" attrs="{'invisible': [('state','!=','done')]}" readonly="0" json_attrs="{&quot;invisible&quot;: {&quot;rules&quot;: [{&quot;operator&quot;: &quot;!=&quot;, &quot;field&quot;: &quot;state&quot;, &quot;value&quot;: &quot;done&quot;}], &quot;condition&quot;: &quot;AND&quot;}}"/>
+                    <button special="cancel" string="Tancar" type="object" icon="gtk-no" colspan="4" readonly="0"/>
+                    </group>
+                </form>`;
+    const fields = {
+      casos_generats: {
+        is_function: false,
+        string: "Casos generats",
+        type: "text",
+        views: {},
+      },
+      info: {
+        is_function: false,
+        string: "Info",
+        type: "text",
+        views: {},
+      },
+      multipol: {
+        is_function: false,
+        string: "Multipol",
+        type: "boolean",
+        views: {},
+      },
+      state: {
+        is_function: false,
+        size: 16,
+        string: "State",
+        type: "char",
+        views: {},
+      },
+      te_actius: {
+        is_function: false,
+        string: "Te Actius",
+        type: "boolean",
+        views: {},
+      },
+      te_autolectures: {
+        is_function: false,
+        string: "Te Autolectures",
+        type: "boolean",
+        views: {},
+      },
+      te_esborranys: {
+        is_function: false,
+        string: "Te Esborranys",
+        type: "boolean",
+        views: {},
+      },
+      whereiam: {
+        is_function: false,
+        size: 6,
+        string: "Whereiam",
+        type: "char",
+        views: {},
+      },
+    };
+    const values = {
+      casos_generats: "[]",
+      info: "Només de les pólisses que:\n * Estan en esborrany per C1/C2/A3\n * Estan actives per M1/B1/R1\n * Esta actives i amb autolectures per W1 encara que tingui casos ATR creats\n * No tenen cap altre cas creat de gestió ATR\n",
+      multipol: false,
+      state: "init",
+      te_actius: false,
+      te_autolectures: false,
+      te_esborranys: false,
+      whereiam: "comer",
+      active_ids: [null],
+      uid: 1,
+    };
+    const form = new Form(fields);
+    form.parse(xml, {
+      values,
+    });
+    const but1 = form.findById("genera_casos_atr1") as Button;
+    const but2 = form.findById("genera_casos_atr2") as Button;
+    const but3 = form.findById("genera_casos_atr3") as Button;
+    const but4 = form.findById("genera_casos_atr4") as Button;
+    const but5 = form.findById("genera_casos_atr5") as Button;
+    const but6 = form.findById("genera_casos_atr6") as Button;
+    const but7 = form.findById("genera_casos_atr7") as Button;
+    const but8 = form.findById("genera_casos_atr8") as Button;
+
+    expect(but1.readOnly).toBeTruthy();
+    expect(but2.readOnly).toBeTruthy();
+    expect(but3.readOnly).toBeTruthy();
+    expect(but4.readOnly).toBeTruthy();
+    expect(but5.readOnly).toBeFalsy();
+    expect(but6.readOnly).toBeFalsy();
+    expect(but7.readOnly).toBeTruthy();
+    expect(but8.readOnly).toBeTruthy();
+  });
 });
