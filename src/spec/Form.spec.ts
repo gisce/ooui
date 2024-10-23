@@ -5954,4 +5954,25 @@ describe("A Form", () => {
     expect(but7.readOnly).toBeTruthy();
     expect(but8.readOnly).toBeTruthy();
   });
+  it("a domain defined in the xml should have priority over the domain defined in the fields", () => {
+    const fields = {
+      field_char: {
+        type: "char",
+        domain: "[('value', '=', 'field')]",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+      <field name="field_char" colspan="4" nolabel="1" domain="[('value', '=', 'form')]"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        field_char: "test",
+      },
+    });
+
+    const field_char = form.findById("field_char");
+    expect(field_char!.domain!).toBe("[('value', '=', 'form')]");
+  });
 });
