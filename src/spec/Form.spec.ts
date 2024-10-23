@@ -5975,7 +5975,7 @@ describe("A Form", () => {
     const field_char = form.findById("field_char");
     expect(field_char!.domain!).toBe("[('value', '=', 'form')]");
   });
-  it.only("a field with no supported type should fallback to field generic widget", () => {
+  it("a field with no supported type should fallback to field generic widget", () => {
     const fields = {
       field_char: {
         digits: [16, 2],
