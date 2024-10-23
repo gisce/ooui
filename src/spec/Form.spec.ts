@@ -5852,4 +5852,32 @@ describe("A Form", () => {
     const field_char = form.findById("field_char");
     expect(field_char!.domain!).toBe("[('value', '=', 'form')]");
   });
+  it("a field with no supported type should fallback to field generic widget", () => {
+    const fields = {
+      field_char: {
+        digits: [16, 2],
+        is_function: true,
+        readonly: 1,
+        string: "Etapa",
+        type: "json",
+        views: {},
+        widget: "arrow_steps",
+      },
+    };
+    const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+    	<field name="field_char" widget="arrow_steps" colspan="4" nolabel="1"/>
+    </form>`;
+    const form = new Form(fields);
+    form.parse(xmlViewForm, {
+      values: {
+        field_char: "test",
+      },
+    });
+
+    const field_char = form.findById("field_char") as Field;
+    expect(field_char).toBeDefined();
+    expect(field_char?.type).toBe("arrow_steps");
+    expect(field_char?.id).toBe("field_char");
+  });
 });
