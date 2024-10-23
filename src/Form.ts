@@ -240,9 +240,9 @@ class Form {
 
         if (checkIfDomainHasValue(tagAttributes.domain)) {
           domain = tagAttributes.domain;
-        }
-
-        if (checkIfDomainHasValue(this._fields[tagAttributes.name]?.domain)) {
+        } else if (
+          checkIfDomainHasValue(this._fields[tagAttributes.name]?.domain)
+        ) {
           domain = this._fields[tagAttributes.name].domain;
         }
 
