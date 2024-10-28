@@ -1,5 +1,5 @@
 import WidgetFactory from "../WidgetFactory";
-import JSONField from "../JSON";
+import JSONField from "../JSONField";
 import { it, expect, describe } from "vitest";
 
 describe("A Json field", () => {

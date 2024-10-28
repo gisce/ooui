@@ -50,7 +50,7 @@ import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
 import Comments from "./Comments";
-import JSONField from "./JSON";
+import JSONField from "./JSONField";
 
 import {
   Graph,
