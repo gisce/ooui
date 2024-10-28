@@ -11,6 +11,7 @@ import Many2one from "./Many2one";
 import Markdown from "./Markdown";
 import Boolean from "./Boolean";
 import Integer from "./Integer";
+import Widget from "./Widget";
 import Float from "./Float";
 import FloatTime from "./FloatTime";
 import HTMLPreview from "./HTMLPreview";
@@ -37,7 +38,6 @@ import Avatar from "./Avatar";
 import Time from "./Time";
 import Alert from "./Alert";
 import Comments from "./Comments";
-import Field from "./Field";
 
 class WidgetFactory {
   /**
@@ -179,8 +179,6 @@ class WidgetFactory {
   }
 
   createWidget(type: string, props: any) {
-    this._widgetClass = undefined;
-
     let finalType = type;
 
     this.setWidgetClass(type);
@@ -192,9 +190,7 @@ class WidgetFactory {
     }
 
     if (this._widgetClass === undefined) {
-      // Last fallback, with Field widget and original type from xml
-      finalType = type;
-      this._widgetClass = Field;
+      this._widgetClass = Widget;
     }
 
     // TODO: Widget Class constructors should use only the props needed, not all props.
