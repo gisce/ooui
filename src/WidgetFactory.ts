@@ -38,6 +38,7 @@ import Avatar from "./Avatar";
 import Time from "./Time";
 import Alert from "./Alert";
 import Comments from "./Comments";
+import JSONField from "./JSONField";
 
 class WidgetFactory {
   /**
@@ -173,12 +174,19 @@ class WidgetFactory {
         this._widgetClass = Comments;
         break;
 
+      case "json":
+        this._widgetClass = JSONField;
+        break;
+      case "arrow_steps":
+        this._widgetClass = JSONField;
+        break;
       default:
         break;
     }
   }
 
   createWidget(type: string, props: any) {
+    this._widgetClass = undefined;
     let finalType = type;
 
     this.setWidgetClass(type);

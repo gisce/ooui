@@ -50,6 +50,7 @@ import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
 import Comments from "./Comments";
+import JSONField from "./JSONField";
 
 import {
   Graph,
@@ -136,4 +137,5 @@ export {
   YAxisOpts,
   MinMaxValues,
   Comments,
+  JSONField,
 };
