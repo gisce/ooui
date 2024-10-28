@@ -188,10 +188,12 @@ export const parseJsonAttributes = ({
   attrs,
   values,
   fields,
+  widgetType,
 }: {
   attrs: string;
   values: any;
   fields: any;
+  widgetType?: string;
 }) => {
   try {
     const attrsWithReplacedEntities = replaceEntities(attrs);
@@ -200,7 +202,7 @@ export const parseJsonAttributes = ({
     ) as JsonAttributes;
     const finalAttributes: Record<string, boolean> = {};
     for (const attrField of Object.keys(jsonAttributes)) {
-      finalAttributes[attrField] = evaluateConscheckCondition({
+      const evaluatedEntry = evaluateConscheckCondition({
         object: values,
         condition: jsonAttributes[attrField],
         evaluateFieldComparison: ({
@@ -216,6 +218,17 @@ export const parseJsonAttributes = ({
           });
         },
       });
+
+      if (evaluatedEntry) {
+        finalAttributes[attrField] = true;
+      } else if (
+        attrField === "readonly" &&
+        !evaluatedEntry &&
+        widgetType === "button"
+      ) {
+        // Buttons with readonly false will have to override the default readonly
+        finalAttributes[attrField] = false;
+      }
     }
 
     return finalAttributes;
@@ -261,6 +274,7 @@ const evaluateAttributes = ({
         attrs: tagAttributes.json_attrs,
         values,
         fields,
+        widgetType,
       });
     } catch (error) {
       if (fallbackMode && tagAttributes.attrs) {
