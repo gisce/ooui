@@ -38,6 +38,7 @@ import Avatar from "./Avatar";
 import Time from "./Time";
 import Alert from "./Alert";
 import Comments from "./Comments";
+import JSONField from "./JSON";
 
 class WidgetFactory {
   /**
@@ -171,6 +172,9 @@ class WidgetFactory {
         break;
       case "comments_timeline":
         this._widgetClass = Comments;
+        break;
+      case "json":
+        this._widgetClass = JSONField;
         break;
 
       default:
