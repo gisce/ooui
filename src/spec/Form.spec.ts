@@ -273,6 +273,15 @@ describe("A Form", () => {
     expect(form.findById("char1")).toBeInstanceOf(Char);
   });
 
+  it("should return the type when the widget is defined", () => {
+    const form = new Form(FIELDS);
+    form.parse(XML_VIEW_FORM);
+    const emailField = form.findById("email") as Field;
+    expect(emailField.type).toBe("email");
+    expect(emailField).toBeInstanceOf(Char);
+    expect(emailField.fieldType).toBe("char");
+  });
+
   it("should return undefined when a widget is not found by id", () => {
     const fields = {
       char1: { size: 128, string: "Name", type: "char", views: {} },
