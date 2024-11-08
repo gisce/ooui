@@ -173,7 +173,6 @@ class WidgetFactory {
       case "comments_timeline":
         this._widgetClass = Comments;
         break;
-
       case "json":
         this._widgetClass = JSONField;
         break;
