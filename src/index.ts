@@ -49,6 +49,7 @@ import CodeEditor from "./CodeEditor";
 import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
+import JSONField from "./JSONField";
 import Comments from "./Comments";
 
 import {
@@ -136,4 +137,5 @@ export {
   YAxisOpts,
   MinMaxValues,
   Comments,
+  JSONField,
 };

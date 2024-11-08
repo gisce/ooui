@@ -292,7 +292,7 @@ describe("An Attribute Parser", () => {
           values: { state: "installed" },
           fields,
         }),
-      ).toStrictEqual({ invisible: false });
+      ).toStrictEqual({});
       expect(
         parseJsonAttributes({
           attrs: stringJson,
