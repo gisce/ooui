@@ -291,7 +291,7 @@ class Form {
    * Calls container's findById method to find the widgets matching with param id
    * @param {string} id id to find
    */
-  findById(id: string): Widget | null {
+  findById(id: string): Field | Widget | null {
     return this.container.findById(id);
   }
 }
