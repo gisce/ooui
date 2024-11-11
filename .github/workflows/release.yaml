@@ -11,10 +11,6 @@ on:
       - alpha
   workflow_dispatch:
 
-concurrency:
-  group: "release"
-  cancel-in-progress: false
-
 jobs:
   release:
     name: Release
