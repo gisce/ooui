@@ -25,13 +25,13 @@ class Steps extends Field {
     this._errorField = value;
   }
 
-  _lastStep: string | null = null;
+  _lastStep: boolean | null = true;
 
-  get lastStep(): string | null {
+  get lastStep(): boolean | null {
     return this._lastStep;
   }
 
-  set lastStep(value: string | null) {
+  set lastStep(value: boolean | null) {
     this._lastStep = value;
   }
 
