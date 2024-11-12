@@ -25,6 +25,16 @@ class Steps extends Field {
     this._errorField = value;
   }
 
+  _lastStep: string | null = null;
+
+  get lastStep(): string | null {
+    return this._lastStep;
+  }
+
+  set lastStep(value: string | null) {
+    this._lastStep = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -35,6 +45,9 @@ class Steps extends Field {
 
       if (this.parsedWidgetProps.hasOwnProperty("error_field")) {
         this._errorField = this.parsedWidgetProps.error_field;
+      }
+      if (this.parsedWidgetProps.hasOwnProperty("last_step")) {
+        this._lastStep = this.parsedWidgetProps.last_step;
       }
     }
   }
