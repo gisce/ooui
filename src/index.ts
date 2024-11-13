@@ -51,6 +51,7 @@ import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
 import JSONField from "./JSONField";
 import Comments from "./Comments";
+import Email from "./Email";
 
 import {
   Graph,
@@ -138,4 +139,5 @@ export {
   MinMaxValues,
   Comments,
   JSONField,
+  Email,
 };
