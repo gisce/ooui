@@ -1,3 +1,5 @@
+import { replaceEntities } from "./helpers/attributeParser";
+
 abstract class Widget {
   /**
    * Default colspan
@@ -153,9 +155,9 @@ abstract class Widget {
       }
       if (props.domain) {
         if (typeof props.domain !== "string") {
-          this._domain = JSON.stringify(props.domain);
+          this._domain = replaceEntities(JSON.stringify(props.domain));
         } else {
-          this._domain = props.domain;
+          this._domain = replaceEntities(props.domain);
         }
       }
       if (props.widget_props) {
