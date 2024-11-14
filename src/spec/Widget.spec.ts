@@ -26,6 +26,24 @@ describe("A Widget", () => {
 
     expect(typeof widget.colspan).toBe("number");
   });
+
+  describe("Parsing domain", () => {
+    it("should parse domain with html entities when is a string", () => {
+      const props = {
+        domain: "[('date_start', '&gt;', '2021-01-01')]",
+      };
+      const widget = new WidgetImpl(props);
+      expect(widget.domain).toBe("[('date_start', '>', '2021-01-01')]");
+    });
+    it("should parse domain with html entities when is an object", () => {
+      const props = {
+        domain: [["date_start", "&gt;", "2021-01-01"]],
+      };
+      const widget = new WidgetImpl(props);
+      expect(widget.domain).toBe('[["date_start",">","2021-01-01"]]');
+    });
+  });
+
   describe("Parsing widget props", () => {
     it("should parse widget_props", () => {
       const props = {
