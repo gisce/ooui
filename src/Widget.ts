@@ -161,12 +161,16 @@ abstract class Widget {
         }
       }
       if (props.widget_props) {
-        try {
-          this._parsedWidgetProps = JSON.parse(
-            props.widget_props.replace(/'/g, '"'),
-          );
-        } catch (err) {
-          console.error("Error parsing widget_props");
+        if (typeof props.widget_props === "string") {
+          try {
+            this._parsedWidgetProps = JSON.parse(
+              props.widget_props.replace(/'/g, '"'),
+            );
+          } catch (err) {
+            console.error("Error parsing widget_props");
+          }
+        } else {
+          this._parsedWidgetProps = props.widget_props;
         }
       }
       if (props.key) {

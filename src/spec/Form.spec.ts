@@ -3,6 +3,7 @@ import Group from "../Group";
 import Notebook from "../Notebook";
 import Page from "../Page";
 import Char from "../Char";
+import Email from "../Email";
 import Label from "../Label";
 import Field from "../Field";
 import Reference from "../Reference";
@@ -278,7 +279,7 @@ describe("A Form", () => {
     form.parse(XML_VIEW_FORM);
     const emailField = form.findById("email") as Field;
     expect(emailField.type).toBe("email");
-    expect(emailField).toBeInstanceOf(Char);
+    expect(emailField).toBeInstanceOf(Email);
     expect(emailField.fieldType).toBe("char");
   });
 
