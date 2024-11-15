@@ -39,6 +39,7 @@ import Time from "./Time";
 import Alert from "./Alert";
 import Comments from "./Comments";
 import JSONField from "./JSONField";
+import Email from "./Email";
 
 class WidgetFactory {
   /**
@@ -117,7 +118,7 @@ class WidgetFactory {
         this._widgetClass = Char;
         break;
       case "email":
-        this._widgetClass = Char;
+        this._widgetClass = Email;
         break;
       case "reference":
         this._widgetClass = Reference;
