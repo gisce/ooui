@@ -1,8 +1,9 @@
-import Field from "./Field";
+import ContainerWidget from "./ContainerWidget";
+import Button from "./Button";
 
 type AlertType = "success" | "warning" | "info" | "error" | undefined;
 
-class Alert extends Field {
+class Alert extends ContainerWidget {
   /**
    * Alert type
    */
@@ -42,10 +43,13 @@ class Alert extends Field {
     this._icon = value;
   }
 
+  get buttons(): Button[] {
+    return this._container.rows.flat().filter((b) => !b.invisible) as Button[];
+  }
+
   constructor(props: any) {
     super(props);
     if (props) {
-      this._nolabel = true;
       if (props.alert_type) {
         this._alertType = props.alert_type;
       }

@@ -17,6 +17,22 @@ class Text extends Field {
     this._placeholder = value;
   }
 
+  get showCount(): boolean {
+    return this.parsedWidgetProps.showCount || false;
+  }
+
+  /**
+   * Field size
+   */
+  _size: number | undefined;
+  get size(): number | undefined {
+    return this._size;
+  }
+
+  set size(value: number | undefined) {
+    this._size = value;
+  }
+
   /**
    * Must expand widget
    */
@@ -74,6 +90,9 @@ class Text extends Field {
         this.translatable = !!(
           props.translate === "True" || props.translate === true
         );
+      }
+      if (props.size) {
+        this.size = parseInt(props.size);
       }
     }
   }

@@ -49,6 +49,9 @@ import CodeEditor from "./CodeEditor";
 import Time from "./Time";
 import HTMLPreview from "./HTMLPreview";
 import Alert from "./Alert";
+import JSONField from "./JSONField";
+import Comments from "./Comments";
+import Email from "./Email";
 
 import {
   Graph,
@@ -65,6 +68,8 @@ import type { GraphType, Operator } from "./Graph";
 
 import * as graphProcessor from "./Graph/processor/graphProcessor";
 import * as graphFieldUtils from "./Graph/processor/fieldUtils";
+
+import type { YAxisOpts, MinMaxValues } from "./Graph/processor/graphProcessor";
 
 export {
   Avatar,
@@ -130,4 +135,9 @@ export {
   SearchFieldTypes,
   Time,
   Alert,
+  YAxisOpts,
+  MinMaxValues,
+  Comments,
+  JSONField,
+  Email,
 };

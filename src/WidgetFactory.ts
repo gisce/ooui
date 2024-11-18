@@ -37,6 +37,9 @@ import CodeEditor from "./CodeEditor";
 import Avatar from "./Avatar";
 import Time from "./Time";
 import Alert from "./Alert";
+import Comments from "./Comments";
+import JSONField from "./JSONField";
+import Email from "./Email";
 
 class WidgetFactory {
   /**
@@ -115,7 +118,7 @@ class WidgetFactory {
         this._widgetClass = Char;
         break;
       case "email":
-        this._widgetClass = Char;
+        this._widgetClass = Email;
         break;
       case "reference":
         this._widgetClass = Reference;
@@ -168,13 +171,22 @@ class WidgetFactory {
       case "alert":
         this._widgetClass = Alert;
         break;
-
+      case "comments_timeline":
+        this._widgetClass = Comments;
+        break;
+      case "json":
+        this._widgetClass = JSONField;
+        break;
+      case "arrow_steps":
+        this._widgetClass = JSONField;
+        break;
       default:
         break;
     }
   }
 
   createWidget(type: string, props: any) {
+    this._widgetClass = undefined;
     let finalType = type;
 
     this.setWidgetClass(type);

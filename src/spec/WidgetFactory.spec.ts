@@ -13,6 +13,8 @@ import {
   ButtonGroup,
   Time,
   HTMLPreview,
+  Comments,
+  JSONField,
 } from "..";
 
 describe("A WidgetFactory", () => {
@@ -118,5 +120,20 @@ describe("A WidgetFactory", () => {
     const widget = widgetFactory.createWidget("html_preview", props);
     expect(widget).toBeInstanceOf(HTMLPreview);
     expect(widget.type).toBe("html_preview");
+  });
+  it("should be able to Comments type", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {};
+    const widget = widgetFactory.createWidget("comments_timeline", props);
+    expect(widget).toBeInstanceOf(Comments);
+    expect(widget.type).toBe("comments_timeline");
+  });
+  // Add a test for JSON field type
+  it("should be able to retrieve JSON type", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {};
+    const widget = widgetFactory.createWidget("json", props);
+    expect(widget).toBeInstanceOf(JSONField);
+    expect(widget.type).toBe("json");
   });
 });

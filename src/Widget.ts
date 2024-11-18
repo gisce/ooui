@@ -1,3 +1,5 @@
+import { replaceEntities } from "./helpers/attributeParser";
+
 abstract class Widget {
   /**
    * Default colspan
@@ -104,6 +106,15 @@ abstract class Widget {
     this._parsedWidgetProps = value;
   }
 
+  _isFunction: boolean | undefined;
+  get isFunction(): boolean | undefined {
+    return this._isFunction;
+  }
+
+  set isFunction(value: boolean | undefined) {
+    this._isFunction = value;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._invisible = false;
@@ -144,22 +155,29 @@ abstract class Widget {
       }
       if (props.domain) {
         if (typeof props.domain !== "string") {
-          this._domain = JSON.stringify(props.domain);
+          this._domain = replaceEntities(JSON.stringify(props.domain));
         } else {
-          this._domain = props.domain;
+          this._domain = replaceEntities(props.domain);
         }
       }
       if (props.widget_props) {
-        try {
-          this._parsedWidgetProps = JSON.parse(
-            props.widget_props.replace(/'/g, '"'),
-          );
-        } catch (err) {
-          console.error("Error parsing widget_props");
+        if (typeof props.widget_props === "string") {
+          try {
+            this._parsedWidgetProps = JSON.parse(
+              props.widget_props.replace(/'/g, '"'),
+            );
+          } catch (err) {
+            console.error("Error parsing widget_props");
+          }
+        } else {
+          this._parsedWidgetProps = props.widget_props;
         }
       }
       if (props.key) {
         this._key = props.key;
+      }
+      if (props.is_function) {
+        this._isFunction = props.is_function;
       }
     }
   }

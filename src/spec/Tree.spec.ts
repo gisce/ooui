@@ -358,4 +358,23 @@ describe("A Tree", () => {
     expect(tree.contextForFields.lang).toBeDefined();
     expect(tree.contextForFields.lang).toEqual({ active_test: false });
   });
+  it("Column isFunction property should be informed", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Pot&#232;ncia contractada (kW)",
+        type: "char",
+        is_function: true,
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Pot&#232;ncia contractada (kW)" /></tree>`,
+    );
+
+    const nameWidget = tree.findById("name") as Char;
+    expect(nameWidget.isFunction).toBeTruthy();
+  });
 });

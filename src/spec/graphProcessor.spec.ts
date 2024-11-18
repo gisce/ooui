@@ -3,6 +3,7 @@ import {
   getAllObjectsInGroupedValues,
   getValuesGroupedByField,
   processGraphData,
+  getMinMax,
 } from "../Graph/processor/graphProcessor";
 import { GraphChart, parseGraph } from "../Graph";
 import { it, expect, describe } from "vitest";
@@ -197,6 +198,30 @@ describe("in processGraphData method", () => {
     expect(data).toBeTruthy();
     expect(data.length).toBe(13);
     expect(data.some((entry) => entry.x === false)).toBeFalsy();
+  });
+
+  describe("when processing a line chart with y_range", () => {
+    describe("if y_range is auto", () => {
+      it("should return yAxisOpts with mode auto, min and max values", () => {
+        const xml = `<?xml version="1.0"?>
+          <graph type="line" y_range="auto" timerange="day">
+            <field name="date" axis="x"/>
+            <field name="v" operator="+" axis="y"/>
+          </graph>`;
+        const parsedGraph = parseGraph(xml) as GraphChart;
+        const values = [
+          { date: "2024-01-01", v: 10 },
+          { date: "2024-01-02", v: 20 },
+          { date: "2024-01-03", v: 30 },
+        ];
+        const fields = { date: { type: "date" }, v: { type: "integer" } };
+        const result = processGraphData({ ooui: parsedGraph, values, fields });
+        expect(result.yAxisOpts).toBeDefined();
+        expect(result.yAxisOpts?.mode).toBe("auto");
+        expect(result.yAxisOpts?.valueOpts?.min).toBe(8);
+        expect(result.yAxisOpts?.valueOpts?.max).toBe(32);
+      });
+    });
   });
 
   it("should do basic test with one y axis with label", () => {
@@ -421,6 +446,76 @@ describe("in processGraphData method", () => {
     expect(obj1!.value).toBe(3);
 
     expect(data.some((entry) => entry.x === false)).toBeFalsy();
+  });
+});
+
+describe("in getMinMax method", () => {
+  it("should return correct min and max with default margin", () => {
+    const data = [{ value: 10 }, { value: 20 }, { value: 30 }];
+
+    const result = getMinMax(data);
+
+    // Calculant els valors esperats
+    const minValue = 10;
+    const maxValue = 30;
+    const margin = (maxValue - minValue) * 0.1;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should return correct min and max with custom margin", () => {
+    const data = [{ value: 10 }, { value: 20 }, { value: 30 }];
+
+    const result = getMinMax(data, 0.2);
+
+    // Calculant els valors esperats
+    const minValue = 10;
+    const maxValue = 30;
+    const margin = (maxValue - minValue) * 0.2;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should return correct min and max for single element", () => {
+    const data = [{ value: 10 }];
+
+    const result = getMinMax(data);
+
+    const expected = {
+      min: 10,
+      max: 10,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should handle negative values correctly", () => {
+    const data = [{ value: -10 }, { value: 0 }, { value: 10 }];
+
+    const result = getMinMax(data);
+
+    // Calculant els valors esperats
+    const minValue = -10;
+    const maxValue = 10;
+    const margin = (maxValue - minValue) * 0.1;
+    const expected = {
+      min: minValue - margin,
+      max: maxValue + margin,
+    };
+
+    expect(result).toEqual(expected);
+  });
+
+  it("should throw an error for empty array", () => {
+    expect(() => getMinMax([])).toThrow("The values array cannot be empty.");
   });
 });
 

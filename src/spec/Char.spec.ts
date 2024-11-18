@@ -77,4 +77,35 @@ describe("A Char", () => {
 
     expect(widget.tooltip).toBe("This is a help field");
   });
+  describe("shouCount property", () => {
+    it("shoud default to false if is not defined", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "char1",
+      };
+      const widget = widgetFactory.createWidget("char", props);
+
+      expect(widget.showCount).toBe(false);
+    });
+    it("should be true if is defined as true", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "char1",
+        widget_props: "{'showCount': true}",
+      };
+      const widget = widgetFactory.createWidget("char", props);
+
+      expect(widget.showCount).toBe(true);
+    });
+    it("should be false if is defined as false", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "char1",
+        widget_props: "{'showCount': false}",
+      };
+      const widget = widgetFactory.createWidget("char", props);
+
+      expect(widget.showCount).toBe(false);
+    });
+  });
 });

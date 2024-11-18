@@ -16,6 +16,10 @@ class Char extends Field {
     this._placeholder = value;
   }
 
+  get showCount(): boolean {
+    return this.parsedWidgetProps.showCount || false;
+  }
+
   /**
    * Field size
    */

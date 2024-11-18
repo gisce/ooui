@@ -67,6 +67,18 @@ class Tree {
     this._contextForFields = value;
   }
 
+  /**
+   * Is infinite
+   */
+  _infinite: boolean = false;
+  get infinite(): boolean {
+    return this._infinite;
+  }
+
+  set infinite(value: boolean) {
+    this._infinite = value;
+  }
+
   constructor(fields: Object) {
     this._fields = fields;
   }
@@ -88,6 +100,7 @@ class Tree {
       this._status = replaceEntities(this._status);
     }
     this._editable = view.attributes.editable || null;
+    this._infinite = view.attributes.infinite || false;
     const widgetFactory = new WidgetFactory();
     view.children.forEach((field: ParsedNode) => {
       const { tagName, attributes } = field;
