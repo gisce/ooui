@@ -125,6 +125,27 @@ class Field extends Widget {
     return this._fieldType;
   }
 
+  _autoRefresh?: number = undefined;
+  get autoRefresh(): number | undefined {
+    return this._autoRefresh;
+  }
+
+  set autoRefresh(value: number | undefined) {
+    this._autoRefresh = value;
+  }
+
+  get readOnly(): boolean | undefined {
+    if (this.autoRefresh) {
+      return true;
+    } else {
+      return super.readOnly;
+    }
+  }
+
+  set readOnly(value: boolean | undefined) {
+    super.readOnly = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -179,6 +200,11 @@ class Field extends Widget {
 
       if (props.help_inline) {
         this.tooltipInline = isTrue(props.help_inline);
+      }
+      if (props.autorefresh) {
+        this.autoRefresh = isNaN(+props.autorefresh)
+          ? undefined
+          : +props.autorefresh;
       }
     }
   }
