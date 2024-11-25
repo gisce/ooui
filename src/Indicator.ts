@@ -42,6 +42,15 @@ class Indicator extends Selection {
     this._actionId = value;
   }
 
+  _height: number | undefined;
+  get height(): number | undefined {
+    return this._height;
+  }
+
+  set height(value: number | undefined) {
+    this._height = value;
+  }
+
   constructor(props: any) {
     super(props);
     this._card = false;
@@ -55,6 +64,9 @@ class Indicator extends Selection {
     if (props) {
       if (props.action_id) {
         this._actionId = parseInt(props.action_id);
+      }
+      if (props.height) {
+        this._height = parseInt(props.height);
       }
     }
   }
