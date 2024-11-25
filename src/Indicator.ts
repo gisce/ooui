@@ -66,7 +66,11 @@ class Indicator extends Selection {
         this._actionId = parseInt(props.action_id);
       }
       if (props.height) {
-        this._height = parseInt(props.height);
+        try {
+          this._height = parseInt(props.height);
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }
