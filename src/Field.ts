@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import { replaceEntities, isTrue } from "./helpers/attributeParser";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 class Field extends Widget {
   /**
@@ -125,12 +126,12 @@ class Field extends Widget {
     return this._fieldType;
   }
 
-  _autoRefresh?: number = undefined;
-  get autoRefresh(): number | undefined {
-    return this._autoRefresh;
+  _autoRefresh?: boolean = false;
+  get autoRefresh(): boolean {
+    return this._autoRefresh ?? false;
   }
 
-  set autoRefresh(value: number | undefined) {
+  set autoRefresh(value: boolean) {
     this._autoRefresh = value;
   }
 
@@ -202,9 +203,7 @@ class Field extends Widget {
         this.tooltipInline = isTrue(props.help_inline);
       }
       if (props.autorefresh) {
-        this.autoRefresh = isNaN(+props.autorefresh)
-          ? undefined
-          : +props.autorefresh;
+        this.autoRefresh = parseBoolAttribute(props.autorefresh);
       }
     }
   }
