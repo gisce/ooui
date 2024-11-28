@@ -40,6 +40,7 @@ import Alert from "./Alert";
 import Comments from "./Comments";
 import JSONField from "./JSONField";
 import Email from "./Email";
+import Spinner from "./Spinner";
 
 class WidgetFactory {
   /**
@@ -179,6 +180,9 @@ class WidgetFactory {
         break;
       case "arrow_steps":
         this._widgetClass = JSONField;
+        break;
+      case "spinner":
+        this._widgetClass = Spinner;
         break;
       default:
         break;
