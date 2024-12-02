@@ -52,6 +52,7 @@ import Alert from "./Alert";
 import JSONField from "./JSONField";
 import Comments from "./Comments";
 import Email from "./Email";
+import Spinner from "./Spinner";
 
 import {
   Graph,
@@ -140,4 +141,5 @@ export {
   Comments,
   JSONField,
   Email,
+  Spinner,
 };
