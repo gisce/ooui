@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "2.18.0-alpha.5",
+  "version": "2.20.0",
   "engines": {
     "node": "20.5.0"
   },
