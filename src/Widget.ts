@@ -1,4 +1,5 @@
 import { replaceEntities } from "./helpers/attributeParser";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 abstract class Widget {
   /**
@@ -124,19 +125,7 @@ abstract class Widget {
         this._colspan = +props.colspan;
       }
       if (props.readonly !== undefined) {
-        if (
-          props.readonly === "1" ||
-          props.readonly === 1 ||
-          props.readonly === true
-        ) {
-          this._readOnly = true;
-        } else if (
-          props.readonly === "0" ||
-          props.readonly === 0 ||
-          props.readonly === false
-        ) {
-          this._readOnly = false;
-        }
+        this._readOnly = parseBoolAttribute(props.readonly);
       }
       if (props.invisible) {
         if (
