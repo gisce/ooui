@@ -377,4 +377,23 @@ describe("A Tree", () => {
     const nameWidget = tree.findById("name") as Char;
     expect(nameWidget.isFunction).toBeTruthy();
   });
+  it("Should parse autorefreshable fields", () => {
+    const tree = new Tree({
+      name: {
+        required: true,
+        select: true,
+        size: 128,
+        string: "Pot&#232;ncia contractada (kW)",
+        type: "char",
+        views: {},
+      },
+    });
+    tree.parse(
+      `<tree string="Partners" colors="red:type=='updated'"><field name="name" sum="Pot&#232;ncia contractada (kW)" autorefresh="1"/></tree>`,
+    );
+
+    const nameWidget = tree.findById("name") as Char;
+    expect(nameWidget.autoRefresh).toBeTruthy();
+    expect(tree._autorefreshableFields.length).toBe(1);
+  });
 });
