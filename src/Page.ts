@@ -1,6 +1,6 @@
-import ContainerWidget from "./ContainerWidget";
+import Spinner from "./Spinner";
 
-class Page extends ContainerWidget {
+class Page extends Spinner {
   _icon: string | null = null;
   get icon(): string | null {
     return this._icon;

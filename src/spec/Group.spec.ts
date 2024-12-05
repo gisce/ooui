@@ -40,4 +40,23 @@ describe("A Group", () => {
     const widget = widgetFactory.createWidget("group", props);
     expect(widget.icon).toEqual("home");
   });
+  describe("working as a spinner", () => {
+    it("should be loading false as default", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "A group",
+      };
+      const widget = widgetFactory.createWidget("group", props);
+      expect(widget.loading).toBe(false);
+    });
+    it("should be loading true if set", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "A group",
+        loading: true,
+      };
+      const widget = widgetFactory.createWidget("group", props);
+      expect(widget.loading).toBe(true);
+    });
+  });
 });
