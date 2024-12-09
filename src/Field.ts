@@ -158,10 +158,6 @@ class Field extends Widget {
         this._id = props.name;
       }
 
-      if (props.type) {
-        this._fieldType = props.fieldsWidgetType;
-      }
-
       if (props.activated) {
         this._activated = props.activated;
       }
