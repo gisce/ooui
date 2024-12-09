@@ -117,14 +117,6 @@ class Field extends Widget {
     this._selectionValues = value;
   }
 
-  /**
-   * Base type of the field
-   */
-  _fieldType: string = "";
-  get fieldType(): string {
-    return this._fieldType;
-  }
-
   constructor(props: any) {
     super(props);
 
@@ -134,10 +126,6 @@ class Field extends Widget {
     if (props) {
       if (props.name) {
         this._id = props.name;
-      }
-
-      if (props.type) {
-        this._fieldType = props.fieldsWidgetType;
       }
 
       if (props.activated) {
