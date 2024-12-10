@@ -115,6 +115,14 @@ abstract class Widget {
     this._isFunction = value;
   }
 
+  /**
+   * Base type of the field
+   */
+  _fieldType: string = "";
+  get fieldType(): string {
+    return this._fieldType;
+  }
+
   constructor(props?: any) {
     this._colspan = Widget._defaultColspan;
     this._invisible = false;
@@ -159,6 +167,9 @@ abstract class Widget {
         } else {
           this._domain = replaceEntities(props.domain);
         }
+      }
+      if (props.type) {
+        this._fieldType = props.fieldsWidgetType;
       }
       if (props.widget_props) {
         if (typeof props.widget_props === "string") {
