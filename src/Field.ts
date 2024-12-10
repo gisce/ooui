@@ -106,6 +106,14 @@ class Field extends Widget {
     this._sum = value;
   }
 
+  get suffix(): string {
+    return this._parsedWidgetProps.suffix || "";
+  }
+
+  get prefix(): string {
+    return this._parsedWidgetProps.prefix || "";
+  }
+
   /**
    * Values and keys
    */
