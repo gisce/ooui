@@ -118,14 +118,6 @@ class Field extends Widget {
     this._selectionValues = value;
   }
 
-  /**
-   * Base type of the field
-   */
-  _fieldType: string = "";
-  get fieldType(): string {
-    return this._fieldType;
-  }
-
   _autoRefresh?: boolean = false;
   get autoRefresh(): boolean {
     return this._autoRefresh ?? false;
