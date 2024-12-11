@@ -53,6 +53,7 @@ import JSONField from "./JSONField";
 import Comments from "./Comments";
 import Email from "./Email";
 import Spinner from "./Spinner";
+import Carousel from "./Carousel";
 
 import {
   Graph,
@@ -142,4 +143,5 @@ export {
   JSONField,
   Email,
   Spinner,
+  Carousel,
 };
