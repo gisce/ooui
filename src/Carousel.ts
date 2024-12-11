@@ -1,7 +1,9 @@
 import ContainerWidget from "./ContainerWidget";
+import Group from "./Group";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 class Carousel extends ContainerWidget {
-  _autoPlay = false;
+  _autoPlay = true;
 
   get autoPlay(): boolean {
     return this._autoPlay;
@@ -11,11 +13,15 @@ class Carousel extends ContainerWidget {
     this._autoPlay = value;
   }
 
+  get items(): Group[] {
+    return this._container.rows.flat().filter((g) => !g.invisible) as Group[];
+  }
+
   constructor(props?: any) {
     super(props);
     if (props) {
-      if (props.auto_play) {
-        this._autoPlay = props.auto_play;
+      if ("auto_play" in props) {
+        this._autoPlay = parseBoolAttribute(props.auto_play);
       }
     }
   }
