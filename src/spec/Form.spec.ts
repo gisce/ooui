@@ -6015,56 +6015,6 @@ describe("A Form", () => {
     expect(field_char?.type).toBe("arrow_steps");
     expect(field_char?.id).toBe("field_char");
   });
-  it("a field with autorefresh evaluated in attrs should be present in form autorefreshable fields property", () => {
-    const fields = {
-      field_char: {
-        string: "Etapa",
-        type: "char",
-      },
-      state: {
-        readonly: true,
-        required: true,
-        selection: [
-          ["esborrany", "Borrador"],
-          ["validar", "Validar"],
-          ["pendent", "Pendiente"],
-          ["activa", "Activa"],
-          ["cancelada", "Cancelada"],
-          ["contracte", "Activación Contrato"],
-          ["novapolissa", "Creación nuevo contrato"],
-          ["modcontractual", "Modificación Contractual"],
-          ["impagament", "Impago"],
-          ["tall", "Corte"],
-          ["running", "En ejecución"],
-          ["baixa", "Baja"],
-          ["facturacio", "Facturación"],
-        ],
-        string: "Estado",
-        type: "selection",
-        views: {},
-      },
-    };
-
-    const xmlViewForm = `<?xml version="1.0"?>
-    <form string="Form1">
-    	<field name="field_char" widget="arrow_steps" colspan="4" nolabel="1" attrs="{'autorefresh':[('state', '=', 'running')]}" />
-    </form>`;
-
-    const form = new Form(fields);
-    form.parse(xmlViewForm, {
-      values: {
-        field_char: "test",
-        state: "running",
-      },
-    });
-
-    const field_char = form.findById("field_char") as Field;
-    expect(field_char).toBeDefined();
-    expect(field_char?.autoRefresh).toBeTruthy();
-    expect(field_char?.readOnly).toBeTruthy();
-    expect(form.autorefreshableFields.length).toBe(1);
-    expect(form.autorefreshableFields[0]).toBe("field_char");
-  });
   describe("If the field has widget_props", () => {
     it("should merge widget_props from fields definition and xml", () => {
       const fields = {

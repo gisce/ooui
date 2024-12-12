@@ -1,5 +1,4 @@
 import { replaceEntities, parseWidgetProps } from "./helpers/attributeParser";
-import { parseBoolAttribute } from "./helpers/nodeParser";
 
 abstract class Widget {
   /**
