@@ -3,7 +3,11 @@ import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
 import Widget from "./Widget";
 import { ParsedNode } from "./helpers/nodeParser";
-import { evaluateAttributes, replaceEntities } from "./helpers/attributeParser";
+import {
+  evaluateAttributes,
+  replaceEntities,
+  parseWidgetProps,
+} from "./helpers/attributeParser";
 import { evaluateStates, evaluateButtonStates } from "./helpers/stateParser";
 import { parseContext } from "./helpers/contextParser";
 import { parseOnChange } from "./helpers/onChangeParser";
@@ -121,6 +125,14 @@ class Form {
   }
 
   /**
+   * List of autorefreshable fields
+   */
+  _autorefreshableFields: string[] = [];
+  get autorefreshableFields(): string[] {
+    return this._autorefreshableFields;
+  }
+
+  /**
    * Context for each field in the form
    */
   _contextForFields: Record<string, any> = {};
@@ -166,6 +178,11 @@ class Form {
         this._contextForFields[unknownWidget._id] = widget._context;
       }
     });
+
+    // Also we store all the autorefreshables fields in a list
+    this._autorefreshableFields = allWidgets
+      .filter((widget) => widget instanceof Field && widget.autoRefresh)
+      .map((field) => (field as Field)._id);
   }
 
   parseNode({
@@ -195,6 +212,11 @@ class Form {
               );
             }
             widgetType = this._fields[name].type;
+            // Merge _fields[widget_props] with attributes[widget_props]
+            attributes.widget_props = {
+              ...parseWidgetProps(attributes.widget_props),
+              ...(this._fields[name].widget_props || {}),
+            };
           }
           tagAttributes = {
             ...this._fields[name],

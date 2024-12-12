@@ -184,6 +184,22 @@ const parseAttributes = ({
   return newAttributes;
 };
 
+export const parseWidgetProps = (widget_props: string | object): object => {
+  if (widget_props === undefined) {
+    return {};
+  }
+  if (typeof widget_props === "string") {
+    try {
+      return JSON.parse(widget_props.replace(/'/g, '"'));
+    } catch (err) {
+      console.error("Error parsing widget_props");
+      return {};
+    }
+  } else {
+    return widget_props;
+  }
+};
+
 export const parseJsonAttributes = ({
   attrs,
   values,

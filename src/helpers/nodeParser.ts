@@ -5,7 +5,13 @@ type ParsedNode = {
 };
 
 const parseBoolAttribute = (attr: any): boolean => {
-  if (attr === 1 || attr === "1" || attr === true || attr === "True") {
+  if (
+    attr === 1 ||
+    attr === "1" ||
+    attr === true ||
+    attr === "True" ||
+    attr === "true"
+  ) {
     return true;
   } else {
     return false;
