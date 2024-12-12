@@ -6064,6 +6064,7 @@ describe("A Form", () => {
     expect(field_char?.readOnly).toBeTruthy();
     expect(form.autorefreshableFields.length).toBe(1);
     expect(form.autorefreshableFields[0]).toBe("field_char");
+  });
   describe("If the field has widget_props", () => {
     it("should merge widget_props from fields definition and xml", () => {
       const fields = {
