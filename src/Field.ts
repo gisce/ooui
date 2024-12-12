@@ -106,6 +106,14 @@ class Field extends Widget {
     this._sum = value;
   }
 
+  get suffix(): string {
+    return this._parsedWidgetProps.suffix || "";
+  }
+
+  get prefix(): string {
+    return this._parsedWidgetProps.prefix || "";
+  }
+
   /**
    * Values and keys
    */
@@ -116,14 +124,6 @@ class Field extends Widget {
 
   set selectionValues(value: Map<string, string>) {
     this._selectionValues = value;
-  }
-
-  /**
-   * Base type of the field
-   */
-  _fieldType: string = "";
-  get fieldType(): string {
-    return this._fieldType;
   }
 
   _autoRefresh?: boolean = false;
@@ -156,10 +156,6 @@ class Field extends Widget {
     if (props) {
       if (props.name) {
         this._id = props.name;
-      }
-
-      if (props.type) {
-        this._fieldType = props.fieldsWidgetType;
       }
 
       if (props.activated) {

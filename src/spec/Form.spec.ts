@@ -6064,5 +6064,34 @@ describe("A Form", () => {
     expect(field_char?.readOnly).toBeTruthy();
     expect(form.autorefreshableFields.length).toBe(1);
     expect(form.autorefreshableFields[0]).toBe("field_char");
+  describe("If the field has widget_props", () => {
+    it("should merge widget_props from fields definition and xml", () => {
+      const fields = {
+        field_integer: {
+          readonly: 1,
+          string: "Power",
+          type: "integer",
+          widget_props: {
+            suffix: "kW",
+          },
+        },
+      };
+
+      const xmlViewForm = `<?xml version="1.0"?>
+    <form string="Form1">
+    	<field name="field_integer" widget_props="{'prefix': 'Wow'}" />
+    </form>`;
+
+      const form = new Form(fields);
+      form.parse(xmlViewForm, {
+        values: {
+          field_integer: 10,
+        },
+      });
+      const field = form.findById("field_integer") as Field;
+      expect(field).toBeDefined();
+      expect(field.suffix).toBe("kW");
+      expect(field.prefix).toBe("Wow");
+    });
   });
 });
