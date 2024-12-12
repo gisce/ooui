@@ -1,4 +1,4 @@
-import { replaceEntities } from "./helpers/attributeParser";
+import { replaceEntities, parseWidgetProps } from "./helpers/attributeParser";
 
 abstract class Widget {
   /**
@@ -172,17 +172,7 @@ abstract class Widget {
         this._fieldType = props.fieldsWidgetType;
       }
       if (props.widget_props) {
-        if (typeof props.widget_props === "string") {
-          try {
-            this._parsedWidgetProps = JSON.parse(
-              props.widget_props.replace(/'/g, '"'),
-            );
-          } catch (err) {
-            console.error("Error parsing widget_props");
-          }
-        } else {
-          this._parsedWidgetProps = props.widget_props;
-        }
+        this._parsedWidgetProps = parseWidgetProps(props.widget_props);
       }
       if (props.key) {
         this._key = props.key;
