@@ -41,6 +41,7 @@ import Comments from "./Comments";
 import JSONField from "./JSONField";
 import Email from "./Email";
 import Spinner from "./Spinner";
+import Carousel from "./Carousel";
 
 class WidgetFactory {
   /**
@@ -183,6 +184,9 @@ class WidgetFactory {
         break;
       case "spinner":
         this._widgetClass = Spinner;
+        break;
+      case "carousel":
+        this._widgetClass = Carousel;
         break;
       default:
         break;
