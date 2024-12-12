@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import { replaceEntities, isTrue } from "./helpers/attributeParser";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 class Field extends Widget {
   /**
@@ -125,6 +126,27 @@ class Field extends Widget {
     this._selectionValues = value;
   }
 
+  _autoRefresh?: boolean = false;
+  get autoRefresh(): boolean {
+    return this._autoRefresh ?? false;
+  }
+
+  set autoRefresh(value: boolean) {
+    this._autoRefresh = value;
+  }
+
+  get readOnly(): boolean | undefined {
+    if (this.autoRefresh) {
+      return true;
+    } else {
+      return super.readOnly;
+    }
+  }
+
+  set readOnly(value: boolean | undefined) {
+    super.readOnly = value;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -175,6 +197,9 @@ class Field extends Widget {
 
       if (props.help_inline) {
         this.tooltipInline = isTrue(props.help_inline);
+      }
+      if (props.autorefresh) {
+        this.autoRefresh = parseBoolAttribute(props.autorefresh);
       }
     }
   }

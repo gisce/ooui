@@ -1,7 +1,7 @@
 import WidgetFactory from "./WidgetFactory";
 import Widget from "./Widget";
 import { replaceEntities } from "./helpers/attributeParser";
-import { ParsedNode } from "./helpers/nodeParser";
+import { parseBoolAttribute, ParsedNode } from "./helpers/nodeParser";
 import * as txml from "txml";
 import { parseContext } from "./helpers/contextParser";
 
@@ -65,6 +65,14 @@ class Tree {
 
   set contextForFields(value: Record<string, any>) {
     this._contextForFields = value;
+  }
+
+  /**
+   * List of autorefreshable fields
+   */
+  _autorefreshableFields: string[] = [];
+  get autorefreshableFields(): string[] {
+    return this._autorefreshableFields;
   }
 
   /**
@@ -144,6 +152,10 @@ class Tree {
         if (!mergedAttrs.invisible) {
           const widget = widgetFactory.createWidget(widgetType, mergedAttrs);
           this._columns.push(widget);
+        }
+
+        if (parseBoolAttribute(mergedAttrs.autorefresh)) {
+          this._autorefreshableFields.push(name);
         }
       }
     });

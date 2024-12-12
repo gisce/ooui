@@ -125,6 +125,14 @@ class Form {
   }
 
   /**
+   * List of autorefreshable fields
+   */
+  _autorefreshableFields: string[] = [];
+  get autorefreshableFields(): string[] {
+    return this._autorefreshableFields;
+  }
+
+  /**
    * Context for each field in the form
    */
   _contextForFields: Record<string, any> = {};
@@ -170,6 +178,11 @@ class Form {
         this._contextForFields[unknownWidget._id] = widget._context;
       }
     });
+
+    // Also we store all the autorefreshables fields in a list
+    this._autorefreshableFields = allWidgets
+      .filter((widget) => widget instanceof Field && widget.autoRefresh)
+      .map((field) => (field as Field)._id);
   }
 
   parseNode({
