@@ -58,5 +58,14 @@ describe("A Group", () => {
       const widget = widgetFactory.createWidget("group", props);
       expect(widget.loading).toBe(true);
     });
+    it("should allow to set height", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        string: "A group",
+        height: 100,
+      };
+      const widget = widgetFactory.createWidget("group", props);
+      expect(widget.height).toBe(100);
+    });
   });
 });
