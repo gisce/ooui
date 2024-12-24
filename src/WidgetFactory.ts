@@ -42,6 +42,7 @@ import JSONField from "./JSONField";
 import Email from "./Email";
 import Spinner from "./Spinner";
 import Carousel from "./Carousel";
+import ColorPicker from "./ColorPicker";
 
 class WidgetFactory {
   /**
@@ -187,6 +188,9 @@ class WidgetFactory {
         break;
       case "carousel":
         this._widgetClass = Carousel;
+        break;
+      case "colorPicker":
+        this._widgetClass = ColorPicker;
         break;
       default:
         break;
