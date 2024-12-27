@@ -54,6 +54,7 @@ import Comments from "./Comments";
 import Email from "./Email";
 import Spinner from "./Spinner";
 import Carousel from "./Carousel";
+import ColorPicker from "./ColorPicker";
 
 import {
   Graph,
@@ -144,4 +145,5 @@ export {
   Email,
   Spinner,
   Carousel,
+  ColorPicker,
 };
