@@ -76,9 +76,6 @@ const evaluateFieldComparison = ({
   expectedValue,
   fields = {},
 }: FieldComparisonParams & { fields: any }): FieldComparisonResult => {
-  if (fields?.fieldName?.type !== "many2one" && valueInObject) {
-    valueInObject = valueInObject[0];
-  }
   const result: FieldComparisonResult = {
     modifiedValueInObject: valueInObject,
     modifiedExpectedValue: null,
@@ -117,14 +114,18 @@ const evaluateFieldComparison = ({
   ) {
     result.modifiedExpectedValue = undefined;
   } else {
-    result.modifiedValueInObject =
-      result.modifiedValueInObject === undefined
-        ? false
-        : result.modifiedValueInObject;
-    result.modifiedValueInObject =
-      result.modifiedValueInObject === null
-        ? false
-        : result.modifiedValueInObject;
+    if (result.modifiedValueInObject === undefined) {
+      result.modifiedValueInObject = false;
+    } else if (
+      Array.isArray(result.modifiedValueInObject) &&
+      result.modifiedValueInObject[0] !== undefined
+    ) {
+      result.modifiedValueInObject = result.modifiedValueInObject[0];
+    }
+
+    if (result.modifiedValueInObject === null) {
+      result.modifiedValueInObject = false;
+    }
   }
 
   if (
