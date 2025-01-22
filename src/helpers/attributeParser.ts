@@ -76,6 +76,9 @@ const evaluateFieldComparison = ({
   expectedValue,
   fields = {},
 }: FieldComparisonParams & { fields: any }): FieldComparisonResult => {
+  if (fields?.fieldName?.type !== "many2one" && valueInObject) {
+    valueInObject = valueInObject[0];
+  }
   const result: FieldComparisonResult = {
     modifiedValueInObject: valueInObject,
     modifiedExpectedValue: null,
