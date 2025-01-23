@@ -114,14 +114,18 @@ const evaluateFieldComparison = ({
   ) {
     result.modifiedExpectedValue = undefined;
   } else {
-    result.modifiedValueInObject =
-      result.modifiedValueInObject === undefined
-        ? false
-        : result.modifiedValueInObject;
-    result.modifiedValueInObject =
-      result.modifiedValueInObject === null
-        ? false
-        : result.modifiedValueInObject;
+    if (result.modifiedValueInObject === undefined) {
+      result.modifiedValueInObject = false;
+    } else if (
+      Array.isArray(result.modifiedValueInObject) &&
+      result.modifiedValueInObject[0] !== undefined
+    ) {
+      result.modifiedValueInObject = result.modifiedValueInObject[0];
+    }
+
+    if (result.modifiedValueInObject === null) {
+      result.modifiedValueInObject = false;
+    }
   }
 
   if (
@@ -274,15 +278,6 @@ const evaluateAttributes = ({
   fallbackMode?: boolean;
 }) => {
   let finalTagAttributes = {};
-  let oldTagAttributes = {};
-  if (tagAttributes.attrs) {
-    oldTagAttributes = parseAttributes({
-      attrs: tagAttributes.attrs,
-      values,
-      fields,
-      widgetType,
-    });
-  }
 
   if (tagAttributes.json_attrs) {
     try {
@@ -294,13 +289,23 @@ const evaluateAttributes = ({
       });
     } catch (error) {
       if (fallbackMode && tagAttributes.attrs) {
-        finalTagAttributes = oldTagAttributes;
+        finalTagAttributes = parseAttributes({
+          attrs: tagAttributes.attrs,
+          values,
+          fields,
+          widgetType,
+        });
       } else {
         throw error;
       }
     }
   } else if (tagAttributes.attrs) {
-    finalTagAttributes = oldTagAttributes;
+    finalTagAttributes = parseAttributes({
+      attrs: tagAttributes.attrs,
+      values,
+      fields,
+      widgetType,
+    });
   }
 
   return {
