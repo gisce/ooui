@@ -1,4 +1,5 @@
 import Field from "./Field";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 type LabelType = "secondary" | "success" | "warning" | "danger" | "default";
 type LabelSize = 1 | 2 | 3 | 4 | 5 | undefined;
@@ -50,6 +51,10 @@ class Label extends Field {
 
   set labelSize(value: LabelSize) {
     this._labelSize = value;
+  }
+
+  get humanDate(): boolean {
+    return parseBoolAttribute(this._parsedWidgetProps?.human_date ?? false);
   }
 
   /**

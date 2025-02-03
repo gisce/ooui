@@ -479,6 +479,20 @@ describe("An Attribute Parser", () => {
       });
       expect(evaluatedAttrs.invisible).toBeTruthy();
     });
+    it("should properly use the id of a many2one value", () => {
+      const tagAttributes = {
+        json_attrs:
+          '{"invisible":{"condition":"AND","rules":[{"field":"autoconsum_id","operator":"=","value":10}]}}',
+      };
+      const values = { autoconsum_id: [10, "Autoconsum"] };
+      const evaluatedAttrs = evaluateAttributes({
+        tagAttributes,
+        values,
+        fields,
+        fallbackMode: false,
+      });
+      expect(evaluatedAttrs.invisible).toBeTruthy();
+    });
     it("should properly parse a many2one attribute with undefined value", () => {
       const tagAttributes = {
         json_attrs:
