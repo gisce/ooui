@@ -91,4 +91,43 @@ describe("A Label", () => {
       });
     });
   });
+  describe("Human date", () => {
+    it("should have humanDate to false by default", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "field_label",
+        string: "Default",
+        widget_props: "{}",
+      };
+      const widget = widgetFactory.createWidget("label", props);
+      expect(widget.humanDate).toBe(false);
+    });
+    it("should parse human_date from widget props", () => {
+      const widgetFactory = new WidgetFactory();
+
+      expect(
+        widgetFactory.createWidget("label", {
+          name: "field_label",
+          string: "Default",
+          widget_props: "{'human_date': true}",
+        }).humanDate,
+      ).toBe(true);
+
+      expect(
+        widgetFactory.createWidget("label", {
+          name: "field_label",
+          string: "Default",
+          widget_props: "{'human_date': false}",
+        }).humanDate,
+      ).toBe(false);
+
+      expect(
+        widgetFactory.createWidget("label", {
+          name: "field_label",
+          string: "Default",
+          widget_props: "{'human_date': '1'}",
+        }).humanDate,
+      ).toBe(true);
+    });
+  });
 });
