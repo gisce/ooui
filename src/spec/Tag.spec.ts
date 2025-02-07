@@ -44,4 +44,26 @@ describe("A Tag widget", () => {
       expect(widget.colors).toStrictEqual("auto");
     });
   });
+
+  describe("colorField property", () => {
+    it("should have default colorField to null", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "status",
+      };
+      const widget = widgetFactory.createWidget("tag", props);
+
+      expect(widget.colorField).toBeNull();
+    });
+    it("should parse colorField property", () => {
+      const widgetFactory = new WidgetFactory();
+      const props = {
+        name: "status",
+        widget_props: '{"colorField": "color"}',
+      };
+      const widget = widgetFactory.createWidget("tag", props);
+
+      expect(widget.colorField).toBe("color");
+    });
+  });
 });
