@@ -147,6 +147,11 @@ class Field extends Widget {
     super.readOnly = value;
   }
 
+  _raw_props: any;
+  get raw_props(): any {
+    return this._raw_props;
+  }
+
   constructor(props: any) {
     super(props);
 
@@ -154,6 +159,7 @@ class Field extends Widget {
     this._activated = true;
 
     if (props) {
+      this._raw_props = props;
       if (props.name) {
         this._id = props.name;
       }
