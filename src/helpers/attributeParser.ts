@@ -278,15 +278,6 @@ const evaluateAttributes = ({
   fallbackMode?: boolean;
 }) => {
   let finalTagAttributes = {};
-  let oldTagAttributes = {};
-  if (tagAttributes.attrs) {
-    oldTagAttributes = parseAttributes({
-      attrs: tagAttributes.attrs,
-      values,
-      fields,
-      widgetType,
-    });
-  }
 
   if (tagAttributes.json_attrs) {
     try {
@@ -298,13 +289,23 @@ const evaluateAttributes = ({
       });
     } catch (error) {
       if (fallbackMode && tagAttributes.attrs) {
-        finalTagAttributes = oldTagAttributes;
+        finalTagAttributes = parseAttributes({
+          attrs: tagAttributes.attrs,
+          values,
+          fields,
+          widgetType,
+        });
       } else {
         throw error;
       }
     }
   } else if (tagAttributes.attrs) {
-    finalTagAttributes = oldTagAttributes;
+    finalTagAttributes = parseAttributes({
+      attrs: tagAttributes.attrs,
+      values,
+      fields,
+      widgetType,
+    });
   }
 
   return {
