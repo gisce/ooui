@@ -31,7 +31,7 @@ class Indicator extends Selection {
     this._suffix = value;
   }
 
-  _color: string | undefined = undefined;
+  _color: string = "";
   get color(): string | undefined {
     return this._color;
   }
