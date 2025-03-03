@@ -1,4 +1,5 @@
 import Selection from "./Selection";
+import { replaceEntities } from "./helpers/attributeParser";
 
 class Indicator extends Selection {
   _nolabel: boolean = true;
@@ -30,6 +31,11 @@ class Indicator extends Selection {
     this._suffix = value;
   }
 
+  _color: string | undefined = undefined;
+  get color(): string | undefined {
+    return this._color;
+  }
+
   /**
    * Action id
    */
@@ -58,8 +64,9 @@ class Indicator extends Selection {
     this._suffix = "";
     if (this._parsedWidgetProps) {
       this._card = this._parsedWidgetProps.card || false;
-      this._icon = this._parsedWidgetProps.icon || "";
+      this._icon = replaceEntities(this._parsedWidgetProps.icon) || "";
       this._suffix = this._parsedWidgetProps.suffix || "";
+      this._color = replaceEntities(this._parsedWidgetProps.color) || "";
     }
     if (props) {
       if (props.action_id) {
