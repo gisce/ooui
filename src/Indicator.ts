@@ -32,7 +32,7 @@ class Indicator extends Selection {
   }
 
   _color: string = "";
-  get color(): string | undefined {
+  get color(): string {
     return this._color;
   }
 
