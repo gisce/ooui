@@ -43,4 +43,20 @@ describe("An Indicator", () => {
     const widget = widgetFactory.createWidget("indicator", props);
     expect(widget.card).toBe(false);
   });
+  it("should allow conditions in icon widget props", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      widget_props: "{'icon': 'alert-triange:value&gt;10;wallet:value==0'}",
+    };
+    const widget = widgetFactory.createWidget("indicator", props);
+    expect(widget.icon).toBe("alert-triange:value>10;wallet:value==0");
+  });
+  it("should allow color in widget props", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      widget_props: "{'color': 'red'}",
+    };
+    const widget = widgetFactory.createWidget("indicator", props);
+    expect(widget.color).toBe("red");
+  });
 });
