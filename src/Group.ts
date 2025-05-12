@@ -19,12 +19,12 @@ class Group extends Spinner {
     this._height = value;
   }
 
-  _backgroundColor: string | null = null;
-  get backgroundColor(): string | null {
+  _backgroundColor: string | undefined = undefined;
+  get backgroundColor(): string | undefined {
     return this._backgroundColor;
   }
 
-  set backgroundColor(value: string | null) {
+  set backgroundColor(value: string | undefined) {
     this._backgroundColor = value;
   }
 
