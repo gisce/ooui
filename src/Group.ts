@@ -19,6 +19,15 @@ class Group extends Spinner {
     this._height = value;
   }
 
+  _backgroundColor: string | undefined = undefined;
+  get backgroundColor(): string | undefined {
+    return this._backgroundColor;
+  }
+
+  set backgroundColor(value: string | undefined) {
+    this._backgroundColor = value;
+  }
+
   constructor(props: any) {
     super(props);
     if (props) {
@@ -33,6 +42,9 @@ class Group extends Spinner {
           this._height = undefined;
         }
       }
+    }
+    if (this._parsedWidgetProps?.backgroundColor) {
+      this._backgroundColor = this._parsedWidgetProps.backgroundColor;
     }
   }
 }
