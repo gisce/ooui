@@ -32,6 +32,14 @@ class Many2one extends Field {
     return this.parsedWidgetProps.showFolder ?? true;
   }
 
+  get showSearch(): boolean {
+    return this.parsedWidgetProps.showSearch ?? true;
+  }
+
+  get showMenu(): boolean {
+    return this.parsedWidgetProps.showMenu ?? true;
+  }
+
   constructor(props: any) {
     super(props);
 
