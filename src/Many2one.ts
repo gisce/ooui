@@ -28,6 +28,10 @@ class Many2one extends Field {
     this._relation = value;
   }
 
+  get showFolder(): boolean {
+    return this.parsedWidgetProps.showFolder ?? true;
+  }
+
   constructor(props: any) {
     super(props);
 
