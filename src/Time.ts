@@ -1,9 +1,9 @@
-import Date from "./Date";
+import Field from "./Field";
 
 /**
  * Time input
  */
-class Time extends Date {
+class Time extends Field {
   constructor(props?: any) {
     super(props);
   }
