@@ -28,16 +28,16 @@ class Many2one extends Field {
     this._relation = value;
   }
 
-  get showFolder(): boolean {
-    return this.parsedWidgetProps.showFolder ?? true;
+  get showFolder(): boolean | undefined {
+    return this.parsedWidgetProps.showFolder;
   }
 
-  get showSearch(): boolean {
-    return this.parsedWidgetProps.showSearch ?? true;
+  get showSearch(): boolean | undefined {
+    return this.parsedWidgetProps.showSearch;
   }
 
-  get showMenu(): boolean {
-    return this.parsedWidgetProps.showMenu ?? true;
+  get showMenu(): boolean | undefined {
+    return this.parsedWidgetProps.showMenu;
   }
 
   constructor(props: any) {
