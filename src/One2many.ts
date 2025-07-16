@@ -91,12 +91,12 @@ class One2many extends Field {
   /**
    * Infinite mode
    */
-  _infinite: boolean = false;
-  get infinite(): boolean {
+  _infinite: string | undefined = undefined;
+  get infinite(): string | undefined {
     return this._infinite;
   }
 
-  set infinite(value: boolean) {
+  set infinite(value: string | undefined) {
     this._infinite = value;
   }
 
@@ -139,13 +139,7 @@ class One2many extends Field {
       }
 
       if (props.widget_props) {
-        if (
-          this.parsedWidgetProps.infinite === "1" ||
-          this.parsedWidgetProps.infinite === 1 ||
-          this.parsedWidgetProps.infinite === true
-        ) {
-          this._infinite = true;
-        }
+        this._infinite = props.widget_props.infinite;
       }
     }
   }
