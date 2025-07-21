@@ -48,6 +48,18 @@ class Indicator extends Selection {
     this._actionId = value;
   }
 
+  /**
+   * Action field
+   */
+  _actionField: string | undefined = undefined;
+  get actionField(): string | undefined {
+    return this._actionField;
+  }
+
+  set actionField(value: string | undefined) {
+    this._actionField = value;
+  }
+
   _height: number | undefined;
   get height(): number | undefined {
     return this._height;
@@ -71,6 +83,9 @@ class Indicator extends Selection {
     if (props) {
       if (props.action_id) {
         this._actionId = parseInt(props.action_id);
+      }
+      if (props.action_field) {
+        this._actionField = props.action_field;
       }
       if (props.height) {
         try {
