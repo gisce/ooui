@@ -91,8 +91,8 @@ class One2many extends Field {
   /**
    * Infinite mode
    */
-  _infinite: string | undefined = undefined;
-  get infinite(): string | undefined {
+  _infinite: string | boolean | undefined = undefined;
+  get infinite(): string | boolean | undefined {
     return this._infinite;
   }
 
