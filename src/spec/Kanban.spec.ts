@@ -50,6 +50,37 @@ const KANBAN_WITH_BUTTON = `<?xml version="1.0"?>
 </kanban>
 `;
 
+const KANBAN_FULL_ATTRIBUTES = `<?xml version="1.0"?>
+<kanban string="Full Attributes Kanban" 
+        column_field="stage_id"
+        default_group_by="category_id"
+        drag="1"
+        sort="0" 
+        set_max_cards="1"
+        colors="red:priority=='high';green:priority=='low'"
+        quick_create="false">
+    <field name="name"/>
+    <field name="revenue" sum="Total Revenue"/>
+    <field name="priority"/>
+    <field name="stage_id"/>
+    <templates>
+        <t name="kanban-box">
+            <div>
+                <field name="name"/>
+                <field name="revenue"/>
+            </div>
+        </t>
+    </templates>
+</kanban>
+`;
+
+const KANBAN_WITH_SUM_FIELD = `<?xml version="1.0"?>
+<kanban string="Kanban with Sum">
+    <field name="name"/>
+    <field name="amount" sum="Total Amount"/>
+</kanban>
+`;
+
 const FIELDS = {
   id: {
     readonly: true,
@@ -99,6 +130,25 @@ const FIELDS = {
   description: {
     string: "Description",
     type: "text",
+    views: {},
+  },
+  revenue: {
+    string: "Revenue",
+    type: "float",
+    views: {},
+  },
+  amount: {
+    string: "Amount",
+    type: "float",
+    views: {},
+  },
+  category_id: {
+    context: "",
+    domain: [],
+    relation: "res.partner.category",
+    size: 64,
+    string: "Category",
+    type: "many2one",
     views: {},
   },
 };
@@ -602,6 +652,81 @@ describe("A Kanban", () => {
       expect(field).toBeDefined();
       expect(field.suffix).toBe("kW");
       expect(field.prefix).toBe("Wow");
+    });
+
+    it("should parse all kanban-specific attributes correctly", () => {
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(KANBAN_FULL_ATTRIBUTES);
+
+      expect(kanban.string).toBe("Full Attributes Kanban");
+      expect(kanban.columnField).toBe("stage_id");
+      expect(kanban.defaultGroupBy).toBe("category_id");
+      expect(kanban.drag).toBe(true);
+      expect(kanban.sort).toBe(false);
+      expect(kanban.setMaxCards).toBe(true);
+      expect(kanban.colors).toBe("red:priority=='high';green:priority=='low'");
+      expect(kanban.quickCreate).toBe(false);
+    });
+
+    it("should parse default values for kanban attributes when not specified", () => {
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(SIMPLE_KANBAN_XML);
+
+      expect(kanban.columnField).toBe(null);
+      expect(kanban.drag).toBe(true); // default
+      expect(kanban.sort).toBe(true); // default
+      expect(kanban.setMaxCards).toBe(false); // default
+      expect(kanban.colors).toBe(null);
+      expect(kanban.quickCreate).toBe(true); // default
+    });
+
+    it("should parse field with sum attribute", () => {
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(KANBAN_WITH_SUM_FIELD);
+
+      const amountField = kanban.findById("amount") as Field;
+      expect(amountField).toBeDefined();
+      expect(amountField.sum).toBe("Total Amount");
+    });
+
+    it("should handle drag=0 and sort=0 as false", () => {
+      const xmlWithZeroAttributes = `<?xml version="1.0"?>
+<kanban string="Test Kanban" drag="0" sort="0">
+    <field name="name"/>
+</kanban>`;
+
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(xmlWithZeroAttributes);
+
+      expect(kanban.drag).toBe(false);
+      expect(kanban.sort).toBe(false);
+    });
+
+    it("should handle set_max_cards=1 as true", () => {
+      const xmlWithMaxCards = `<?xml version="1.0"?>
+<kanban string="Test Kanban" set_max_cards="1">
+    <field name="name"/>
+</kanban>`;
+
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(xmlWithMaxCards);
+
+      expect(kanban.setMaxCards).toBe(true);
+    });
+
+    it("should parse colors attribute with complex conditions", () => {
+      const xmlWithColors = `<?xml version="1.0"?>
+<kanban string="Test Kanban" colors="red:priority=='high';yellow:priority=='medium';green:priority=='low'">
+    <field name="name"/>
+    <field name="priority"/>
+</kanban>`;
+
+      const kanban = new Kanban(FIELDS);
+      kanban.parse(xmlWithColors);
+
+      expect(kanban.colors).toBe(
+        "red:priority=='high';yellow:priority=='medium';green:priority=='low'",
+      );
     });
   });
 });
