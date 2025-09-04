@@ -129,30 +129,6 @@ class Kanban {
   }
 
   /**
-   * Default group by field
-   */
-  _defaultGroupBy: string | null = null;
-  get defaultGroupBy(): string | null {
-    return this._defaultGroupBy;
-  }
-
-  set defaultGroupBy(value: string | null) {
-    this._defaultGroupBy = value;
-  }
-
-  /**
-   * Quick create enabled
-   */
-  _quickCreate: boolean = true;
-  get quickCreate(): boolean {
-    return this._quickCreate;
-  }
-
-  set quickCreate(value: boolean) {
-    this._quickCreate = value;
-  }
-
-  /**
    * Column field that defines the kanban columns
    */
   _columnField: string | null = null;
@@ -212,18 +188,6 @@ class Kanban {
     this._colors = value;
   }
 
-  /**
-   * Templates definition
-   */
-  _templates: any = {};
-  get templates(): any {
-    return this._templates;
-  }
-
-  set templates(value: any) {
-    this._templates = value;
-  }
-
   constructor(fields: Object, columns: number = 4) {
     this._fields = fields;
     this._container = new Container(columns, 6, false, "root");
@@ -245,8 +209,6 @@ class Kanban {
     this._invisibleFields = [];
 
     // Parse kanban-specific attributes
-    this._defaultGroupBy = view.attributes?.default_group_by || null;
-    this._quickCreate = view.attributes?.quick_create !== "false";
     this._columnField = view.attributes?.column_field || null;
     this._drag = view.attributes?.drag !== "0";
     this._sort = view.attributes?.sort !== "0";
@@ -289,12 +251,6 @@ class Kanban {
       .filter((f) => typeof f === "object")
       .forEach((field) => {
         const { tagName, attributes, children } = field;
-
-        // Handle templates specially
-        if (tagName === "templates") {
-          this.parseTemplates(children);
-          return;
-        }
 
         let widgetType = tagName;
         let tagAttributes = attributes;
@@ -403,17 +359,6 @@ class Kanban {
         }
 
         container.addWidget(widget);
-      });
-  }
-
-  parseTemplates(templates: ParsedNode[]) {
-    templates
-      .filter((t) => typeof t === "object")
-      .forEach((template) => {
-        if (template.tagName === "t" && template.attributes?.name) {
-          // Store template content for later use
-          this._templates[template.attributes.name] = template;
-        }
       });
   }
 

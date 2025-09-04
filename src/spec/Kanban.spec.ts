@@ -13,26 +13,12 @@ import { it, expect, describe } from "vitest";
 import One2many from "../One2many";
 
 const XML_VIEW_KANBAN = `<?xml version="1.0"?>
-<kanban string="Partner Kanban" default_group_by="stage_id" quick_create="true">
+<kanban string="Partner Kanban">
     <field name="id"/>
     <field name="name"/>
     <field name="email" widget="email"/>
     <field name="stage_id"/>
     <field name="priority"/>
-    <templates>
-        <t name="kanban-box">
-            <div class="oe_kanban_card">
-                <div class="oe_kanban_content">
-                    <div class="oe_kanban_title">
-                        <field name="name"/>
-                    </div>
-                    <div class="oe_kanban_details">
-                        <field name="email" widget="email"/>
-                    </div>
-                </div>
-            </div>
-        </t>
-    </templates>
 </kanban>
 `;
 
@@ -53,24 +39,14 @@ const KANBAN_WITH_BUTTON = `<?xml version="1.0"?>
 const KANBAN_FULL_ATTRIBUTES = `<?xml version="1.0"?>
 <kanban string="Full Attributes Kanban" 
         column_field="stage_id"
-        default_group_by="category_id"
         drag="1"
         sort="0" 
         set_max_cards="1"
-        colors="red:priority=='high';green:priority=='low'"
-        quick_create="false">
+        colors="red:priority=='high';green:priority=='low'">
     <field name="name"/>
     <field name="revenue" sum="Total Revenue"/>
     <field name="priority"/>
     <field name="stage_id"/>
-    <templates>
-        <t name="kanban-box">
-            <div>
-                <field name="name"/>
-                <field name="revenue"/>
-            </div>
-        </t>
-    </templates>
 </kanban>
 `;
 
@@ -172,41 +148,6 @@ describe("A Kanban", () => {
     kanban.parse(XML_VIEW_KANBAN);
     const kanbanTitle = kanban.string;
     expect(kanbanTitle).toBe("Partner Kanban");
-  });
-
-  it("should parse default_group_by attribute", () => {
-    const kanban = new Kanban(FIELDS);
-    kanban.parse(XML_VIEW_KANBAN);
-    expect(kanban.defaultGroupBy).toBe("stage_id");
-  });
-
-  it("should parse quick_create attribute as true by default", () => {
-    const kanban = new Kanban(FIELDS);
-    kanban.parse(SIMPLE_KANBAN_XML);
-    expect(kanban.quickCreate).toBe(true);
-  });
-
-  it("should parse quick_create attribute when explicitly set", () => {
-    const kanban = new Kanban(FIELDS);
-    kanban.parse(XML_VIEW_KANBAN);
-    expect(kanban.quickCreate).toBe(true);
-  });
-
-  it("should parse quick_create as false when set to false", () => {
-    const xmlWithQuickCreateFalse = `<?xml version="1.0"?>
-<kanban string="Kanban" quick_create="false">
-    <field name="name"/>
-</kanban>`;
-    const kanban = new Kanban(FIELDS);
-    kanban.parse(xmlWithQuickCreateFalse);
-    expect(kanban.quickCreate).toBe(false);
-  });
-
-  it("should parse templates", () => {
-    const kanban = new Kanban(FIELDS);
-    kanban.parse(XML_VIEW_KANBAN);
-    expect(kanban.templates).toBeDefined();
-    expect(kanban.templates["kanban-box"]).toBeDefined();
   });
 
   it("should be able to find a widget by id", () => {
@@ -660,12 +601,10 @@ describe("A Kanban", () => {
 
       expect(kanban.string).toBe("Full Attributes Kanban");
       expect(kanban.columnField).toBe("stage_id");
-      expect(kanban.defaultGroupBy).toBe("category_id");
       expect(kanban.drag).toBe(true);
       expect(kanban.sort).toBe(false);
       expect(kanban.setMaxCards).toBe(true);
       expect(kanban.colors).toBe("red:priority=='high';green:priority=='low'");
-      expect(kanban.quickCreate).toBe(false);
     });
 
     it("should parse default values for kanban attributes when not specified", () => {
@@ -677,7 +616,6 @@ describe("A Kanban", () => {
       expect(kanban.sort).toBe(true); // default
       expect(kanban.setMaxCards).toBe(false); // default
       expect(kanban.colors).toBe(null);
-      expect(kanban.quickCreate).toBe(true); // default
     });
 
     it("should parse field with sum attribute", () => {
