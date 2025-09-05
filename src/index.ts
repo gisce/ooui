@@ -1,4 +1,5 @@
 import Avatar from "./Avatar";
+import BaseViewParser from "./BaseViewParser";
 import Form from "./Form";
 import Tree from "./Tree";
 import Kanban from "./Kanban";
@@ -77,6 +78,7 @@ import type { YAxisOpts, MinMaxValues } from "./Graph/processor/graphProcessor";
 
 export {
   Avatar,
+  BaseViewParser,
   Char,
   Selection,
   Many2one,
