@@ -116,6 +116,11 @@ abstract class Widget {
     this._isFunction = value;
   }
 
+  _isSortable: boolean = false;
+  get isSortable(): boolean {
+    return this._isSortable;
+  }
+
   /**
    * Base type of the field
    */
@@ -168,6 +173,9 @@ abstract class Widget {
       }
       if (props.is_function) {
         this._isFunction = props.is_function;
+      }
+      if (props.is_sortable) {
+        this._isSortable = props.is_sortable;
       }
     }
   }
