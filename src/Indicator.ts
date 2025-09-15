@@ -90,9 +90,6 @@ class Indicator extends Selection {
       this._icon = replaceEntities(this._parsedWidgetProps.icon) || "";
       this._suffix = this._parsedWidgetProps.suffix || "";
       this._color = replaceEntities(this._parsedWidgetProps.color) || "";
-      this._autoRefresh = parseBoolAttribute(
-        this._parsedWidgetProps.autorefresh,
-      );
     }
     if (props) {
       if (props.action_id) {
@@ -108,6 +105,7 @@ class Indicator extends Selection {
           console.error(e);
         }
       }
+      this._autoRefresh = parseBoolAttribute(props.autorefresh);
     }
   }
 }
