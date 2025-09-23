@@ -1,5 +1,6 @@
 import Selection from "./Selection";
 import { replaceEntities } from "./helpers/attributeParser";
+import { parseBoolAttribute } from "./helpers/nodeParser";
 
 class Indicator extends Selection {
   _nolabel: boolean = true;
@@ -69,11 +70,21 @@ class Indicator extends Selection {
     this._height = value;
   }
 
+  _autoRefresh: boolean;
+  get autoRefresh(): boolean {
+    return this._autoRefresh;
+  }
+
+  set autoRefresh(value: boolean) {
+    this._autoRefresh = value;
+  }
+
   constructor(props: any) {
     super(props);
     this._card = false;
     this._icon = "";
     this._suffix = "";
+    this._autoRefresh = false;
     if (this._parsedWidgetProps) {
       this._card = this._parsedWidgetProps.card || false;
       this._icon = replaceEntities(this._parsedWidgetProps.icon) || "";
@@ -94,6 +105,7 @@ class Indicator extends Selection {
           console.error(e);
         }
       }
+      this._autoRefresh = parseBoolAttribute(props.autorefresh);
     }
   }
 }
