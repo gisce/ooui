@@ -55,6 +55,7 @@ import Email from "./Email";
 import Spinner from "./Spinner";
 import Carousel from "./Carousel";
 import ColorPicker from "./ColorPicker";
+import QRCode from "./QRCode";
 
 import {
   Graph,
@@ -146,4 +147,5 @@ export {
   Spinner,
   Carousel,
   ColorPicker,
+  QRCode,
 };

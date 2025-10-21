@@ -43,6 +43,7 @@ import Email from "./Email";
 import Spinner from "./Spinner";
 import Carousel from "./Carousel";
 import ColorPicker from "./ColorPicker";
+import QRCode from "./QRCode";
 
 class WidgetFactory {
   /**
@@ -191,6 +192,9 @@ class WidgetFactory {
         break;
       case "colorPicker":
         this._widgetClass = ColorPicker;
+        break;
+      case "qrcode":
+        this._widgetClass = QRCode;
         break;
       default:
         break;
