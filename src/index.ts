@@ -56,6 +56,7 @@ import Spinner from "./Spinner";
 import Carousel from "./Carousel";
 import ColorPicker from "./ColorPicker";
 import QRCode from "./QRCode";
+import Card from "./Card";
 
 import {
   Graph,
@@ -148,4 +149,5 @@ export {
   Carousel,
   ColorPicker,
   QRCode,
+  Card,
 };
