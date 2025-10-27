@@ -83,6 +83,9 @@ class Label extends Field {
         this.labelSize = this.parsedWidgetProps.label_size;
       }
     }
+    if (props?.align) {
+      this.align = props.align;
+    }
   }
 }
 
