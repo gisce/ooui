@@ -3,6 +3,7 @@ import Page from "./Page";
 import Group from "./Group";
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
+import ActionButtons from "./ActionButtons";
 import Label from "./Label";
 import Char from "./Char";
 import Text from "./Text";
@@ -76,6 +77,9 @@ class WidgetFactory {
         break;
       case "buttonGroup":
         this._widgetClass = ButtonGroup;
+        break;
+      case "action_buttons":
+        this._widgetClass = ActionButtons;
         break;
       case "selection":
         this._widgetClass = Selection;

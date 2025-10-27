@@ -27,6 +27,7 @@ import Page from "./Page";
 import Separator from "./Separator";
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
+import ActionButtons from "./ActionButtons";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
@@ -105,6 +106,7 @@ export {
   Separator,
   Button,
   ButtonGroup,
+  ActionButtons,
   Reference,
   Binary,
   Image,
