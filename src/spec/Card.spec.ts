@@ -49,6 +49,24 @@ describe("A Card", () => {
     const widget = widgetFactory.createWidget("card", props);
     expect(widget.title).toEqual("Card Title");
   });
+  it("can have a height property", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      title: "Card Title",
+      height: "200",
+    };
+    const widget = widgetFactory.createWidget("card", props);
+    expect(widget.height).toEqual(200);
+  });
+  it("should handle invalid height values", () => {
+    const widgetFactory = new WidgetFactory();
+    const props = {
+      title: "Card Title",
+      height: "invalid",
+    };
+    const widget = widgetFactory.createWidget("card", props);
+    expect(widget.height).toBeUndefined();
+  });
   describe("working as a spinner", () => {
     it("should be loading false as default", () => {
       const widgetFactory = new WidgetFactory();
