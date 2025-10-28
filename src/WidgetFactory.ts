@@ -45,6 +45,7 @@ import Spinner from "./Spinner";
 import Carousel from "./Carousel";
 import ColorPicker from "./ColorPicker";
 import QRCode from "./QRCode";
+import Card from "./Card";
 
 class WidgetFactory {
   /**
@@ -62,6 +63,9 @@ class WidgetFactory {
         break;
       case "group":
         this._widgetClass = Group;
+        break;
+      case "card":
+        this._widgetClass = Card;
         break;
       case "label":
         this._widgetClass = Label;
@@ -227,6 +231,7 @@ class WidgetFactory {
       case "notebook":
       case "page":
       case "group":
+      case "card":
         return new this._widgetClass({ ...props, type: finalType });
       case "button":
         return new this._widgetClass({
