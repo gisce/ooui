@@ -19,6 +19,19 @@ class Card extends Spinner {
     this._icon = value;
   }
 
+  /**
+   * Height of the card component
+   */
+  _height: number | undefined = undefined;
+
+  get height(): number | undefined {
+    return this._height;
+  }
+
+  set height(value: number | undefined) {
+    this._height = value;
+  }
+
   constructor(props: any) {
     super(props);
     if (props) {
@@ -27,6 +40,10 @@ class Card extends Spinner {
       }
       if (props.icon) {
         this._icon = props.icon;
+      }
+      if (props.height) {
+        const parsedHeight = parseInt(props.height);
+        this._height = isNaN(parsedHeight) ? undefined : parsedHeight;
       }
     }
   }
