@@ -1,6 +1,7 @@
 import Avatar from "./Avatar";
 import Form from "./Form";
 import Tree from "./Tree";
+import Kanban from "./Kanban";
 import Char from "./Char";
 import Container from "./Container";
 import ContainerWidget from "./ContainerWidget";
@@ -86,6 +87,7 @@ export {
   Widget,
   Form,
   Tree,
+  Kanban,
   NewLine,
   Boolean,
   One2many,
