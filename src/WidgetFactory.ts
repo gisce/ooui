@@ -25,6 +25,7 @@ import Separator from "./Separator";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
+import Icon from "./Icon";
 import FiberGrid from "./FiberGrid";
 import Timeline from "./Timeline";
 import Indicator from "./Indicator";
@@ -140,6 +141,9 @@ class WidgetFactory {
         break;
       case "image":
         this._widgetClass = Image;
+        break;
+      case "icon":
+        this._widgetClass = Icon;
         break;
       case "fiber_grid":
         this._widgetClass = FiberGrid;
