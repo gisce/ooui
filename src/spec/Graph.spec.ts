@@ -55,6 +55,31 @@ describe("A Graph", () => {
     expect(graph.field).toBe("potencia");
     expect(graph.operator).toBe("+");
   });
+  it("should parse progressbar and showPercent attributes", () => {
+    const xml1 = `<?xml version="1.0"?>
+    <graph string="My indicator" type="indicator" progressbar="1" />
+    `;
+
+    const graph1 = parseGraph(xml1) as GraphIndicator;
+    expect(graph1.progressbar).toBe(true);
+    expect(graph1.showPercent).toBe(false);
+
+    const xml2 = `<?xml version="1.0"?>
+    <graph string="My indicator" type="indicator" showPercent="1" />
+    `;
+
+    const graph2 = parseGraph(xml2) as GraphIndicator;
+    expect(graph2.showPercent).toBe(true);
+    expect(graph2.progressbar).toBe(false);
+
+    const xml3 = `<?xml version="1.0"?>
+    <graph string="My indicator" type="indicator" />
+    `;
+
+    const graph3 = parseGraph(xml3) as GraphIndicator;
+    expect(graph3.showPercent).toBe(false);
+    expect(graph3.progressbar).toBe(false);
+  });
   it("should parse a graph with timerange parameter", () => {
     const xml = `<?xml version="1.0"?>
     <graph type="line" timerange="day">
