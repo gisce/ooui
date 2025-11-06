@@ -44,6 +44,11 @@ class Kanban {
     return this._string;
   }
 
+  _status: string | null = null;
+  get status(): string | null {
+    return this._status;
+  }
+
   /**
    * Widget type
    */
@@ -55,8 +60,8 @@ class Kanban {
   /**
    * Field that defines the columns (e.g., "state")
    */
-  _column_field: string | null = null;
-  get column_field(): string | null {
+  _column_field: string = "state";
+  get column_field(): string {
     return this._column_field;
   }
 
@@ -128,10 +133,7 @@ class Kanban {
       this._string = replaceEntities(this._string);
     }
 
-    this._column_field = view.attributes.column_field || null;
-    if (!this._column_field) {
-      throw new Error("Kanban view must have a column_field attribute");
-    }
+    this._column_field = view.attributes.column_field || "state";
 
     this._drag =
       view.attributes.drag !== undefined
@@ -149,6 +151,11 @@ class Kanban {
     this._colors = view.attributes.colors || null;
     if (this._colors) {
       this._colors = replaceEntities(this._colors);
+    }
+
+    this._status = view.attributes.status || null;
+    if (this._status) {
+      this._status = replaceEntities(this._status);
     }
 
     const widgetFactory = new WidgetFactory();
