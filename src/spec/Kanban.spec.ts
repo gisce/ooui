@@ -122,17 +122,16 @@ describe("A Kanban", () => {
     expect(tree.sort).toBe(false);
   });
 
-  it("should throw error if column_field is missing", () => {
+  it("should fallback to 'state' when column_field is missing", () => {
     const tree = new Kanban(FIELDS);
-    const invalidXml = `<?xml version="1.0"?>
-<kanban string="Invalid">
+    const xmlWithoutColumnField = `<?xml version="1.0"?>
+<kanban string="Tasks">
   <field name="name"/>
 </kanban>
 `;
 
-    expect(() => tree.parse(invalidXml)).toThrow(
-      "Kanban view must have a column_field attribute",
-    );
+    tree.parse(xmlWithoutColumnField);
+    expect(tree.column_field).toBe("state");
   });
 
   it("should parse fields correctly", () => {
