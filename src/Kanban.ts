@@ -74,10 +74,10 @@ class Kanban {
   }
 
   /**
-   * Enable sorting cards within columns
+   * Field name to use for sorting cards within columns
    */
-  _sort: boolean = true;
-  get sort(): boolean {
+  _sort: string | undefined = undefined;
+  get sort(): string | undefined {
     return this._sort;
   }
 
@@ -139,10 +139,7 @@ class Kanban {
       view.attributes.drag !== undefined
         ? parseBoolAttribute(view.attributes.drag)
         : true;
-    this._sort =
-      view.attributes.sort !== undefined
-        ? parseBoolAttribute(view.attributes.sort)
-        : true;
+    this._sort = view.attributes.sort || undefined;
     this._set_max_cards =
       view.attributes.set_max_cards !== undefined
         ? parseBoolAttribute(view.attributes.set_max_cards)
