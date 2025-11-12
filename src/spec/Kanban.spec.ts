@@ -4,7 +4,7 @@ import Field from "../Field";
 import Button from "../Button";
 
 const XML_VIEW_KANBAN = `<?xml version="1.0"?>
-<kanban string="Tasks" column_field="state" drag="1" sort="1" set_max_cards="1" colors="blue:state=='draft';green:state=='done'">
+<kanban string="Tasks" column_field="state" drag="1" sort="sequence" set_max_cards="1" colors="blue:state=='draft';green:state=='done'">
   <field name="name"/>
   <field name="user_id" widget="avatar"/>
   <field name="planned_hours" sum="Total hours" widget="float_time"/>
@@ -20,8 +20,8 @@ const XML_VIEW_KANBAN_MINIMAL = `<?xml version="1.0"?>
 </kanban>
 `;
 
-const XML_VIEW_KANBAN_NO_DRAG_SORT = `<?xml version="1.0"?>
-<kanban column_field="state" drag="0" sort="0">
+const XML_VIEW_KANBAN_NO_DRAG = `<?xml version="1.0"?>
+<kanban column_field="state" drag="0">
   <field name="name"/>
   <field name="priority"/>
 </kanban>
@@ -97,7 +97,7 @@ describe("A Kanban", () => {
     expect(tree.string).toBe("Tasks");
     expect(tree.column_field).toBe("state");
     expect(tree.drag).toBe(true);
-    expect(tree.sort).toBe(true);
+    expect(tree.sort).toBe("sequence");
     expect(tree.set_max_cards).toBe(true);
     expect(tree.colors).toBe("blue:state=='draft';green:state=='done'");
   });
@@ -110,16 +110,16 @@ describe("A Kanban", () => {
     expect(tree.string).toBe(null);
     expect(tree.column_field).toBe("status");
     expect(tree.drag).toBe(true); // Default value
-    expect(tree.sort).toBe(true); // Default value
+    expect(tree.sort).toBeUndefined(); // No sort field specified
     expect(tree.set_max_cards).toBe(false); // Default value
   });
 
-  it("should parse drag and sort as false", () => {
+  it("should parse drag as false", () => {
     const tree = new Kanban(FIELDS);
-    tree.parse(XML_VIEW_KANBAN_NO_DRAG_SORT);
+    tree.parse(XML_VIEW_KANBAN_NO_DRAG);
 
     expect(tree.drag).toBe(false);
-    expect(tree.sort).toBe(false);
+    expect(tree.sort).toBeUndefined();
   });
 
   it("should fallback to 'state' when column_field is missing", () => {
