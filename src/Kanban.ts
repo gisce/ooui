@@ -5,6 +5,7 @@ import { replaceEntities } from "./helpers/attributeParser";
 import { parseBoolAttribute, ParsedNode } from "./helpers/nodeParser";
 import * as txml from "txml";
 import { parseContext } from "./helpers/contextParser";
+import { parseOnChange } from "./helpers/onChangeParser";
 
 export type KanbanField = Widget & {
   sum?: string; // Aggregation label (e.g., "Total hours")
@@ -107,6 +108,16 @@ class Kanban {
   }
 
   /**
+   * Custom function to call when a card moves between columns
+   * Example: "handle_state_change" or with args "handle_state_change(field, from, to)"
+   * If not defined, the frontend should use the default on_change_column method
+   */
+  _on_change_column: { method: string; args: string[] } | null = null;
+  get on_change_column(): { method: string; args: string[] } | null {
+    return this._on_change_column;
+  }
+
+  /**
    * Context for each field in the kanban
    */
   _contextForFields: Record<string, any> = {};
@@ -163,6 +174,11 @@ class Kanban {
     this._status = view.attributes.status || null;
     if (this._status) {
       this._status = replaceEntities(this._status);
+    }
+
+    // Parse on_change_column attribute
+    if (view.attributes.on_change_column) {
+      this._on_change_column = parseOnChange(view.attributes.on_change_column);
     }
 
     const widgetFactory = new WidgetFactory();
