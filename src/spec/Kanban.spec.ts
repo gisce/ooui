@@ -360,4 +360,43 @@ describe("A Kanban", () => {
     expect(tree.aggregations.planned_hours).toBe("Total Planned");
     expect(tree.aggregations.priority).toBe("Total Priority");
   });
+
+  it("should parse on_change_column attribute with simple method name", () => {
+    const xmlWithOnChange = `<?xml version="1.0"?>
+<kanban column_field="state" on_change_column="handle_state_change">
+  <field name="name"/>
+</kanban>
+`;
+    const tree = new Kanban(FIELDS);
+    tree.parse(xmlWithOnChange);
+
+    expect(tree.on_change_column).toBeDefined();
+    expect(tree.on_change_column?.method).toBe("handle_state_change");
+    expect(tree.on_change_column?.args).toHaveLength(0);
+  });
+
+  it("should parse on_change_column attribute with method and arguments", () => {
+    const xmlWithOnChangeArgs = `<?xml version="1.0"?>
+<kanban column_field="state" on_change_column="handle_column_change(field, from_column, to_column, context)">
+  <field name="name"/>
+</kanban>
+`;
+    const tree = new Kanban(FIELDS);
+    tree.parse(xmlWithOnChangeArgs);
+
+    expect(tree.on_change_column).toBeDefined();
+    expect(tree.on_change_column?.method).toBe("handle_column_change");
+    expect(tree.on_change_column?.args).toHaveLength(4);
+    expect(tree.on_change_column?.args[0]).toBe("field");
+    expect(tree.on_change_column?.args[1]).toBe("from_column");
+    expect(tree.on_change_column?.args[2]).toBe("to_column");
+    expect(tree.on_change_column?.args[3]).toBe("context");
+  });
+
+  it("should return null for on_change_column when not defined", () => {
+    const tree = new Kanban(FIELDS);
+    tree.parse(XML_VIEW_KANBAN_MINIMAL);
+
+    expect(tree.on_change_column).toBeNull();
+  });
 });
