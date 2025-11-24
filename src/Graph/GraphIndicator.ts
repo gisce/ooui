@@ -23,6 +23,16 @@ export class GraphIndicator extends Graph {
     return this._showPercent;
   }
 
+  _progressbar: boolean = false;
+  get progressbar(): boolean {
+    return this._progressbar;
+  }
+
+  _showTotal: boolean = true;
+  get showTotal(): boolean {
+    return this._showTotal;
+  }
+
   _suffix: string | null = null;
   get suffix(): string | null {
     return this._suffix;
@@ -43,5 +53,10 @@ export class GraphIndicator extends Graph {
     this._suffix = element.attributes.suffix || null;
     this._totalDomain = replaceEntities(element.attributes.totalDomain) || null;
     this._showPercent = parseBoolAttribute(element.attributes.showPercent);
+    this._progressbar = parseBoolAttribute(element.attributes.progressbar);
+    this._showTotal =
+      element.attributes.showTotal !== undefined
+        ? parseBoolAttribute(element.attributes.showTotal)
+        : !!this._totalDomain;
   }
 }
