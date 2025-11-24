@@ -57,6 +57,6 @@ export class GraphIndicator extends Graph {
     this._showTotal =
       element.attributes.showTotal !== undefined
         ? parseBoolAttribute(element.attributes.showTotal)
-        : true;
+        : !!this._totalDomain;
   }
 }
