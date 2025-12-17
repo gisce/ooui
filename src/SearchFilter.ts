@@ -81,6 +81,9 @@ class SearchFilter {
       const { type, widget } = fieldAttributes;
       let widgetType = widget ?? type;
       if (SearchFieldTypes[widgetType] === undefined) {
+        console.error(
+          `[SearchFilter] Field "${searchField}" has unsupported type "${type}"`,
+        );
         widgetType = type;
       }
       return widgetFactory.createWidget(widgetType, fieldAttributes);
