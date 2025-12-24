@@ -90,6 +90,7 @@ class WidgetFactory {
         this._widgetClass = Selection;
         break;
       case "many2one":
+      case "many2one_lazy":
         this._widgetClass = Many2one;
         break;
       case "boolean":
