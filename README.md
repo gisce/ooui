@@ -8,5 +8,3 @@
 $ npm install
 $ npm test
 ```
-
-
