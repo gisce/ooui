@@ -1,9 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "2.43.0",
-  "engines": {
-    "node": "20.5.0"
-  },
+  "version": "2.44.0",
   "module": "./dist/ooui.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -32,14 +29,14 @@
     "analyze": "npx vite-bundle-visualizer"
   },
   "dependencies": {
-    "@gisce/conscheck": "1.0.9",
+    "@gisce/conscheck": "1.1.0",
     "html-entities": "^2.3.3",
     "moment": "^2.29.3",
     "txml": "^5.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
-    "@gisce/commitlint-rules": "1.0.5",
+    "@gisce/commitlint-rules": "1.1.0",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
     "@semantic-release/npm": "10.0.4",
