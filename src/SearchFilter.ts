@@ -77,6 +77,7 @@ class SearchFilter {
         ...this.fields[searchField],
         name: searchField,
         colspan: 2,
+        fieldsWidgetType: this.fields[searchField].type,
       };
       const { type, widget } = fieldAttributes;
       let widgetType = widget ?? type;

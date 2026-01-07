@@ -33,6 +33,7 @@ import ActionButtons from "./ActionButtons";
 import Reference from "./Reference";
 import Binary from "./Binary";
 import Image from "./Image";
+import Icon from "./Icon";
 import { parseContext, parseContextFields } from "./helpers/contextParser";
 import {
   transformDomainForChildWidget,
@@ -115,6 +116,7 @@ export {
   Reference,
   Binary,
   Image,
+  Icon,
   parseContext,
   parseContextFields,
   transformDomainForChildWidget,
