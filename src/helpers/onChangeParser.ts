@@ -3,7 +3,14 @@ const parseOnChange = (onChangeString: string) => {
 
   const method = splitted[0];
   const argsGross = splitted[1];
-  const argsSplitted = argsGross.split(",").map((arg) => arg.trim());
+
+  // Handle case where there are no parentheses (no arguments)
+  const argsSplitted = argsGross
+    ? argsGross
+        .split(",")
+        .map((arg) => arg.trim())
+        .filter((arg) => arg.length > 0)
+    : [];
 
   return {
     method,
