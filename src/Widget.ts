@@ -1,5 +1,6 @@
 import { replaceEntities, parseWidgetProps } from "./helpers/attributeParser";
 import { parseBoolAttribute } from "./helpers/nodeParser";
+import { JSONStringify } from "json-with-bigint";
 
 abstract class Widget {
   /**
@@ -157,7 +158,7 @@ abstract class Widget {
       }
       if (props.domain) {
         if (typeof props.domain !== "string") {
-          this._domain = replaceEntities(JSON.stringify(props.domain));
+          this._domain = replaceEntities(JSONStringify(props.domain));
         } else {
           this._domain = replaceEntities(props.domain);
         }
