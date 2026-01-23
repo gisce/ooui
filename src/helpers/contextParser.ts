@@ -1,5 +1,4 @@
 import { getValueForField } from "./fieldParser";
-import { JSONParse } from "json-with-bigint";
 
 export const parseContext = ({
   context,
@@ -132,7 +131,7 @@ export const parseContextFields = (context: string): string[] => {
 
 function tryParseJSON(str: string): any | null {
   try {
-    const parsedJSON = JSONParse(str.replace(/'/g, '"'));
+    const parsedJSON = JSON.parse(str.replace(/'/g, '"'));
     return parsedJSON;
   } catch (error) {
     return null;
