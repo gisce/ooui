@@ -1,3 +1,5 @@
+import { safeParseId } from "./idUtils";
+
 export function getValueForField({
   values = {},
   fieldName,
@@ -21,7 +23,7 @@ export function getValueForField({
     if (fieldName.includes("'")) {
       return fieldName;
     } else {
-      return parseInt(fieldName);
+      return safeParseId(fieldName);
     }
   }
 }
