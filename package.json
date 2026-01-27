@@ -1,6 +1,6 @@
 {
   "name": "@gisce/ooui",
-  "version": "2.45.0",
+  "version": "2.45.1",
   "module": "./dist/ooui.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
