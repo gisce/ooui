@@ -87,6 +87,18 @@ class SearchFilter {
         );
         widgetType = type;
       }
+
+      // Log unsupported field types
+      if (SearchFieldTypes[widgetType] === undefined) {
+        console.log(
+          "🚨🚨🚨 [SearchFilter] Unsupported field:",
+          searchField,
+          "type:",
+          widgetType,
+          fieldAttributes,
+        );
+      }
+
       return widgetFactory.createWidget(widgetType, fieldAttributes);
     });
   }
