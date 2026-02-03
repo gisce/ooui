@@ -12,7 +12,6 @@ import Many2one from "./Many2one";
 import Markdown from "./Markdown";
 import Boolean from "./Boolean";
 import Integer from "./Integer";
-import Widget from "./Widget";
 import Float from "./Float";
 import FloatTime from "./FloatTime";
 import HTMLPreview from "./HTMLPreview";
@@ -227,7 +226,7 @@ class WidgetFactory {
     }
 
     if (this._widgetClass === undefined) {
-      this._widgetClass = Widget;
+      this._widgetClass = Char;
     }
 
     // TODO: Widget Class constructors should use only the props needed, not all props.
